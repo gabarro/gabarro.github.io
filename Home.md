@@ -1,5 +1,5 @@
 
-Gabawiki
+GabaWiki
 ========
 
 Testing $$\frac{y}{x}$$

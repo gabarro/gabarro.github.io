@@ -1,1 +1,1 @@
-Testing $\frac{y}{x}$
+Testing $$\frac{y}{x}$$

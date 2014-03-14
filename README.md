@@ -1,4 +1,4 @@
-gabarro.github.io
-=================
+GabaWiki
+========
 
-A dummy repo with a wiki.
+A gollum wiki.

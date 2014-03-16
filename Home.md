@@ -1,5 +1,4 @@
-
 GabaWiki
 ========
 
-Testing, touch. $$\frac{y}{x}$$
+Testing, touch. $$\frac{y}{\Omega}$$

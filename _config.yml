@@ -1,0 +1,11 @@
+name: Penya Gabarró
+highlighter: rouge
+markdown: pandoc
+pandoc:
+  flags: '--smart --mathjax'
+  skip: true
+  output: './tmp/'
+  site-flags: '--toc'
+  outputs:
+    markdown:
+    pdf: '--latex-engine=latex'

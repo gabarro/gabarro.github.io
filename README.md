@@ -1,4 +1,4 @@
-GabaWiki
-========
+Gabarro
+=======
 
-A [wiki](https://gabarro.github.io/gabawiki/wiki/MainPage) for low frequency communication.
+[wiki](https://gabarro.github.io/wiki/MainPage)

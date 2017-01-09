@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: wiki
 title: SSH though a proxy
 ---
 

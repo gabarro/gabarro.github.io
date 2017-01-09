@@ -1,9 +1,6 @@
 ---
-layout: base
+layout: wiki
 title: MainPage
 ---
-
-MainPage
-========
 
 [SshThroughAProxy](SshThroughAProxy)

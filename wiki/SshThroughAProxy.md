@@ -16,4 +16,4 @@ From now on, any ssh connection from hostA to hostC will be done using hostB as 
 
 just works.
 
-Seen here: http://superuser.com/a/170592
+Seen [here](http://superuser.com/a/170592).

@@ -1,0 +1,574 @@
+---
+layout: net
+title: The two paths to spherical harmonics
+---
+<h1>The two paths to spherical harmonics</h1>
+
+<p>
+We describe two common generalizations of elementary harmonic analysis:
+Pontryagin duality and Laplace-Beltrami spectral theory.  They lead to two
+different, but equivalent, definitions of spherical harmonics.
+</p>
+
+<p>
+This is a summary of the theory, intended for personal usage.  We are
+interested in the big picture and the geometrical interpretation.  All the
+results are stated without proofs, convergence issues are ignored, and all
+the $2\pi$ factors are omitted.
+Spherical harmonics are not the actual goal of the article, but the tools
+developed herein.
+</p>
+
+<h2>1. Context</h2>
+
+<p>
+Imagine that you have learned all about Fourier series and integrals.  This
+means that you know many things.
+</p>
+
+
+<h3>1.1. Fourier Series</h3>
+
+<p>
+Thus, for example, you know that any periodic function
+\begin{equation}
+f:S^1\to\mathbf{R}
+\end{equation}
+can be expressed as a numerable linear combination of sinusoidal waves. This is
+called
+<b>Fourier series</b> of <i>f</i>
+\begin{equation}
+f(\theta) = \sum_n a_n e^{in\theta} %\exp(in\theta)
+\end{equation}
+and you know how to compute the coefficients $a_n$ as integrals of $f$
+\begin{equation}
+a_n = \int_{S^1} f(\theta) e^{-in\theta} %\exp(-in\theta)
+\mathrm{d}\theta
+\end{equation}
+</p>
+
+
+<h3>1.2. Fourier Integrals</h3>
+
+<p>
+Similarly, an arbitrary (integrable) function
+\begin{equation}
+f:\mathbf{R}\to\mathbf{R}
+\end{equation}
+can be expressed as a linear combination of sinusoidal waves.  This is called the <b>Fourier integral</b> of <i>f</i>, also known as Fourier transform or characteristic function of <i>f</i>, depending on the context:
+\begin{equation}
+f(x) = \int a(\xi) e^{i\xi x} \mathrm{d} \xi
+\end{equation}
+This is exactly analogous to the Fourier series above, but now the coefficients
+$a$ of the linear combination are indexed by a continuous index
+$\xi\in\mathbf{R}$ instead of a discrete index $n\in\mathbf{Z}$.  The values
+of $a(\xi)$ can be recovered by integrating again the function $f$:
+\begin{equation}
+a(\xi) = \int f(x) e^{-i\xi x} \mathrm{d} x
+\end{equation}
+</p>
+
+<h3>1.3. Discrete Fourier Transform</h3>
+
+<p>
+In the finite case, you can express any vector
+\begin{equation}
+(f_1, f_2, \ldots f_N)
+\end{equation}
+as a linear combination of "oscillating" vectors:
+\begin{equation}
+f_k = \sum_l a_l e^{\frac{2\pi}{N}ikl}
+\end{equation}
+This is called the <b>discrete Fourier transform</b>. 
+The coefficients $a_l$ can be recovered by inverting the matrix $M_{kl} =
+e^{\frac{2\pi}{N}ikl}$, which is unitary.  Thus
+\begin{equation}
+a_l = \sum_k f_k e^{-\frac{2\pi}{N}ikl}
+\end{equation}
+</p>
+
+
+<h3>1.4. Discrete Time Fourier Transform</h3>
+
+<p>
+Finally, if you have an doubly-infinite sequence:
+\begin{equation}
+\ldots,f_{-2},f_{-1},f_0,f_1,f_2,\ldots
+\end{equation}
+you can express it as a linear combination (integral) of sinusoidal functions
+sampled at the integers, which is quite a thing:
+\begin{equation}
+f_n = \int_{S^1} a(\theta) e^{in\theta}
+\mathrm{d}\theta
+\end{equation}
+The coefficients $a(\theta)$ of this infinite linear combination can be
+recovered as a linear combination of all the values of $f$:
+\begin{equation}
+a(\theta) = \sum_n f_n e^{-in\theta}
+\end{equation}
+Notice that formulas (11) and (12) are exactly the same as formulas (3) and
+(2) above.  This is an important symmetry.
+</p>
+
+<h3>1.5. Generalizations</h3>
+
+<p>
+All these constructions are easy to generalize to many dimensions, by
+separability (working independently at each component).  Thus, we can define
+the Fourier transform of functions defined on the plane $\mathbf{R}^2$ or on
+$\mathbf{R}^n$, and so on.  But this is not very illuminating, just another
+iteration of the same ideas.  Some interesting questions remain:
+</p>
+
+<p>
+<ol>
+	<li>Can we give a general definition of "Fourier transform" that has
+	Fourier<br /> series, Fourier integrals, and the DFT as particular cases?</li>
+
+	<li>Can we do harmonic analysis on other domains, such as the surface
+	of a sphere?</li>
+
+	<li>Can we do harmonic analysis on arbitrarily complicated domains,
+	such as any curved surface?</li>
+</ol>
+</p>
+
+<p>
+The answer to these three questions is affirmative.
+</p>
+
+<p>
+To answer the first question, we notice that in all the three cases above the
+base space is a <i>group</i>: the points of this space can be interpreted as
+translations of the whole space.  This is a highly symmetrical situation that
+allows to define convolutions, and everything holds together.  Thus, we can
+define Fourier transforms on a group (provided some technical questions are
+fulfilled, namely the group being locally compact and commutative).  This
+construction is called <b>Pontryagin duality</b>.
+</p>
+
+<p>
+To answer the second question, Pontryagin duality is clearly not enough, since
+the surface of a sphere has not the structure of a group, let alone a
+commutative one.  There are many different generalizations of Pontryagin
+duality, depending on which technical assumptions we relax: Peter-Weyl theory
+for compact nonabelian groups, the Gelfand representation for commutative
+Banach algebras, unitary group representations for locally compact nonabelian
+groups, etc.  All these theories still work only sets which have the group
+structure, so they are not useful for the sphere.  Yet, there is a group
+closely related to the sphere: the group of rotations.  This group acts on the
+sphere in a nice way, which is summarized by saying that the sphere is a
+<b>homogeneous space</b>, i.e., all the points on the sphere are geometrically
+identical.  Now, there is Helgason's theory of harmonic analysis on homogeneous
+spaces which saves the day.  The analogues of sinusoidal functions on the
+sphere can be defined in this way, and they are called the spherical harmonics.
+</p>
+
+<p>
+In light of that, the answer to the third question may seem very difficult.
+How can we do harmonic analysis on an irregular surface?  All the
+constructions above have required some kind of symmetry on the base space: be
+it a commutative group, or a group, or at least have some group acting on the
+space.  But on an irregular surface all the points are essentially different
+and there is no well-behaved group in sight...  The appropriate tool is now
+given by the <b>Laplace-Beltrami</b> operator on the surface.  This is a
+linear, positive definite operator, whose eigenfunctions are the analogues of
+sinusoidal functions.  Thus, sinusoidal waves are the Laplace-Beltrami
+eigenfunctions of the flat torus (giving Fourier analysis on a periodic
+square), and spherical harmonics are the Laplace-Beltrami eigenfunctions of
+the sphere.  That way we find two, very different, paths to spherical
+harmonics.  They correspond to two, very different, generalizations of
+elementary harmonic analysis.
+</p>
+
+<h2>2. Pontryagin duality</h2>
+
+<p>
+Pontryagin duality extracts the essence of the definitions of Fourier
+series, Fourier integrals and discrete Fourier transforms.  The main idea is
+that we have a <i>spatial domain</i> $G$ and a <i>frequency domain</i> $G^*$.
+Then, any function defined on the spatial domain
+\begin{equation}
+f:G\to\mathbf{R}
+\end{equation}
+can be expressed as a linear combination of certain functions $E$, indexed by
+the frequencies
+\begin{equation}
+f(x) = \int_{G^*} a(\xi) E(x,\xi) \mathrm{d} \xi
+\end{equation}
+Here the coefficients $a$ depend on the function $f$ but the functions $E$
+depend only on the group $G$; they are called the <i>characters</i> of $G$.
+The coefficients $a$ can be found by computing integrals over the spatial
+domain:
+\begin{equation}
+a(\xi) = \int_G f(x) E^*(x,\xi) \mathrm{d} \xi
+\end{equation}
+where the star denotes complex conjugation.
+Notice that these formulas include Fourier series, Fourier integrals, the
+DFT and the DTFT as particular cases, according to the following table
+</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+	<tr>
+		<th></th>
+		<th>Spatial domain</th>
+		<th>Frequency domain</th>
+		<!--
+		<th>Character</th>
+		-->
+		<th>Analysis</th>
+		<th>Synthesis</th>
+	</tr>
+	<tr>
+		<td>General Case</td>
+		<td>$G$</td>
+		<td>$G^*$</td>
+		<!--
+		<td>$E(\xi,x)$</td>
+		-->
+		<td>$\displaystyle\hat f(\xi)=\int_G f(x) E^*(\xi,x)\mathrm{d} x$</td>
+		<td>$\displaystyle f(x)=\int_{G^*} \hat f(\xi)E(\xi,x)\mathrm{d} \xi$</td>
+	</tr>
+	<tr>
+		<td>Fourier series</td>
+		<td>$S^1$</td>
+		<td>$\mathbf{Z}$</td>
+		<!--
+		<td>$E(n,\theta)=e^{in\theta}$</td>
+		-->
+		<td>$\displaystyle \hat f_n =
+			\int_{S^1}f(\theta)e^{-in\theta}\mathrm{d}\theta$</td>
+		<td>$\displaystyle f(\theta)=\sum_{n\in\mathbf{Z}} \hat f_n
+			e^{in\theta}$</td>
+	</tr>
+	<tr>
+		<td>Fourier integrals</td>
+		<td>$\mathbf{R}$</td>
+		<td>$\mathbf{R}$</td>
+		<!--
+		<td>$E(\xi,x)=e^{i\xi x}$</td>
+		-->
+		<td>$\displaystyle\hat f(\xi)=\int_{\mathbf{R}} f(x)e^{-i\xi x}\mathrm{d} x$</td>
+		<td>$\displaystyle f(x)=\int_{\mathbf{R}} \hat f(\xi)e^{i\xi x}\mathrm{d} \xi$</td>
+	</tr>
+	<tr>
+		<td>DFT</td>
+		<td>$\mathbf{Z}_N$</td>
+		<td>$\mathbf{Z}_N$</td>
+		<!--
+		<td>$E(k,n)=e^{\frac{2\pi i}{N}kn}$</td>
+		-->
+		<td>$\displaystyle\hat f_k=\sum_{n\in\mathbf{Z}_N}f_ne^{-ikn}$</td>
+		<td>$\displaystyle f_n=\sum_{k\in\mathbf{Z}_N}\hat f_ke^{ikn}$</td>
+	</tr>
+	<tr>
+		<td>DTFT</td>
+		<td>$\mathbf{Z}$</td>
+		<td>$S^1$</td>
+		<!--
+		<td>$E(\theta,n)=e^{in\theta}$</td>
+		-->
+		<td>$\displaystyle \hat f(\theta)=\sum_{n\in\mathbf{Z}} f_n
+			e^{-in\theta}$</td>
+		<td>$\displaystyle f_n =
+			\int_{S^1}\hat f(\theta)e^{in\theta}\mathrm{d}\theta$</td>
+	</tr>
+</table>
+
+<p>
+In the remaining of this section, we build the required definitions for the
+general case (i.e., the measure spaces on which the integrals are performed,
+the definition of the functions $E$, etc).  Then we state the main results
+for the general case: the energy conservation theorem, the inversion theorem
+and the convolution theorem.  These general results can be converted back to
+the each particular case, according to this table, to recover all the typical
+forms of the theorems.
+</p>
+
+
+<h3>2.1. Locally compact abelian groups</h3>
+
+<p>
+A topological group is a group together with a topology compatible with the
+group operation.  A morphism between two topological groups is a mapping
+which is at the same time continuous and a group morphism.
+Here we are interested in locally compact abelian groups (LCAG).  We
+will denote the group operation by $x+y$, and the inverse of a group element
+$x$ by $-x$.
+<!--
+Un grup topològic és un grup dotat d'una topologia compatible amb les
+seves operacions. L'anàlisi harmònica commutativa és anàlisi de
+Fourier sobre grups
+abelians localment compactes (abreujats GALC, però molaria trobar-hi
+un nom guai).  Un morfisme de grups topològics és una aplicacio que és
+a la vegada continua i morfisme de grups.  Es pot parlar, doncs, de la
+categoria dels grups topològics; de la qual els GALC en formen una
+subcategoria.
+-->
+</p>
+
+<p>
+The canonical example of LCAG is $\mathbf{R}^n$ with the usual topology and
+the operation of sum of vectors.  Another example of LCAG is the
+multiplicative group $\mathbf{U}$ of complex numbers of norm 1, which
+topologically coincides with the unit circle $S^1$.  Other examples are any
+finite abelian group with the discrete topology; or $\mathbf{Z}$, the
+additive group of integers with the discrete topology.
+<!--
+L'exemple canònic de GALC és $\mathbf{R}^n$ amb la topologia usual i
+l'operacio suma de vectors. Un altre exemple de GALC és el grup
+multiplicatiu U dels nombres complexos de mòdul u.  Altres exemples
+son els grups abelians finits amb la topologia discreta, o el grup
+additiu dels enters amb la topologia discreta.
+-->
+</p>
+
+<p>
+The group $\mathbf{U}$ is very important in the following discussion.  It can
+be denoted multiplicatively (by considering its elements as complex numbers),
+or additively (by considering its elements as angles).  Both notations are
+used henceforth, and they are linked by the relation
+\[
+e^{i\alpha}e^{i\beta}
+=
+e^{i(\alpha+\beta)}
+\]
+</p>
+
+<h3>2.2. Pontryagin duality</h3>
+
+<p>
+Let $G$ be a LCAG.  A character of $G$ is a morphism from $G$ to
+$\mathbf{U}$.  The set $G'$ of all characters of $G$ is a group (with the
+operation of pointwise sum of mappings) and also a topological space (with the topology
+of compact convergence).  It turns out that this group is locally compact,
+thus it is a LCAG.  It is called the dual group of $G$.  There is a canonical
+morphism between $G$ and its bidual, and it can be seen easily that this
+morphism is injective.  The Pontryagin duality theorem states that $G$ is
+isomorphic to its bidual.  Another result states that $G$ is compact if an
+only if its dual is discrete.
+<!--
+Sigui G un GALC.  Un caràcter de G és un morfisme de G en U.  El
+conjunt de tots els caràcters de G és un grup (amb l'operacio producte
+d'aplicacions) i també un espai topològic (amb la topologia de la
+convergència compacta).  Es pot demostrar que és localment compacte, i
+per tant un GALC.  Se l'anomena grup dual de G.  Hi ha un morfisme
+canònic de G en el seu bidual, i es pot veure fàcilment que és
+injectiu.  El '''teorema de dualitat de Pontyagrin''' diu que G és
+isomorf al seu bidual.  Un altre resultat és que G és compacte si i
+només si el seu dual és discret.
+-->
+</p>
+
+<p>
+For example, the dual group of $\mathbf{R}^n$ is itself.  The integers
+$\mathbf{Z}$ and the unit circle $\mathbf{U}$ are dual to each other.
+The dual of any finite group is isomorphic (though non-canonically) to
+itself.
+<!--
+Per exemple el grup dual de <math>R^n</math> és ell mateix.  I els
+nombres enters i el grup U formen un parell en dualitat.
+-->
+</p>
+
+<p>
+The action of a character $\xi\in G'$ over a group element $x\in G$ is
+denoted by $E(\xi,x)$ or even $e^{i\xi x}$.  In the latter case, the complex
+conjugate of $e^{i\xi x}$ is denoted by $e^{-i\xi x}$.  The exponential
+notation is justified by the following properties, arising from the
+definitions
+<ul>
+	<li>$E(\xi,x)$ is a unit complex number, thus it has the form
+	$e^{i\theta}$ <!--for some real number $\theta$--></li>
+	<li>$E(\xi,x+y) = E(\xi,x)E(\xi,y)$, by the definition of character</li>
+	<li>$E(\xi + \eta,x) = E(\xi,x)E(\eta,x)$, by the definition of dual
+	group</li>
+</ul>
+<!--
+L'accio d'un caràcter <math>\xi</math> sobre <math>x\in G</math> es
+denota <math>\left\langle\xi,x\right\rangle</math> o encara
+<math>e^{\xi x}</math>.
+-->
+</p>
+
+<h3>2.3. Haar measure</h3>
+
+<p>
+Let $G$ be a LCAG.  A non-vanishing measure over $G$ which is invariant by
+translations is called a Haar measure.  Haar's theorem states that there is a
+single Haar measure modulo multiplication by positive constants.  Another
+result states that $G$ is compact if and only if its total Haar measure (any
+one of them) is finite.
+<!--
+Sigui G un GALC.  Una mesura no nul°la sobre G que sigui invariant per
+traslacions s'anomena una mesura de Haar.  El '''teorema de Haar'''
+diu que hi ha una ùnica mesura de Haar mòdul multiplicar per
+constants.  Un altre resultat és que G és compacte si i només si la
+seva mesura de Haar (una qualsevol d'elles) és finita.
+-->
+</p>
+
+<p>
+For example, Lebesgue measure on $\mathrm{R}^n$ is a Haar measure.  The
+counting measure of a discrete group is a Haar measure.
+<!--
+Per exemple, la mesura de Lebesgue en <math>R^n</math> és una mesura
+de Haar.  La mesura de conteig d'un grup discret és una mesura de
+Haar.
+-->
+</p>
+
+
+<p>
+Given $G$, we fix a single Haar measure and we can talk about the spaces
+$L^p(G)$.  The elements of this space are complex-valued functions such that
+the $p$th power of their norm has finite integral with respect to Haar's
+measure.  Notice that the set $L^p(G)$ does not depend on the actual choice
+of normalization factor selected for the definition of the Haar measure.
+<!--
+Donat G, es fixa una mesura de Haar i es pot parlar dels espais
+<math>L^p(G)</math> (funcions a valors complexos amb la potència
+p-èssima de la norma integrable respecte la mesura de Haar).
+-->
+</p>
+
+<h3>2.4. Fourier transform</h3>
+
+<p>Now we can define a general notion of Fourier transforms, for functions
+belonging to the space $L^1(G)$.  The Fourier
+transform of a function 
+\begin{equation}
+f:G\to\mathbf{C}
+\end{equation}
+is a function
+\begin{equation}
+\hat f:G'\to\mathbf{C}
+\end{equation}
+defined by
+\begin{equation}
+\hat f(\xi) = \int_G f(x) e^{-i\xi x}\mathrm{d} x
+\end{equation}
+Here $e^{-i\xi x}$ denotes the conjugate of the complex number
+$e^{i\xi x}=E(\xi,x)$.  The inverse transform of a function defined on $G'$ is defined similarly, but
+without the conjugate:
+\begin{equation}
+\check f(x) = \int_{G'} f(\xi) e^{i\xi x}\mathrm{d} \xi
+\end{equation}
+</p>
+
+<p>
+Note that these definitions require selecting Haar measures on $G$
+and $G'$.
+</p>
+
+
+<h3>2.5. Commutative harmonic analysis</h3>
+<!--
+Main results: Plancherel formula, Paley-Wiener theorem, convolution theorem
+-->
+
+<p>
+So far we have only given definitions: LCAG, characters, dual group, Haar
+measure, and Fourier transform.  Now it is time to recover the main results
+of harmonic analysis.
+</p>
+
+<p>
+The first result is the <b>Fourier inversion theorem</b> for $L^1(G)$, which
+states that the inverse transform is actually the inverse, for an appropriate
+choice of scaling of the Haar measures on $G$ and $G'$.  Such a pair of
+measures are called harmonized, or dual to each other.  In the following,
+when we state a result involving integrals on $G$ and $G'$ we will always
+assume that the Haar measures are harmonized.
+</p>
+
+<p>
+The second result is the <b>energy conservation theorem</b> for $L^2(G)$,
+which states that, when $f$ and $\hat f$ are square-integrable, we have
+\begin{equation}
+\|f\|_{L^2(G)}
+=
+\|\hat f\|_{L^2(G')}
+\end{equation}
+Particular cases of this theorem are the formulas of Parseval, Plancherel,
+etc.
+The energy conservation theorem is needed to extend by continuity the
+definition of Fourier transforms to $L^2(G)$
+</p>
+
+<p>
+The third result is the <b>convolution theorem</b>.  First notice that the
+group structure allows to define the convolution of any two functions on
+$L^1(G)$:
+\begin{equation}
+[f\star g](x) = \int_G f(x-y)g(y)\mathrm{d} y
+\end{equation}
+Now, the convolution theorem says that the Fourier transform takes
+convolution to point-wise multiplication
+\begin{equation}
+\widehat{f\star g} = \hat f \hat g
+\end{equation}
+</p>
+
+<p>
+There is a long list of results, that can be found elsewhere.  Let us mention
+a last one.  The dual group $G'$ is itself a LCAG, so it has a Fourier
+transform in its own right.  This mapping is the $L^2$ adjoint of the inverse
+Fourier transform defined from $G$.
+</p>
+
+<p>
+Finally, notice that in the case of finite groups all these results are
+trivial and they amount to elementary linear algebra.  In the continuous case
+they are not trivial, mainly because we don't have an identity element for
+the convolution (e.g., the dirac delta function), and to prove the results
+one has to resort to successive approximations of the identity.
+</p>
+
+<h2>3. Generalizations of Pontryagin duality</h2>
+
+<p>
+This section is not yet written
+</p>
+
+<h3>3.1. Compact groups</h3>
+
+peter-weyl theorem
+
+<h3>3.2. Locally compact groups</h3>
+
+gelfand representation
+
+<h3>3.3. Homogeneous spaces</h3>
+
+helgason theory
+
+<h3>3.4. Spherical harmonics</h3>
+
+application of helgason theory
+
+
+
+<h2>4. Laplace-Beltrami spectral theory</h2>
+
+<h3>4.1. Riemannian manifolds</h3>
+
+<h3>4.2. The Laplace-Beltrami operator</h3>
+
+<h3>4.3. Laplace-Beltrami spectral theory</h3>
+
+<h3>4.4. Solution of some linear PDE</h3>
+Poisson, Heat, Wave and Schrodinger equations.  Comment about the
+approximation of nonlinear Eikonal equation by the other, linear ones.
+
+<h3>4.5. Spherical harmonics revisited</h3>
+
+
+<h2>5. More about spherical harmonics</h2>
+
+<h3>5.1. Definition using polynomials</h3>
+
+<h3>5.2. Relationship with Chebyshev and Legendre polynomials</h3>
+
+
+<!-- vim:set tw=77 filetype=html spell spelllang=en: -->

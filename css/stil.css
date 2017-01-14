@@ -1,6 +1,7 @@
 
 body
 {
-    max-width: 640px;
+    max-width: 70ex;
     margin: auto;
+	font-family: sans-serif;
 }

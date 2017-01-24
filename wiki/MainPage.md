@@ -3,7 +3,5 @@ layout: wiki
 title: MainPage
 ---
 
-- [SshThroughAProxy](SshThroughAProxy)
-- [agc](agc)
-- [twopaths](twopaths)
+- [SshThroughAProxy](SshThroughAProx
 - [prova](prova)

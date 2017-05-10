@@ -67,7 +67,7 @@ S0. do not be afraid of the C language, master all the available features
 S1. do not cast: either use implicit conversions or write conversion functions
 S2. local variables are pronouns, comments are the names (see also N1 and F0)
 S3. unsigned types are only used for bit fields
-S4. all loops are exactly of the form "for (int i=0; i<n; i++)"
+S4. all loops are exactly of the form "for (int i=0; i&lt;n; i++)"
     - n is a constant or a variable whose value can be estimated at compile-time
 S5. strive to make the body of each loop a single statement
 S6. non-tail recursion is only allowed if the depth is O(log(input size))
@@ -193,7 +193,7 @@ Use instead:
 
 X2. The following construction should be avoided:
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i &lt; n; i++)
 	{
 		do_stuff_1;
 		do_stuff_2;
@@ -202,7 +202,7 @@ X2. The following construction should be avoided:
 
 Use instead:
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i &lt; n; i++)
 		do_all_stuff(..., i);
 
 where "do_all_stuff" is a static function declared nearby.
@@ -223,42 +223,42 @@ X3. The following type of construction should be avoiced:
 
 	int graph_get_num_edges(struct graph *g)
 	{
-		return g->number_of_edges;
+		return g-&gt;number_of_edges;
 	}
 
 	int graph_get_num_vertices(struct graph *g)
 	{
-		return g->number_of_vertices;
+		return g-&gt;number_of_vertices;
 	}
 
 	int graph_edge_from(struct graph *g, int e)
 	{
-		return g->table_of_edges[e][0];
+		return g-&gt;table_of_edges[e][0];
 	}
 
 	int graph_edge_to(struct graph *g, int e)
 	{
-		return g->table_of_edges[e][1];
+		return g-&gt;table_of_edges[e][1];
 	}
 
 	float graph_get_vertex_value(struct graph *g, int v)
 	{
-		return g->vertex_values[v];
+		return g-&gt;vertex_values[v];
 	}
 
 	void graph_set_vertex_value(struct graph *g, int v, float x)
 	{
-		g->vertex_values[v] = x;
+		g-&gt;vertex_values[v] = x;
 	}
 
 	float graph_get_edge_weight(struct graph *g, int v)
 	{
-		return g->edge_weights[v];
+		return g-&gt;edge_weights[v];
 	}
 
 	void graph_set_edge_weight(struct graph *g, int v, float x)
 	{
-		g->edge_weights[v] = x;
+		g-&gt;edge_weights[v] = x;
 	}
 
 	// serious functions on graphs
@@ -273,7 +273,7 @@ X3. The following type of construction should be avoiced:
 		struct graph *g = graph_read_from_file("filename.txt");
 		graph_process(g);
 		int m = graph_get_num_edges(g);
-		for (int i = 0; i < m; i++)
+		for (int i = 0; i &lt; m; i++)
 		{
 			int a = graph_edge_from(g, i);
 			int b = graph_edge_to(g, i);
@@ -312,9 +312,9 @@ Use instead:
 		struct graph g;
 		graph_read_from_file(&g, "filename.txt");
 		graph_process(&g);
-		for (int i = 0; i < g.m; i++)
+		for (int i = 0; i &lt; g.m; i++)
 		{
-			int *e = g->e + 2*i; // ith edge
+			int *e = g-&gt;e + 2*i; // ith edge
 			int a = e[0];        // ith edge origin vertex
 			int b = e[1];        // ith edge destination vertex
 			float v_a = g.v[a];  // value of origin vertex
@@ -327,7 +327,7 @@ Notice that the second code is much simpler (good!), less general (good!), much
 shorter (good!), less prone to trivial errors (good!) and just as readable.
 
 There are some possible variations of the second code.  For example, if you
-dilike taking references and prefer acessing struct fields by "->" instead of
+dilike taking references and prefer acessing struct fields by "-&gt;" instead of
 ".", or if you want to use fewer temporary variables, you can do
 
 	void my_function(...)
@@ -335,10 +335,10 @@ dilike taking references and prefer acessing struct fields by "->" instead of
 		struct graph g[1];
 		graph_read_from_file(g, "filename.txt");
 		graph_process(g);
-		for (int i = 0; i < g->m; i++)
+		for (int i = 0; i &lt; g-&gt;m; i++)
 		{
-			int *e = g->e + 2*i; // ith edge
-			g->w[i] = compute_weight(g->v[e[0]], g->v[e[1]]);
+			int *e = g-&gt;e + 2*i; // ith edge
+			g-&gt;w[i] = compute_weight(g-&gt;v[e[0]], g-&gt;v[e[1]]);
 		}
 	}
 
@@ -349,8 +349,8 @@ or even, if you like this sort of thing (god forbid!)
 		struct graph g[1];
 		graph_read_from_file(g, "filename.txt");
 		graph_process(g);
-		for (int *e = g->e; e < g->e + 2*g->m; e += 2)
-			g->w[i] = compute_weight(g->v[e[0]], g->v[e[1]]);
+		for (int *e = g-&gt;e; e &lt; g-&gt;e + 2*g-&gt;m; e += 2)
+			g-&gt;w[i] = compute_weight(g-&gt;v[e[0]], g-&gt;v[e[1]]);
 	}
 
 This kind of code is simply not possible when you are forced to use getters and

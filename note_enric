@@ -1,0 +1,4 @@
+Static site "generators" are idiotic: they depend on a myriad of stupid
+libraries, just for copying a text header at the top of your files.
+
+I am thereby moving all this stuff out of jekyll.

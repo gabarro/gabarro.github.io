@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>colors_of_noise</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <style type="text/css">
+  	body{max-width:90ex;}
+  	pre{background:lightgray;width:80ch;}
+  </style>
+</head>
+<body>
+<h1 id="colors-of-image-noise">Colors of image noise</h1>
+<h2 id="white-gaussian-noise">White Gaussian noise</h2>
+<p>Everybody knows about white Gaussian noise</p>
+<p><img src="white.png" alt="image" /></p>
+<p>White Gaussian noise is famous because it has very nice properties:</p>
+<ol>
+<li><p>It is easy to generate using pseudorandom numbers</p></li>
+<li><p>Each pixel is an independent, identically distributed Normal variable</p></li>
+<li><p>The discrete Fourier, Hartley and Cosine transforms are also white Gaussian noise (except for the obvious symmetries)</p></li>
+<li><p>In particular, the power spectrum is mostly flat</p></li>
+<li><p>Applying a linear filter renders the pixel values non-independent, but they are still Normal and identically distributed.</p></li>
+</ol>
+<p>Some properties of dubious convenience:</p>
+<ol>
+<li><p>The mean is zero, thus it cannot be directly represented as a positive-valued image</p></li>
+<li><p>Worse, the pixel values are not bounded, thus it has a-priori infinite dynamic range.</p></li>
+<li><p>When you see it from far away (zooming-out), it disappears.</p></li>
+</ol>
+<p>Statistics of white gaussian noise and its DFT:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="w256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="w256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="w256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="w256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<h2 id="blurred-white-gaussian-noise">Blurred white Gaussian noise</h2>
+<p>White gaussian noise blurred by a small gaussian kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="b256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="b256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="b256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="b256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>White gaussian noise blurred by a larger gaussian kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="B256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="B256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="B256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="B256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>White gaussian noise blurred by a Cauchy kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="c256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="c256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="c256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="c256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>White gaussian noise blurred by a Laplace kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="l256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="l256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="l256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="l256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>White gaussian noise blurred by a Disk kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="d256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="d256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="d256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="d256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>White gaussian noise blurred by a Square kernel:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="s256.png" alt="image" /></td>
+<td style="text-align: center;"><img src="s256_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="s256_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="s256_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<h2 id="colored-gaussian-noise">Colored gaussian noise</h2>
+<p>When the spectrum of noise decays as a power-law, we say that it is “colored” noise. The exponent <span class="math inline">\(\alpha\)</span> of the power law determines its color. The particular case of <span class="math inline">\(\alpha=0\)</span> corresponds to white noise (a flat spectrum).</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><img src="purple.png" alt="image" /></td>
+<td style="text-align: left;"><img src="blue.png" alt="image" /></td>
+<td style="text-align: left;"><img src="white2.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\alpha=2\)</span> purple</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha=1\)</span> blue</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha=0\)</span> white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\phantom{a}\)</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><img src="pink.png" alt="image" /></td>
+<td style="text-align: left;"><img src="brown.png" alt="image" /></td>
+<td style="text-align: left;"><img src="smooth.png" alt="image" /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\alpha=-1\)</span> pink</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha=-2\)</span> brown</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha=-3\)</span> smooth</td>
+</tr>
+</tbody>
+</table>
+<p>Statistics of Pink noise (<span class="math inline">\(\alpha=-1\)</span>):</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="KK-1.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-1_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-1_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-1_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>Statistics of Brown noise (<span class="math inline">\(\alpha=-2\)</span>):</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="KK-2.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-2_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-2_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-2_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>Statistics of Smooth noise (<span class="math inline">\(\alpha=-3\)</span>):</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="KK-3.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-3_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-3_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK-3_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>Statistics of Blue noise (<span class="math inline">\(\alpha=1\)</span>):</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="KK+1.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+1_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+1_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+1_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+<p>Statistics of Purple noise (<span class="math inline">\(\alpha=2\)</span>):</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="KK+2.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+2_h.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+2_f.png" alt="image" /></td>
+<td style="text-align: center;"><img src="KK+2_p.png" alt="image" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(u(x)\)</span></td>
+<td style="text-align: center;">histogram of <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\log|\hat u(\xi)|\)</span></td>
+<td style="text-align: center;">average spectral profile</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>single_layer_gallery</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <style type="text/css">
+  	body{max-width:90ex;}
+  	pre{background:lightgray;width:80ch;}
+  </style>
+</head>
+<body>
+<h1 id="gallery-of-single-layer-textures">Gallery of single layer textures</h1>
+<p>Can a single-layer convolutional neural network hallucinate snowflakes when given white noise as input? The answer is <span><strong>yes</strong></span>.</p>
+<p>Here we show a gallery of textures created by such “single layer CNN”.</p>
+<p>More precisely, the basic construction depends on three functions:</p>
+<ol>
+<li><p><span class="math inline">\(f\)</span> a probability density on <span class="math inline">\(\mathbf{R}\)</span></p></li>
+<li><p><span class="math inline">\(g\in L^1_{loc}(\mathbf{R^2})\)</span> a convolution kernel on the plane</p></li>
+<li><p><span class="math inline">\(h:\mathbf{R}\to[0,255]\)</span> a monotonic tone mapping</p></li>
+</ol>
+<p>To generate a random texture <span class="math inline">\(I\)</span>, run the following algorithm</p>
+<ol>
+<li><p>Build a white noise image <span class="math inline">\(n\)</span> of distribution <span class="math inline">\(f\)</span>.</p></li>
+<li><p>Compute <span class="math inline">\(I=h\circ (g*n)\)</span></p></li>
+</ol>
+<p>The function <span class="math inline">\(h\)</span> is chosen to transport the histogram of <span class="math inline">\(g*n\)</span> into <span class="math inline">\([0,255]\)</span>. For example, a simplest color balance or an Otsu thresholding. The kernel <span class="math inline">\(g\)</span> is typically positive and radial, or a derivative of a radial function.</p>
+<p><em>Note:</em> This is a fully reproducible document. Each greyed-out section is the complete script used to produce the corresponding image. All of them are drawings over a blank canvas of arbitrary size:</p>
+<pre><code>plambda zero:768x768 &quot;&quot; -o canvas;</code></pre>
+<p>For numerical reasons, especially with non-positive kernels, some of the computations are performed in the frequency domain. Thus, sometimes it may not be evident that there is a single linear filter. But all the textures in this page are indeed single-layer.</p>
+<h2 id="binary">Binary</h2>
+<p><img src="binary.png" alt="image" /></p>
+<pre><code>plambda canvas randc | blur c 0.5 | plambda - &#39;x x%m &gt; 255 *&#39; -o binary.png</code></pre>
+<p>Comment: this is Cauchy white noise blurred with a Cauchy kernel, binarized at the median value.</p>
+<h2 id="disks">Disks</h2>
+<p><img src="disks.png" alt="image" /></p>
+<pre><code>plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png</code></pre>
+<p>Comment: This is Cauchy white noise blurred with a circular kernel, followed by a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.</p>
+<h2 id="starfield">Starfield</h2>
+<p><img src="starfield.png" alt="image" /></p>
+<pre><code>plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png</code></pre>
+<p>Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.</p>
+<h2 id="blood">Blood</h2>
+<p><img src="blood.png" alt="image" /></p>
+<pre><code>SIGMOID=&#39;2 * tanh 1 + 2 /&#39;
+RED=&#39;dup 1 rot - rot 1 1 1 join3 * 0.7 0.1 0.1 join3 * + 255 *&#39;
+plambda canvas randp|blur c 1|plambda - &quot;x x%O80 - $SIGMOID $RED&quot; -o blood.png</code></pre>
+<p>Comment: this is exactly the same image as <code>starfield.png</code>, but with a red palette.</p>
+<h2 id="islands">Islands</h2>
+<p><img src="islands.png" alt="image" /></p>
+<pre><code>plambda canvas randu | blur -s z .4 | plambda - &#39;x x%O80 &gt; 255 *&#39; -o islands.png</code></pre>
+<p>Comment: uniform white noise, blurred by a kernel of the form <span class="math inline">\(1/\log(r)\)</span>, binarized to the 80th quantile.</p>
+<h2 id="clouds">Clouds</h2>
+<p><img src="clouds.png" alt="image" /></p>
+<pre><code>SIGMOID=&#39;4e4 * tanh -1 1 qe&#39;
+plambda canvas randg | blur o 0.1 | plambda - &quot;x x%m - $SIGMOID&quot; -o clouds.png</code></pre>
+<p>Comment: white Gaussian noise, blurred by a kernel of the form <span class="math inline">\(\log(r)\)</span>, plus a <span class="math inline">\(\tanh\)</span> contrast change centered around the median value.</p>
+<h2 id="multiscale">Multiscale</h2>
+<p><img src="multiscale.png" alt="image" /></p>
+<pre><code>plambda canvas randg | fft | plambda &#39;:R /&#39; | ifft | qauto - multiscale.png</code></pre>
+<p>Comment: this is fractal or pink noise, obtained by forcing a spectral decay of the form <span class="math inline">\(1/|\xi|\)</span>.</p>
+<h2 id="snowflakes">Snowflakes</h2>
+<p><img src="snowflakes.png" alt="image" /></p>
+<pre><code>plambda canvas &quot;:x :y join 6 0 join cpow cimag :r 9 ^ / randc 3 ^ join&quot; |\
+    fft | plambda &quot;halve cprod&quot; | ifft | qeasy 2e17 5e17 - snowflakes.png</code></pre>
+<p>Comment: this is a Cauchy-like white noise, filtered by the non-positive kernel <span class="math inline">\(k(x,y) =
+\frac{\mathrm{re}\left\{(x+iy)^6\right\}}{(x^2+y^2)^\frac{9}{2}}\)</span>, and a threshold that keeps only the highest positive values.</p>
+<h2 id="dandelions">Dandelions</h2>
+<p><img src="dandelions.png" alt="image" /></p>
+<pre><code>KERNEL=&#39;:x :y join 13 0 join cpow creal :r 13.5 ^ / 3 fmax 3 -&#39;
+PALETTE=&#39;dup rot 128 2 / + 0 join3&#39;
+plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#39; | ifft |\
+    qeasy 0 3e4 | plambda - &quot;$PALETTE&quot; -o dandelions.png</code></pre>
+<p>Comment: the same construction as <code>snowflakes.png</code> with a different degree of polynomial and a green color palette.</p>
+<h2 id="heptachords">Heptachords</h2>
+<p><img src="heptachords.png" alt="image" /></p>
+<pre><code>KERNEL=&#39;:x :y join 7 0 join cpow creal :r 8 ^ / 3 fmax 3 -&#39;
+plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#39; | ifft |\
+    qeasy 1e5 9e5 - heptachords.png</code></pre>
+<p>Comment: yet another polynomial kernel with a carefully selected contrast change.</p>
+<h2 id="neurons">Neurons</h2>
+<p><img src="neurons.png" alt="image" /></p>
+<pre><code>plambda canvas randp | blur l 10 | plambda &#39;x,nf&#39; | qeasy 0.4 0 - neurons.png</code></pre>
+<p>Comment: This is Pareto noise filtered by the derivative of Laplace kernel. The final contrast change enhances the near-zero part of the image.</p>
+<h2 id="sponge">Sponge</h2>
+<p><img src="sponge.png" alt="image" /></p>
+<pre><code>plambda canvas randp | blur i 0.3 | plambda &#39;x,nf&#39; | qeasy 0.1 0 - sponge.png</code></pre>
+<p>Comment: This is the same as <code>neurons.png</code>, but using a Shepard instead of a Laplacian kernel.</p>
+<h2 id="lava">Lava</h2>
+<p><img src="lava.png" alt="image" /></p>
+<pre><code>plambda canvas &#39;randp randp randp join3&#39; | blur i 0.3 | \
+    plambda &#39;x,nf vmin&#39; | qauto - lava.png</code></pre>
+<p>Comment: Minimum of several instances of Pareto noise filtered by the derivative of Shepard kernel.</p>
+<h2 id="folds">Folds</h2>
+<p><img src="folds.png" alt="image" /></p>
+<pre><code>plambda canvas randg | blur l 30 | plambda &#39;x,nf -1 *&#39;|qauto -p 0 - folds.png</code></pre>
+<p>Comment: this is white Gaussian noise blurred by the derivative of a large Laplace kernel. The resulting, nearly constant image, is then stretched to span a visible dynamic range.</p>
+<h2 id="stucco">Stucco</h2>
+<p><img src="stucco.png" alt="image" /></p>
+<pre><code>plambda canvas &#39;randp sqrt&#39; | blur l 2 | plambda &#39;x,S&#39; | qauto -p 1 - stucco.png</code></pre>
+<p>Comment: this is the smoothed directional derivative of a high-variance white noise.</p>
+<h2 id="blobs">Blobs</h2>
+<p><img src="blobs.png" alt="image" /></p>
+<pre><code>plambda canvas &#39;randu randu randu randu randu nstack njoin&#39; | blur g 20 |\
+    plambda vmax | qauto -p 0.1 - blobs.png</code></pre>
+<p>Comment: this is the max of four Perlin noises.</p>
+<h2 id="combined">Combined</h2>
+<p><img src="combined.png" alt="image" /></p>
+<pre><code>plambda neurons.png starfield.png &quot;dup join3&quot; -o combined.png</code></pre>
+<p>Comment: since many of the images above arise from exactly the same instance of white noise, they are closely related. Thus, they can be combined as different channels of a color image to obtain funny effects.</p>
+<p><img src="combined2.png" alt="image" /></p>
+<pre><code>plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined2.png</code></pre>
+<p>For unrelated images, the effect is less striking.</p>
+<h2 id="appendix-technical-details">Appendix: Technical details</h2>
+<p>The programs required to run these scripts are available in <code>imscript</code>: <a href="http://github.com/mnhrdt/imscript" class="uri">http://github.com/mnhrdt/imscript</a>.</p>
+<p>Here are the help messages of the four main programs:</p>
+<p><span><strong>qauto</strong></span></p>
+<pre><code>Qauto quantizes an image into [0,255].
+
+The image is trasformed by an affine contrast change I -&gt; a*I + b
+and then the colors are saturated and quantized into [0,255].
+The parameters (a,b) of the contrast change are computed to statisfy
+certain conditions. By default, they are chosen so that 5% of the pixels
+are saturated.
+
+Usage: qauto in.tiff out.png
+   or: qauto in.tiff &gt; out.pnm
+   or: cat in.tiff | qauto &gt; out.pnm
+
+Options:
+ -p X      use a percentile of X% (default X=5)
+ -f        do not quantize the output, only rescale the values
+ -i        treat each pixel dimension independently
+ -h        display short help message
+ --help    display longer help message
+
+Examples:
+ qauto in.tiff out.png          Quantize an image by simplest color balance.
+ qauto -i in.png out.png        Remove color biases
+ </code></pre>
+<p><span><strong>blur</strong></span></p>
+<pre><code>Blur convolves the input image by the requested positive kernel.
+Only the first letter of the kernel name is considered.
+If the name of the kernel is uppercase, it subtracts the result
+from the original image.
+
+Usage: blur KERNEL SIZE in.tiff out.tiff
+   or: blur KERNEL SIZE in.tiff &gt; out.tiff
+   or: cat in.tiff | blur KERNEL SIZE &gt; out.tiff
+
+Kernels:
+ square   a square block of the given radius
+ disk     a rasterized disk of the given radius
+ gauss    a Gaussian kernel of the given variance
+ laplace  a Laplace kernel of the given variance
+ cauchy   a Cauchy kernel of the given scale
+ q        Log-cauchy kernel
+ u        &quot;good-cauchy&quot;
+ p        powerlaw
+ a        pareto
+ i        inverse distance (useful for Shepard interpolation)
+ y        inverse distance (with different parameter normalization)
+ r        Land
+ z        inverse log-distance
+ t        r^2 log(r)  (useful for biharmonic interpolation)
+ o        log(r)
+
+Options:
+ -z        zero boundary
+ -s        symmetrized boundary
+ -p        periodic boundary
+
+Examples:
+ blur g 1.6                              Smooth an image by a slight amount
+ blur C 1 | qauto                        Linear retinex
+ plambda - &quot;x,l -1 *&quot; | blur i 0.25      Laplacian square root
+ plambda - &quot;x,l&quot; | blur z 0.25 | plambda - &quot;0 &gt;&quot;      Linear dithering
+ </code></pre>
+<p><span><strong>plambda</strong></span></p>
+<pre><code>Plambda evaluates an expression with images as variables.
+
+The expression is written in reverse polish notation using common
+operators and functions from `math.h&#39;.  The variables appearing on the
+expression are assigned to each input image in alphabetical order.
+
+EXPRESSIONS:
+
+A &quot;plambda&quot; expression is a sequence of tokens.
+Tokens may be constants,
+variables, or operators.  Constants and variables get their value
+computed and pushed to the stack.  Operators pop values from the stack,
+apply a function to them, and push back the results.
+
+CONSTANTS: numeric constants written in scientific notation, and &quot;pi&quot;
+
+OPERATORS: +, -, *, ^, /, &lt;, &gt;, ==, and all the functions from math.h
+
+LOGIC OPS: if, and, or, not
+
+VARIABLES: anything not recognized as a constant or operator.  There
+must be as many variables as input images, and they are assigned to
+images in alphabetical order.  If there are no variables, the input
+images are pushed to the stack.
+
+All operators (unary, binary and ternary) are vectorizable.  Thus, you can
+add a scalar to a vector, divide two vectors of the same size, and so on.
+The semantics of each operation follows the principle of least surprise.
+
+Some &quot;sugar&quot; is added to the language:
+
+Predefined variables (always preceeded by a colon):
+ :i horizontal coordinate of the pixel
+ :j vertical coordinate of the pixel
+ :w width of the image
+ :h heigth of the image
+ :n number of pixels in the image
+ :x relative horizontal coordinate of the pixel
+ :y relative horizontal coordinate of the pixel
+ :r relative distance to the center of the image
+ :t relative angle from the center of the image
+ :I horizontal coordinate of the pixel (centered)
+ :J vertical coordinate of the pixel (centered)
+ :P horizontal coordinate of the pixel (phased)
+ :Q vertical coordinate of the pixel (phased)
+ :R centered distance to the center
+ :L minus squared centered distance to the center
+ :W width of the image divided by 2*pi
+ :H height of the image divided by 2*pi
+
+Variable modifiers acting on regular variables:
+ x      value of pixel (i,j)
+ x(0,0)     value of pixel (i,j)
+ x(1,0)     value of pixel (i+1,j)
+ x(0,-1)    value of pixel (i,j-1)
+ x[0]       value of first component of pixel (i,j)
+ x[1]       value of second component of pixel (i,j)
+ x(1,2)[3]  value of fourth component of pixel (i+1,j+2)
+
+Comma modifiers (pre-defined local operators):
+ a,x    x-derivative of the image a
+ a,y    y-derivative
+ a,xx   second x-derivative
+ a,yy   second y-derivative
+ a,xy   crossed second derivative
+ a,l    Laplacian
+ a,g    gradient
+ a,n    gradient norm
+ a,d    divergence
+ a,S    shadow operator
+ a,xf   x-derivative, forward differences
+ a,xb   x-derivative, backward differences
+ a,xc   x-derivative, centered differences
+ a,xs   x-derivative, sobel
+ a,xp   x-derivative, prewitt
+ etc
+
+Stack operators (allow direct manipulation of the stack):
+ del    remove the value at the top of the stack (ATTTOS)
+ dup    duplicate the value ATTTOS
+ rot    swap the two values ATTTOS
+ split  split the vector ATTTOS into scalar components
+ join   join the components of two vectors ATTOTS
+ join3  join the components of three vectors ATTOTS
+ njoin  join the components of n vectors
+ halve  split an even-sized vector ATTOTS into two equal-sized parts
+ nstack current number of elements in the stack (useful with njoin)
+
+Magic variable modifiers (global data associated to each input image):
+ x%i    value of the smallest sample of image x
+ x%a    value of the largest sample
+ x%v    average sample value
+ x%m    median sample value
+ x%s    sum of all samples
+ x%I    value of the smallest pixel (in euclidean norm)
+ x%A    value of the largest pixel
+ x%V    average pixel value
+ x%S    sum of all pixels
+ x%Y    component-wise minimum of all pixels
+ x%E    component-wise maximum of all pixels
+ x%qn   nth sample percentile
+ x%On   component-wise nth percentile
+ x%Wn   component-wise nth millionth part
+ x%0n   component-wise nth order statistic
+ x%9n   component-wise nth order statistic (from the right)
+
+Random numbers (seeded by the SRAND environment variable):
+ randu  push a random number with distribution Uniform(0,1)
+ randn  push a random number with distribution Normal(0,1)
+ randc  push a random number with distribution Cauchy(0,1)
+ randl  push a random number with distribution Laplace(0,1)
+ rande  push a random number with distribution Exponential(1)
+ randp  push a random number with distribution Pareto(1)
+ rand   push a random integer returned from rand(3)
+
+Vectorial operations (acting over vectors of a certain length):
+ topolar    convert a 2-vector from cartesian to polar
+ frompolar  convert a 2-vector from polar to cartesian
+ hsv2rgb    convert a 3-vector from HSV to RGB
+ rgb2hsv    convert a 3-vector from RGB to HSV
+ xyz2rgb    convert a 3-vector from XYZ to RGB
+ rgb2xyz    convert a 3-vector from RGB to XYZ
+ cprod      multiply two 2-vectrs as complex numbers
+ cexp       complex exponential
+ cpow       complex power
+ mprod      multiply two 2-vectrs as matrices (4-vector = 2x2 matrix, etc)
+ vprod      vector product of two 3-vectors
+ sprod      scalar product of two n-vectors
+ mdet       determinant of a n-matrix (a n*n-vector)
+ mtrans     transpose of a matrix
+ mtrace     trace of a matrix
+ minv       inverse of a matrix
+ vavg       average value of a vector
+ vsum       sum of the components of a vector
+ vmul       product of the components of a vector
+ vmax       max component of a vector
+ vmin       min component of a vector
+ vnorm      euclidean norm of a vector
+ vdim       length of a vector
+
+Registers (numbered from 1 to 9):
+ &gt;7 copy to register 7
+ &lt;3 copy from register 3
+
+Usage: plambda a.png b.png c.png ... &quot;EXPRESSION&quot; &gt; output
+   or: plambda a.png b.png c.png ... &quot;EXPRESSION&quot; -o output.png
+   or: plambda -c num1 num2 num3  ... &quot;EXPRESSION&quot;
+
+Options:
+ -o file    save output to named file
+ -c     act as a symbolic calculator
+ -h     display short help message
+ --help     display longer help message
+
+Examples:
+ plambda a.tiff b.tiff &quot;x y +&quot; &gt; sum.tiff    Compute the sum of two images.
+ plambda -c &quot;1 atan 4 *&quot;                     Print pi
+ plambda -c &quot;355 113 /&quot;                      Print an approximation of pi
+ </code></pre>
+</body>
+</html>

@@ -1,0 +1,1698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Makefiles for Mathematicians</title>
+		<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({TeX: {equationNumbers: {autoNumber: "AMS"}}});
+		</script>
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		  tex2jax: {
+		    inlineMath: [['$','$'], ['\\(','\\)']],
+		    processEscapes: true
+		  }
+		});
+		</script>
+		<script type="text/javascript"
+			src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+		</script>
+		<style type="text/css">
+			pre {background:lightgray;width:80ch;}
+		</style>
+		<!--
+		<script type="text/javascript" src="js/latex2html5.min.js"></script>
+		-->
+	</head>
+	<body>
+		<div class="container">
+<h1>Makefiles for mathematicians</h1>
+
+<p>
+A tutorial for using <code>make</code>.<br />
+To be read after the tutorial about <a href="">the compiler toolchain</a>.<br />
+</p>
+
+<p>
+</p>
+
+<blockquote>
+<small>
+	<p>
+	<b>Abstract</b><br />
+	The <code>make</code> utility formalizes as a directed graph the
+	problem of compiling several source files.  The vertices of the graph
+	are files and the edges are the instructions to transform the
+	corresponding files.  Vertices with only outgoing edges are the source
+	files.  Vertices with only incoming edges are the target files.
+	Vertices with both incoming and outgoing edges are intermediary files.
+	The build process is performed by creating the target files according
+	to the instructions given on this directed graph.  The edges of this
+	directed graph are called <i>rules</i>.  The <code>make</code> program
+	comes with a large set of predefined rules, and these rules can be
+	augmented or changed by writing a <code>Makefile</code>.
+	</p>
+</small>
+</blockquote>
+
+<blockquote>
+<small>
+	<p>
+	<b>Disclaimer</b><br />
+	The goal of this tutorial is to showcase the timeless beauty of
+	Makefiles, not to give a set of recipes.
+	</p>
+</small>
+</blockquote>
+
+<h2>1. Introduction</h2>
+
+<p>
+The <code>make</code> program is an extremely elegant UNIX utility.  It solves
+the problem of building a complex program given a formally described set of
+dependencies.  With the <code>-j</code> option, it builds as many files as
+possible in parallel.
+</p>
+
+<p>
+In this tutorial we explain several use cases.  We start with the simplest
+possible case (compiling a single file), and we move to more complicated cases
+(like compiling several files, or linking against libraries).
+</p>
+
+<h2>2. Making without makefiles</h2>
+
+<p>
+It is not necessary to write any makefile for using <code>make</code>; for
+example, when we want to build a single file.  We start with this simple
+example, that already illustrates almost all the features of <code>make</code>.
+</p>
+
+
+<h3>2.1. Basic structure</h3>
+<p>
+Imagine that you want to compile a simple program <code>hello.c</code>
+<pre>
+#include <stdio.h>
+
+int main(void)
+{
+	return printf("hello world\n");
+}
+</pre>
+</p>
+
+<p>
+Then you run
+<pre>
+make hello
+</pre>
+</p>
+
+<p>
+And it will compile your program (by running <code>cc hello.c -o hello</code>).
+</p>
+
+<p>
+This is the whole story.  Using <code>make</code> is always the same: you ask
+make to build one file, and he tries to do it, in the most meaningful way.
+Everything else are minor details, like setting the compiler options; or minor
+variations, like building more than one file.
+</p>
+
+
+<h3>2.2. Idempotence and dependences</h3>
+
+<p>
+In the previous example, note that running <code>make hello</code> a second
+time does nothing.  Since the file <code>hello</code> is already built, there's
+nothing else to do.  The program <code>make</code> is idempotent: running
+<code>make</code> two times is the same as running it once.  This is a
+fundamental property.  How does the program know that there is no more work to
+do?  Because it looks at the dates of each file.
+</p>
+
+<p>
+Thus, to force a recompilation, you can change the date of the source code
+(e.g., by running <code>touch hello.c</code>) and then <code>make</code> will
+build it again.
+</p>
+
+<p>
+Now try the following:
+<pre>
+rm -f hello    # delete the compiled file
+make hello.o   # will run "cc -c hello.c -o hello.o"
+make hello     # will run "cc hello.o -o hello"
+</pre>
+</p>
+
+<p>
+Notice that, when the file <code>hello.o</code> already exists,
+<code>make</code> nows that the source is already compiled, and it only needs
+to link it to produce a final executable.  It always tries to build the
+requested file with the least possible amount of work.  If you <code>touch
+hello.o</code> and then you run <code>make hello</code>, it will only do the
+linking, because the file <code>hello</code> is older than
+<code>hello.o</code>.
+</p>
+
+<p>
+How does <code>make</code> know what to build from what?
+Because he has a secret list of <i>implicit rules</i> that tell it so.
+These rules form a directed graph, which in our case is the following:
+</p>
+
+<pre>
+   hello.c ---------------------------> hello.o -----------------------> hello
+            cc -c hello.c -o hello.o             cc hello.o -o hello.c
+</pre>
+
+<p>
+The nodes of this graph are the filenames.  The edges of this graph are the
+instructions to create one file from another.  When you run <code>make
+hello</code>, the program checks if the requested file appears in the graph,
+and <b>finds a directed path from a file that exists to the requested file</b>.
+Then, the program runs the instructions corresponding to each edge in the
+path.  It only runs the part of the path from the file that is newer than the
+requested target, if any.
+</p>
+
+<p>
+This is all that <code>make</code> does.
+The only control left to the user is the specification of the graph.
+</p>
+
+
+
+<h3>2.3. Variables</h3>
+
+<p>
+You can set variables to fine-tune the build process.  The most important
+variable is <code>CC</code>, that specifies the <code>C</code> compiler, and
+the default value is typically <code>&quot;cc&quot;</code>.  There are two
+ways to change the value of a variable (without writing a Makefile): either you set an environment variable of the same name, or you specify it as argument to the <code>make</code> invocation.
+<pre>
+# first technique: give argument to make
+make CC=clang hello    # compile "hello" using clang
+
+# second technique: specify environment variable
+export CC=clang
+make hello             # compile "hello" using clang
+</pre>
+</p>
+
+<p>
+The following table summarizes the most important variables
+<table border="1" cellpadding="5" cellspacing="0">
+	<tr>
+		<th>variable</th>
+		<th>meaning</th>
+		<th>default</th>
+		<th>example assignement</th>
+	</tr>
+	<tr>
+		<td>CC</td>
+		<td>C compiler</td>
+		<td>cc</td>
+		<td>tcc</td>
+	</tr>
+	<tr>
+		<td>CXX</td>
+		<td>C++ compiler</td>
+		<td>c++</td>
+		<td>clang</td>
+	</tr>
+	<tr>
+		<td>CFLAGS</td>
+		<td>flags for C compiler</td>
+		<td></td>
+		<td>-O2 -Wall</td>
+	</tr>
+	<tr>
+		<td>CXXFLAGS</td>
+		<td>flags for C++ compiler</td>
+		<td></td>
+		<td>-O2 -Wall</td>
+	</tr>
+	<tr>
+		<td>CPPFLAGS</td>
+		<td>flags for preprocessor</td>
+		<td></td>
+		<td>-I /path/to/my/includes<br />-DMACRO=value</td>
+	</tr>
+	<tr>
+		<td>LDFLAGS</td>
+		<td>flags for linker</td>
+		<td></td>
+		<td>-L /path/to/my/libs</td>
+	</tr>
+	<tr>
+		<td>LDLIBS</td>
+		<td>libraries for linker</td>
+		<td></td>
+		<td>-lmylib</td>
+	</tr>
+</table>
+</p>
+
+<p>
+Variables are very powerful.
+For example, the following shell script builds the same program using five C
+compilers and different compiler options (debug and release mode):
+<pre>
+for i in gcc clang tcc icc suncc; do
+	make CC=$i CFLAGS="-Wall -g" hello
+	mv hello hello_debug_$i
+
+	make CC=$i CFLAGS="-Wall -O3" hello
+	mv hello hello_release_$i
+done
+</pre>
+</p>
+
+<p>
+This script creates 10 different executables with all the compilers and all the
+compiler options (assuming than the named compilers are installed).  These kind
+of scripts are useful to check that your program gives zero warnings for a
+large set of compilers and compiler options.  And we have not written a
+<code>Makefile</code> yet!
+</p>
+
+
+<h2>3. Makefiles</h2>
+
+<p>
+Making without makefiles may be an interesting exercice, but it is not more
+practical than calling the compiler directly.  The real interest of
+<code>make</code> is that it allows to compile many files into one
+program&mdash;or many programs&mdash;in a single stroke.
+</p>
+
+<h3>3.1. A very simple Makefile</h3>
+
+<p>
+This is how you would specify the graph of the example above in the
+<code>Makefile</code> language:
+<pre>
+hello.o: hello.c
+	cc -c hello.c -o hello.o
+
+hello: hello.o
+	cc hello.o -o hellox
+</pre>
+</p>
+
+
+<!--
+<p>
+Or, more or less equivalently:
+<pre>
+hello: hello.c
+	cc hello.c -o hello
+</pre>
+</p>
+-->
+
+<p>
+That's a complete <code>Makefile</code>.
+It is a list of rules.  Each rule has the following form:
+<pre>
+target: source1 source2 ... sourcen
+	instructions to build target from sources
+</pre>
+</p>
+
+<p>
+<b>Very important:</b> the instructions are indented using one tab.  Spaces
+will not work.
+</p>
+
+<p>
+Once you have written a makefile, you can request to build a target by running
+<code>make target</code>.  If you don't specify a target, the first target will
+be built.
+</p>
+
+
+<h3>3.2. Using variables</h3>
+
+<p>
+This simple makefile, where the rules are explicit, is actually less powerful
+than an empty makefile that uses the implicit rules.  There are two ways in
+which it is less powerful: (1) we cannot change the compiler or the flags; and
+(2) the name <code>hello</code> is hardcoded, it does not specify how to build
+files with different names.  The first problem is solved using variables.  The
+second problem will be solved later using pattern rules.
+</p>
+
+<p>
+You can define variables inside the makefile and use them later in the rules:
+<pre>
+COMPILER=gcc
+COMPILER_FLAGS=-O3
+
+hello: hello.c
+	$(COMPILER) $(COMPILER_FLAGS) hello.c -o hello
+</pre>
+</p>
+
+<p>
+Variables defined inside the makefile are taken as default values.  They can be
+overridden by redefining them as arguments in the call to <code>make</code>.  Of
+course, the variable names that we have chosen in this example are
+preposterous.  Here, we should have used the standard names, which are
+already given default values, and other people can expect default behaviour
+from our makefile (such as taking into account their preferred compiler flags):
+<pre>
+hello: hello.c
+	$(CC) $(CFLAGS) hello.c -o hello
+</pre>
+</p>
+
+<p>
+Notice that the makefile above is equivalent to an empty file, because it
+matches an implicit rule.  However, for clarity we will work on this simple
+example and add more files to build.  <b>Until section 3.6, forget about
+	implicit rules.</b>
+</p>
+
+<h3>3.3. Multiple source files</h3>
+
+<p>
+For now, we have just dealt with a single file to compile.  In a typical
+case, the source code of a program will span several files (let's say, three
+files <code>hello</code>, <code>options</code> and <code>lib</code>).  Then,
+we can specify the rules for building each file:
+<pre>
+hello: hello.o options.o lib.o
+	$(CC) hello.o options.o lib.o -o hello
+
+hello.o: hello.c
+	$(CC) $(CFLAGS) -c hello.c -o hello.o
+
+options.o: options.c
+	$(CC) $(CFLAGS) -c options.c -o options.o
+
+lib.o: lib.c
+	$(CC) $(CFLAGS) -c lib.c -o lib.o
+</pre>
+</p>
+
+<p>
+Now, running <code>make</code> will call the compiler four times: one for each
+object file, and then one to link all the objects into one exectuable.  This is
+embarrassingly parallelizable; indeed running <code>make -j</code> will launch
+the compilation of the three object files in parallel.
+</p>
+
+<h3>3.4. Automatic variables</h3>
+
+<p>
+In the example above, there is a lot of redundancy: the names of the files
+appear many times.  The redundancy can be removed by using local or automatic
+variables:
+</p>
+
+<!--
+<p>
+Notice that we are still repeating ourselves.  The words &quot;hello&quot; and &quot;OBJ&quot; appear more than once on the same rule.  You can use the
+shorthands (named <i>local variables</i>):
+</p>
+-->
+
+<table border="1" cellpadding="5" cellspacing="0">
+	<tr>
+		<th>variable</th>
+		<th>meaning</th>
+	</tr>
+	<tr>
+		<td><code>%@</code></td>
+		<td>name of the target</td>
+	</tr>
+	<tr>
+		<td><code>%^</code></td>
+		<td>list of all prerequisites</td>
+	</tr>
+	<tr>
+		<td><code>%&lt;</code></td>
+		<td>the first prerequisite</td>
+	</tr>
+	<tr>
+		<td><code>%*</code></td>
+		<td>the stem of a pattern rule</td>
+	</tr>
+</table>
+</p>
+
+<p>
+Thus, when the name of the target or of the prerequisites appears inside a
+rule (which happens almost always), we can simplify the rule using local
+variables:
+<pre>
+hello: hello.o options.o lib.o
+	$(CC) $^ -o $@
+
+hello.o: hello.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+options.o: options.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+lib.o: lib.c
+	$(CC) $(CFLAGS) -c $< -o $@
+</pre>
+</p>
+
+<h3>3.5. Pattern rules</h3>
+
+<p>
+The makefile that we have just written above exhibits a higher-level type of
+redundancy: the rules themselves are all the same!  Moreover, the names of
+each target and its prerequisite are the same, only differing by extension.
+Pattern rules allow to express this kind of redundancy:
+<pre>
+hello: hello.o options.o lib.o
+	$(CC) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+</pre>
+</p>
+
+<p>
+The character <code>%</code> is a placeholder for an arbitrary string.  If you
+request to build a file with the extension <code>.o</code>, then this rule will
+match, and it will try to build the <code>.o</code> file from the
+<code>.c</code> file in the indicated way.
+</p>
+
+
+
+<h3>3.6. Mixing implicit and explicit rules</h3>
+
+<p>
+In the makefile above, notice that the rules for building the object files are unnecessary, because they do exactly the same thing as the implicit rules.
+Thus, an equivalent makefile is the following.
+<pre>
+hello: hello.o options.o lib.o
+	$(CC) $^ -o $@
+</pre>
+</p>
+
+<p>
+Rather short, isn't it?  You just say that you need <code>file.o</code>, and
+the implicit rules take care of building it from <code>file.c</code>.
+</p>
+
+<h3>3.7. Dependencies without rules</h3>
+
+<p>
+<small>
+<small>
+<i>
+Now we are in the rarefied atmosphere of theories of excessive beauty and we
+are nearing a high plateau on which geometry, optics, mechanics, and wave
+mechanics meet on a common ground. Only concentrated thinking, and a
+considerable amount of re-creation, will reveal the full beauty of our
+subject in which the last word has not been spoken yet.
+</i>&mdash;Cornelius Lanczos, The Variational Principles of Mechanics.
+</small>
+</small>
+</p>
+
+<p>
+The two-line makefile above can be further shortened to this thing of beauty:
+<pre>
+hello: hello.o options.o lib.o
+</pre>
+</p>
+
+<p>
+This is a complete makefile, equivalent to the examples given above.
+How is that even possible?  What kind of sorcery is going on here?
+</p>
+
+<p>
+This works because the multiple prerequisites of the same target can be
+stated on separate lines, and they are simply added to the rule (there must
+be exactly one rule per target).  Thus, without using implicit rules and
+writing the prerequisites separately, this is equivalent to the following
+<pre>
+hello: hello.o
+
+hello: options.o
+
+hello: lib.o
+
+%: %.o
+	$(CC) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+</pre>
+</p>
+
+<p>
+When we put all the prerequisites on the same line and expand all the
+patterns, we recover EXACTLY the same text as in section 3.3.
+</p>
+
+<!--
+<p>
+This is much better, because it is less repetitive.  Yet, the names of the
+files appear twice.  No problem, we can put them in a variable.
+This is a very common idiom in makefiles:
+<pre>
+OBJ=hello.o options.o lib.o
+
+hello: $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o hello
+</pre>
+</p>
+-->
+
+<!--
+<p>
+Obviously, the word <code>hello</code> is a placeholder.
+In practice the graph is specified as follows:
+<pre>
+%: %.o
+	cc -c %.c -o %.o
+
+%.o: %.c
+	cc %.o -o %
+</pre>
+</p>
+-->
+
+<!--
+<p>
+Another way to reduce redundancy is to use <i>pattern rules</i>, which are just
+like regular rules but with a placeholder text indicated by the character
+<code>%</code>.  This is useful to specify repetitive rules that are not
+defined implicitly.  For example, if we are using a programming language X
+for which there are no implicit rules available:
+<pre>
+X_COMPILER=xc
+
+hello: main.o options.o lib.o
+	$(X_COMPILER) main.o options.o lib.o -o hello
+
+main.o: main.x
+	$(X_COMPILER) -c main.x -o main.o
+
+options.o: options.x
+	$(X_COMPILER) -c options.x -o options.o
+
+lib.o: lib.x
+	$(X_COMPILER) -c lib.x -o lib.o
+</pre>
+</p>
+
+<p>
+There is much redundancy here that can not be reduced using the implicit rules.
+We can write a pattern rule instead:
+<pre>
+X_COMPILER=xc
+
+hello: main.o options.o lib.o
+	$(X_COMPILER) main.o options.o lib.o -o hello
+
+%.o: %.x
+	$(X_COMPILER) -c $< -o $@
+</pre>
+</p>
+
+<p>
+The character <code>%</code> is a placeholder for an arbitrary string.  If you
+request to build a file with the extension <code>.o</code>, then this rule will
+match, and it will try to build the <code>.o</code> file from the
+<code>.x</code> file in the indicated way.
+</p>
+-->
+
+<h3>3.8. Implicit rules</h3>
+
+<p>
+We have talked before about a &quot;secret&quot; list of implicit rules.
+Actually, there is nothing secret about it.  The implicit rules are defined
+explicitly by pattern rules and they look exactly like the last two patterns
+of the previous section.  To look at the complete list of implicit rules run
+the following command:
+<pre>
+make -p -f /dev/null > implicit_rules.txt
+</pre>
+</p>
+
+<p>
+This will create a text file with the list of all implicit rules (and many
+other information).  Running <code>make</code> without a makefile is exactly
+equivalent to using this file.  Now, this file may seem overwhelming; it is
+probably very long, because <code>make</code> uses a lot of heuristics, and
+they are all specified here.  But somewhere in the middle it must contain
+lines that look more or less like this:
+<pre>
+%: %.o
+	$(CC) $^ -o $@ $(LDLIBS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+</pre>
+</p>
+
+<p>...which is just the two pattern rules on section 3.6.  See section 6.4
+below for a more complete view of the default pattern rules.</p>
+
+<p>
+It is highly recommended to print the list of implicit rules for your make
+setup, and read it thoroughly.  Even if it is long, it is nothing more than a
+sequence of variable assignments and pattern rules.
+</p>
+
+<!--
+<p>
+You can recognize the assignment of a variable for the default compiler, and
+the pattern rule to build objects from C source.
+I recommend to read this file and try to understand it.  Even if it is long, it is nothing more than a sequence of variable assignments and rules.
+</p>
+-->
+
+<!--
+<h3>3.8. Multiple targets</h3>
+
+<p>
+On sections 3.3. to 3.6 we have explained how to build a single executable
+from many source files.  A slightly more complex sit
+</p>
+-->
+
+<h3>3.9. Phony targets</h3>
+
+<p>
+It is not necessary that a rule creates any file, <code>make</code> will not
+verify anyway; you can run all sort of crazy stuff in the instructions.  The
+most typical is to have a <code>clean</code> target, that instead of creating a
+file called &quot;clean&quot; simply removes all the executable files.  Or you
+can have a <code>check</code> target that runs unit tests in your code.
+This is then our fancy makefile:
+<pre>
+OBJ = main.o options.o lib.o
+
+hello: $(OBJ)
+	$(CC) $(OBJ) -o hello
+
+clean:
+	rm -f $(OBJ) hello
+
+check: hello
+	./hello -test
+</pre>
+</p>
+
+<p>
+Notice that the <code>clean</code> target has no dependences.  The
+<code>check</code> target has the file <code>hello</code> as dependency, so it
+will compile the <code>hello</code> file if needed.
+</p>
+
+<p>
+<small>
+	NOTE: if you have files named <code>clean</code> or <code>check</code>
+	then all hell will break loose.  To protect against this risk, you can
+	precede these targets with a line that says
+	&quot;<code>.PHONY:</code>&quot;.   But I like to live on the edge.
+</small>
+</p>
+
+<p>
+Given the makefile above, the following shell script builds the program using
+five C compilers, and runs the test suite for each of the resulting
+executables, both in debug and in release mode (for a total of 10 checks of the
+test suite):
+<pre>
+for i in gcc clang tcc icc suncc; do
+for m in "-O3 -DNDEBUG" "-g"; do
+	make clean check CC=$i CFLAGS=$m
+done
+done
+</pre>
+</p>
+
+<p>
+If you want to be really neat, design the test suite so that it is silent upon
+success, and add the <code>-s</code> (silent) option to <code>make</code>.
+Then, the script will only produce output when something fails.
+</p>
+
+<p>
+Try doing that with <code>cmake</code>!
+</p>
+<!--
+-->
+
+
+<h2>4. Practical issues</h2>
+
+<p>
+In an ideal world (from the point of view of the makefile writer), your program
+is written from scratch using an old standard of the programming language, and
+it uses no external libraries.  In practice, however, your program may rely in
+some modern features of the language&mdash;that require compiler
+flags&mdash;and it may need external libraries which are installed under
+strange names.  Also, the dependences between the source files may be somewhat
+convoluted, and writing them by hand is error-prone.  Let's see what we can do
+about all these problems.
+</p>
+
+<h3>4.1. Using external libraries</h3>
+
+<p>
+The program <code>make</code> will never try to <i>find</i> where external
+libraries are located; it is just not his job.  In theory, this is not a
+problem at all.  If your program requires e.g., the <code>libtiff</code>
+library, then you simply add <code>-ltiff</code> to the compilation line.
+The following makefile compiles a program that requires libtiff:
+<pre>
+OBJ=main.o options.o lib.o
+
+hello: $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o hello -ltiff
+</pre>
+</p>
+
+<p>
+This will work correctly as long as libtiff is installed on your system.  What
+does it mean, exactly &quot;to be installed in your system&quot;?  Well, by
+definition, it means that this makefile works!  More precisely, it means that
+the following three things are true:
+</p>
+
+<ol>
+	<li>
+	When you write <code>#include &lt;tiffio.h&gt;</code> in your source
+	code, the preprocessor finds this include file.
+	</li>
+	<li>
+	When you add <code>-ltiff</code> to the compilation line, the linker is
+	able to find the library file.
+	</li>
+	<li>
+	(Just in the case of dynamic linking)
+	when you run your program, the dynamic linker is able<br />to find the file
+	<code>libtiff.so</code> in your system.
+	</li>
+</ol>
+
+<p>
+For example, if the program <code>hello</code> of section 3.7 requires
+<code>libtiff</code>, then this is a complete makefile for compiling the
+program
+<pre>
+LDLIBS = -ltiff
+hello  : hello.o options.o lib.o
+</pre>
+</p>
+
+<p>
+This works because <code>$(LDLIBS)</code> is used in the implicit rule for
+linking objects.
+</p>
+
+<h3>4.2. Using non-installed external libraries</h3>
+
+<p>
+For GNU and BSD systems, libraries are often correctly installed:  once you
+install a library using the package manager, this library becomes available
+to the compiler without further ado.  In case the library is not installed,
+the compilation will produce a clear error message, which I suppose is the
+desired behaviour.
+</p>
+
+<p>
+In other situations (e.g., bizarre systems without package managers like OSX,
+or user-installed libraries), you may want to use a library that is not
+&quot;correctly installed&quot; according to the three points above.  Then, the
+solution is to correctly install it!  This can be done by setting three
+environment variables:
+</p>
+
+<ol>
+	<li>
+	Add the path to the include files of your library to the variable
+	<b><code>CPATH</code></b>.
+	</li>
+	<li>
+	Add the path to the object files of your library (<code>.so</code> or <code>.a</code>) to the variable <b><code>LIBRARY_PATH</code></b>.
+	</li>
+	<li>
+	If necessary, add the path to the dynamic objects to the variable
+	<b><code>LD_LIBRARY_PATH</code></b>.
+	</li>
+</ol>
+
+<p>
+Once these three variables are set, then the library is correctly installed,
+and your makefile can be run.  Notice that this task is independent to the
+usage of the makefile; the task is part of the installation of the library,
+for systems that do not have a decent package manager.  These variables are
+recognized by all compilers that I know of (GCC, CLANG, TCC, INTEL and SUN
+compilers).
+</p>
+
+
+<h3>4.3. Setting platform-specific flags</h3>
+
+<p>
+It is strongly advised to write portable code that compiles out of the box in
+any system.  Today, this is much, much, easier than a few years ago because
+most systems are POSIX-compliant (with slightly different versions of the
+POSIX standard, though).  Thus, horrible ``portability'' tools like automake,
+autoconf, and cmake are mostly unnecessary.
+</p>
+
+<p>Still, there are a few situations when your code with a simple makefile is
+not straightforwardly portable to all the systems that you may want to.
+I show to examples: to compile ANSI C in older versions of GCC, and to
+``enable'' openmp in the platforms where it is available.  Once you
+understand these hacks, you can easily rewrite them for other simtuations.
+The basic idea is to run a shell command that will return or not an empty
+output, according to the condition you want to check, and then capture this
+output from within a <code>$(shell ...)</code> directive:
+</p>
+
+<p>
+<pre>
+# The following hack allows to compile modern ANSI C (C99 and newer), on
+# very old and unmantained versions of the gcc compiler (older than
+# gcc 5.1, released on april 2015).  These old versions of GCC are able
+# to compile C99 and C11, but some features are not enabled by default, thus
+# the hack enables these features explicitly if the compiler seems to
+# be pre-ANSI C.  The clang compiler does not typically need such a hack.
+#
+# hack for older compilers (adds gnu99 option to CFLAGS, if necessary)
+ifeq (,$(shell $(CC) $(CFLAGS) -dM -E - < /dev/null | grep __STDC_VERSION__))
+CFLAGS := $(CFLAGS) -std=gnu99
+endif
+</pre>
+</p>
+
+<p>
+<pre>
+# use OpenMP only if not clang
+ifeq (0,$(shell $(CC) -v 2>&1 | grep -c "clang"))
+CFLAGS := $(CFLAGS) -fopenmp
+endif
+</pre>
+</p>
+
+<p>
+If you have a favorite Makefile hack, you can send it to me and I add it
+here.
+</p>
+
+
+<h3>4.4. Automatic generation of dependences</h3>
+
+<p>Often, automatic generation of dependences is unnecessary: each
+object file depends on the corresponding source file (that has the same name
+but different extension).  This case is already covered by the implicit rule
+<code>%.o:%.c</code>.</p>
+
+<p>
+However, there are still some situations when there are other dependences
+between source files.  For example, when you <code>#include</code> another
+file from your source code.  In principle, since the file is explicitly
+included, it should not appear in the command line and the compilation will
+be successful without explicitly stating this dependency.  Thus, the short
+answer is that even in that case, this dependence need not be known by make.
+</p>
+
+<p>
+But when you are developing code, the situation is different: if you change
+the included file, you may want to recompile the object.  Thus, make must
+know about this dependency.
+</p>
+
+<p>
+Fortunately, most compilers accept the <code>-MM</code> option, that
+prints the list of files included by a source file, conveniently formatted as
+makefile dependencies.  The following makefile deals automatically with this
+<pre>
+# regular makefile stuff
+LDLIBS  = -ltiff
+hello   : hello.o lib.o options.o
+
+# generation and inclusion of missing dependencies
+deps.mk :
+	$(CC) -MM $(shell ls *.c) > deps.mk
+-include deps.mk
+</pre>
+</p>
+
+
+<h2>5. Example makefiles</h2>
+
+<!--
+<p>
+Below we show some makefile examples for rather general use cases.
+They are intended to work on a flat directory structure that contains all the
+source files.  Thus, the full power of implicit rules can be harnessed.  If
+you want to separate sources and binaries, you will have to write the
+associated pattern rules yourself.
+</p>
+-->
+
+<h3>5.1. Single executable, many source files</h3>
+
+<p>
+This is the case that we have solved above
+<pre>
+BIN    = hello
+OBJ    = hello.o options.o lib.o
+
+$(BIN) : $(OBJ)
+
+clean  :
+	$(RM) $(BIN) $(OBJ)
+</pre>
+</p>
+
+<h3>5.2. Many executables, one source file for each</h3>
+
+<p>
+This can also be done using only implicit rules.
+<pre>
+BIN = foo bar baz
+
+all: $(BIN)
+
+clean:
+	$(RM) $(BIN)
+</pre>
+</p>
+
+<h3>5.3. Many executables, many source files for each</h3>
+
+<p>
+When you have a set of object files common to a set of separate executables.
+<pre>
+BIN     = foo bar baz
+OBJ     = lib1.o lib2.o lib3.o
+
+default : $(BIN)
+
+$(BIN)  : $(OBJ)
+
+clean   :
+	$(RM) $(BIN) $(OBJ)
+</pre>
+</p>
+
+<h3>5.4. Buidling a static library</h3>
+
+<p>
+This is just like the previous case but putting all the objects inside a
+static library for ease of linking.
+<pre>
+BIN     = foo bar baz
+OBJ     = lib1.o lib2.o lib3.o
+LIB     = libmine.a
+
+default : $(BIN)
+$(BIN)  : $(OBJ)
+$(LIB)  : $(LIB)($(OBJ))
+
+clean   :
+	$(RM) $(BIN) $(LIB) $(OBJ)
+</pre>
+</p>
+
+
+<h3>5.5. Options and libraries</h3>
+
+<p>
+You can ``enhance'' the example above with compiler options and additional
+libraries to obtain a very general Makefile:
+<pre>
+# user-editable configuration
+CFLAGS  = -march=native -Os
+
+# required libraries
+LDLIBS  = -lpng -ljpeg -ltiff
+
+# files
+BIN     = foo bar baz
+OBJ     = lib1.o lib2.o lib3.o
+
+# default target: build all the binaries
+default : $(BIN)
+
+# each binary depends on all the object files
+$(BIN)  : $(OBJ)
+
+# bureaucracy
+clean   : ; $(RM) $(BIN) $(OBJ)
+.PHONY  : default clean
+</pre>
+</p>
+
+<p>
+Notice that there is no harm at all in linking unused object files.  The
+linker will actually ignore symbols that are unused.  Similarly with
+libraries given with as <code>-llib</code>.
+</p>
+
+
+<h3>5.6. Interaction with <code>pkg-config</code> and the like</h3>
+
+<p>
+The <code>pkg-config</code> tool provides a way for people to use libraries
+that are not fully installed on their system.  This is a simple program
+that prints whatever horrible flags are necessary for compiling and linking
+against the library.  It has three relevant options, here shown with their
+output on my system (for lib-poppler):
+<pre>
+pkg-config poppler --cflags       # prints  -I/usr/include/poppler
+pkg-config poppler --libs         # prints -lpoppler
+pkg-config poppler --version      # prints 0.26
+</pre>
+</p>
+
+<p>The output of pkg-config is straightforward to use inside Makefiles</p>
+
+<p>
+Other packages, suck as gdal, prefer to avoid the standard
+<code>pkg-config</code> system and provide their own <code>gdal-config</code>
+with similar behaviour.  Thus, if your program requires support for gdal, you
+simply do the following:
+<pre>
+# variables
+CFLAGS  = -march=native -Os `shell gdal-config --cflags`
+LDLIBS  = `gdal-config --libs`
+
+# files
+BIN     = foo bar baz
+OBJ     = lib1.o lib2.o lib3.o
+
+# default target: build all the binaries
+default : $(BIN)
+
+# each binary depends on all the object files
+$(BIN)  : $(OBJ)
+
+# bureaucracy
+clean   : ; $(RM) $(BIN) $(OBJ)
+.PHONY  : default clean
+</pre>
+</p>
+
+<h3>5.7. Multiple directories</h3>
+
+<p>All the examples given above work on a flat directory structure.  This
+simplification allows to harness the full power of implicit rules.  If you
+want to work with more complex directory structures, you will have to write
+the patterns yourself.  Here we show an example of separate source and output
+directory (for the many objects/many executables case)
+<pre>
+# files
+BIN     := prog1 prog2 prog3
+OBJ     := lib1.o lib2.o lib3.o
+
+# add appropriate prefix to filenames
+BIN     := $(addprefix bin/,$(BIN))
+OBJ     := $(addprefix src/,$(OBJ))
+
+# default target
+default : $(BIN)
+
+# rule to build each executable
+bin/%   : src/%.o  $(OBJ)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+# bureaucracy
+clean   : ; $(RM) $(BIN) $(OBJ)
+.PHONY  : default clean
+</pre>
+</p>
+
+<p>
+I would advise to only split your source code into subdirectories when you
+have a lot of files (say, more than 100).
+</p>
+
+<!--
+<h3>5.7. Targets and sources deduced from the directory structure</h3>
+-->
+
+<h2>6. The Makefile language</h2>
+
+<p>In what language is a Makefile written?  The answer is: in three separate
+and different languages:</p>
+
+<ol>
+	<li>
+		The <b>core</b> language, that describes the dependences
+		between files, and indicates which rule should be used to
+		build each file.
+	</li>
+
+	<li>
+		The <b>shell</b> language, that describes the rules themselves.
+		This is just regular unix shell, and is actually interpreted by
+		the shell, not by make.
+	</li>
+
+	<li>
+		The <b>macro</b> language, that allows to define variables,
+		implicit and pattern rules, and include other files.
+	</li>
+</ol>
+
+<p>Moreover, there is a set of pre-defined macros.  This is actually very
+important since it allows to write extremely succint makefiles.</p>
+
+<h3>6.1. The core makefile language</h3>
+
+<p>
+The core makefile language describes a directed graph explicitly.  Each edge
+is written either using a tab:
+<pre>
+to : from
+	edge
+</pre>
+</p>
+
+<p>
+or a semicolon
+<pre>
+to : from ; edge
+</pre>
+</p>
+
+<p>
+The vertices are filenames, and the edges are shell instructions.
+</p>
+
+<p>
+This core language is extremely portable along all the historical
+implementations of make.
+</p>
+
+<h3>6.2. The shell language</h3>
+
+<p>
+The edges of the graph, or rules, are written in plain UNIX shell.
+This text is first pre-processed by the makefile macro language, replacing
+the dollar-variables that it finds before sending the text to the shell.
+Thus, if you want that the shell receives dollar characters, you have to
+escape them (with another dollar character).
+</p>
+
+<p>
+Formally, it is easy to distinguish between the make language and the shell
+language parts of a Makefile: lines starting with TAB are interpreted by the
+shell, and the other lines are interpreted by make.  This is almost true, the
+shell is also used inside makefiles in another place: as the first and only
+argument of the <code>$(shell ...)</code> directive.
+</p>
+
+<p>
+If you really need to, you can change the actual shell used for running the
+programs by changing the make variable SHELL.  For example
+<code>SHELL=/bin/zsh</code>.  But it is strongly advised to use only posix
+shell features.
+</p>
+
+<h3>6.3. The macro language</h3>
+
+<p>
+The makefile macro language is the ``fancy'' part of the Makefile.  It is
+largely non-portable, but equivalent constructions exists between the two
+main implementations of Make: BSD make and GNU make.  While it is possible to
+write makefiles in a portable way, they do not tend to be beautiful (mainly
+because the implicit rules are slightly different).
+</p>
+
+<p>
+You have to think of the macro language as a pre-processor of your makefile,
+just like the C preprocessor.  It expands the macros in your makefile until
+creating a makefile with only the core language constructions.  The following
+features are available
+<ul>
+	<li>
+		The <b>include</b> instruction: to include other makefiles.  It has two
+		forms, depending on the desired behaviour when the file does not exist.
+<pre>
+# copy verbatim the text of the file, fail if it does not exist
+include filename.mk
+
+# copy the text of the file only if the file exists
+-include filename.mk
+</pre>
+	</li>
+	<li>
+		Variable <b>evaluation</b>:
+<pre>
+$(VAR)                     # value of variable var
+${VAR}                     # alternative syntax
+</pre>
+	</li>
+	<li>
+		Variable <b>evaluation with substitution</b> is useful when a variable
+		holds a list of filenames, and you want to change the extension:
+<pre>
+OBJ = $(SRC:%.c=%.o)       # change the extensions from .c to .o
+</pre>
+	</li>
+	<li>
+		Variable <b>assignements</b>:
+<pre>
+VAR  = value               # recursive expansion of value
+VAR := value               # copy value without recursively expanding
+</pre>
+    Some other kinds of variables (can be combined with the colon):
+<pre>
+VAR  += value              # append
+VAR  ?= value              # assign only if it does not have a value already
+override VAR = value       # override an assignment given in the command line
+export VAR = value         # exported as environment variable to the shell
+</pre>
+Variables can also be assigned from the environment of the shell that calls
+make, or explicitly in the command line as arguments <code>VAR=value</code>.
+	</li>
+	<li>
+		<b>Special variables</b>:
+<pre>
+$(MAKEFILE_LIST)           # the file name of the current makefile
+$(MAKE)                    # the name of the make program
+</pre>
+	</li>
+	<li>
+		The <b>conditional directive</b> is useful for evaluating only part of a
+		makefile.  It is important to not indent with tabs!
+<pre>
+ifeq ($(CC),gcc)
+    libs = $(libs_for_gcc)
+else
+    libs = $(normal_libs)
+endif
+</pre>
+	</li>
+	<li>
+		The <b>shell directive</b> runs a subshell and returns its standard
+		output
+<pre>
+SRC = $(shell ls *.c | grep -v notme.c )  # all C files except notme.c
+</pre>
+	</li>
+	<li>
+		The <b>wildcard</b> and <b>filter-out</b> directives allow a similar
+		effect:
+<pre>
+SRC = $(wildcard *.c)              # all C files
+SRC := $(filter-out notme,$(SRC))  # all C files except notme.c
+</pre>
+	</li>
+	<li>
+		<b>Pattern rules</b> match all files with a common pattern, if no other
+		rule is available:
+<pre>
+a%b : c%d
+	instructions build aXb from cXd
+</pre>
+	</li>
+	<li>
+		<b>Static pattern rules</b> apply to all the files on a given list
+<pre>
+$(LIST) : a%b : c%d
+	instructions build aXb from cXd
+</pre>
+	</li>
+</ul>
+</p>
+
+<p>
+There is a ton more of available features in the GNU macro language.  The GNU
+Make manual has more than 200 pages!
+</p>
+
+<h3>6.4. The set of predefined macros</h3>
+
+<p>
+The output of <code>make -p</code> is indeed overwhelming.
+Yet, the only lines of concern for C and C++ are the following:
+<pre>
+SHELL    = /bin/sh  # shell to run the rules
+RM       = rm -f    # command to delete files
+CC       = cc       # default C compiler
+CXX      = c++      # default C++ compiler
+CFLAGS   =          # C compiler flags
+CPPFLAGS =          # C preprocessor flags
+CXXFLAGS =          # C++ compiler flags
+LDFLAGS  =          # linker flags
+LDLIBS   =          # libraries
+
+# build an object from a C source file
+%.o : %.c  ; $(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+# link an executable from an object
+%   : %.o  ; $(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+# directly compile and link a C source file
+%   : %.c  ; $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+# build an object from a C++ source file
+%.o : %.cc  ; $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+# directly compile and link a C++ source file
+%   : %.cc  ; $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@
+</pre>
+</p>
+
+<p>
+When you run make without a Makefile, it is just as if this file was already
+present.
+</p>
+
+
+
+
+<h2>6. Bourbakist Makefiles</h2>
+
+<p>
+Forget about compiling.  The <code>make</code> program is useful in a very
+general situation: whenever you want to run a complex pipeline with many
+intermediary files.  Typically this task is correctly accomplished by writing a
+shell script or (god forbid) a python script.  However, we show that
+using a makefile may be a better idea.
+</p>
+
+
+<h3>6.1. A simple shell script</h3>
+
+<p>
+<!--
+For example, imagine that you are doing computational photography and you have
+just invented a simple algorithm to combine several images of a painting and
+remove reflections.  You quickly write the following script:
+-->
+For example, consider the following simple script that registers several
+images and computes the fusion of them all:
+<pre>
+# input images: i{0..11}.png
+# output image: out_med.png
+# intermediate: i*.sift p*.txt h*.txt reg_*.png
+
+IDX=`seq -w 0 11`
+SIZE=`imprintf "%w %h" i00.png`
+
+# compute sift descriptors of each image
+for i in $IDX; do
+        sift i$i.png > i$i.sift
+done
+
+# register each image to the first one
+for i in $IDX; do
+        siftu pairR 0.8 i00.sift i$i.sift p$i.txt  # match pairs
+        ransac hom 1000 1 30 h$i.txt < p$i.txt     # find homography
+        homwarp h$i.txt $SIZE i$i.png reg_$i.png   # warp
+done
+
+# compute the median value at each position
+vecov med reg_*.png -o out_med.png
+</pre>
+<!--This is a perfectly acceptable way of solving this task.-->
+</p>
+
+<p>
+This is a classical computational photography problem, and this script is a
+perfectly acceptable way of solving it.  Shell scripts are cool.  Yet, we
+will see how to improve it a bit.
+</p>
+
+<h3>6.2. How to parallelize your shell script</h3>
+
+<p>
+This script runs the tasks in series.  This is wasteful on a large computer
+with, say, 32 cores, because it could be running the tasks in parallel.  No
+problem, GNU parallel is very easy to use.  You simply print the instructions
+that you want to run, and pass the resulting text to <code>parallel</code>:
+<pre>
+IDX=`seq -w 0 11`
+SIZE=`imprintf "%w %h" i00.png`
+
+# 1. compute sift descriptors of each image
+for i in $IDX; do
+        echo "sift i$i.png > i$i.sift"
+done | parallel
+
+# 2. register each image to the reference one
+
+# 2.1. match pairs
+for i in $IDX; do
+        echo siftu pairR 0.8 i00.sift i$i.sift p$i.txt
+done | parallel
+
+# 2.2. find homography
+for i in $IDX; do
+        echo "ransac hom 1000 1 30 h$i.txt < p$i.txt"
+done | parallel
+
+# 2.3. warp
+for i in $IDX; do
+        echo homwarp h$i.txt $SIZE i$i.png reg_$i.png
+done | parallel
+
+# 3. compute the median value at each position
+vecov med reg_*.png -o out_med.png
+</pre>
+<!-- "   -->
+</p>
+
+<p>
+This version of the script will run all the tasks in parallel and will be
+much faster.
+</p>
+
+<p>
+Is this the best parallelization possible?  No.  Notice that if, for example,
+one of the tasks on step 2.1. takes much longer than the others, there will be a
+long wait between steps 2.1. and 2.2., during which only one processor will
+be working.  How can we solve this problem?  In this case it seems easy, we
+just have to parallelize at a coarser level, sending to GNU parallel lines
+that contain the whole computation for each file.  But if the dependences
+between files are more complicated, the problem becomes difficult very soon.
+</p>
+
+<h3>6.3. How to make your shell script restartable</h3>
+
+<p>
+Another issue with the first script is that it always runs all the steps.
+Imagine that you change the fusion criterion in the last line of the script.
+Then, when you re-run the script all the steps are performed, but this is
+wasteful because all intermediary files are identical.  The typical solution
+to this problem is to COMMENT all the script except the lines that you want
+to re-run.  But of course this is ugly.  A slightly better option is to check
+whether the updated files will be changed or not before recomputing them:
+<pre>
+IDX=`seq -w 0 11`
+SIZE=`imprintf "%w %h" i00.png`
+
+# 1. compute sift descriptors of each image
+for i in $IDX; do
+        test i$i.png -ot i$i.sift ||
+        sift i$i.png > i$i.sift
+done
+
+# 2. register each image to the reference one
+
+# 2.1. match pairs
+for i in $IDX; do
+        test i$i.sift -ot p$i.txt ||
+        siftu pairR 0.8 i00.sift i$i.sift p$i.txt
+done
+
+# 2.2. find homography
+for i in $IDX; do
+        test p$i.txt -ot h$i.txt ||
+        ransac hom 1000 1 30 h$i.txt < p$i.txt
+done
+
+# 2.3. warp
+for i in $IDX; do
+        test h$i.txt -ot reg_$i.png ||
+        homwarp h$i.txt $SIZE i$i.png reg_$i.png
+done
+
+# 3. compute the median value at each position
+test reg_0.png -ot out_med.png ||
+vecov med reg_*.png -o out_med.png
+</pre>
+</p>
+
+<p>
+Notice that this is just the original script, but you add an explicit test
+before executing each line.  If the input file is older than the output file,
+then you do not run the line.  This is a simple modification that turns your
+script into a much more useful one.  It has the following nice properties:
+</p>
+
+<ul>
+	<li>If you run the script twice, the second time it does nothing and exists
+		immediately.</li>
+	<li>If you want to recompute the whole pipeline from a given point to the
+		end, you simply delete the files that you want to recompute.</li>
+	<li>The code is a trivial, almost immediate modification of your original
+		script</li>
+	<li>By looking at the test, you understand which are the input and the
+		output arguments of each step.</li>
+</ul>
+
+<p>
+Yet, it has the following problems
+</p>
+
+<ul>
+	<li>The code is certainly more complex that the original script.</li>
+	<li>It is not clear how to do parallelism on top of that.</li>
+	<li>When a file depends on several intermediate files, writing the date
+		tests becomes very cumbersome.</li>
+	<li>The test on the last step is actually incomplete, it is missing checks
+		for all the <code>reg_*</code> files, not only the first one. If you delete file
+		<code>reg_3.png</code> and rerun, it will recompute this file, but it
+		will not re-build the output <code>out_med.png</code>
+	</li>
+</ul>
+
+<h3>6.4. Replace your shell script by a makefile</h3>
+
+<p>
+There is, after all, a free lunch.  If you rewrite your original script as a
+makefile:
+</p>
+
+<p>
+<pre>
+# variables
+SIZE       := $(shell imprintf "%w %h" i00.png)
+INPUTS     := $(wildcard i*.png)
+REGISTERED := $(INPUTS:i%.png=reg_%.png)
+
+# default target
+default: out_med.png
+
+# 1. compute sift descriptors of each image
+i%.sift: i%.png
+	sift i$*.png > i$*.sift
+
+# 2.1. match pairs
+p%.txt: i00.sift i%.sift
+	siftu pairR 0.8 i00.sift i$*.sift p$*.txt
+
+# 2.2. find homography
+h%.txt: p%.txt
+	ransac hom 1000 1 30 h$*.txt < p$*.txt
+
+# 2.3. warp
+reg_%.png: i%.png h%.txt
+	homwarp h$*.txt $(SIZE) i$*.png reg_$*.png
+
+# 3. fusion
+out_med.png: $(REGISTERED)
+	vecov med $^ -o $@
+</pre>
+</p>
+
+<p>
+Now you get, for free:
+</p>
+
+<ul>
+	<li>Optimal parallelization of your whole pipeline</li>
+	<li>Perfectly consistent rebuild checks</li>
+</ul>
+
+<p>
+I say ``for free'' because this makefile has essentially the same length and
+complexity as the original script, and it is just as easy to write (once you
+are fluent in makefile language).
+</p>
+
+<p>Notice that you can join several rules into the same target...
+<pre>
+# variables
+SIZE      := $(shell imprintf "%w %h" i00.png)
+INPUTS    := $(shell ls i*.png)
+
+# fusion of all registered images
+out_med.png: $(addprefix reg_,$(INPUTS))
+	vecov med $^ -o $@
+
+# register each image to the first one
+reg_%.png: i00.png i%.png
+	sift i$*.png > i$*.sift
+	siftu pairR 0.8 i00.sift i$*.sift p$*.txt
+	ransac hom 1000 1 30 h$*.txt < p$*.txt
+	homwarp h$*.txt $(SIZE) i$*.png reg_$*.png
+</pre>
+</p>
+
+<p>
+...to obtain a <i>very</i> short makefile. Some people is really into this
+sort of thing.  Personally, I prefer to give an explicit target for each
+intermediate file, but this is just a matter of taste.  This is the kind of
+discussion to have among other native makefile speakers, sipping scotch next
+to the fireplace.
+</p>
+
+
+
+
+<h2>8. References</h2>
+
+<ol>
+	<li>
+	The <b>most important</b> reference is the man page of <code>make</code> in your system: <code>man make</code>.<br />
+	For example, in no particular order:
+	<ul>
+		<li>Unix 8th edition <a href="http://man.cat-v.org/unix_8th/1/make">make(1)</a></li>
+		<li>OpenBSD <a href="http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man1/make.1?query=make">make(1)</a></li>
+		<li>FreeBSD <a href="http://www.freebsd.org/cgi/man.cgi?make(1)">make(1)</a></li>
+		<li>Linux <a href="http://man7.org/linux/man-pages/man1/make.1.html">make(1)</a> (GNU make)</li>
+	</ul>
+	</li>
+	<li>
+		The output of <code>make -p -f /dev/null</code>, that prints the set of
+		implicit rules.
+	</li>
+	<li>
+		The comprehensive <a href="https://www.gnu.org/software/make/manual/">documentation</a> of GNU make.
+	</li>
+	<li>
+		<b>The UNIX Programming Environment</b>,
+		<i>B.W.Kernighan, R.Pike,</i>
+		Prentice-Hall 1984
+	</li>
+	<li>
+		Andy Chu's two
+		<a href="http://www.oilshell.org/blog/2016/11/13.html">absolutely</a>
+		<a href="http://www.oilshell.org/blog/2016/11/14.html">amazing</a>
+		articles on the combination of shell, awk and make.
+	</li>
+	<li>
+		Gagallium's <a
+				 href="http://gallium.inria.fr/blog/portable-conditionals-in-makefiles/">cool tricks</a>
+		for writing portable conditionals.
+	</li>
+</ol>
+
+
+<p> </p>
+<hr />
+<p> </p>
+
+		</div>
+	</body>
+</html>
+<!-- vim: set sw=2 ts=2 spell spelllang=en tw=77: -->

@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>single_layer_gallery</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   <style type="text/css">
   	body{max-width:90ex;}
   	pre{background:lightgray;width:80ch;}
@@ -63,9 +55,10 @@ plambda canvas randp|blur c 1|plambda - &quot;x x%O80 - $SIGMOID $RED&quot; -o b
 <p>Comment: uniform white noise, blurred by a kernel of the form <span class="math inline">\(1/\log(r)\)</span>, binarized to the 80th quantile.</p>
 <h2 id="clouds">Clouds</h2>
 <p><img src="clouds.png" alt="image" /></p>
-<pre><code>SIGMOID=&#39;4e4 * tanh -1 1 qe&#39;
-plambda canvas randg | blur o 0.1 | plambda - &quot;x x%m - $SIGMOID&quot; -o clouds.png</code></pre>
-<p>Comment: white Gaussian noise, blurred by a kernel of the form <span class="math inline">\(\log(r)\)</span>, plus a <span class="math inline">\(\tanh\)</span> contrast change centered around the median value.</p>
+<pre><code>SIGMOID=&#39;4e4 * tanh 1 + 2 /&#39;
+BLUE=&#39;dup 1 - -1 * 0 .5 1 join3 * + 255 *&#39;
+plambda canvas randg|blur o 0.1|plambda - &quot;x x%m - $SIGMOID $BLUE&quot; -o clouds.png</code></pre>
+<p>Comment: white Gaussian noise, blurred by a kernel of the form <span class="math inline">\(\log(r)\)</span>, plus a <span class="math inline">\(\tanh\)</span> contrast change centered around the median value. Finally, a blue palette is applied.</p>
 <h2 id="multiscale">Multiscale</h2>
 <p><img src="multiscale.png" alt="image" /></p>
 <pre><code>plambda canvas randg | fft | plambda &#39;:R /&#39; | ifft | qauto - multiscale.png</code></pre>

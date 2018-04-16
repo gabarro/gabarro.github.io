@@ -87,11 +87,11 @@ binarized to the 80th quantile.
 \subsection{Clouds}
 \includegraphics{clouds.png}
 \begin{verbatim}
-SIGMOID='4e4 * tanh -1 1 qe'
-plambda canvas randg | blur o 0.1 | plambda - "x x%m - $SIGMOID" -o clouds.png
+SIGMOID='4e4 * tanh 1 + 2 /'
+BLUE='dup 1 - -1 * 0 .5 1 join3 * + 255 *'
+plambda canvas randg|blur o 0.1|plambda - "x x%m - $SIGMOID $BLUE" -o clouds.png
 \end{verbatim}
-Comment: white Gaussian noise, blurred by a kernel of the form~$\log(r)$,
-plus a~$\tanh$ contrast change centered around the median value.
+Comment: white Gaussian noise, blurred by a kernel of the form~$\log(r)$, plus a~$\tanh$ contrast change centered around the median value.  Finally, a blue palette is applied.
 
 \subsection{Multiscale}
 \includegraphics{multiscale.png}
@@ -187,6 +187,8 @@ plambda canvas 'randu randu randu randu randu nstack njoin' | blur g 20 |\
 \end{verbatim}
 Comment: this is the max of four Perlin noises.
 
+
+%VSCRIPT wait
 
 \subsection{Combined}
 \includegraphics{combined.png}

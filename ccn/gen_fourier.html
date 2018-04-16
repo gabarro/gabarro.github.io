@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style type="text/css">
+  	body{max-width:90ex;}
+  	pre{background:lightgray;width:80ch;}
+  </style>
+</head>
+<body>
+<h1 id="generalizations-of-fourier-analysis">Generalizations of Fourier analysis</h1>
+<p>When I first learned about Fourier series and integrals, I hated it because it seemed like a collection of many ad-hoc definitions, formally related but very different.</p>
+<p>To have a wider view of the subject, it helped me to realize that Fourier series and integrals are a particular case of not one, but many different constructions. Thus, they can be generalized in widely different directions, leading to differently flavored views of the original theory.</p>
+<ul>
+<li><p>First you have the <span><strong>four classic cases</strong></span> that you may learn in school: Fourier series of periodic functions, Fourier transforms of integrable functions, the discrete-time Fourier transform and the discrete Fourier transform. These four classic cases are fundamental and you must learn their definition and properties by heart.</p></li>
+<li><p>Then, you learn <span><strong>sampling theory</strong></span> and you see that some of the classic cases may be obtained from the others. For example, the discrete Fourier transform can be considered a particular case of Fourier series of a periodic function. These relationships can be neatly arranged in the so-called Fourier-Poisson cube.</p></li>
+<li><p>Later, you learn <span><strong>distribution theory</strong></span>, that provides a common framework for signals and their samples using Dirac combs. Thus each of the four classic cases arises as a particular case of the Fourier transform of tempered distributions on the real line.</p></li>
+<li><p>A very different generalization is given by <span> <strong>Pontryagin duality</strong></span>. This begins by realizing that the domain of definition of each classic case has always the structure of a commutative group (<span class="math inline">\({\mathbf{R}}\)</span>, <span class="math inline">\({\mathbf{Z}}\)</span>, <span class="math inline">\(S^1\)</span> or <span class="math inline">\({\mathbf{Z}}/N{\mathbf{Z}}\)</span>). Then, Pontryagin duality provides a general construction for Fourier analysis on commutative groups, and the four classic cases are particular cases of it.</p></li>
+<li><p>By relaxing the condition of commutativity, you get <span> <strong>non-commutative harmonic analysis</strong></span>. The case of a compact non-commutative group is described completely by the Paley-Wiener theorem, and the general non-compact non-commutative case is a large problem in representation theory, of which much is known; especially if the group has some additional structure (semisimple, solvable).</p></li>
+<li><p>The next step is <span><strong>harmonic analysis on homogeneous spaces</strong></span>. It turns out that the group structure is not essential, and you can do almost everything just by having a group acting on your space, which need not be itself a group. For example, the sphere <span class="math inline">\(S^2\)</span> is not a group, but there is the group of <span class="math inline">\(3D\)</span> rotations acting over it, and this leads to spherical harmonics.</p></li>
+<li><p>Finally there is <span><strong>spectral geometry</strong></span>, also called the spectral analysis of the Laplace-Beltrami operator. If your space is just a potato (a compact Riemannian manifold), there is no group whatsoever acting on it, but you still have a Laplace-Beltrami operator, it has a discrete spectrum, and you can do the analogue of Fourier series on it. A large part of the classic results of Fourier series extend to this case, except everything related to convolution—which is defined necessarily using the group structure.</p></li>
+</ul>
+<p>Thus, what happens when you ask a mathematician, <em>“what is Fourier analysis?”</em> ?</p>
+<p>If they are a <span><strong>real analyst</strong></span>, they will say that Fourier analysis are a set of examples in the study of tempered distributions.</p>
+<p>If they are an <span><strong>algebraist</strong></span>, they will say that Fourier analysis is a very particular case of one-dimensional representation theory.</p>
+<p>If they are a <span><strong>geometer</strong></span>, they will say that Fourier analysis is a particular case of spectral geometry for trivial flat manifolds.</p>
+<p>Finally, if you ask a <span><strong>complex analyst</strong></span>, they will say that Fourier series are just Taylor series evaluated on the unit circle.</p>
+<p>And all of them will be right.</p>
+<h2 id="the-four-classic-cases">0. The four classic cases</h2>
+<p>The <span><strong>classic cases</strong></span> of Fourier analysis are used to express an arbitrary function <span class="math inline">\(f(x)\)</span> as a linear combination of sinusoidal functions of the form <span class="math inline">\(x\to e^{i\xi x}\)</span>. There are <span><strong>four</strong></span> cases, depending on the space where <span class="math inline">\(x\)</span> belongs.</p>
+<h3 id="fourier-series">0.1. Fourier series</h3>
+<p>Any periodic function <span class="math display">\[f:S^1\to{\mathbf{R}}\]</span> can be expressed as a numerable linear combination of sinusoidal waves. This is called the <em>Fourier series</em> of <span class="math inline">\(f\)</span> <span class="math display">\[f(\theta) = \sum_{n\in{\mathbf{Z}}} a_n e^{in\theta}\]</span> and the coefficients <span class="math inline">\(a_n\)</span> are computed as integrals of <span class="math inline">\(f\)</span> <span class="math display">\[a_n = \frac{1}{2\pi}\int_{S^1} f(\theta) e^{-in\theta}
+\mathrm{d}\theta\]</span></p>
+<h3 id="fourier-transform">0.2. Fourier transform</h3>
+<p>An arbitrary (integrable) function <span class="math display">\[f:{\mathbf{R}}\to{\mathbf{R}}\]</span> can be expressed as a linear combination of sinusoidal waves. The coefficients of this linear combination are called the <em>Fourier integral</em> of <span class="math inline">\(f\)</span>, also known as Fourier transform or characteristic function of <span class="math inline">\(f\)</span>, depending on the context. Thus, <span class="math inline">\(f\)</span> is represented as <span class="math display">\[f(x) = \int_{\mathbf{R}}a(\xi) e^{i\xi x} \mathrm{d} \xi\]</span> This is exactly analogous to the Fourier series above, but now the coefficients <span class="math inline">\(a\)</span> of the linear combination are indexed by a continuous index <span class="math inline">\(\xi\in\mathbf{R}\)</span> instead of a discrete index <span class="math inline">\(n\in\mathbf{Z}\)</span>. The values of <span class="math inline">\(a(\xi)\)</span> can be recovered by integrating again the function <span class="math inline">\(f\)</span>: <span class="math display">\[a(\xi) = \frac{1}{2\pi}\int_{\mathbf{R}}f(x) e^{-i\xi x} \mathrm{d} x\]</span> Notice that, even if their formulas look quite similar, the Fourier series is not a particular case of the Fourier transform. For example, a periodic function is never integrable over the real line unless it is identically zero. Thus, you cannot compute the Fourier transform of a periodic function.</p>
+<h3 id="discrete-fourier-transform">0.3. Discrete Fourier transform</h3>
+<p>In the finite case, you can express any vector <span class="math display">\[(f_1, f_2, \ldots f_N)\]</span> as a linear combination of “oscillating” vectors: <span class="math display">\[f_k = \sum_l a_l e^{\frac{2\pi}{N}ikl}\]</span> This is called the <em>discrete Fourier transform</em>. The coefficients <span class="math inline">\(a_l\)</span> can be recovered by inverting the matrix <span class="math inline">\(M_{kl} =
+e^{\frac{2\pi}{N}ikl}\)</span>, which is unitary. Thus <span class="math display">\[a_l = \frac{1}{N}\sum_k f_k e^{-\frac{2\pi}{N}ikl}\]</span></p>
+<h3 id="discrete-time-fourier-transform">0.4. Discrete-time Fourier transform</h3>
+<p>Finally, if you have a doubly-infinite sequence: <span class="math display">\[\ldots,f_{-2},f_{-1},f_0,f_1,f_2,\ldots\]</span> you can express it as a linear combination (integral) of sinusoidal functions sampled at the integers, which is quite a thing: <span class="math display">\[f_n = \int_{S^1} a(\theta) e^{in\theta}
+\mathrm{d}\theta\]</span> The coefficients <span class="math inline">\(a(\theta)\)</span> of this infinite linear combination can be recovered as a linear combination of all the values of <span class="math inline">\(f\)</span>: <span class="math display">\[a(\theta) = \frac{1}{2\pi}\sum_n f_n e^{-in\theta}\]</span> Notice these two formulas are exactly the same as Fourier series, but reversing the roles of <span class="math inline">\(a\)</span> and <span class="math inline">\(f\)</span>. This is an important symmetry.</p>
+<h2 id="pontryagin-duality">2. Pontryagin duality</h2>
+<p>Pontryagin duality extracts the essence of the definitions of Fourier series, Fourier integrals and discrete Fourier transforms. The main idea is that we have a <em>spatial domain</em> <span class="math inline">\(G\)</span> and a <em>frequency domain</em> <span class="math inline">\(G^*\)</span>. Then, any function defined on the spatial domain <span class="math display">\[f:G\to\mathbf{R}\]</span> can be expressed as a linear combination of certain functions <span class="math inline">\(E\)</span>, indexed by the frequencies <span class="math display">\[f(x) = \int_{G^*} a(\xi) E(x,\xi) \mathrm{d} \xi\]</span> Here the coefficients <span class="math inline">\(a\)</span> depend on the function <span class="math inline">\(f\)</span> but the functions <span class="math inline">\(E\)</span> depend only on the group <span class="math inline">\(G\)</span>; they are called the <em>characters</em> of <span class="math inline">\(G\)</span>. The coefficients <span class="math inline">\(a\)</span> can be found by computing integrals over the spatial domain: <span class="math display">\[a(\xi) = \int_G f(x) \overline{E(x,\xi)} \mathrm{d} \xi\]</span> where the bar denotes complex conjugation. Notice that these formulas include Fourier series, Fourier integrals, the DFT and the DTFT as particular cases, according to the following table</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">spatial domain</th>
+<th align="left">frequency domain</th>
+<th align="left">analysis</th>
+<th align="left">synthesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">general case</td>
+<td align="left"><span class="math inline">\(G\)</span></td>
+<td align="left"><span class="math inline">\(G^*\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle\widehat{f}(\xi)=\int_G f(x) \overline{E(\xi,x)}{\mathrm{d}}x\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f(x)=\int_{G^*} \widehat{f}(\xi)E(\xi,x){\mathrm{d}}\xi\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Fourier series</td>
+<td align="left"><span class="math inline">\(S^1\)</span></td>
+<td align="left"><span class="math inline">\({\mathbf{Z}}\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f_n =
+            \frac{1}{2\pi}\int_0^{2\pi} f(\theta)e^{-in\theta}{\mathrm{d}}\theta\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f(\theta)=\sum_{n\in\mathbf{Z}} f_n
+            e^{in\theta}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Fourier integrals</td>
+<td align="left"><span class="math inline">\({\mathbf{R}}\)</span></td>
+<td align="left"><span class="math inline">\({\mathbf{R}}\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle\widehat{f}(\xi)=\int_{\mathbf{R}}f(x)e^{-i\xi x}{\mathrm{d}}x\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f(x)=\frac{1}{2\pi}\int_{\mathbf{R}} \widehat{f}(\xi)e^{i\xi x}{\mathrm{d}}\xi\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">DFT</td>
+<td align="left"><span class="math inline">\({\mathbf{Z}}_N\)</span></td>
+<td align="left"><span class="math inline">\({\mathbf{Z}}_N\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle\widehat{f}_k=\frac{1}{N}\sum_{n=0}^{N-1}f_n\,e^{-2\pi ikn/N}\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f_n=\sum_{k=0}^{N-1}\widehat{f}_k\,e^{2\pi ikn/N}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">DTFT</td>
+<td align="left"><span class="math inline">\({\mathbf{Z}}\)</span></td>
+<td align="left"><span class="math inline">\(S^1\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle \widehat{f}(\theta)=\sum_{n\in\mathbf{Z}} f_n e^{-in\theta}\)</span></td>
+<td align="left"><span class="math inline">\(\displaystyle f_n = \frac{1}{2\pi}\int_0^{2\pi}\widehat{f}(\theta)e^{in\theta}{\mathrm{d}}\theta\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="locally-compact-abelian-groups">2.1. Locally compact abelian groups</h3>
+<p>A topological group is a group together with a topology compatible with the group operation. A morphism between two topological groups is a mapping which is at the same time continuous and a group morphism. Here we are interested in locally compact abelian groups (LCAG). We will denote the group operation by <span class="math inline">\(x+y\)</span>, and the inverse of a group element <span class="math inline">\(x\)</span> by <span class="math inline">\(-x\)</span>.</p>
+<p>The canonical example of LCAG is <span class="math inline">\({\mathbf{R}}^n\)</span> with the usual topology and the operation of sum of vectors. Another example of LCAG is the multiplicative group <span class="math inline">\(\mathbf{U}\)</span> of complex numbers of norm 1, which topologically coincides with the unit circle <span class="math inline">\(S^1\)</span>. Other examples are any finite abelian group with the discrete topology; or <span class="math inline">\({\mathbf{Z}}\)</span>, the additive group of integers with the discrete topology.</p>
+<p>The group <span class="math inline">\(\mathbf{U}\)</span> is very important in the following discussion. It can be denoted multiplicatively (by considering its elements as complex numbers), or additively (by considering its elements as angles). Both notations are used henceforth, and they are linked by the relation <span class="math display">\[e^{i\alpha}e^{i\beta}
+=
+e^{i(\alpha+\beta)}\]</span></p>
+<h3 id="characters-and-the-dual-group">2.2. Characters and the dual group</h3>
+<p>Let <span class="math inline">\(G\)</span> be a LCAG. A character of <span class="math inline">\(G\)</span> is a morphism from <span class="math inline">\(G\)</span> to <span class="math inline">\(\mathbf{U}\)</span>. The set <span class="math inline">\(G&#39;\)</span> of all characters of <span class="math inline">\(G\)</span> is a group (with the operation of pointwise sum of mappings) and also a topological space (with the topology of compact convergence). It turns out that this group is locally compact, thus it is a LCAG. It is called the dual group of <span class="math inline">\(G\)</span>. There is a canonical morphism between <span class="math inline">\(G\)</span> and its bidual, and it can be seen easily that this morphism is injective. The Pontryagin duality theorem states that <span class="math inline">\(G\)</span> is isomorphic to its bidual. Another result states that <span class="math inline">\(G\)</span> is compact if an only if its dual is discrete.</p>
+<p>For example, the dual group of <span class="math inline">\({\mathbf{R}}^n\)</span> is itself. The integers <span class="math inline">\({\mathbf{Z}}\)</span> and the unit circle <span class="math inline">\(\mathbf{U}\)</span> are dual to each other. The dual of any finite group is isomorphic (though non-canonically) to itself.</p>
+<p>The action of a character <span class="math inline">\(\xi\in G&#39;\)</span> over a group element <span class="math inline">\(x\in G\)</span> is denoted by <span class="math inline">\(E(\xi,x)\)</span> or even <span class="math inline">\(e^{i\xi x}\)</span>. In the latter case, the complex conjugate of <span class="math inline">\(e^{i\xi x}\)</span> is denoted by <span class="math inline">\(e^{-i\xi x}\)</span>. The exponential notation is justified by the following properties, arising from the definitions</p>
+<ul>
+<li><p><span class="math inline">\(E(\xi,x)\)</span> is a unit complex number, thus it has the form <span class="math inline">\(e^{i\theta}\)</span> for some real number <span class="math inline">\(\theta\)</span></p></li>
+<li><p><span class="math inline">\(E(\xi,x+y) = E(\xi,x)E(\xi,y)\)</span>, by the definition of character</p></li>
+<li><p><span class="math inline">\(E(\xi + \eta,x) = E(\xi,x)E(\eta,x)\)</span>, by the definition of dual group</p></li>
+</ul>
+<h3 id="haar-measures">2.3. Haar measures</h3>
+<p>Let <span class="math inline">\(G\)</span> be a LCAG. A non-vanishing measure over <span class="math inline">\(G\)</span> which is invariant by translations is called a Haar measure. Haar’s theorem states that there is a single Haar measure modulo multiplication by positive constants. Another result states that <span class="math inline">\(G\)</span> is compact if and only if its total Haar measure (any one of them) is finite.</p>
+<p>For example, Lebesgue measure on <span class="math inline">\({\mathbf{R}}^n\)</span> is a Haar measure. The counting measure of a discrete group is a Haar measure.</p>
+<p>Given <span class="math inline">\(G\)</span>, we fix a single Haar measure and we can talk about the spaces <span class="math inline">\(L^p(G)\)</span>. The elements of this space are complex-valued functions such that the <span class="math inline">\(p\)</span>th power of their norm has finite integral with respect to Haar’s measure. Notice that the set <span class="math inline">\(L^p(G)\)</span> does not depend on the actual choice of normalization factor selected for the definition of the Haar measure.</p>
+<h3 id="fourier-transform-1">2.4. Fourier transform</h3>
+<p>Now we can define a general notion of Fourier transforms, for functions belonging to the space <span class="math inline">\(L^1(G)\)</span>. The Fourier transform of a function <span class="math display">\[f:G\to\mathbf{C}\]</span> is a function <span class="math display">\[\hat f:G&#39;\to\mathbf{C}\]</span> defined by <span class="math display">\[\hat f(\xi) = \int_G f(x) e^{-i\xi x}\mathrm{d} x\]</span> Here <span class="math inline">\(e^{-i\xi x}\)</span> denotes the conjugate of the complex number <span class="math inline">\(e^{i\xi x}=E(\xi,x)\)</span>. The inverse transform of a function defined on <span class="math inline">\(G&#39;\)</span> is defined similarly, but without the conjugate: <span class="math display">\[\check f(x) = \int_{G&#39;} f(\xi) e^{i\xi x}\mathrm{d} \xi\]</span></p>
+<p>Note that these definitions require selecting Haar measures on <span class="math inline">\(G\)</span> and <span class="math inline">\(G&#39;\)</span> (this amounts to fixing two arbitrary constants).</p>
+<h3 id="harmonic-analysis-on-locally-compact-abelian-groups">2.5. Harmonic analysis on locally compact abelian groups</h3>
+<p>So far we have just given definitions: LCAG, characters, dual group, Haar measure, and Fourier transform. Now it is time to recover the main results of harmonic analysis.</p>
+<p>The first result is the <span><strong>Fourier inversion theorem</strong></span> for <span class="math inline">\(L^1(G)\)</span>, which states that the inverse transform is actually the inverse, for an appropriate choice of scaling of the Haar measures on <span class="math inline">\(G\)</span> and <span class="math inline">\(G&#39;\)</span>. Such a pair of measures are called harmonized, or dual to each other. In the following, when we state a result involving integrals on <span class="math inline">\(G\)</span> and <span class="math inline">\(G&#39;\)</span> we will always assume that the Haar measures are harmonized.</p>
+<p>The second result is the <span><strong>energy conservation theorem</strong></span> for <span class="math inline">\(L^2(G)\)</span>, which states that, when <span class="math inline">\(f\)</span> and <span class="math inline">\(\hat f\)</span> are square-integrable, we have <span class="math display">\[\|f\|_{L^2(G)}
+=
+\|\hat f\|_{L^2(G&#39;)}\]</span> Particular cases of this theorem are the formulas of Parseval, Plancherel, etc. The energy conservation theorem is needed to extend by continuity the definition of Fourier transforms to <span class="math inline">\(L^2(G)\)</span></p>
+<p>The third result is the <span><strong>convolution theorem</strong></span>. First notice that the group structure allows to define the convolution of any two functions on <span class="math inline">\(L^1(G)\)</span>: <span class="math display">\[[f*g](x) = \int_G f(y)g(x-y)\mathrm{d} y\]</span> Now, the convolution theorem says that the Fourier transform takes convolution to point-wise multiplication <span class="math display">\[\widehat{f*g} = \hat f \hat g\]</span></p>
+<p>There is a long list of results, that can be found elsewhere. Let us mention a last one. The dual group <span class="math inline">\(G&#39;\)</span> is itself a LCAG, so it has a Fourier transform in its own right. This mapping is the <span class="math inline">\(L^2\)</span> adjoint of the inverse Fourier transform defined from <span class="math inline">\(G\)</span>.</p>
+<p>Finally, notice that in the case of finite groups all these results are trivial and they amount to elementary linear algebra. In the continuous case they are not trivial, mainly because we don’t have an identity element for the convolution (e.g., the dirac delta function), and to prove the results one has to resort to successive approximations of the identity.</p>
+<p>The sequence of proofs typically starts by the convolution theorem, which is used to prove the conservation of energy for functions that belong to <span class="math inline">\(L^1\cap L^2\)</span>, then to extend by density the definition of the Fourier transform to <span class="math inline">\(L^2\)</span> and finally to prove the inversion theorem. Except the definition of the Haar measure and the approximation of the identity, which are particular construction, the rest of the proofs are identical to the corresponding proofs for the case of Fourier transforms on the real line. You just have to check that all the steps on the proof make sense in a group.</p>
+<h2 id="sampling-theory">3. Sampling theory</h2>
+<p>Pontryagin duality gives an unified treatment of the four classic cases in Fourier analysis: you are always doing exactly the same thing, but in different groups. However, it does not say anything about the direct relationship between them. For example, a Fourier series where all but a finite number of the coefficients is zero can be represented as a vector of length <span class="math inline">\(N\)</span>. Does it have any relationship with the discrete Fourier transform on <span class="math inline">\({\mathbf{Z}}_N\)</span>? The answer is <em>yes</em>, and it is the main result of sampling theory.</p>
+<p>Let us start with precisely this case. Suppose that we have a periodic function <span class="math inline">\(f(\theta)\)</span> whose Fourier series is finite (this is called a trigonometric polynomial). For example, <span class="math display">\[f(\theta)=\sum_{n=0}^{N-1} f_ne ^{in\theta}\]</span> Now, we can do <em>three</em> different things with this object. <span><strong>One</strong></span>, we can express the coefficients <span class="math inline">\(f_n\)</span> as integrals of <span class="math inline">\(f\)</span>: <span class="math display">\[f_n = \frac{1}{2\pi}\int_0^{2\pi} f(\theta)e^{-in\theta}{\mathrm{d}}\theta\]</span> <span><strong>Two</strong></span>, we can consider the vector of coefficients <span class="math inline">\((f_0,\ldots,f_{N-1})\)</span> and compute its inverse DFT <span class="math display">\[\check{f}_k = \sum_{n=0}^{N-1} f_n\,e^{2\pi i nk/N}\]</span> and <span><strong>three</strong></span>, just for fun, we can evaluate the function <span class="math inline">\(f\)</span> at <span class="math inline">\(N\)</span> points evenly spaced along its period <span class="math display">\[f\left(\frac{2\pi\cdot 0}{N}\right),
+f\left(\frac{2\pi\cdot 1}{N}\right),
+f\left(\frac{2\pi\cdot 2}{N}\right),
+\ldots
+f\left(\frac{2\pi(N-1)}{N}\right)\]</span></p>
+<p>These three operations are, a-priori, unrelated. At least, Pontryagin duality dos not say anything about them, you are working with different groups <span class="math inline">\(S^1\)</span> and <span class="math inline">\({\mathbf{Z}}_N\)</span> that have nothing to do with each other.</p>
+<p>However, a number of very funny coincidences can be observed:</p>
+<ol>
+<li><p>The <span class="math inline">\(k\)</span>-th sample <span class="math inline">\(f\left(\frac{2\pi k}{N}\right)\)</span> equals <span class="math display">\[\sum_{n=0}^{N-1}f_n\,e^{2\pi ikn/N}\]</span> which is exactly <span class="math inline">\(\check{f}_k\)</span></p></li>
+<li><p>Thus, the vector of samples of the polynomial <span class="math inline">\(f\)</span> is the IDFT of the vector of coefficients</p></li>
+<li><p>Correspondingly, the vector of <span class="math inline">\(N\)</span> coefficients of the polynomial <span class="math inline">\(f\)</span> is the DFT of the vector of <span class="math inline">\(N\)</span> uniform samples of <span class="math inline">\(f\)</span> between <span class="math inline">\(0\)</span> and <span class="math inline">\(2\pi\)</span>.</p></li>
+<li><p>In other words, the complete Fourier series of <span class="math inline">\(f\)</span> can be obtained by evaluating the function <span class="math inline">\(f\)</span> at <span class="math inline">\(N\)</span> points.</p></li>
+<li><p>If you approximate the integral that evaluates <span class="math inline">\(f_n\)</span> from <span class="math inline">\(f\)</span> as a sum of <span class="math inline">\(N\)</span> step functions obtained by sampling <span class="math inline">\(f\)</span>, the computation is exact.</p></li>
+</ol>
+<p>All these results lie at the core of sampling theory. They provide a beautiful, analog interpretation of the definition of the discrete Fourier transform. In fact, regardless of the definition using group characters, we could have defined the discrete fourier transform using these results! (property 3 above).</p>
+<p>The <span><strong>sampling theorem</strong></span> takes many different forms, but it always amounts to a conservation of information, or conservation of degrees of freedom. Thus, the properties above can be rephrased as</p>
+<ol>
+<li><p>Evaluating a trigonometric polynomial of <span class="math inline">\(N\)</span> coefficients at <span class="math inline">\(N\)</span> points is a linear map <span class="math inline">\({\mathbf{C}}^N\to{\mathbf{C}}^N\)</span></p></li>
+<li><p>This linear map is invertible if and only if the points are different (thus, the function can be exactly recovered from <span class="math inline">\(N\)</span> of its samples)</p></li>
+<li><p>If the points are uniformly distributed, this linear map is the discrete Fourier transform</p></li>
+</ol>
+<p>The second statement is often called the sampling theorem. The condition that to recover a polynomial of <span class="math inline">\(N\)</span> coefficients requires <span class="math inline">\(N\)</span> samples is called the Nyquist condition. Since it is natural to consider trigonometric polynomials of the form <span class="math display">\[P(\theta)=\sum_{n=-N/2}^{N/2} p_n\,e^{in\theta}\]</span> the Nyquist condition is often stated as <em>the sampling rate must be at least the double of the maximal frequency</em>.</p>
+<p>We have thus related Fourier series with the <span class="math inline">\(N\)</span>-dimensional DFT, via the operation of sampling at <span class="math inline">\(N\)</span> point. The reasoning is finite and mostly trivial. There are a lot more correspondences between the four classic cases. For example, Shannon-Whittaker interpolation relates the Fourier transform with the discrete-time Fourier transform: if the support of <span class="math inline">\(\hat f\)</span> lies inside the interval <span class="math inline">\([-\pi,\pi]\)</span>, then <span class="math inline">\(f\)</span> can be recovered exactly by the values <span class="math inline">\(f({\mathbf{Z}})\)</span>. A different construction relates Fourier transforms and Fourier series: if we have a rapidly decreasing function <span class="math inline">\(f(x)\)</span>, we can build a <span class="math inline">\(2\pi\)</span>-periodic function by folding it: <span class="math display">\[\tilde f(\theta)=\sum_{n\in{\mathbf{Z}}} f(\theta+2\pi n)\]</span> and the Fourier series of <span class="math inline">\(\tilde f\)</span> and the Fourier transform of <span class="math inline">\(f\)</span> are closely related.</p>
+<p>All these relationships between the four classic cases are neatly encoded in the Fourier-Poisson cube, which is an awesome commutative diagram:</p>
+<p><img src="i/hfpcube.png" alt="image" /></p>
+<h2 id="distributions">4. Distributions</h2>
+<p>Notice that most of sampling theory can be done without recourse to distributions. Indeed, Shannon, Nyquist, Whittaker, Borel, all stated and proved their results way before the invention of distributions. Nowadays, distribution theory provides a satisfying framework to state all the classic sampling results in a unified form. It is difficult to judge which method is simpler, because the classic sampling results all have elementary proofs, while the detailed definition of tempered distributions is a bit involved. It is better to be familiar with both possibilities.</p>
+<p>In <span><strong>classical sampling theory</strong></span>, you sample a continuous function <span class="math inline">\(f:{\mathbf{R}}\to{\mathbf{C}}\)</span> by evaluating it at a discrete set of points, for example <span class="math inline">\({\mathbf{Z}}\)</span>, thus obtaining a sequence of values <span class="math inline">\(\ldots,f(-2),f(-1),f(0),f(1),f(2),\ldots\)</span>, which can be interpreted as a function <span class="math inline">\(\tilde f:{\mathbf{Z}}\to{\mathbf{C}}\)</span>. Thus, the sampling operation is a mapping between very different spaces: from the continuous functions defined over <span class="math inline">\({\mathbf{R}}\)</span> into the functions defined over <span class="math inline">\({\mathbf{Z}}\)</span>.</p>
+<p>When you perform <span><strong>sampling using distributions</strong></span>, you sample a smooth function <span class="math inline">\(f\)</span> by multiplying it by a Dirac comb. Thus, the sampling operation is linear a mapping between subspaces of the same space: tempered distributions.</p>
+<h3 id="distributions-overview">4.0. Distributions: overview</h3>
+<p>Distributions are an extension of functions just like the real numbers <span class="math inline">\(R\)</span> are an extension of the rationals <span class="math inline">\(Q\)</span>. Most of the operations that can be done with <span class="math inline">\(Q\)</span> can be done with <span class="math inline">\(R\)</span>, and then some more. Still, there is a price to pay: there are some operations that only make sense on the smaller set. For example, while the “denominator” function on <span class="math inline">\({\mathbf{Q}}\)</span> cannot be extended meaningfully to <span class="math inline">\({\mathbf{R}}\)</span>, the elements of <span class="math inline">\({\mathbf{R}}\)</span> can not be enumerated like those of <span class="math inline">\({\mathbf{Q}}\)</span>, etc. However, if you want to work with limits, the space <span class="math inline">\({\mathbf{Q}}\)</span> is mostly useless and you need <span class="math inline">\({\mathbf{R}}\)</span>.</p>
+<p>There are a few spaces of distributions. The three most famous are</p>
+<ul>
+<li><p><span class="math inline">\(\mathcal{D}&#39;\)</span> the space of all distributions</p></li>
+<li><p><span class="math inline">\(\mathcal{S}&#39;\)</span> the space of tempered distributions</p></li>
+<li><p><span class="math inline">\(\mathcal{E}&#39;\)</span> the space of compactly supported distributions</p></li>
+</ul>
+<p>Each of these spaces is a huge generalization of an already very large space of functions:</p>
+<ul>
+<li><p><span class="math inline">\(\mathcal{D}&#39;\)</span> contains all functions of <span class="math inline">\(L^1_{loc}\)</span></p></li>
+<li><p><span class="math inline">\(\mathcal{S}&#39;\)</span> contains all functions of <span class="math inline">\(L^1_{loc}\)</span> that are slowly growing (bounded, or going to infinity at a polynomial rate)</p></li>
+<li><p><span class="math inline">\(\mathcal{E}&#39;\)</span> contains all compactly supported integrable functions</p></li>
+</ul>
+<p>Here <span class="math inline">\(L^1_{loc}\)</span> denotes the set of locally integrable functions, that is, complex-valued functions such that <span class="math inline">\(\int_K|f| &lt;+\infty\)</span> for any compact <span class="math inline">\(K\)</span>.</p>
+<p>These are the properties that we earn with respect to the original spaces:</p>
+<ul>
+<li><p>Most operations on functions extend naturally to distributions: sums, product by scalars, product by a function, affine changes of variable</p></li>
+<li><p>Any distribution is infinitely derivable, and the derivative belongs to the same space</p></li>
+<li><p>Any distribution is locally integrable</p></li>
+<li><p>The Fourier transform is an isometry in the space of tempered distributions</p></li>
+<li><p>There is a very easy to use definition of limit of distributions</p></li>
+</ul>
+<p>And these are the prices to pay for the daring:</p>
+<ul>
+<li><p>You cannot evaluate a distribution at a point</p></li>
+<li><p>You cannot multiply two distributions</p></li>
+<li><p>There is no way to define a norm in the vector space of distributions</p></li>
+</ul>
+<h3 id="distributions-definition">4.1. Distributions: definition</h3>
+<p>There are several, rather different, definitions of distribution. The most practical definition today seems to be as the topological duals of spaces of test functions:</p>
+<ul>
+<li><p><span class="math inline">\(\mathcal{D}\)</span> the space of all <span class="math inline">\(\mathcal{C}^\infty\)</span> functions of compact support</p></li>
+<li><p><span class="math inline">\(\mathcal{S}\)</span> the space of all rapidly decreasing <span class="math inline">\(\mathcal{C}^\infty\)</span> functions</p></li>
+<li><p><span class="math inline">\(\mathcal{E}\)</span> the space of all <span class="math inline">\(\mathcal{C}^\infty\)</span> functions</p></li>
+</ul>
+<p>Notice that <span class="math inline">\(\mathcal{D}\)</span> and <span class="math inline">\(\mathcal{E}\)</span> make sense for functions defined over an arbitrary open set, but <span class="math inline">\(\mathcal{S}\)</span> only makes sense on the whole real line.</p>
+<p>The only problem with this is that the topologies on these spaces of test functions are not trivial to construct. For example, there is no natural way to define useful norms on these spaces. Thus, topologies need to be constructed using families of seminorms, or by other means (in the case of <span class="math inline">\(\mathcal{D}\)</span>). This is out of the scope of this document, but it’s a standard construction that can be easily found elsewhere (e.g., Gasqued-Witomski).</p>
+<p>The crucial topological property that we need is the definition of <span><strong>limit of a sequence of distributions</strong></span>. We say that that a sequence <span class="math inline">\(T_n\)</span> of distributions converges to a distribution <span class="math inline">\(T\)</span> when <span class="math display">\[T_n(\varphi)\to T(\varphi)\qquad\textrm{for any test function }\ \varphi\]</span> Thus, the limit of distributions is reduced to the limit of scalars. A sequences of distributions is convergent if and only if it is “pointwise” convergent. This is much more simple than the case of functions, where there are several different and incompatible notions of convergence.</p>
+<p>A distribution is, by definition, a linear map on the space of test functions. The following notations are common for the result of applying a distribution <span class="math inline">\(T\)</span> to a test function <span class="math inline">\(\varphi\)</span>: <span class="math display">\[T(\varphi)
+\quad=\quad
+\left&lt;T,\varphi\right&gt;
+\quad=\quad
+\int T\varphi
+\quad=\quad
+\int T(x)\varphi(x){\mathrm{d}}x\]</span> The last notation is particularly insidious, because for a generic distribution, <span class="math inline">\(T(x)\)</span> does not make sense. However, it is an abuse of notation due to the following lemma:</p>
+<p><span><strong>Lemma.</strong></span> Let <span class="math inline">\(f\)</span> be a locally integrable function (slowly growing, or compactly supported). Then the linear map <span class="math display">\[T_f : \varphi\mapsto\int f(x)\varphi(x){\mathrm{d}}x\]</span> is well-defined and continuous on <span class="math inline">\(\mathcal{D}\)</span> (or <span class="math inline">\(\mathcal{S}\)</span>, or <span class="math inline">\(\mathcal{E}\)</span>). Thus it is a distribution.</p>
+<p>The lemma says that any function can be interpreted as a distribution. This is very important, because <span><strong>all</strong></span> the subsequent definitions on the space of distributions are crafted so that, when applied to a function they have the expected effect.</p>
+<p>For example, the <span><strong>derivative of a distribution</strong></span> <span class="math inline">\(T\)</span> is defined by <span class="math display">\[\left&lt;T&#39;,\varphi\right&gt;
+:=
+\left&lt;T,-\varphi&#39;\right&gt;\]</span> Two observations: (1) this definition makes sense, because <span class="math inline">\(\varphi\)</span> is always a <span class="math inline">\(\mathcal{C}^\infty\)</span> function, and so is <span class="math inline">\(-\varphi&#39;\)</span>. And (2) this definition extends the notion of derivative when <span class="math inline">\(T\)</span> corresponds to a derivable function <span class="math inline">\(f\)</span>. We write <span class="math display">\[T_{f&#39;}= {T_f}&#39;\]</span> to indicate that the proposed definition is compatible with the corresponding construction for functions.</p>
+<p>A similar trick is used to extend the shift <span class="math inline">\(\tau_a\)</span>, scale <span class="math inline">\(\zeta_a\)</span> and symmetry <span class="math inline">\(\sigma\)</span> of functions (where <span class="math inline">\(a&gt;0\)</span>): <span class="math display">\[\begin{aligned}
+    \tau_a f(x) &amp;:= f(x-a) \\
+    \zeta_a f(x) &amp;:= f(x/a) \\
+    \sigma f(x) &amp;:= f(-x) \\\end{aligned}\]</span> to the case of distributions: <span class="math display">\[\begin{aligned}
+    \left&lt;\tau_a T,\varphi\right&gt; &amp;:= \left&lt;T,\tau_{-a}\varphi\right&gt; \\
+    \left&lt;\zeta_a T,\varphi\right&gt; &amp;:= \left&lt;T,a^{-1}\zeta_{a^{-1}}\varphi\right&gt; \\
+    \left&lt;\sigma T,\varphi\right&gt; &amp;:= \left&lt;T,\sigma\varphi\right&gt; \\\end{aligned}\]</span> and the compatibility can be checked by straightforward change of variable.</p>
+<p>After regular functions, the most important example of distribution is the <span><strong>Dirac delta</strong></span>, defined by <span class="math inline">\(\delta(\varphi):=\varphi(0)\)</span>. In the habitual notation we write <span class="math display">\[\int\delta(x)\varphi(x){\mathrm{d}}x = \varphi(0)\]</span> because this form is very amenable to changes of variable. An equivalent definition is <span class="math inline">\(\delta(x)=H&#39;(x)\)</span> where <span class="math inline">\(H\)</span> is the indicator function of positive numbers. This makes sense because <span class="math inline">\(H\)</span> is locally integrable, and its derivative is well-defined in the sense of distributions. The Dirac delta belongs to all three spaces <span class="math inline">\(\mathcal{D}&#39;\)</span>, <span class="math inline">\(\mathcal{S}&#39;\)</span> and <span class="math inline">\(\mathcal{E}&#39;\)</span>.</p>
+<p>From Diracs, we can define many other distributions, by applying shifts, derivatives, and vector space operations. For example, the <span><strong>Dirac comb</strong></span> is defined as <span class="math display">\[\Xi(x)=\sum_{n\in{\mathbf{Z}}}\delta(x-n)\]</span> where the infinite series is to be interpreted as a limit. This is well-defined in <span class="math inline">\(\mathcal{D}&#39;\)</span> (where the sum is finite due to the compact support of the test function) and <span class="math inline">\(\mathcal{S}&#39;\)</span> (where the series is trivially convergent due the rapid decrease of the test function) but not on <span class="math inline">\(\mathcal{E}&#39;\)</span> (where the series is not necessarily convergent for arbitrary test functions, for example <span class="math inline">\(\varphi=1\in\mathcal{E}\)</span>).</p>
+<p>We can do other crazy things, like <span class="math inline">\(\sum_{n\ge 0}\delta^{(n)}(x-n)\)</span>, but not anything. For example <span class="math inline">\(\sum_{n\ge 0}\delta^{(n)}(x)\)</span> is not well defined, because there is not a guarantee that the sum of all derivatives of a test function at the same point converges.</p>
+<h3 id="fourier-transform-of-distributions">4.2. Fourier transform of distributions</h3>
+<p>How to define the Fourier transform of a distribution? We need to find a definition that extends the definition that we already have for functions, thus <span class="math inline">\(\widehat{T_f}=T_{\widehat{f}}\)</span>. It is easy to check that the definition <span class="math display">\[\left&lt;\widehat{T},\varphi\right&gt;
+:=
+\left&lt;T,\widehat{\varphi}\right&gt;\]</span> does the trick, because it corresponds to Plancherel Theorem when <span class="math inline">\(T\)</span> is a locally integrable function.</p>
+<p>However, notice that this definition does not make sense in <span class="math inline">\(\mathcal{D}&#39;\)</span>: if <span class="math inline">\(\varphi\in\mathcal{D}\)</span>, then it has compact support, so its Fourier transform does not, thus <span class="math inline">\(\widehat{\varphi}\not\in\mathcal{D}\)</span>.</p>
+<p>The space <span class="math inline">\(\mathcal{S}\)</span>, called the Schwartz space, has the beautiful property of being invariant by Fourier transforms. Indeed, the Fourier transform, with appropriate normalization constants, is an <span class="math inline">\(L^2\)</span> isometry on <span class="math inline">\(\mathcal{S}\)</span>. Thus, tempered distributions are the natural space where to perform Fourier transforms.</p>
+<p>Now, we can compute the Fourier transform, in the sense of distributions, of many functions! For example, what is the Fourier transform of the function <span class="math inline">\(f(x)=1\)</span>? This function is a temperate distribution, so it must have a Fourier transform, doesn’t it? Indeed it does, and it can be easily found from the definitions: <span class="math display">\[\left&lt;\widehat{1},\varphi\right&gt;
+=
+\left&lt;1,\widehat{\varphi}\right&gt;
+=
+\int\widehat{\varphi}(x){\mathrm{d}}x
+=
+\frac{1}{\sqrt{2\pi}}\varphi(0)\]</span> So, the Fourier transform of a constant is a Dirac!</p>
+<p>By combining this result with the derivatives we can compute the Fourier transform of polynomials. For example <span class="math inline">\(f(x)=x^2\)</span> has the property that <span class="math inline">\(f&#39;&#39;\)</span> is constant, thus <span class="math inline">\(\widehat{f&#39;&#39;}\)</span> is a Dirac, and then <span class="math inline">\(\widehat{f}\)</span> is the second derivative of a Dirac.</p>
+<h3 id="sampling-with-diracs">4.3. Sampling with Diracs</h3>
+<p>Can we compute the Fourier transform of <span class="math inline">\(f(x)=e^x\)</span> ? No, because it is not a slowly growing function, and it does not correspond to any tempered distribution.</p>
+<p>However, the function <span class="math inline">\(f(x)=e^{ix}\)</span> is actually slowly growing (it is bounded), so it has a Fourier transform as a tempered Distribution that is <span class="math inline">\(\widehat{f}(\xi)=\delta(\xi-1)\)</span>. Using trigonometric identities, we find the Fourier transforms of <span class="math inline">\(\sin\)</span> and <span class="math inline">\(\cos\)</span>, which are also sums of Diracs:</p>
+<p><span class="math display">\[\begin{aligned}
+    \widehat{\cos}(\xi) &amp;=\frac{\delta(x-1)+\delta(x+1)}{2} \\
+    \widehat{\sin}(\xi) &amp;=\frac{\delta(x-1)-\delta(x+1)}{2i} \\\end{aligned}\]</span></p>
+<p>And, as we would say in Catalan, <em>the mother of the eggs</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>: the Fourier transform of a Dirac comb is another Dirac comb. I don not know how to prove this by combining the identities above, but it has a simple proof by expressing the Dirac comb as the derivative of a sawtooth function and applying it to a test function. <span class="math display">\[\textrm{(typeset the computation)}\]</span></p>
+<h2 id="spectral-geometry">5. Spectral geometry</h2>
+<p>Spectral theory provides a brutal generalization of a large part of Fourier analysis. We do away with the group structure (and thus with the possibility to have convolutions, which are based on the action of the group). In exchange, we need to work inside a compact space, endowed by a Riemannian metric. For example, a compact sub-manifold of Euclidean space. The canonical example is <span class="math inline">\(S^1\)</span>, that in the classical case leads to Fourier series. Here, we recover all the results of Fourier series (except those related to periodic convolution) for functions defined on our manifold.</p>
+<p>Let <span class="math inline">\(M\)</span> be a compact Riemannian manifold (with or without boundary), and let <span class="math inline">\(\Delta\)</span> be its Laplace-Beltrami operator, defined as <span class="math inline">\(\Delta=*d*d\)</span>, where <span class="math inline">\(d\)</span> is the exterior derivative (which is independent of the metric) and <span class="math inline">\(*\)</span> is the Hodge duality between <span class="math inline">\(p\)</span>-forms and <span class="math inline">\(d-p\)</span>-forms (which is defined using the metric).</p>
+<p>The following are standard results in differential geometry (see e.g. Warner’s book chapter 6 <a href="https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf">https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf</a>)</p>
+<ul>
+<li><p>There is a sequence of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span> functions <span class="math inline">\(\varphi_n\)</span> and positive numbers <span class="math inline">\(\lambda_n\to\infty\)</span> such that <span class="math display">\[\Delta\varphi_n=-\lambda_n\varphi_n\]</span></p></li>
+<li><p>The functions <span class="math inline">\(\varphi_n\)</span>, suitably normalized, are an orthonormal basis of <span class="math inline">\(L^2(M)\)</span>.</p></li>
+</ul>
+<p>These results generalize Fourier series to an arbitrary smooth manifold <span class="math inline">\(M\)</span>. Any square-integrable function <span class="math inline">\(f:M\to{\mathbf{R}}\)</span> is written uniquely as <span class="math display">\[f(x)=\sum_nf_n\varphi_n(x)\]</span> and the coefficients <span class="math inline">\(f_n\)</span> are computed by <span class="math display">\[f_n=\int_Mf\varphi_n.\]</span> Some particular cases are the habitual Fourier and sine bases (but not the cosine basis), bessel functions for the disk, and spherical harmonics for the surface of a sphere.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center"><span class="math inline">\(M\)</span></th>
+<th align="center"><span class="math inline">\(\varphi_n\)</span></th>
+<th align="right"><span class="math inline">\(-\lambda_n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">interval</td>
+<td align="center"><span class="math inline">\([0,2\pi]\)</span></td>
+<td align="center"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\)</span></td>
+<td align="right"><span class="math inline">\(n^2/4\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">circle</td>
+<td align="center"><span class="math inline">\(S^1\)</span></td>
+<td align="center"><span class="math inline">\(\sin(n\theta),\cos(n\theta)\)</span></td>
+<td align="right"><span class="math inline">\(n^2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">square</td>
+<td align="center"><span class="math inline">\([0,2\pi]^2\)</span></td>
+<td align="center"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\sin\left(\frac{m\theta}{2}\right)\)</span></td>
+<td align="right"><span class="math inline">\(\frac{n^2+m^2}{4}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">torus</td>
+<td align="center"><span class="math inline">\((S^1)^2\)</span></td>
+<td align="center"><span class="math inline">\(\sin(nx)\sin(my),\ldots\)</span></td>
+<td align="right"><span class="math inline">\(n^2+m^2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">disk</td>
+<td align="center"><span class="math inline">\(|r|\le1\)</span></td>
+<td align="center"><span class="math inline">\(\sin,\cos(n\theta)J_n(\rho_{m,n}r)\)</span></td>
+<td align="right"><span class="math inline">\(\rho_{m,n}\)</span> roots of <span class="math inline">\(J_n\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">sphere</td>
+<td align="center"><span class="math inline">\(S^2\)</span></td>
+<td align="center"><span class="math inline">\(Y^m_l(\theta,\varphi)\)</span></td>
+<td align="right"><span class="math inline">\(l^2+l\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The eigenfunctions <span class="math inline">\(\varphi_n\)</span> are called the vibration modes of <span class="math inline">\(M\)</span>, and the eigenvalues <span class="math inline">\(\lambda_n\)</span> are called the (squared) fundamental frequencies of <span class="math inline">\(M\)</span>.</p>
+<p>Several geometric properties of <span class="math inline">\(M\)</span> can be interpreted in terms of the Laplace-Beltrami spectrum. For example, if <span class="math inline">\(M\)</span> has <span class="math inline">\(k\)</span> connected components, the first <span class="math inline">\(k\)</span> eigenfuntions will be supported successively on each connected component. On a connected manifold <span class="math inline">\(M\)</span>, the first vibration mode can be taken to be positive <span class="math inline">\(\varphi_1\ge0\)</span>, thus all the other modes have non-constant signs (because they are orthogonal to <span class="math inline">\(\varphi_1\)</span>). In particular, the sign of <span class="math inline">\(\varphi_2\)</span> cuts <span class="math inline">\(M\)</span> in two parts in an optimal way, it is the Cheeger cut of <span class="math inline">\(M\)</span>, maximizing the perimeter/area ratio of the cut.</p>
+<p>The zeros of <span class="math inline">\(\varphi_n\)</span> are called the nodal curves (or nodal sets) of <span class="math inline">\(M\)</span>, or also the Chladni patterns. If <span class="math inline">\(M\)</span> is a subdomain of the plane, these patterns can be found by cutting an object in the shape of <span class="math inline">\(M\)</span>, pouring a layer of sand over it, and letting it vibrate by high-volume sound waves at different frequencies. For most frequencies, the sand will not form any particular pattern, but when the frequency coincides with a <span class="math inline">\(\sqrt{\lambda_n}\)</span>, the sand will accumulate over the set <span class="math inline">\([\varphi_n=0]\)</span>, which is the set of points of the surface that do not move when the surface vibrates at this frequency. In the typical case, the number of connected components of <span class="math inline">\([\varphi_n&gt;0]\)</span> grows linearly with <span class="math inline">\(n\)</span>, thus the functions <span class="math inline">\(\varphi_n\)</span> become more oscillating (less regular) as <span class="math inline">\(n\)</span> grows.</p>
+<p>Generally, symmetries of <span class="math inline">\(M\)</span> arise as multiplicities of eigenvalues. The Laplace-Beltrami spectrum <span class="math inline">\({\lambda_1,\lambda_2,\lambda_3,\ldots}\)</span> is closely related, but not identical, to the geodesic length spectrum, that measures the sequence of lengths of all closed geodesics of <span class="math inline">\(M\)</span>. The grand old man of this theory is Yves Colin de Verdière, student of Marcel Berger.</p>
+<p>Geometry is not in general a spectral invariant, but non-isometric manifolds with the same spectrum are difficult to come by. The first pair of distinct but isospectral manifolds was wound in 1964 by John Milnor, in dimension 16. The first example in dimension 2 was found in 1992 by Gordon, Webb and Wolperd, and it answered negatively the famous question of Marc Kac “Can you hear the shape of a drum?’. In 2018, we have many ways to construct discrete and continuous families of isospectral manifolds in dimensions two and above.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>“La mare dels ous”, or in french “où il gît le lièvre”. I do not know a similarly colorful expression in english<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>

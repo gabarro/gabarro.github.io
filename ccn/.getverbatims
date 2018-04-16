@@ -1,9 +1,10 @@
-awk '/^\\end{verbatim}/{x=0}x;/^\\begin{verbatim}/{x=1}' |\
-	sed '/^[A-Z]*=/! s/\([^\\;]\)$/\1 \&/'
+awk '/^%VSCR/{print substr($0,9)};/^\\end{verba/{x=0}x;/^\\begin{verba/{x=1}'|\
+	sed -e '/^ /b;/^[A-Z]*=/b;s/\([^\\;]\)$/\1 \&/'
 echo wait
 
 # explanation:
 # AWK extracts the lines of the document betwen verbatim environments
-# SED adds "&" at the end of each line, unless the line ends with ";" or "\"
+# SED adds "&" at the end of each line, unless it ends in ";"
+# or starts in " "
 # or it is a variable assignement
 # ECHO prints "wait" at the very end

@@ -1,5 +1,5 @@
 awk '/^%VSCR/{print substr($0,9)};/^\\end{verba/{x=0}x;/^\\begin{verba/{x=1}'|\
-	sed -e '/^ /b;/^[A-Z]*=/b;s/\([^\\;]\)$/\1 \&/'
+	sed -e '/^ /b;  /^[A-Z]*=/b;  s/\([^\\;]\)$/\1 \&/'
 echo wait
 
 # explanation:

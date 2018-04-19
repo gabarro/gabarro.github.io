@@ -1,27 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Algebraic graph calculus</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <style type="text/css">
   	body{max-width:90ex;}
   	pre{background:lightgray;width:80ch;}
   </style>
 </head>
 <body>
+<header>
+<h1 class="title">Algebraic graph calculus</h1>
+</header>
 <p>We describe a graph-theoretic analogue of vector calculus. The linear operators of vector calculus (gradient, divergence, laplacian) correspond to the matrices naturally associated to graphs (incidence matrix, adjacency matrix). This analogy is useful for formalizing the discretization of some problems in image and surface processing that are often defined in a continuous setting.</p>
-<h1 id="reminder-of-vector-calculus">Reminder of vector calculus</h1>
-<p>Vector calculus deals with functions and vector fields defined in <span class="math inline">\({\mathbf{R}}^3\)</span>.</p>
-<h2 id="functions-and-vector-fields">Functions and vector fields</h2>
-<p>A <em>function</em> (or <em>scalar field</em>) is a map <span class="math inline">\(u:{\mathbf{R}}^3\to{\mathbf{R}}\)</span>. A <em>vector field</em> is a map <span class="math inline">\(\mathbf{v}:{\mathbf{R}}^3\to{\mathbf{R}}^3\)</span>. Vector fields are written in bold.</p>
-<p>Let us fix some typical names for the coordinates. The coordinates of a point in <span class="math inline">\({\mathbf{R}}^3\)</span> are written as <span class="math inline">\((x,y,z)\)</span>. If <span class="math inline">\(\mathbf{v}\)</span> is a vector field, then <span class="math inline">\(\mathbf{v}=(a,b,c)\)</span> where <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span> are three scalar fields called the components of <span class="math inline">\(\mathbf{v}\)</span>. We denote the partial derivatives of a function using subindices, for example <span class="math inline">\(a_y:=\frac{\partial a}{\partial y}\)</span>.</p>
-<h2 id="differential-operators">Differential operators</h2>
+<h2 id="reminder-of-vector-calculus"><span class="header-section-number">1</span> Reminder of vector calculus</h2>
+<p>Vector calculus deals with functions and vector fields defined in <span class="math inline">\(\mathbf{R}^3\)</span>.</p>
+<h3 id="functions-and-vector-fields"><span class="header-section-number">1.1</span> Functions and vector fields</h3>
+<p>A <em>function</em> (or <em>scalar field</em>) is a map <span class="math inline">\(u:\mathbf{R}^3\to\mathbf{R}\)</span>. A <em>vector field</em> is a map <span class="math inline">\(\mathbf{v}:\mathbf{R}^3\to\mathbf{R}^3\)</span>. Vector fields are written in bold.</p>
+<p>Let us fix some typical names for the coordinates. The coordinates of a point in <span class="math inline">\(\mathbf{R}^3\)</span> are written as <span class="math inline">\((x,y,z)\)</span>. If <span class="math inline">\(\mathbf{v}\)</span> is a vector field, then <span class="math inline">\(\mathbf{v}=(a,b,c)\)</span> where <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span> are three scalar fields called the components of <span class="math inline">\(\mathbf{v}\)</span>. We denote the partial derivatives of a function using subindices, for example <span class="math inline">\(a_y:=\frac{\partial a}{\partial y}\)</span>.</p>
+<h3 id="differential-operators"><span class="header-section-number">1.2</span> Differential operators</h3>
 <p>The <em>gradient</em> of a function <span class="math inline">\(u\)</span> is a vector field <span class="math inline">\(\nabla u\)</span> defined by <span class="math display">\[\nabla u = \left(
 u_x\ ,\ u_y\ ,\ u_z
+%\frac{\partial u}{\partial x},
+%\frac{\partial u}{\partial y},
+%\frac{\partial u}{\partial z}
 \right)\]</span></p>
 <p>The <em>divergence</em> of a vector field <span class="math inline">\(\mathbf{u}=(a,b,c)\)</span> is a scalar field <span class="math inline">\(\mathrm{div}(\mathbf{u})\)</span> defined by <span class="math display">\[\mathrm{div}(\mathbf{u}) =
 a_x + b_y + c_z\]</span></p>
@@ -30,10 +44,13 @@ a_x + b_y + c_z\]</span></p>
 c_y - b_z\ ,\ a_z - c_x\ ,\ b_x - a_y
 \right)\]</span></p>
 <p>Finally, the <em>laplacian</em> of a scalar field <span class="math inline">\(u\)</span> is the scalar field <span class="math inline">\(\Delta u\)</span> defined by <span class="math display">\[\Delta u = u_{xx} + u_{yy} + u_{zz}.\]</span></p>
-<p>Notice that, except for the curl, all these operations can be defined in <span class="math inline">\({\mathbf{R}}^N\)</span>. However, the curl is specific to three dimensions. There is a similar operator in two dimensions, which we call also the curl and computes a scalar field <span class="math inline">\(\mathrm{curl}(\mathbf{u})\)</span> from a vector field <span class="math inline">\(\mathbf{u}=(a,b):{\mathbf{R}}^2\to{\mathbf{R}}^2\)</span> <span class="math display">\[\mathrm{curl}(\mathbf{u}) = b_x - a_y\]</span> Notice that it is the last component of the 3D curl.</p>
-<p>The curl is also defined in dimension 7. Let <span class="math inline">\(\mathbf{u}=(u^1,\ldots,u^7)\)</span> be a vector field in <span class="math inline">\({\mathbf{R}}^7\)</span>, then <span class="math display">\[\def\curlco#1#2#3#4#5#6{{u^{#1}}_{#2}-{u^{#2}}_{#1}+
+<p>Notice that, except for the curl, all these operations can be defined in <span class="math inline">\(\mathbf{R}^N\)</span>. However, the curl is specific to three dimensions. There is a similar operator in two dimensions, which we call also the curl and computes a scalar field <span class="math inline">\(\mathrm{curl}(\mathbf{u})\)</span> from a vector field <span class="math inline">\(\mathbf{u}=(a,b):\mathbf{R}^2\to\mathbf{R}^2\)</span> <span class="math display">\[\mathrm{curl}(\mathbf{u}) = b_x - a_y\]</span> Notice that it is the last component of the 3D curl.</p>
+<p>The curl is also defined in dimension 7. Let <span class="math inline">\(\mathbf{u}=(u^1,\ldots,u^7)\)</span> be a vector field in <span class="math inline">\(\mathbf{R}^7\)</span>, then <span class="math display">\[%\renewcommand*{\arraystretch}{1.5}
+\def\curlco#1#2#3#4#5#6{%
+{u^{#1}}_{#2}-{u^{#2}}_{#1}+
 {u^{#3}}_{#4}-{u^{#4}}_{#3}+
-{u^{#5}}_{#6}-{u^{#6}}_{#5}}
+{u^{#5}}_{#6}-{u^{#6}}_{#5}%
+}
 \mathrm{curl}(\mathbf{u}) =
 \left(
     \begin{matrix}
@@ -45,16 +62,16 @@ c_y - b_z\ ,\ a_z - c_x\ ,\ b_x - a_y
         \curlco{7}{2}{1}{5}{3}{4} \\
         \curlco{1}{3}{2}{6}{4}{5} \\
     \end{matrix}
-\right)\]</span> where a sub-index <span class="math inline">\(i\)</span> denotes a partial derivative in the <span class="math inline">\(i\)</span>-th dimension of <span class="math inline">\({\mathbf{R}}^7\)</span>. And analogously we can define the 6-dimensional curl by taking the last component (resulting in a scalar field).</p>
-<h2 id="differential-identities-and-properties">Differential identities and properties</h2>
+\right)\]</span> where a sub-index <span class="math inline">\(i\)</span> denotes a partial derivative in the <span class="math inline">\(i\)</span>-th dimension of <span class="math inline">\(\mathbf{R}^7\)</span>. And analogously we can define the 6-dimensional curl by taking the last component (resulting in a scalar field).</p>
+<h3 id="differential-identities-and-properties"><span class="header-section-number">1.3</span> Differential identities and properties</h3>
 <p>The most important identity is <span class="math inline">\(\Delta u = \mathrm{div}(\mathrm{grad}(u))\)</span>, that can be used also as the definition of <span class="math inline">\(\Delta\)</span>.</p>
 <p>Other identities involving the curl are <span class="math inline">\(\mathrm{curl}(\nabla u)=0\)</span> and <span class="math inline">\(\mathrm{div}(\mathrm{curl}(\mathbf{u}))=0\)</span>.</p>
-<p>The functions <span class="math inline">\(u\)</span> such that <span class="math inline">\(\nabla u=0\)</span> on <span class="math inline">\({\mathbf{R}}^3\)</span> are the constants.</p>
+<p>The functions <span class="math inline">\(u\)</span> such that <span class="math inline">\(\nabla u=0\)</span> on <span class="math inline">\(\mathbf{R}^3\)</span> are the constants.</p>
 <p>The vector fields <span class="math inline">\(\mathbf{v}\)</span> such that <span class="math inline">\(\mathrm{curl}(\mathbf{v})=0\)</span> are called <em>conservative</em>, <em>irrotational</em> or <em>integrable</em>. They are of the form <span class="math inline">\(\mathbf{v}=\nabla u\)</span> for some function <span class="math inline">\(u\)</span> called the <em>potential</em> of <span class="math inline">\(\mathbf{v}\)</span>.</p>
 <p>The vector fields <span class="math inline">\(\mathbf{v}\)</span> such that <span class="math inline">\(\mathrm{div}(\mathbf{v})=0\)</span> are called <em>divergence-free</em>, <em>volume-preserving</em>, <em>solenoidal</em> or <em>incompressible</em>. They are of the form <span class="math inline">\(\mathbf{v}=\mathrm{curl}(\mathbf{u})\)</span> for some vector field <span class="math inline">\(\mathbf{u}\)</span> called the <em>vector potential</em> of <span class="math inline">\(\mathbf{v}\)</span>.</p>
 <p>The scalar fields <span class="math inline">\(u\)</span> such that <span class="math inline">\(\Delta u=0\)</span> are called <em>harmonic functions</em>.</p>
 <p>The following identities are immediate applications of the product rule for derivatives: <span class="math display">\[\nabla(fg) = f\nabla g + g\nabla f\]</span> <span class="math display">\[\mathrm{div}(f\mathbf{g}) = f\mathrm{div}(\mathbf{g}) + \mathbf{g}\cdot\nabla f\]</span></p>
-<h2 id="integral-calculus">Integral calculus</h2>
+<h3 id="integral-calculus"><span class="header-section-number">1.4</span> Integral calculus</h3>
 <p>The divergence theorem: <span class="math display">\[\int_\Omega \mathrm{div}(\mathbf{g}) =
 \int_{\partial\Omega}\mathbf{g}\cdot\mathbf{ds}\]</span></p>
 <p>Combining the divergence theorem with the product rule we obtain the integration by parts formula. <span class="math display">\[\int_{\partial\Omega} f\mathbf{g}\cdot\mathbf{ds} =
@@ -75,32 +92,18 @@ f, \mathrm{div}(\mathbf{g})
 \left\langle
 -\nabla f, \mathbf{g}
 \right\rangle\]</span> thus that the operators <span class="math inline">\(\mathrm{div}\)</span> and <span class="math inline">\(-\nabla\)</span> are adjoint to each other. Integrating by parts twice we obtain that the operator <span class="math inline">\(\Delta\)</span> is self-adjoint.</p>
-<h1 id="graphs-and-their-matrices">Graphs and their matrices</h1>
+<h2 id="graphs-and-their-matrices"><span class="header-section-number">2</span> Graphs and their matrices</h2>
 <p>A <em>graph</em> is <span class="math inline">\(G=(V,E)\)</span> where <span class="math inline">\(V\)</span> is a set called the <em>vertices</em> of <span class="math inline">\(G\)</span>, and <span class="math inline">\(E\)</span> is a subset of <span class="math inline">\(V\times V\)</span> called the <em>edges</em> of <span class="math inline">\(G\)</span>.</p>
 <p>We assume always that the set <span class="math inline">\(V\)</span> is finite, and its elements are numbered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>. Thus, the set <span class="math inline">\(E\)</span> is also finite (the cardinal is at most <span class="math inline">\(n^2\)</span>) and we assume that the elements of <span class="math inline">\(E\)</span> are numbered from <span class="math inline">\(1\)</span> to <span class="math inline">\(m\)</span>.</p>
-<table>
-<tbody>
-<tr class="odd">
-<td align="left"><img src="graph1.png" alt="image" /></td>
-<td align="left"><span class="math inline">\(\begin{cases}
+<p><span>ll</span> <img src="graph1.png" alt="image" /> &amp; <span class="math inline">\(\begin{cases}
 V  &amp; = \{1,2,3,4,5,6\} \\
 E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
-\end{cases}\)</span></td>
-</tr>
-</tbody>
-</table>
-<h2 id="the-adjacency-list">The adjacency list</h2>
+\end{cases}\)</span></p>
+<h3 id="the-adjacency-list"><span class="header-section-number">2.1</span> The adjacency list</h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency list is a matrix of <span class="math inline">\(m\)</span> rows and <span class="math inline">\(2\)</span> columns that contains the pairs of vertices connected by each edge. The entries of this matrix are integers on the set <span class="math inline">\(\{1,\ldots,n\}\)</span>. Thus, if the <span class="math inline">\(k\)</span>-th row is <span class="math inline">\((i,j)\)</span>, this means that edge <span class="math inline">\(k\)</span> connects vertices <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>.</p>
-<table>
-<tbody>
-<tr class="odd">
-<td align="left"><img src="graph2.png" alt="image" /></td>
-<td align="left"></td>
-</tr>
-</tbody>
-</table>
+<p><span>ll</span> <img src="graph2.png" alt="image" /> &amp;</p>
 <p>The adjacency list is a very efficient representation for sparse graphs (where the number of edges is proportional to the number of vertices). However, it is not very interesting from the algebraic point of view. We will see in the following three other matrices that have a very rich algebraic interpretation.</p>
-<h2 id="the-adjacency-matrix-a">The adjacency matrix <span class="math inline">\(A\)</span></h2>
+<h3 id="the-adjacency-matrix-a"><span class="header-section-number">2.2</span> The adjacency matrix <span class="math inline">\(A\)</span></h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency matrix is a square matrix <span class="math inline">\(A=a_{ij}\)</span> of size <span class="math inline">\(n\times n\)</span>. The entries of <span class="math inline">\(A\)</span> are zeros and ones, with <span class="math inline">\(a_{ij}=1\)</span> if there is an edge from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and <span class="math inline">\(a_{ij}=0\)</span> otherwise.</p>
 <p><span class="math display">\[A =
 \begin{array}{l|lllllll}
@@ -115,7 +118,7 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
     6 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\
 \end{array}\]</span></p>
 <p>Notice that this matrix has somewhat less information than the adjacency list, because the ordering of the edges is lost. Thus, there is a unique way to compute the adjacency matrix from the list, but many <span class="math inline">\(m!\)</span> different ways to get the list from the matrix. We can chose an arbitrary canonical ordering of the edges (for example, in lexicographic order).</p>
-<h2 id="the-laplacian-matrix-l">The Laplacian matrix <span class="math inline">\(L\)</span></h2>
+<h3 id="the-laplacian-matrix-l"><span class="header-section-number">2.3</span> The Laplacian matrix <span class="math inline">\(L\)</span></h3>
 <p>Let <span class="math inline">\(A\)</span> be the adjacency matrix of a graph <span class="math inline">\(G\)</span>. If we sum the values of all the elements of the <span class="math inline">\(i\)</span>-th row, we obtain the number of edges going out of vertex <span class="math inline">\(i\)</span> (called the degree of the edge). Let us put the vector with all the degrees in the diagonal of a matrix <span class="math inline">\(D\)</span>; in octave/matlab notation <span class="math inline">\(\mathtt{D=diag(sum(A))}\)</span>. The Laplacian matrix of <span class="math inline">\(G\)</span> is defined as <span class="math display">\[L = A - \mathtt{diag}(\mathtt{sum}(A))\]</span> In the typical case where <span class="math inline">\(A\)</span> is symmetric with 0 on the diagonal, the matrix L is the same as A with minus the degree of each vertex on the diagonal entries.</p>
 <p><span class="math display">\[L =
 \begin{array}{l|lllllll}
@@ -129,7 +132,7 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
     5 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;-2 &amp; 1 \\
     6 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp;-2 \\
 \end{array}\]</span></p>
-<h2 id="the-incidence-matrix-b">The incidence matrix <span class="math inline">\(B\)</span></h2>
+<h3 id="the-incidence-matrix-b"><span class="header-section-number">2.4</span> The incidence matrix <span class="math inline">\(B\)</span></h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the incidence matrix is a rectangular matrix <span class="math inline">\(B=b_{ij}\)</span> of <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns. The entries of <span class="math inline">\(B\)</span> are zeros, ones and minus ones given by the edges of the graph: if the <span class="math inline">\(k\)</span>-th edge goes from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>, then, on the <span class="math inline">\(k\)</span>th row there are values <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span> on positions <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> respectively; there are zeros everywhere else.</p>
 <p><span class="math display">\[B =
 \begin{array}{l|lllllll}
@@ -146,146 +149,146 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
 \end{array}\]</span></p>
 <p>Notice that the incidence matrix contains the same information as the adjacency list (including the order of the edges).</p>
 <p>There is an interesting relationship between the incidence matrix and the Laplacian matrix, that can be checked algebraically: <span class="math display">\[L = -B^TB\]</span> This identity is the discrete analogue of <span class="math inline">\(\Delta=\mathrm{div\ grad}\)</span>, as we will explain below.</p>
-<h2 id="the-unsigned-incidence-matrix-c">The unsigned incidence matrix <span class="math inline">\(C\)</span></h2>
+<h3 id="the-unsigned-incidence-matrix-c"><span class="header-section-number">2.5</span> The unsigned incidence matrix <span class="math inline">\(C\)</span></h3>
 <p>The incidence matrix <span class="math inline">\(B\)</span> defined above is signed, on each row there are two non-zero entries whose values are <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span>. Thus the sum of any row is zero. We can write the matrix <span class="math inline">\(B\)</span> as <span class="math inline">\(B=B_1-B_0\)</span>, where the matrices <span class="math inline">\(B_0\)</span> and <span class="math inline">\(B_1\)</span> have only zeros and ones, with a single non-zero entry per row.</p>
 <p>It will be useful later to consider the <em>unsigned incidence matrix</em> <span class="math inline">\(C\)</span>, defined as <span class="math inline">\(C=\frac{1}{2}(B_0 + B_1)\)</span>, or equivalently <span class="math inline">\(C=\frac{1}{2}|B|\)</span>. The rows of the matrix <span class="math inline">\(C\)</span> sum to one.</p>
 <p>The following relations are immediate to verify <span class="math display">\[A = 2C^TC-B^TB/2\]</span> <span class="math display">\[\mathrm{deg} = 2C^TC+B^TB/2\]</span> where <span class="math inline">\(\mathrm{deg}\)</span> is an <span class="math inline">\(n\times n\)</span> diagonal matrix, whose values are the degrees of each vertex.</p>
-<h1 id="vector-calculus-on-graphs">Vector calculus on graphs</h1>
+<h2 id="vector-calculus-on-graphs"><span class="header-section-number">3</span> Vector calculus on graphs</h2>
 <p>Most of the constructions that we have described on the vector calculus reminder above have a direct correspondence in the case of graphs.</p>
-<h2 id="analogies">Analogies</h2>
+<h3 id="analogies"><span class="header-section-number">3.1</span> Analogies</h3>
 <p>The correspondence between vector calculus and graph theory is laid out in the following table. The main idea is that scalar fields correspond to functions defined on vertices, and vector fields correspond to functions defined on edges.</p>
 <table>
 <caption> Correspondence between vector calculus and graph theory </caption>
 <thead>
 <tr class="header">
-<th align="left">Vector calculus</th>
-<th align="left">Graph theory</th>
+<th style="text-align: left;">Vector calculus</th>
+<th style="text-align: left;">Graph theory</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Base space</td>
-<td align="left">Graph vertices <span class="math inline">\(V\)</span></td>
+<td style="text-align: left;">Base space</td>
+<td style="text-align: left;">Graph vertices <span class="math inline">\(V\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">Tangent space</td>
-<td align="left">Graph edges <span class="math inline">\(E\)</span></td>
+<td style="text-align: left;">Tangent space</td>
+<td style="text-align: left;">Graph edges <span class="math inline">\(E\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(u:\Omega\to{\mathbf{R}}\)</span></td>
-<td align="left"><span class="math inline">\(u:V\to{\mathbf{R}}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(u:\Omega\to\mathbf{R}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(u:V\to\mathbf{R}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\mathbf{v}:\Omega\to{\mathbf{R}}^3\)</span></td>
-<td align="left"><span class="math inline">\(\mathbf{v}:E\to{\mathbf{R}}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathbf{v}:\Omega\to\mathbf{R}^3\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathbf{v}:E\to\mathbf{R}\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Laplacian operator <span class="math inline">\(\Delta\)</span></td>
-<td align="left">Laplacian matrix <span class="math inline">\(L\in\mathcal{M}_{n,n}({\mathbf{R}})\)</span></td>
+<td style="text-align: left;">Laplacian operator <span class="math inline">\(\Delta\)</span></td>
+<td style="text-align: left;">Laplacian matrix <span class="math inline">\(L\in\mathcal{M}_{n,n}(\mathbf{R})\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">gradient operator <span class="math inline">\(\nabla\)</span></td>
-<td align="left">incidence matrix <span class="math inline">\(B\in\mathcal{M}_{m,n}({\mathbf{R}})\)</span></td>
+<td style="text-align: left;">gradient operator <span class="math inline">\(\nabla\)</span></td>
+<td style="text-align: left;">incidence matrix <span class="math inline">\(B\in\mathcal{M}_{m,n}(\mathbf{R})\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">divergence operator <span class="math inline">\(\mathrm{div}\)</span></td>
-<td align="left">matrix <span class="math inline">\(-B^T\in\mathcal{M}_{n,m}({\mathbf{R}})\)</span></td>
+<td style="text-align: left;">divergence operator <span class="math inline">\(\mathrm{div}\)</span></td>
+<td style="text-align: left;">matrix <span class="math inline">\(-B^T\in\mathcal{M}_{n,m}(\mathbf{R})\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\Delta=\mathrm{div\ grad}\)</span></td>
-<td align="left"><span class="math inline">\(L=-B^T B\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\Delta=\mathrm{div\ grad}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(L=-B^T B\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">scalar field <span class="math inline">\(u\)</span></td>
-<td align="left"><span class="math inline">\(u\in{\mathbf{R}}^n\)</span></td>
+<td style="text-align: left;">scalar field <span class="math inline">\(u\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(u\in\mathbf{R}^n\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">vector field <span class="math inline">\(\mathbf{v}\)</span></td>
-<td align="left"><span class="math inline">\(\mathbf{v}\in{\mathbf{R}}^m\)</span></td>
+<td style="text-align: left;">vector field <span class="math inline">\(\mathbf{v}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathbf{v}\in\mathbf{R}^m\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">vector field <span class="math inline">\(\nabla u\)</span></td>
-<td align="left"><span class="math inline">\(Bu\in{\mathbf{R}}^m\)</span></td>
+<td style="text-align: left;">vector field <span class="math inline">\(\nabla u\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(Bu\in\mathbf{R}^m\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">scalar field <span class="math inline">\(\Delta u\)</span></td>
-<td align="left"><span class="math inline">\(Lu\in{\mathbf{R}}^n\)</span></td>
+<td style="text-align: left;">scalar field <span class="math inline">\(\Delta u\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(Lu\in\mathbf{R}^n\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">scalar field <span class="math inline">\(\mathrm{div}(\mathbf{v})\)</span></td>
-<td align="left"><span class="math inline">\(-B^T\mathbf{v}\in{\mathbf{R}}^n\)</span></td>
+<td style="text-align: left;">scalar field <span class="math inline">\(\mathrm{div}(\mathbf{v})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(-B^T\mathbf{v}\in\mathbf{R}^n\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">directional derivative <span class="math inline">\(\nabla
+<td style="text-align: left;">directional derivative <span class="math inline">\(\nabla
             u(\mathbf{a})\cdot(\mathbf{b}-\mathbf{a})\)</span></td>
-<td align="left"><span class="math inline">\(\nabla u (a,b)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\nabla u (a,b)\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(\Omega\subseteq{\mathbf{R}}^3\)</span></td>
-<td align="left"><span class="math inline">\(\Omega\subseteq V\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\Omega\subseteq\mathbf{R}^3\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\Omega\subseteq V\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\partial\Omega\subseteq{\mathbf{R}}^3\)</span></td>
-<td align="left"><span class="math inline">\(\partial\Omega\subseteq E\)</span> , defined as <span class="math inline">\(\partial\Omega=E\cap(\Omega\times\Omega^c)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\partial\Omega\subseteq\mathbf{R}^3\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\partial\Omega\subseteq E\)</span> , defined as <span class="math inline">\(\partial\Omega=E\cap(\Omega\times\Omega^c)\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(\displaystyle\int_\Omega\mathrm{div}(\mathbf{v})
+<td style="text-align: left;"><span class="math inline">\(\displaystyle\int_\Omega\mathrm{div}(\mathbf{v})
             =
             \int_{\partial\Omega}\mathbf{v\cdot ds}\)</span></td>
-<td align="left"><span class="math inline">\(\displaystyle\sum_{a\in\Omega}\mathrm{div}(\mathbf{v})(a)
+<td style="text-align: left;"><span class="math inline">\(\displaystyle\sum_{a\in\Omega}\mathrm{div}(\mathbf{v})(a)
             =
             \sum_{e\in\partial\Omega}\mathbf{v}(e)\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">Elliptic PDE <span class="math inline">\(\Delta u = f\)</span></td>
-<td align="left">Linear system <span class="math inline">\(Lu=f\)</span></td>
+<td style="text-align: left;">Elliptic PDE <span class="math inline">\(\Delta u = f\)</span></td>
+<td style="text-align: left;">Linear system <span class="math inline">\(Lu=f\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">Parabolic PDE <span class="math inline">\(u_t = \Delta u\)</span></td>
-<td align="left">First-order Linear ODE System <span class="math inline">\(u_t=Lu\)</span></td>
+<td style="text-align: left;">Parabolic PDE <span class="math inline">\(u_t = \Delta u\)</span></td>
+<td style="text-align: left;">First-order Linear ODE System <span class="math inline">\(u_t=Lu\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\textrm{div}(D\nabla u),\qquad
-            D:\Omega\to\mathcal{M}_{3,3}({\mathbf{R}})\)</span></td>
-<td align="left"><span class="math inline">\(-B^TDBu,\qquad D\in\mathcal{M}_{m,m}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\textrm{div}(D\nabla u),\qquad
+            D:\Omega\to\mathcal{M}_{3,3}(\mathbf{R})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(-B^TDBu,\qquad D\in\mathcal{M}_{m,m}\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left"><span class="math inline">\(g\Delta u,\qquad g:\Omega\to{\mathbf{R}}\)</span></td>
-<td align="left"><span class="math inline">\(GLu,\qquad G\in\mathcal{M}_{n,n}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(g\Delta u,\qquad g:\Omega\to\mathbf{R}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(GLu,\qquad G\in\mathcal{M}_{n,n}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">pointwise product <span class="math inline">\(u v\)</span></td>
-<td align="left">Hadamard product <span class="math inline">\(f\odot g\)</span></td>
+<td style="text-align: left;">pointwise product <span class="math inline">\(u v\)</span></td>
+<td style="text-align: left;">Hadamard product <span class="math inline">\(f\odot g\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">pointwise product <span class="math inline">\(u\mathbf{v}\)</span></td>
-<td align="left">Hadamard product <span class="math inline">\(Cf\odot g\)</span></td>
+<td style="text-align: left;">pointwise product <span class="math inline">\(u\mathbf{v}\)</span></td>
+<td style="text-align: left;">Hadamard product <span class="math inline">\(Cf\odot g\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(\nabla fg=f\nabla g + g\nabla f\)</span></td>
-<td align="left"><span class="math inline">\(B(f\circ g)=Cf\odot Bg + Cg\odot Bf\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\nabla fg=f\nabla g + g\nabla f\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(B(f\circ g)=Cf\odot Bg + Cg\odot Bf\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">(nothing)</td>
-<td align="left">unsigned incidence matrix <span class="math inline">\(C\in\mathcal{M}_{m,n}({\mathbf{R}})\)</span></td>
+<td style="text-align: left;">(nothing)</td>
+<td style="text-align: left;">unsigned incidence matrix <span class="math inline">\(C\in\mathcal{M}_{m,n}(\mathbf{R})\)</span></td>
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\( \)</span></p>
+<p><span class="math inline">\(\)</span></p>
 <p>The <span class="math inline">\(\mathrm{curl}\)</span> operator cannot be defined on general graphs, but it can be defined on <em>planar</em> graphs, and it satisfies similar identities.</p>
-<h2 id="the-graph-laplacian">The graph Laplacian</h2>
+<h3 id="the-graph-laplacian"><span class="header-section-number">3.2</span> The graph Laplacian</h3>
 <p>The simplest operator of vector calculus is the Laplacian, transforming scalar fields into scalar fields. It is the simplest because no vector fields are involved, only scalar fields.</p>
-<p>Correspondingly, the simplest operator for graphs is also the Laplacian, transforming functions defined on vertices into functions defined on vertices. It is the simplest because no functions defined on edges are involved. Once we have chosen an ordering of the vertices, a scalar field is simply a vector <span class="math inline">\(u\in{\mathbf{R}}^n\)</span>, and the Laplacian operator is defined by a square matrix of size <span class="math inline">\(n\times n\)</span>.</p>
-<p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(u:V\to{\mathbf{R}}\)</span> be a scalar field. The <span><strong>Laplacian</strong></span> of <span class="math inline">\(u\)</span> is denoted by <span class="math inline">\(\Delta u\)</span> and is defined as the scalar field <span class="math inline">\(\Delta u:V\to{\mathbf{R}}\)</span> <span class="math display">\[\Delta u(a) := \sum_{(a,b)\in E} u(b)-u(a)\]</span> Notice that the sum is performed for a fixed vertex <span class="math inline">\(a\)</span>, and <span class="math inline">\(b\)</span> varies through all the neighbors of <span class="math inline">\(a\)</span> in the graph.</p>
+<p>Correspondingly, the simplest operator for graphs is also the Laplacian, transforming functions defined on vertices into functions defined on vertices. It is the simplest because no functions defined on edges are involved. Once we have chosen an ordering of the vertices, a scalar field is simply a vector <span class="math inline">\(u\in\mathbf{R}^n\)</span>, and the Laplacian operator is defined by a square matrix of size <span class="math inline">\(n\times n\)</span>.</p>
+<p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(u:V\to\mathbf{R}\)</span> be a scalar field. The <span><strong>Laplacian</strong></span> of <span class="math inline">\(u\)</span> is denoted by <span class="math inline">\(\Delta u\)</span> and is defined as the scalar field <span class="math inline">\(\Delta u:V\to\mathbf{R}\)</span> <span class="math display">\[\Delta u(a) := \sum_{(a,b)\in E} u(b)-u(a)\]</span> Notice that the sum is performed for a fixed vertex <span class="math inline">\(a\)</span>, and <span class="math inline">\(b\)</span> varies through all the neighbors of <span class="math inline">\(a\)</span> in the graph.</p>
 <table>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="graph3.png" alt="image" /></td>
-<td align="center"><img src="graph4.png" alt="image" /></td>
+<td style="text-align: center;"><img src="graph3.png" alt="image" /></td>
+<td style="text-align: center;"><img src="graph4.png" alt="image" /></td>
 </tr>
 <tr class="even">
-<td align="center">The scalar field <span class="math inline">\(u\)</span></td>
-<td align="center">The scalar field <span class="math inline">\(\Delta u\)</span></td>
+<td style="text-align: center;">The scalar field <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;">The scalar field <span class="math inline">\(\Delta u\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -297,7 +300,7 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
 <li><p>If <span class="math inline">\(u\)</span> is constant, then <span class="math inline">\(\Delta u\)</span> is zero</p></li>
 </ol>
 <p>If we fix an ordering of the vertices, then the scalar fields <span class="math inline">\(u\)</span> and <span class="math inline">\(\Delta
-u\)</span> are two vectors in <span class="math inline">\({\mathbf{R}}^n\)</span>, and the linear operator <span class="math inline">\(u\mapsto\Delta u\)</span> is given by the matrix <span class="math inline">\(L=A-\mathtt{diag}(\mathtt{sum}(A))\)</span>. This follows directly by decomposing the definition of <span class="math inline">\(\Delta\)</span> into two sums: <span class="math display">\[\Delta u(a)
+u\)</span> are two vectors in <span class="math inline">\(\mathbf{R}^n\)</span>, and the linear operator <span class="math inline">\(u\mapsto\Delta u\)</span> is given by the matrix <span class="math inline">\(L=A-\mathtt{diag}(\mathtt{sum}(A))\)</span>. This follows directly by decomposing the definition of <span class="math inline">\(\Delta\)</span> into two sums: <span class="math display">\[\Delta u(a)
 =
 \sum_{(a,b)\in E}
 u(b)
@@ -311,70 +314,68 @@ u(a)\mathrm{degree}(a)
 u(b)\]</span></p>
 <p>Notice that the Laplacian has a nice interpretation. If we regard the values of <span class="math inline">\(u\)</span> as a quantity distributed on the vertices of the graph, the condition <span class="math inline">\(\Delta u = 0\)</span> says that the quantity is distributed evenly, or in equilibrium: the amount of quantity at each vertex equals the average amount over its neighbours. In particular, if <span class="math inline">\(u\)</span> is constant then <span class="math inline">\(\Delta u = 0\)</span>.</p>
 <p>Notice that the matrix <span class="math inline">\(L\)</span> is always singular: a constant vector is an eigenvector of eigenvalue 0. If the graph has <span class="math inline">\(k\)</span> connected components, then we have null vectors that are constant on each connected component, thus the matrix <span class="math inline">\(L\)</span> has rank <span class="math inline">\(n-k\)</span>.</p>
-<h2 id="graph-gradient-and-graph-divergence">Graph gradient and graph divergence</h2>
+<h3 id="graph-gradient-and-graph-divergence"><span class="header-section-number">3.3</span> Graph gradient and graph divergence</h3>
 <p>Recall that scalar fields are functions defined on vertices and vector fields are functions defined on edges. Thus, the gradient transforms a function defined on vertices into a function defined on edges. There is a very natural way of doing that: the value at each edge is obtained as the difference between the values at each side of the edge.</p>
 <table>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="graph5.png" alt="image" /></td>
-<td align="center"><img src="graph6.png" alt="image" /></td>
+<td style="text-align: center;"><img src="graph5.png" alt="image" /></td>
+<td style="text-align: center;"><img src="graph6.png" alt="image" /></td>
 </tr>
 <tr class="even">
-<td align="center">The scalar field <span class="math inline">\(u\)</span></td>
-<td align="center">The vector field <span class="math inline">\(\nabla u\)</span></td>
+<td style="text-align: center;">The scalar field <span class="math inline">\(u\)</span></td>
+<td style="text-align: center;">The vector field <span class="math inline">\(\nabla u\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>More formally, let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(u:V\to{\mathbf{R}}\)</span> be a scalar field. The <span><strong>gradient</strong></span> of <span class="math inline">\(u\)</span> is the vector field <span class="math inline">\(\nabla u:E\to{\mathbf{R}}\)</span> defined by <span class="math display">\[\nabla u(a,b) := u(b) - u(a)
+<p>More formally, let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(u:V\to\mathbf{R}\)</span> be a scalar field. The <span><strong>gradient</strong></span> of <span class="math inline">\(u\)</span> is the vector field <span class="math inline">\(\nabla u:E\to\mathbf{R}\)</span> defined by <span class="math display">\[\nabla u(a,b) := u(b) - u(a)
 \qquad \mathrm{for}\ (a,b)\in E\]</span> The matrix of this linear map is the incidence matrix <span class="math inline">\(B\)</span> of the graph. Think of the gradient <span class="math inline">\(\nabla u(a,b)\)</span> as the directional derivative of <span class="math inline">\(u\)</span> at point <span class="math inline">\(a\)</span> in the direction of the vector from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>.</p>
-<p>Now let <span class="math inline">\(\mathbf{v}:E\to{\mathbf{R}}\)</span> be a vector field. The <span><strong>divergence</strong></span> of <span class="math inline">\(\mathbf{v}\)</span> is the scalar field <span class="math inline">\(\mathrm{div}(\mathbf{v}):V\to{\mathbf{R}}\)</span> defined by: <span class="math display">\[\mathrm{div}(\mathbf{v})(a)
+<p>Now let <span class="math inline">\(\mathbf{v}:E\to\mathbf{R}\)</span> be a vector field. The <span><strong>divergence</strong></span> of <span class="math inline">\(\mathbf{v}\)</span> is the scalar field <span class="math inline">\(\mathrm{div}(\mathbf{v}):V\to\mathbf{R}\)</span> defined by: <span class="math display">\[\mathrm{div}(\mathbf{v})(a)
 :=
 \sum_{(a,b)\in E}\mathbf{v}(a,b)
 -\sum_{(b,a)\in E}\mathbf{v}(b,a)
 \qquad \mathrm{for}\ a\in V\]</span> The matrix of this linear map is minus the transposed incidence matrix of the graph <span class="math inline">\(-B^T\)</span>.</p>
 <p>Notice that the identity <span class="math inline">\(\Delta=\mathrm{div\ grad}\)</span> is trivial from the definitions above, since both sides are exactly <span class="math inline">\(\sum_{(a,b)\in E}u(b)-u(a)\)</span>. Thus, <span class="math inline">\(L=-B^TB\)</span>.</p>
-<h2 id="graph-curl">Graph curl</h2>
+<h3 id="graph-curl"><span class="header-section-number">3.4</span> Graph curl</h3>
 <p>We do not need curls for our application, but let us say some words about them.</p>
 <p>These graph-theoretic analogues are easier to understand when we use differential geometry instead of plain vector calculus. In that case, the discrete analogue of <span class="math inline">\(k\)</span>-forms are functions defined over the <span class="math inline">\(k\)</span>-cliques of the graph. Then the exterior derivative is readily built for all values of <span class="math inline">\(k\)</span>, and it contains the gradient, curl and divergence as particular cases. The particularity of 3-dimensional manifolds comes from the fact that in that in that case 1-forms and 2-forms have the same dimension and can both be interpreted as “vector fields”, thus the curl operator is defined from the exterior derivative <span class="math inline">\(d:\Omega^1\to\Omega^2\)</span>. In the case of graphs, we cannot in general identify functions defined on edges to functions defined on triangles, except in one particular case: when the graph is a triangulation. In that case, there is a construction that allows to define the curl of a vector field as a vector field, by traversing the two triangles at each side of an edge. The identity <span class="math inline">\(\mathrm{curl\ grad}=0\)</span> is then the sum of 6 values that cancel pairwise, and so on. See the beautiful papers of Oliver Knill for a comprehensive coverage of this.</p>
-<h2 id="graph-subsets-and-their-boundaries">Graph subsets and their boundaries</h2>
+<h3 id="graph-subsets-and-their-boundaries"><span class="header-section-number">3.5</span> Graph subsets and their boundaries</h3>
 <p>It is often necessary to deal with subset of graphs (for example, when we want to interpolate a function which is known only over some vertices). In order to do algebra with them, we model subsets as diagonal operators that contain the indicator function of the subset as the diagonal entries. This model is used for subsets of vertices and subsets of edges.</p>
 <p><span><strong>Notations</strong></span>: Let <span class="math inline">\(X=\{1,\ldots,n\}\)</span> (or any finite ordered set) and <span class="math inline">\(Y\subseteq X\)</span>. Let <span class="math inline">\(a\)</span> be a vector of length <span class="math inline">\(n\)</span> and <span class="math inline">\(A\)</span> a matrix of size <span class="math inline">\(n\times n\)</span> . We use the following, somewhat ambiguous, abuses of notation:</p>
 <blockquote>
-<p><span class="math inline">\(\mathrm{diag}(A)\in{\mathbf{R}}^n\)</span>: the vector with the elements on the diagonal of <span class="math inline">\(A\)</span> <span class="math inline">\(\mathrm{diag}(a)\in{\mathbf{R}}^{n\times n}\)</span>: the diagonal matrix whose diagonal is <span class="math inline">\(a\)</span>. <span class="math inline">\({\mathbf{1}}_Y\in{\mathbf{R}}^{n}\)</span>: the indicator vector of the subset <span class="math inline">\(Y\)</span> <span class="math inline">\(Y=\mathrm{diag}({\mathbf{1}}_Y)\in{\mathbf{R}}^{n\times n}\)</span>: the diagonal operator of <span class="math inline">\(Y\)</span></p>
+<p><span class="math inline">\(\mathrm{diag}(A)\in\mathbf{R}^n\)</span>: the vector with the elements on the diagonal of <span class="math inline">\(A\)</span> <span class="math inline">\(\mathrm{diag}(a)\in\mathbf{R}^{n\times n}\)</span>: the diagonal matrix whose diagonal is <span class="math inline">\(a\)</span>. <span class="math inline">\(\mathbf{1}_Y\in\mathbf{R}^{n}\)</span>: the indicator vector of the subset <span class="math inline">\(Y\)</span> <span class="math inline">\(Y=\mathrm{diag}(\mathbf{1}_Y)\in\mathbf{R}^{n\times n}\)</span>: the diagonal operator of <span class="math inline">\(Y\)</span></p>
 </blockquote>
 <p>This last notation is very convenient in image processing, because it represents point-wise multiplication by a binary image as a linear operator (with the same name as the binary image). The <span class="math inline">\(\mathrm{diag}\)</span> operator has the same semantics as that of octave/matlab.</p>
 <p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph with <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, and let <span class="math inline">\(\Omega\subseteq V\)</span>. To avoid introducing new letters, we denote also by <span class="math inline">\(\Omega=\omega_{ij}\)</span> the <span class="math inline">\(n\times n\)</span> matrix that contains the indicator function of this set in its diagonal: <span class="math inline">\(w_{ii}=1\)</span> if <span class="math inline">\(i\in V\)</span> and <span class="math inline">\(w_{jj}=0\)</span> otherwise. Notice that the matrix <span class="math inline">\(I-\Omega\)</span> corresponds to the complementary set <span class="math inline">\(\Omega^c\)</span>.</p>
-<p>We define the <span><strong>boundary</strong></span> of a subset of vertices <span class="math inline">\(\Omega\subseteq V\)</span> as the subset of edges <span class="math inline">\(\partial\Omega\subseteq E\)</span> that go from <span class="math inline">\(\Omega\)</span> to <span class="math inline">\(\Omega^c\)</span>. Notice that <span class="math inline">\(\partial\Omega=E\cap(\Omega\times\Omega)\)</span> in set notation. Since <span class="math inline">\(\partial\Omega\)</span> is a subset of edges, it corresponds to a diagonal matrix, also named <span class="math inline">\(\partial\Omega\)</span>, of size <span class="math inline">\(m\times m\)</span>. In matrix notation we have <span class="math display">\[\partial\Omega=\mathrm{diag}(B\mathrm{diag}(\Omega))\]</span> where <span class="math inline">\(B\)</span> is the incidence matrix of the graph. We can also write <span class="math inline">\(\displaystyle{\mathbf{1}}_{\partial\Omega}=B{\mathbf{1}}_\Omega\)</span>.</p>
-<h2 id="equations-on-graphs">Equations on graphs</h2>
+<p>We define the <span><strong>boundary</strong></span> of a subset of vertices <span class="math inline">\(\Omega\subseteq V\)</span> as the subset of edges <span class="math inline">\(\partial\Omega\subseteq E\)</span> that go from <span class="math inline">\(\Omega\)</span> to <span class="math inline">\(\Omega^c\)</span>. Notice that <span class="math inline">\(\partial\Omega=E\cap(\Omega\times\Omega)\)</span> in set notation. Since <span class="math inline">\(\partial\Omega\)</span> is a subset of edges, it corresponds to a diagonal matrix, also named <span class="math inline">\(\partial\Omega\)</span>, of size <span class="math inline">\(m\times m\)</span>. In matrix notation we have <span class="math display">\[\partial\Omega=\mathrm{diag}(B\mathrm{diag}(\Omega))\]</span> where <span class="math inline">\(B\)</span> is the incidence matrix of the graph. We can also write <span class="math inline">\(\displaystyle\mathbf{1}_{\partial\Omega}=B\mathbf{1}_\Omega\)</span>.</p>
+<h3 id="equations-on-graphs"><span class="header-section-number">3.6</span> Equations on graphs</h3>
 <p>Now that we have described the differential and boundary operators operator in matrix form, it is immediate to write the discrete analogues of several linear PDE. This is very beautiful because the analytic properties of the corresponding PDE are recovered by elementary linear algebra.</p>
 <p><span><strong>3.6.1.</strong></span> <span><strong>Laplace</strong></span> equation on the whole graph: <span class="math display">\[Lu=0\]</span> If the graph is connected, the matrix <span class="math inline">\(L\)</span> has rank <span class="math inline">\(n-1\)</span> thus its kernel is one-dimensional, corresponding to the constant solutions <span class="math inline">\(u=c\)</span>.</p>
-<p><span><strong>3.6.2.</strong></span> <span><strong>Poisson</strong></span> equation on the whole graph, with data <span class="math inline">\(f:V\to{\mathbf{R}}\)</span>: <span class="math display">\[Lu=f\]</span> has a unique solution unless <span class="math inline">\(f\)</span> is constant.</p>
-<p><span><strong>3.6.3.</strong></span> Laplace equation on a subset <span class="math inline">\(\Omega\subseteq V\)</span>, with <span><strong>Dirichlet boundary conditions</strong></span> <span class="math inline">\(f:\Omega^c\to{\mathbf{R}}\)</span>: <span class="math display">\[\Omega Lu + (I-\Omega)(u-f)=0\]</span> Notice that this is written as an <span class="math inline">\(n\times n\)</span> linear system, but it has a diagonal part corresponding to the values of <span class="math inline">\(u\)</span> outside of <span class="math inline">\(\Omega\)</span>. Notice also that the values of <span class="math inline">\(f\)</span> at the vertices that have no neighbors in <span class="math inline">\(\Omega\)</span> only appear in the diagonal part. The values of <span class="math inline">\(f\)</span> inside <span class="math inline">\(\Omega\)</span> do not appear at all (are cancelled out).</p>
-<p><span><strong>3.6.4.</strong></span> Laplace equation on a subset <span class="math inline">\(\Omega\subseteq V\)</span>, with <span><strong>Neumann boundary conditions</strong></span> <span class="math inline">\(g:\partial\Omega\to{\mathbf{R}}\)</span>: <span class="math display">\[\Omega Lu + (\partial\Omega)(\nabla u - g)=0\]</span> Or equivalently, by developing the boundary and gradient operators, <span class="math display">\[\left[\Omega L + \mathrm{diag}(B\mathrm{diag}(\Omega))B\right]u =\mathrm{diag}(B\mathrm{diag}(\Omega)) g\]</span> or, in an alternative notation <span class="math display">\[(\mathrm{diag}({\mathbf{1}}_\Omega) L + \mathrm{diag}(B{\mathbf{1}}_\Omega))B)u
-=\mathrm{diag}(B{\mathbf{1}}_\Omega) g\]</span></p>
-<p><span><strong>3.6.5.</strong></span> <span><strong>Heat equation</strong></span> on the whole graph with initial condition <span class="math inline">\(u_0:V\to{\mathbf{R}}\)</span>: <span class="math display">\[\begin{cases}
+<p><span><strong>3.6.2.</strong></span> <span><strong>Poisson</strong></span> equation on the whole graph, with data <span class="math inline">\(f:V\to\mathbf{R}\)</span>: <span class="math display">\[Lu=f\]</span> has a unique solution unless <span class="math inline">\(f\)</span> is constant.</p>
+<p><span><strong>3.6.3.</strong></span> Laplace equation on a subset <span class="math inline">\(\Omega\subseteq V\)</span>, with <span><strong>Dirichlet boundary conditions</strong></span> <span class="math inline">\(f:\Omega^c\to\mathbf{R}\)</span>: <span class="math display">\[\Omega Lu + (I-\Omega)(u-f)=0\]</span> Notice that this is written as an <span class="math inline">\(n\times n\)</span> linear system, but it has a diagonal part corresponding to the values of <span class="math inline">\(u\)</span> outside of <span class="math inline">\(\Omega\)</span>. Notice also that the values of <span class="math inline">\(f\)</span> at the vertices that have no neighbors in <span class="math inline">\(\Omega\)</span> only appear in the diagonal part. The values of <span class="math inline">\(f\)</span> inside <span class="math inline">\(\Omega\)</span> do not appear at all (are cancelled out).</p>
+<p><span><strong>3.6.4.</strong></span> Laplace equation on a subset <span class="math inline">\(\Omega\subseteq V\)</span>, with <span><strong>Neumann boundary conditions</strong></span> <span class="math inline">\(g:\partial\Omega\to\mathbf{R}\)</span>: <span class="math display">\[\Omega Lu + (\partial\Omega)(\nabla u - g)=0\]</span> Or equivalently, by developing the boundary and gradient operators, <span class="math display">\[\left[\Omega L + \mathrm{diag}(B\mathrm{diag}(\Omega))B\right]u =\mathrm{diag}(B\mathrm{diag}(\Omega)) g\]</span> or, in an alternative notation <span class="math display">\[(\mathrm{diag}(\mathbf{1}_\Omega) L + \mathrm{diag}(B\mathbf{1}_\Omega))B)u
+=\mathrm{diag}(B\mathbf{1}_\Omega) g\]</span></p>
+<p><span><strong>3.6.5.</strong></span> <span><strong>Heat equation</strong></span> on the whole graph with initial condition <span class="math inline">\(u_0:V\to\mathbf{R}\)</span>: <span class="math display">\[\begin{cases}
 u_t &amp; =Lu \\
 u(0) &amp; = u_0 
 \end{cases}\]</span> This is a system of <span class="math inline">\(n\)</span> first-order linear differential equations with constant coefficients. It has a closed-form solution using the matrix exponential <span class="math inline">\(u=e^{tL}u_0\)</span>.</p>
-<p><span><strong>3.6.6.</strong></span> Heat equation with <span><strong>source term</strong></span> <span class="math inline">\(f:V\to{\mathbf{R}}\)</span> and initial condition <span class="math inline">\(u_0:V\to{\mathbf{R}}\)</span> <span class="math display">\[\begin{cases}
+<p><span><strong>3.6.6.</strong></span> Heat equation with <span><strong>source term</strong></span> <span class="math inline">\(f:V\to\mathbf{R}\)</span> and initial condition <span class="math inline">\(u_0:V\to\mathbf{R}\)</span> <span class="math display">\[\begin{cases}
 u_t &amp; =Lu+f \\
 u(0) &amp; = u_0
 \end{cases}\]</span> It has likewise a closed-form solution <span class="math inline">\(u=e^{tL}(u_0-L^{-1}f)-L^{-1}f\)</span>. Notice that <span class="math inline">\(L^{-1}f\)</span> only makes sense when <span class="math inline">\(f\)</span> is not a constant vector.</p>
 <p><span><strong>3.6.7.</strong></span> Other combinations are possible, and easy to deduce from the simpler cases: Poisson and Heat equation on subsets with various boundary conditions, etc.</p>
-<h2 id="riemannian-graph-geometry">Riemannian graph geometry</h2>
-<p>The <span><strong>isotropic</strong></span> case of “anisotropic” diffusion in image processing is modelled by terms of the form <span class="math inline">\(g\Delta u\)</span>, where <span class="math inline">\(g\)</span> is a positive-real valued function on <span class="math inline">\(\Omega\)</span>. In the case of graphs, the function <span class="math inline">\(g\)</span> corresponds to a scalar field <span class="math inline">\(g:V\to{\mathbf{R}}\)</span>, which we associate to a diagonal <span class="math inline">\(n\times n\)</span> matrix <span class="math inline">\(\tilde g\)</span> with the values of <span class="math inline">\(g\)</span>. Then these terms become <span class="math inline">\(\tilde gL
+<h3 id="riemannian-graph-geometry"><span class="header-section-number">3.7</span> Riemannian graph geometry</h3>
+<p>The <span><strong>isotropic</strong></span> case of “anisotropic” diffusion in image processing is modelled by terms of the form <span class="math inline">\(g\Delta u\)</span>, where <span class="math inline">\(g\)</span> is a positive-real valued function on <span class="math inline">\(\Omega\)</span>. In the case of graphs, the function <span class="math inline">\(g\)</span> corresponds to a scalar field <span class="math inline">\(g:V\to\mathbf{R}\)</span>, which we associate to a diagonal <span class="math inline">\(n\times n\)</span> matrix <span class="math inline">\(\tilde g\)</span> with the values of <span class="math inline">\(g\)</span>. Then these terms become <span class="math inline">\(\tilde gL
 u\)</span> in the corresponding discrete model.</p>
 <p>Truly <span><strong>anisotropic</strong></span> diffusion comes from terms of the form <span class="math inline">\(\mathrm{div}(D\nabla u)\)</span>, where the diffusivity <span class="math inline">\(D\)</span> is a field of positive-definite symmetric matrices defined over <span class="math inline">\(\Omega\)</span>. In the case of graphs, we have a matrix <span class="math inline">\(\tilde D\)</span>, which is also diagonal, but now of size <span class="math inline">\(m\times m\)</span>. Then these terms become <span class="math inline">\(\mathrm{div}(D\nabla u)\)</span> in the discrete model. Or, in matrix form, <span class="math inline">\(B^TDBu\)</span>.</p>
-<h2 id="algebraic-graph-integral-calculus">Algebraic graph integral calculus</h2>
+<h3 id="algebraic-graph-integral-calculus"><span class="header-section-number">3.8</span> Algebraic graph integral calculus</h3>
 <p>Integral calculus can be generalized readily to graphs. Integrals are replaced by sums over a finite domain, and the various identities of integral calculus (e.g., the divergence theorem) become immediate matrix identities.</p>
 <p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph with <span class="math inline">\(V=\{1,\ldots,n\}\)</span> and <span class="math inline">\(E=\{1,\ldots,m\}\)</span></p>
-<p>Let <span class="math inline">\(\Omega\subseteq V\)</span> and let <span class="math inline">\(f:V\to{\mathbf{R}}\)</span> be a scalar field. The <span><strong>integral</strong></span> of <span class="math inline">\(f\)</span> over <span class="math inline">\(\Omega\)</span> is defined as <span class="math display">\[\int_\Omega f=\sum_{p\in \Omega}f(p)\]</span> in matrix notation we have <span class="math inline">\(
-\int_\Omega f := \mathrm{sum}(\Omega f).
-\)</span> Notice that here <span class="math inline">\(f\)</span> is a vector of length <span class="math inline">\(n\)</span>, <span class="math inline">\(\Omega\)</span> is an <span class="math inline">\(n\times n\)</span> matrix, and we are computing the sum of all the components of the vector <span class="math inline">\(\Omega f\)</span> to obtain a single number. Notice that <span class="math inline">\(f\)</span> must be defined everywhere, but only the values inside <span class="math inline">\(\Omega\)</span> are used; thus, we could have defined <span class="math inline">\(f\)</span> only inside <span class="math inline">\(\Omega\)</span>.</p>
+<p>Let <span class="math inline">\(\Omega\subseteq V\)</span> and let <span class="math inline">\(f:V\to\mathbf{R}\)</span> be a scalar field. The <span><strong>integral</strong></span> of <span class="math inline">\(f\)</span> over <span class="math inline">\(\Omega\)</span> is defined as <span class="math display">\[\int_\Omega f=\sum_{p\in \Omega}f(p)\]</span> in matrix notation we have <span class="math inline">\(\int_\Omega f := \mathrm{sum}(\Omega f).\)</span> Notice that here <span class="math inline">\(f\)</span> is a vector of length <span class="math inline">\(n\)</span>, <span class="math inline">\(\Omega\)</span> is an <span class="math inline">\(n\times n\)</span> matrix, and we are computing the sum of all the components of the vector <span class="math inline">\(\Omega f\)</span> to obtain a single number. Notice that <span class="math inline">\(f\)</span> must be defined everywhere, but only the values inside <span class="math inline">\(\Omega\)</span> are used; thus, we could have defined <span class="math inline">\(f\)</span> only inside <span class="math inline">\(\Omega\)</span>.</p>
 <p>An <span><strong>interface</strong></span> inside a graph is defined as a set of edges <span class="math inline">\(S\subseteq
-E\)</span>. Given a vector field <span class="math inline">\(\mathbf{v}:E\to{\mathbf{R}}\)</span> we define the <span><strong>flow</strong></span> of <span class="math inline">\(\mathbf{v}\)</span> through <span class="math inline">\(S\)</span> <span class="math display">\[\int_S \mathbf{v\cdot ds} := \sum_{e\in S}\mathbf{v}(e)\]</span> or, in matrix notation, <span class="math inline">\(\int_S \mathbf{v\cdot ds}=\mathrm{sum}(\tilde S
-\mathbf{v})\)</span> where <span class="math inline">\(\tilde S\)</span> is the diagonal matrix containing the indicator function of <span class="math inline">\(S\)</span>. An interesting particular case happens when <span class="math inline">\(S\)</span> is the boundary of some region <span class="math inline">\(\Omega\)</span>. We have seen above that the matrix <span class="math inline">\(\tilde S\)</span> is then equal to <span class="math inline">\(\mathrm{diag}(B\mathrm{diag}(\Omega))\)</span>. This observation leads to the <span><strong>graph divergence theorem</strong></span> that says that <span class="math display">\[\int_{\partial\Omega} \mathbf{v\cdot ds} =\int_\Omega\mathrm{div}(\mathbf{v})\]</span> or, in matrix notation, <span class="math display">\[{\mathbf{1}}_\Omega\cdot(B^T\mathbf{v})
+E\)</span>. Given a vector field <span class="math inline">\(\mathbf{v}:E\to\mathbf{R}\)</span> we define the <span><strong>flow</strong></span> of <span class="math inline">\(\mathbf{v}\)</span> through <span class="math inline">\(S\)</span> <span class="math display">\[\int_S \mathbf{v\cdot ds} := \sum_{e\in S}\mathbf{v}(e)\]</span> or, in matrix notation, <span class="math inline">\(\int_S \mathbf{v\cdot ds}=\mathrm{sum}(\tilde S
+\mathbf{v})\)</span> where <span class="math inline">\(\tilde S\)</span> is the diagonal matrix containing the indicator function of <span class="math inline">\(S\)</span>. An interesting particular case happens when <span class="math inline">\(S\)</span> is the boundary of some region <span class="math inline">\(\Omega\)</span>. We have seen above that the matrix <span class="math inline">\(\tilde S\)</span> is then equal to <span class="math inline">\(\mathrm{diag}(B\mathrm{diag}(\Omega))\)</span>. This observation leads to the <span><strong>graph divergence theorem</strong></span> that says that <span class="math display">\[\int_{\partial\Omega} \mathbf{v\cdot ds} =\int_\Omega\mathrm{div}(\mathbf{v})\]</span> or, in matrix notation, <span class="math display">\[\mathbf{1}_\Omega\cdot(B^T\mathbf{v})
 =
-(B{\mathbf{1}}_\Omega)\cdot\mathbf{v}\]</span> which is exactly the same thing, written differently.</p>
+(B\mathbf{1}_\Omega)\cdot\mathbf{v}\]</span> which is exactly the same thing, written differently.</p>
 </body>
 </html>

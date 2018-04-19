@@ -1,4 +1,4 @@
-\section{Gallery of single layer textures}
+\title{Gallery of single layer textures}
 
 Can a single-layer convolutional neural network hallucinate snowflakes when
 given white noise as input?  The answer is {\bf yes}.
@@ -41,7 +41,7 @@ computations are performed in the frequency domain.  Thus, sometimes it may
 not be evident that there is a single linear filter.  But all the textures in
 this page are indeed single-layer.
 
-\subsection{Binary}
+\section{Binary}
 \includegraphics{binary.png}
 \begin{verbatim}
 plambda canvas randc | blur c 0.5 | plambda - 'x x%m > 255 *' -o binary.png
@@ -49,7 +49,7 @@ plambda canvas randc | blur c 0.5 | plambda - 'x x%m > 255 *' -o binary.png
 Comment: this is Cauchy white noise blurred with a Cauchy kernel, binarized
 at the median value.
 
-\subsection{Disks}
+\section{Disks}
 \includegraphics{disks.png}
 \begin{verbatim}
 plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png
@@ -57,7 +57,7 @@ plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png
 Comment: This is Cauchy white noise blurred with a circular kernel, followed
 by a simplest color balance that saturates~$1\%$ of the pixels.
 
-\subsection{Starfield}
+\section{Starfield}
 \includegraphics{starfield.png}
 \begin{verbatim}
 plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png
@@ -65,7 +65,7 @@ plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png
 Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by
 a simplest color balance that saturates~$1\%$ of the pixels.
 
-\subsection{Blood}
+\section{Blood}
 \includegraphics{blood.png}
 \begin{verbatim}
 SIGMOID='2 * tanh 1 + 2 /'
@@ -75,7 +75,7 @@ plambda canvas randp|blur c 1|plambda - "x x%O80 - $SIGMOID $RED" -o blood.png
 Comment: this is exactly the same image as \verb+starfield.png+, but with a
 red palette.
 
-\subsection{Islands}
+\section{Islands}
 \includegraphics{islands.png}
 \begin{verbatim}
 plambda canvas randu | blur -s z .4 | plambda - 'x x%O80 > 255 *' -o islands.png
@@ -84,7 +84,7 @@ Comment: uniform white noise, blurred by a kernel of the form~$1/\log(r)$,
 binarized to the 80th quantile.
 
 
-\subsection{Clouds}
+\section{Clouds}
 \includegraphics{clouds.png}
 \begin{verbatim}
 SIGMOID='4e4 * tanh 1 + 2 /'
@@ -93,7 +93,7 @@ plambda canvas randg|blur o 0.1|plambda - "x x%m - $SIGMOID $BLUE" -o clouds.png
 \end{verbatim}
 Comment: white Gaussian noise, blurred by a kernel of the form~$\log(r)$, plus a~$\tanh$ contrast change centered around the median value.  Finally, a blue palette is applied.
 
-\subsection{Multiscale}
+\section{Multiscale}
 \includegraphics{multiscale.png}
 \begin{verbatim}
 plambda canvas randg | fft | plambda ':R /' | ifft | qauto - multiscale.png
@@ -102,7 +102,7 @@ plambda canvas randg | fft | plambda ':R /' | ifft | qauto - multiscale.png
 Comment: this is fractal or pink noise, obtained by forcing a spectral decay
 of the form~$1/|\xi|$.
 
-\subsection{Snowflakes}
+\section{Snowflakes}
 \includegraphics{snowflakes.png}
 \begin{verbatim}
 plambda canvas ":x :y join 6 0 join cpow cimag :r 9 ^ / randc 3 ^ join" |\
@@ -114,7 +114,7 @@ kernel~$k(x,y) =
 threshold that keeps only the highest positive values.
 
 
-\subsection{Dandelions}
+\section{Dandelions}
 \includegraphics{dandelions.png}
 \begin{verbatim}
 KERNEL=':x :y join 13 0 join cpow creal :r 13.5 ^ / 3 fmax 3 -'
@@ -126,7 +126,7 @@ Comment: the same construction as \verb+snowflakes.png+ with a different
 degree of polynomial and a green color palette.
 
 
-\subsection{Heptachords}
+\section{Heptachords}
 \includegraphics{heptachords.png}
 \begin{verbatim}
 KERNEL=':x :y join 7 0 join cpow creal :r 8 ^ / 3 fmax 3 -'
@@ -137,7 +137,7 @@ Comment: yet another polynomial kernel with a carefully selected contrast
 change.
 
 
-\subsection{Neurons}
+\section{Neurons}
 \includegraphics{neurons.png}
 \begin{verbatim}
 plambda canvas randp | blur l 10 | plambda 'x,nf' | qeasy 0.4 0 - neurons.png
@@ -145,7 +145,7 @@ plambda canvas randp | blur l 10 | plambda 'x,nf' | qeasy 0.4 0 - neurons.png
 Comment: This is Pareto noise filtered by the derivative of Laplace kernel.
 The final contrast change enhances the near-zero part of the image.
 
-\subsection{Sponge}
+\section{Sponge}
 \includegraphics{sponge.png}
 \begin{verbatim}
 plambda canvas randp | blur i 0.3 | plambda 'x,nf' | qeasy 0.1 0 - sponge.png
@@ -153,7 +153,7 @@ plambda canvas randp | blur i 0.3 | plambda 'x,nf' | qeasy 0.1 0 - sponge.png
 Comment: This is the same as \verb+neurons.png+, but using a Shepard instead
 of a Laplacian kernel.
 
-\subsection{Lava}
+\section{Lava}
 \includegraphics{lava.png}
 \begin{verbatim}
 plambda canvas 'randp randp randp join3' | blur i 0.3 | \
@@ -162,7 +162,7 @@ plambda canvas 'randp randp randp join3' | blur i 0.3 | \
 Comment: Minimum of several instances of Pareto noise filtered by the
 derivative of Shepard kernel.
 
-\subsection{Folds}
+\section{Folds}
 \includegraphics{folds.png}
 \begin{verbatim}
 plambda canvas randg | blur l 30 | plambda 'x,nf -1 *'|qauto -p 0 - folds.png
@@ -171,7 +171,7 @@ Comment: this is white Gaussian noise blurred by the derivative of a large
 Laplace kernel.  The resulting, nearly constant image, is then stretched to
 span a visible dynamic range.
 
-\subsection{Stucco}
+\section{Stucco}
 \includegraphics{stucco.png}
 \begin{verbatim}
 plambda canvas 'randp sqrt' | blur l 2 | plambda 'x,S' | qauto -p 1 - stucco.png
@@ -179,7 +179,7 @@ plambda canvas 'randp sqrt' | blur l 2 | plambda 'x,S' | qauto -p 1 - stucco.png
 Comment: this is the smoothed directional derivative of a high-variance white
 noise.
 
-\subsection{Blobs}
+\section{Blobs}
 \includegraphics{blobs.png}
 \begin{verbatim}
 plambda canvas 'randu randu randu randu randu nstack njoin' | blur g 20 |\
@@ -190,7 +190,7 @@ Comment: this is the max of four Perlin noises.
 
 %VSCRIPT wait
 
-\subsection{Combined}
+\section{Combined}
 \includegraphics{combined.png}
 \begin{verbatim}
 plambda neurons.png starfield.png "dup join3" -o combined.png
@@ -201,7 +201,19 @@ different channels of a color image to obtain funny effects.
 
 \includegraphics{combined2.png}
 \begin{verbatim}
-plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined2.png
+plambda starfield.png neurons.png sponge.png 'join3 -1 1 1 join3 *' |\
+	qauto -i - combined2.png
+\end{verbatim}
+Comment: in color images, the choice of a color palette or another can have dramatic effects.
+
+\includegraphics{comb3.png}
+\begin{verbatim}
+fftshift dandelions.png|plambda - starfield.png -|blur L 20|qauto -i - comb3.png
+\end{verbatim}
+
+\includegraphics{combined4.png}
+\begin{verbatim}
+plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined4.png
 \end{verbatim}
 For unrelated images, the effect is less striking.
 
@@ -287,7 +299,7 @@ For unrelated images, the effect is less striking.
 %	\verb+pareto4.png+ \\
 %\end{tabular}
 
-\subsection{Appendix: Technical details}
+\section{Appendix: Technical details}
 
 The programs required to run these scripts are available in \verb+imscript+:
 \url{http://github.com/mnhrdt/imscript}.

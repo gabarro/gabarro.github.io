@@ -1,7 +1,7 @@
-\section{Colors of image noise}
+\title{Colors of image noise}
 
 
-\subsection{White Gaussian noise}
+\section{White Gaussian noise}
 
 Everybody knows about white Gaussian noise
 
@@ -56,7 +56,7 @@ Statistics of white gaussian noise and its DFT:
 %SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft <w256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot > w256_p.png &
 
 
-\subsection{Blurred white Gaussian noise}
+\section{Blurred white Gaussian noise}
 
 White gaussian noise blurred by a small gaussian kernel:
 
@@ -188,7 +188,7 @@ White gaussian noise blurred by a Square kernel:
 
 
 
-\subsection{Colored gaussian noise}
+\section{Colored gaussian noise}
 
 When the spectrum of noise decays as a power-law, we say that it is
 ``colored'' noise.  The exponent~$\alpha$ of the power law determines its

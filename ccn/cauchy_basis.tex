@@ -1,4 +1,4 @@
-\section{The Cauchy basis}
+\title{The Cauchy basis}
 
 In this note we describe the construction of the {\bf Cauchy basis}, whose
 functions satisfy at the same time Dirichlet and Neumann boundary conditions.
@@ -6,7 +6,7 @@ Besides being beautiful, it is useful to solve fourth-order boundary
 problems.
 
 
-\subsection{1. Introduction: Fourier, cosine and sine basis}
+\section{Introduction: Fourier, cosine and sine basis}
 
 Everybody knows the Fourier basis of $L^2([0,2\pi])$, defined by sine and
 cosine functions of integer frequencies.
@@ -83,7 +83,7 @@ is useful for \emph{Dirichlet boundary conditions}, and the cosine basis is
 useful for \emph{Neumann boundary conditions}.
 
 
-\subsection{2. The Cauchy basis}
+\section{The Cauchy basis}
 
 The functions of the Cauchy basis, defined below, satisfy simultaneously the
 four conditions~$f(0)=f(1)=f'(0)=f'(1)=0$.
@@ -170,7 +170,7 @@ inside the interval~$[0,1]$, they explode in wild ways outside this interval:
 %SCRIPT plot [-0.25:1.25] [-2:2] v(L(1),x),v(L(2),x),v(L(3),x),v(L(4),x),v(L(5),x)
 %SCRIPT END
 
-\subsection{3. Properties and open problems}
+\section{Properties and open problems}
 
 We have just defined a set of functions~$\varphi_n(x)$.  By construction,
 they are $C^\infty$ functions on the interval~$[0,1]$ that
@@ -212,7 +212,7 @@ done:
 Some of these propositions are easy, others may not actually be possible
 (especially the last one).
 
-\subsection{4. Detailed calculation}
+\section{Detailed calculation}
 
 In this section we detail the construction leading to the Cauchy basis.
 The computation has two parts.  First, we explain how the
@@ -221,7 +221,7 @@ and then we propose a numerical approximation of the solutions of this
 equation.
 
 
-\subsubsection{4.1. The eigenvalue equation}
+\subsection{The eigenvalue equation}
 We start with the basic form
 $$
 \varphi(x)=
@@ -334,7 +334,7 @@ $$
 and this last expression is more amenable to computations (derivatives,
 integrals, scalar products).
 
-\subsubsection{4.1. Numerical solution of the eigenvalue equation}
+\subsection{Numerical solution of the eigenvalue equation}
 
 By plotting the function~$x\to\cos x\cosh x$, it is clear that it crosses the
 value~$1$ infinitely many times, very near to the zeros of~$\cos x$, except
@@ -389,7 +389,7 @@ others.
 
 
 
-\subsection{5. Computer code}
+\section{Computer code}
 This is the complete \verb+gnuplot+ code to produce plots of the Cauchy
 basis:
 

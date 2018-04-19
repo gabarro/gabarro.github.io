@@ -1,14 +1,18 @@
 #!/bin/sh
 
-#set -e
+set -e
 set -x
 
 T=`mktemp -d /tmp/pdflatexfilter.XXXXXX`
 
 cat /dev/stdin > $T/a.tex
-export TEXINPUTS=`pwd`:
-pdflatex -interaction nonstopmode -output-directory $T $T/a >$T/oo 2>$T/oe
+
+#optionally, add a \maketitle if \title appears inside the document
+if true; then
+	sed '/^\\title{/s/$/\\date{}\\maketitle/' -i $T/a.tex
+fi
+
+pdflatex -interaction nonstopmode -output-directory $T $T/a >$T/oo 2>$T/oe || cat $T/oo >&2
 cat $T/a.pdf
 
-echo $T
-#rm -rf $T
+rm -rf $T

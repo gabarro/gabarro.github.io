@@ -1,73 +1,83 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>The standard PDE on a manifold</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
   <style type="text/css">
   	body{max-width:90ex;}
   	pre{background:lightgray;width:80ch;}
   </style>
 </head>
 <body>
-<h1 id="the-standard-pde-on-a-manifold">The standard PDE on a manifold</h1>
+<header>
+<h1 class="title">The standard PDE on a manifold</h1>
+</header>
 <p>We state and solve the standard second-order linear PDE on a compact Riemannian manifold: the potential, diffusion, diffraction and wave equations.</p>
-<h2 id="the-laplace-beltrami-spectrum">1. The Laplace-Beltrami spectrum</h2>
+<h2 id="the-laplace-beltrami-spectrum"><span class="header-section-number">1</span> The Laplace-Beltrami spectrum</h2>
 <p>Let <span class="math inline">\(M\)</span> be a compact Riemannian manifold (with or without boundary), and let <span class="math inline">\(\Delta\)</span> be its Laplace-Beltrami operator, defined as <span class="math inline">\(\Delta=*d*d\)</span>, where <span class="math inline">\(d\)</span> is the exterior derivative (which is independent of the metric) and <span class="math inline">\(*\)</span> is the Hodge duality between <span class="math inline">\(p\)</span>-forms and <span class="math inline">\(d-p\)</span>-forms (which is defined using the metric).</p>
 <p>The following are standard results in differential geometry (see e.g. Warner’s book chapter 6 <a href="https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf">https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf</a>)</p>
 <ul>
 <li><p>There is a sequence of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span> functions <span class="math inline">\(\varphi_n\)</span> and positive numbers <span class="math inline">\(\lambda_n\to\infty\)</span> such that <span class="math display">\[\Delta\varphi_n=-\lambda_n\varphi_n\]</span></p></li>
 <li><p>The functions <span class="math inline">\(\varphi_n\)</span>, suitably normalized, are an orthonormal basis of <span class="math inline">\(L^2(M)\)</span>.</p></li>
 </ul>
-<p>These results generalize Fourier series to an arbitrary smooth manifold <span class="math inline">\(M\)</span>. Any square-integrable function <span class="math inline">\(f:M\to{\mathbf{R}}\)</span> is written uniquely as <span class="math display">\[f(x)=\sum_nf_n\varphi_n(x)\]</span> and the coefficients <span class="math inline">\(f_n\)</span> are computed by <span class="math display">\[f_n=\int_Mf\varphi_n.\]</span> Some particular cases are the habitual Fourier and sine bases (but not the cosine basis), bessel functions for the disk, and spherical harmonics for the surface of a sphere.</p>
+<p>These results generalize Fourier series to an arbitrary smooth manifold <span class="math inline">\(M\)</span>. Any square-integrable function <span class="math inline">\(f:M\to\mathbf{R}\)</span> is written uniquely as <span class="math display">\[f(x)=\sum_nf_n\varphi_n(x)\]</span> and the coefficients <span class="math inline">\(f_n\)</span> are computed by <span class="math display">\[f_n=\int_Mf\varphi_n.\]</span> Some particular cases are the habitual Fourier and sine bases (but not the cosine basis), bessel functions for the disk, and spherical harmonics for the surface of a sphere.</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left"></th>
-<th align="center"><span class="math inline">\(M\)</span></th>
-<th align="center"><span class="math inline">\(\varphi_n\)</span></th>
-<th align="right"><span class="math inline">\(-\lambda_n\)</span></th>
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><span class="math inline">\(M\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\varphi_n\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(-\lambda_n\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">interval</td>
-<td align="center"><span class="math inline">\([0,2\pi]\)</span></td>
-<td align="center"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\)</span></td>
-<td align="right"><span class="math inline">\(n^2/4\)</span></td>
+<td style="text-align: left;">interval</td>
+<td style="text-align: center;"><span class="math inline">\([0,2\pi]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n^2/4\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">circle</td>
-<td align="center"><span class="math inline">\(S^1\)</span></td>
-<td align="center"><span class="math inline">\(\sin(n\theta),\cos(n\theta)\)</span></td>
-<td align="right"><span class="math inline">\(n^2\)</span></td>
+<td style="text-align: left;">circle</td>
+<td style="text-align: center;"><span class="math inline">\(S^1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sin(n\theta),\cos(n\theta)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n^2\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">square</td>
-<td align="center"><span class="math inline">\([0,2\pi]^2\)</span></td>
-<td align="center"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\sin\left(\frac{m\theta}{2}\right)\)</span></td>
-<td align="right"><span class="math inline">\(\frac{n^2+m^2}{4}\)</span></td>
+<td style="text-align: left;">square</td>
+<td style="text-align: center;"><span class="math inline">\([0,2\pi]^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sin\left(\frac{nx}{2}\right)\sin\left(\frac{m\theta}{2}\right)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(\frac{n^2+m^2}{4}\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">torus</td>
-<td align="center"><span class="math inline">\((S^1)^2\)</span></td>
-<td align="center"><span class="math inline">\(\sin(nx)\sin(my),\ldots\)</span></td>
-<td align="right"><span class="math inline">\(n^2+m^2\)</span></td>
+<td style="text-align: left;">torus</td>
+<td style="text-align: center;"><span class="math inline">\((S^1)^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sin(nx)\sin(my),\ldots\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n^2+m^2\)</span></td>
 </tr>
 <tr class="odd">
-<td align="left">disk</td>
-<td align="center"><span class="math inline">\(|r|\le1\)</span></td>
-<td align="center"><span class="math inline">\(\sin,\cos(n\theta)J_n(\rho_{m,n}r)\)</span></td>
-<td align="right"><span class="math inline">\(\rho_{m,n}\)</span> roots of <span class="math inline">\(J_n\)</span></td>
+<td style="text-align: left;">disk</td>
+<td style="text-align: center;"><span class="math inline">\(|r|\le1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sin,\cos(n\theta)J_n(\rho_{m,n}r)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(\rho_{m,n}\)</span> roots of <span class="math inline">\(J_n\)</span></td>
 </tr>
 <tr class="even">
-<td align="left">sphere</td>
-<td align="center"><span class="math inline">\(S^2\)</span></td>
-<td align="center"><span class="math inline">\(Y^m_l(\theta,\varphi)\)</span></td>
-<td align="right"><span class="math inline">\(l^2+l\)</span></td>
+<td style="text-align: left;">sphere</td>
+<td style="text-align: center;"><span class="math inline">\(S^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(Y^m_l(\theta,\varphi)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(l^2+l\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -76,11 +86,11 @@
 <p>The zeros of <span class="math inline">\(\varphi_n\)</span> are called the nodal curves (or nodal sets) of <span class="math inline">\(M\)</span>, or also the Chladni patterns. If <span class="math inline">\(M\)</span> is a subdomain of the plane, these patterns can be found by cutting an object in the shape of <span class="math inline">\(M\)</span>, pouring a layer of sand over it, and letting it vibrate by high-volume sound waves at different frequencies. For most frequencies, the sand will not form any particular pattern, but when the frequency coincides with a <span class="math inline">\(\sqrt{\lambda_n}\)</span>, the sand will accumulate over the set <span class="math inline">\([\varphi_n=0]\)</span>, which is the set of points of the surface that do not move when the surface vibrates at this frequency. In the typical case, the number of connected components of <span class="math inline">\([\varphi_n&gt;0]\)</span> grows linearly with <span class="math inline">\(n\)</span>, thus the functions <span class="math inline">\(\varphi_n\)</span> become more oscillating (less regular) as <span class="math inline">\(n\)</span> grows.</p>
 <p>Generally, symmetries of <span class="math inline">\(M\)</span> arise as multiplicities of eigenvalues. The Laplace-Beltrami spectrum <span class="math inline">\({\lambda_1,\lambda_2,\lambda_3,\ldots}\)</span> is closely related, but not identical, to the geodesic length spectrum, that measures the sequence of lengths of all closed geodesics of <span class="math inline">\(M\)</span>. The grand old man of this theory is Yves Colin de Verdière, student of Marcel Berger.</p>
 <p>Geometry is not in general a spectral invariant, but non-isometric manifolds with the same spectrum are difficult to come by. The first pair of distinct but isospectral manifolds was wound in 1964 by John Milnor, in dimension 16. The first example in dimension 2 was found in 1992 by Gordon, Webb and Wolperd, and it answered negatively the famous question of Marc Kac “Can you hear the shape of a drum?’. In 2018, we have many ways to construct discrete and continuous families of isospectral manifolds in dimensions two and above.</p>
-<h2 id="the-standard-equations-and-their-explicit-solutions">2. The standard equations and their explicit solutions</h2>
-<p>The classical linear second order equations (potential, heat, wave and Schrödinger) are all defined in terms of the Laplacian operator in space. Thus, they can be defined readily on an arbitrary Riemannian manifold <span class="math inline">\(M\)</span>. If <span class="math inline">\(M\)</span> is compact, the solution can be found explicitly in terms of the Laplace-Beltrami eigenfunctions. Henceforth we will call the expression of a function <span class="math inline">\(f:M\to{\mathbf{R}}\)</span> as <span class="math inline">\(f=\sum_nf_n\varphi_n\)</span> the Fourier series of <span class="math inline">\(f\)</span>, the numbers <span class="math inline">\(f_n\)</span> the Fourier coefficients of <span class="math inline">\(f\)</span> and so on.</p>
+<h2 id="the-standard-equations-and-their-explicit-solutions"><span class="header-section-number">2</span> The standard equations and their explicit solutions</h2>
+<p>The classical linear second order equations (potential, heat, wave and Schrödinger) are all defined in terms of the Laplacian operator in space. Thus, they can be defined readily on an arbitrary Riemannian manifold <span class="math inline">\(M\)</span>. If <span class="math inline">\(M\)</span> is compact, the solution can be found explicitly in terms of the Laplace-Beltrami eigenfunctions. Henceforth we will call the expression of a function <span class="math inline">\(f:M\to\mathbf{R}\)</span> as <span class="math inline">\(f=\sum_nf_n\varphi_n\)</span> the Fourier series of <span class="math inline">\(f\)</span>, the numbers <span class="math inline">\(f_n\)</span> the Fourier coefficients of <span class="math inline">\(f\)</span> and so on.</p>
 <p>The simplest case is <span><strong>Poisson equation</strong></span> <span class="math display">\[\Delta u = f\]</span> The solution is found by expressing <span class="math inline">\(u\)</span> and <span class="math inline">\(f\)</span> as Fourier series and identifying the coefficients: <span class="math display">\[u(x) = \sum_n\frac{-f_n}{\lambda_n}\varphi_n(x)\]</span> Notice that since <span class="math inline">\(\lambda_n\to\infty\)</span>, the Fourier coefficients of <span class="math inline">\(u\)</span> tend to zero faster than those of <span class="math inline">\(f\)</span>, thus <span class="math inline">\(u\)</span> is more regular than <span class="math inline">\(f\)</span> (this is obvious from the equation, since <span class="math inline">\(\Delta u\)</span> is less regular than <span class="math inline">\(u\)</span>).</p>
 <p>Another simple case is the <span><strong>screened Poisson equation</strong></span> <span class="math display">\[\Delta u = \alpha u + f\]</span> and the solution is found by the same technique: <span class="math display">\[u(x) = \sum_n\frac{-f_n}{\alpha+\lambda_n}\varphi_n(x)\]</span> This is like the regular Poisson equation, but the regularity is enhanced by <span class="math inline">\(\alpha\)</span>.</p>
-<p>The next case is the <span><strong>heat equation</strong></span>, also called <span><strong>diffusion</strong></span> or <span><strong>smoothing</strong></span> equation: <span class="math display">\[\begin{cases}
+<p>The next case is the <span><strong>heat equation</strong></span>, also called <span><strong>diffusion</strong></span> or <span> <strong>smoothing</strong></span> equation: <span class="math display">\[\begin{cases}
     u_t = \Delta u &amp; (x,t)\in M\times[0,T] \\
     u(x,0)=g(x) &amp; x\in M\\
 \end{cases}\]</span> This equation requires an initial condition <span class="math inline">\(g\)</span>. The solution is found by separation of variables, which leads to a trivial ODE, resulting in <span class="math display">\[u(x,t)=\sum_ng_ne^{-{\lambda_n}t}\varphi_n(x)\]</span> It is immediate to check that this expression is a solution of the heat equation with initial condition <span class="math inline">\(g\)</span>. Several properties of the solution are visible from this form, most notably that <span class="math inline">\(u(x,\infty)=u_1\)</span> if <span class="math inline">\(\lambda_1=0\)</span>, or <span class="math inline">\(1\)</span> otherwise. A pure vibration mode <span class="math inline">\(\varphi_n\)</span> decays exponentially to zero, and the speed of the exponential decay is <span class="math inline">\(\lambda_n\)</span>.</p>
@@ -127,13 +137,13 @@
     +
     \frac{h_n}{\sqrt{\lambda_n}}\sin\left(\sqrt{\lambda_n} t\right)
     \right)\varphi_n(x)\]</span> is found by the same methods as above.</p>
-<h2 id="discretization-and-implementation-in-octave">3. Discretization and implementation in Octave</h2>
+<h2 id="discretization-and-implementation-in-octave"><span class="header-section-number">3</span> Discretization and implementation in Octave</h2>
 <p>Except in emblematic cases (rectangle, torus, sphere) the eigenfunctions of an arbitrary manifold <span class="math inline">\(M\)</span> do not have a closed-form expression.</p>
 <p>For practical computations, we are thus restricted to numerical methods in the discrete case. The most convenient form for this discretization is to representd <span class="math inline">\(M\)</span> as a graph with weights in their edges. In this context, we have the following objects</p>
 <ul>
 <li><p>The weighted graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math inline">\(V\)</span> is a set of <span class="math inline">\(n\)</span> vertices.</p></li>
 <li><p>The Laplacian matrix <span class="math inline">\(L\)</span> of this graph, which is of size <span class="math inline">\(n\times n\)</span></p></li>
-<li><p>The space <span class="math inline">\({\mathbf{R}}^n\)</span> is identified with functions <span class="math inline">\(V\to{\mathbf{R}}\)</span>. Thus <span class="math inline">\({\mathbf{R}}^n\)</span> is the discrete version of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span>.</p></li>
+<li><p>The space <span class="math inline">\(\mathbf{R}^n\)</span> is identified with functions <span class="math inline">\(V\to\mathbf{R}\)</span>. Thus <span class="math inline">\(\mathbf{R}^n\)</span> is the discrete version of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span>.</p></li>
 </ul>
 <p>typically <span class="math inline">\(L\)</span> will be a matrix of rank <span class="math inline">\(n-1\)</span> with a constant eigenvector of eigenvalue 0.</p>
 <p>We can find the eigensystem of <span class="math inline">\(L\)</span> by calling <code>eigs(L)</code> in octave, and transfer the solutions obtained above using the obtained eigenvectors and eigenvalues. However, in most cases the solution is more easily obtained by solving a linear problem.</p>

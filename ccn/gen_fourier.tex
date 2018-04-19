@@ -1,4 +1,4 @@
-\section{Generalizations of Fourier analysis}
+\title{Generalizations of Fourier analysis}
 
 When I first learned about Fourier series and integrals, I hated it
 because it seemed like a collection of many ad-hoc definitions,
@@ -13,7 +13,8 @@ the original theory.
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\Z}{\mathbf{Z}}
 \newcommand{\Q}{\mathbf{Q}}
-\renewcommand{\C}{\mathbf{C}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\U}{\mathbf{U}}
 \newcommand{\ud}{\mathrm{d}}
 
 \begin{itemize}
@@ -92,14 +93,14 @@ And all of them will be right.
 %Pontryagin duality and Laplace-Beltrami spectral theory.  They lead to two
 %different, but equivalent, definitions of spherical harmonics.
 
-\subsection{0. The four classic cases}
+\section{The four classic cases}
 
 The {\bf classic cases} of Fourier analysis are used to express an
 arbitrary function~$f(x)$ as a linear combination of sinusoidal functions
 of the form~$x\to e^{i\xi x}$.  There are {\bf four} cases, depending on
 the space where~$x$ belongs.
 
-\subsubsection{0.1. Fourier series}
+\subsection{Fourier series}
 
 Any periodic function
 $$
@@ -123,7 +124,7 @@ $$
 %\frac{1}{2\pi}\int_{S^1}|f(\theta)|^2\mathrm{d}\theta
 %$$
 
-\subsubsection{0.2. Fourier transform}
+\subsection{Fourier transform}
 
 An arbitrary (integrable) function
 $$
@@ -152,7 +153,7 @@ transform of a periodic function.
 
 
 
-\subsubsection{0.3. Discrete Fourier transform}
+\subsection{Discrete Fourier transform}
 
 In the finite case, you can express any vector
 \begin{equation}
@@ -169,7 +170,7 @@ $$
 a_l = \frac{1}{N}\sum_k f_k e^{-\frac{2\pi}{N}ikl}
 $$
 
-\subsubsection{0.4. Discrete-time Fourier transform}
+\subsection{Discrete-time Fourier transform}
 
 Finally, if you have a doubly-infinite sequence:
 \begin{equation}
@@ -192,7 +193,7 @@ This is an important symmetry.
 
 
 
-\subsection{2. Pontryagin duality}
+\section{Pontryagin duality}
 
 Pontryagin duality extracts the essence of the definitions of Fourier
 series, Fourier integrals and discrete Fourier transforms.  The main idea is
@@ -218,15 +219,15 @@ Notice that these formulas include Fourier series, Fourier integrals, the
 DFT and the DTFT as particular cases, according to the following table
 
 \begin{tabular}{l|llll}
-	 & spatial domain & frequency domain & analysis & synthesis \\
+	 & space & freq. & analysis & synthesis \\
 	\hline
-	general case &
+	&
 	$G$ &
 	$G^*$ &
 	$\displaystyle\widehat{f}(\xi)=\int_G f(x) \overline{E(\xi,x)}\ud x$ &
 	$\displaystyle f(x)=\int_{G^*} \widehat{f}(\xi)E(\xi,x)\ud\xi$
 	\\
-	Fourier series &
+	FS &
 	$S^1$ &
 	$\Z$ &
 	$\displaystyle f_n =
@@ -235,11 +236,11 @@ DFT and the DTFT as particular cases, according to the following table
 	$\displaystyle f(\theta)=\sum_{n\in\mathbf{Z}} f_n
 			e^{in\theta}$
 	\\
-	Fourier integrals &
+	FT &
 	$\R$ &
 	$\R$ &
-	$\displaystyle\widehat{f}(\xi)=\int_\R f(x)e^{-i\xi x}\ud x$ &
-	$\displaystyle f(x)=\frac{1}{2\pi}\int_{\mathbf{R}} \widehat{f}(\xi)e^{i\xi x}\ud \xi$
+	$\displaystyle\widehat{f}(\xi)=\frac{1}{\sqrt{2\pi}}\int_\R f(x)e^{-i\xi x}\ud x$ &
+	$\displaystyle f(x)=\frac{1}{\sqrt{2\pi}}\int_{\mathbf{R}} \widehat{f}(\xi)e^{i\xi x}\ud \xi$
 	\\
 	DFT &
 	$\Z_N$ &
@@ -254,7 +255,7 @@ DFT and the DTFT as particular cases, according to the following table
 	$\displaystyle f_n = \frac{1}{2\pi}\int_0^{2\pi}\widehat{f}(\theta)e^{in\theta}\ud\theta$
 \end{tabular}
 
-\subsubsection{2.1. Locally compact abelian groups}
+\subsection{Locally compact abelian groups}
 
 A topological group is a group together with a topology compatible with the
 group operation.  A morphism between two topological groups is a mapping
@@ -265,12 +266,12 @@ $x$ by $-x$.
 
 The canonical example of LCAG is $\R^n$ with the usual topology and
 the operation of sum of vectors.  Another example of LCAG is the
-multiplicative group $\mathbf{U}$ of complex numbers of norm 1, which
+multiplicative group $\U$ of complex numbers of norm 1, which
 topologically coincides with the unit circle $S^1$.  Other examples are any
 finite abelian group with the discrete topology; or $\Z$, the
 additive group of integers with the discrete topology.
 
-The group $\mathbf{U}$ is very important in the following discussion.  It can
+The group $\U$ is very important in the following discussion.  It can
 be denoted multiplicatively (by considering its elements as complex numbers),
 or additively (by considering its elements as angles).  Both notations are
 used henceforth, and they are linked by the relation
@@ -281,10 +282,10 @@ e^{i(\alpha+\beta)}
 \]
 
 
-\subsubsection{2.2. Characters and the dual group}
+\subsection{Characters and the dual group}
 
 Let $G$ be a LCAG.  A character of $G$ is a morphism from $G$ to
-$\mathbf{U}$.  The set $G'$ of all characters of $G$ is a group (with the
+$\U$.  The set $G'$ of all characters of $G$ is a group (with the
 operation of pointwise sum of mappings) and also a topological space (with the topology
 of compact convergence).  It turns out that this group is locally compact,
 thus it is a LCAG.  It is called the dual group of $G$.  There is a canonical
@@ -294,7 +295,7 @@ isomorphic to its bidual.  Another result states that $G$ is compact if an
 only if its dual is discrete.
 
 For example, the dual group of $\R^n$ is itself.  The integers
-$\Z$ and the unit circle $\mathbf{U}$ are dual to each other.
+$\Z$ and the unit circle $\U$ are dual to each other.
 The dual of any finite group is isomorphic (though non-canonically) to
 itself.
 
@@ -312,7 +313,7 @@ definitions
 	group
 \end{itemize}
 
-\subsubsection{2.3. Haar measures}
+\subsection{Haar measures}
 
 Let $G$ be a LCAG.  A non-vanishing measure over $G$ which is invariant by
 translations is called a Haar measure.  Haar's theorem states that there is a
@@ -329,7 +330,7 @@ the $p$th power of their norm has finite integral with respect to Haar's
 measure.  Notice that the set $L^p(G)$ does not depend on the actual choice
 of normalization factor selected for the definition of the Haar measure.
 
-\subsubsection{2.4. Fourier transform}
+\subsection{Fourier transform}
 
 Now we can define a general notion of Fourier transforms, for functions
 belonging to the space $L^1(G)$.  The Fourier
@@ -355,7 +356,7 @@ without the conjugate:
 Note that these definitions require selecting Haar measures on $G$
 and $G'$ (this amounts to fixing two arbitrary constants).
 
-\subsubsection{2.5. Harmonic analysis on locally compact abelian groups}
+\subsection{Harmonic analysis on locally compact abelian groups}
 
 So far we have just given definitions: LCAG, characters, dual group, Haar
 measure, and Fourier transform.  Now it is time to recover the main results
@@ -414,7 +415,7 @@ case of Fourier transforms on the real line.  You just have to check
 that all the steps on the proof make sense in a group.
 
 
-\subsection{3. Sampling theory}
+\section{Sampling theory}
 
 Pontryagin duality gives an unified treatment of the four classic
 cases in Fourier analysis: you are always doing exactly the same
@@ -529,7 +530,7 @@ diagram:
 
 
 
-\subsection{4. Distributions}
+\section{Distributions}
 
 Notice that most of sampling theory can be done without recourse to
 distributions.  Indeed, Shannon, Nyquist, Whittaker, Borel, all
@@ -555,7 +556,7 @@ smooth function~$f$ by multiplying it by a Dirac comb.  Thus,
 the sampling operation is linear a mapping between subspaces of the same
 space: tempered distributions.
 
-\subsubsection{4.0. Distributions: overview}
+\subsection{Distributions: overview}
 
 Distributions are an extension of functions just like the real
 numbers~$R$ are an extension of the rationals~$Q$.  Most of the
@@ -611,7 +612,7 @@ And these are the prices to pay for the daring:
 		distributions
 \end{itemize}
 
-\subsubsection{4.1. Distributions: definition}
+\subsection{Distributions: definition}
 
 There are several, rather different, definitions of distribution.
 The most practical definition today seems to be as the topological
@@ -725,7 +726,7 @@ is locally integrable, and its derivative is well-defined in the
 sense of distributions.  The Dirac delta belongs to all three
 spaces~$\mathcal{D}'$, $\mathcal{S}'$ and $\mathcal{E}'$.
 
-From Diracs, we can define many other distributions, by applying
+Using Diracs, we can define many other distributions, by applying
 shifts, derivatives, and vector space operations.  For example, the
 {\bf Dirac comb} is defined as
 $$
@@ -740,11 +741,12 @@ the series is not necessarily convergent for arbitrary test
 functions, for example~$\varphi=1\in\mathcal{E}$).
 
 We can do other crazy things, like~$\sum_{n\ge 0}\delta^{(n)}(x-n)$,
-but not anything.  For example~$\sum_{n\ge 0}\delta^{(n)}(x)$ is not
-well defined, because there is not a guarantee that the sum of all
-derivatives of a test function at the same point converges.
+which is also well defined when applied to a test function.  But we
+cannot do everything.  For example~$\sum_{n\ge 0}\delta^{(n)}(x)$ is
+not well defined, because there is not a guarantee that the sum of
+all derivatives of a test function at the same point converges.
 
-\subsubsection{4.2. Fourier transform of distributions}
+\subsection{Fourier transform of distributions}
 
 How to define the Fourier transform of a distribution?
 We need to find a definition that extends the definition that we
@@ -791,7 +793,7 @@ property that~$f''$ is constant, thus~$\widehat{f''}$ is a Dirac, and
 then~$\widehat{f}$ is the second derivative of a Dirac.
 
 
-\subsubsection{4.3. Sampling with Diracs}
+\subsection{Sampling with Diracs}
 
 Can we compute the Fourier transform of~$f(x)=e^x$ ?  No, because it
 is not a slowly growing function, and it does not correspond to any
@@ -819,7 +821,7 @@ $$
 \textrm{(typeset the computation)}
 $$
 
-\subsection{5. Spectral geometry}
+\section{Spectral geometry}
 
 Spectral theory provides a brutal generalization of a large part of
 Fourier analysis.  We do away with the group structure (and thus with

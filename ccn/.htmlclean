@@ -1,0 +1,7 @@
+s/lang=""//
+s/^<h3/<h4/g
+s/^<h2/<h3/g
+/.*class="title"/! s/^<h1/<h2/g
+s_</h3>_</h4>_g
+s_</h2>_</h3>_g
+/.*class="title"/! s_</h1>_</h2>_g

@@ -1,11 +1,14 @@
 \documentclass[a4paper]{amsart}    % base article class
 \usepackage[utf8]{inputenc}         % allow utf8 input
 \usepackage{graphicx}               % includegraphics
-\usepackage{amsmath}                % fancier math
-\usepackage{mathptmx}
+%\usepackage{amsmath}                % fancier math
+%\usepackage{mathptmx}               % times new roman font
+\usepackage[oldstylemath,oldstyle]{kpfonts}
+%\usepackage[oldstylemath]{kpfonts}
 \usepackage{hyperref,url}           % hyperlinks and urls
 \setlength{\parindent}{0pt}         % no paragraph indentation
 \setlength{\parskip}{7pt}           % spacing between paragraphs
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \pdfimageresolution 200             % change the default for included png files
+\makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
 \begin{document}

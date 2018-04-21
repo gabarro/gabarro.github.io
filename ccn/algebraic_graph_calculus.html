@@ -101,7 +101,16 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
 \end{cases}\)</span></p>
 <h3 id="the-adjacency-list"><span class="header-section-number">2.1</span> The adjacency list</h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency list is a matrix of <span class="math inline">\(m\)</span> rows and <span class="math inline">\(2\)</span> columns that contains the pairs of vertices connected by each edge. The entries of this matrix are integers on the set <span class="math inline">\(\{1,\ldots,n\}\)</span>. Thus, if the <span class="math inline">\(k\)</span>-th row is <span class="math inline">\((i,j)\)</span>, this means that edge <span class="math inline">\(k\)</span> connects vertices <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>.</p>
-<p><span>ll</span> <img src="graph2.png" alt="image" /> &amp;</p>
+<p><span>ll</span> <img src="graph2.png" alt="image" /> &amp; <span class="math display">\[\textrm{adjacency list} =
+    \begin{pmatrix}
+        1 &amp; 2 \\
+        1 &amp; 3 \\
+        2 &amp; 4 \\
+        3 &amp; 4 \\
+        4 &amp; 5 \\
+        5 &amp; 6 \\
+        4 &amp; 6 \\
+    \end{pmatrix}\]</span></p>
 <p>The adjacency list is a very efficient representation for sparse graphs (where the number of edges is proportional to the number of vertices). However, it is not very interesting from the algebraic point of view. We will see in the following three other matrices that have a very rich algebraic interpretation.</p>
 <h3 id="the-adjacency-matrix-a"><span class="header-section-number">2.2</span> The adjacency matrix <span class="math inline">\(A\)</span></h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency matrix is a square matrix <span class="math inline">\(A=a_{ij}\)</span> of size <span class="math inline">\(n\times n\)</span>. The entries of <span class="math inline">\(A\)</span> are zeros and ones, with <span class="math inline">\(a_{ij}=1\)</span> if there is an edge from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and <span class="math inline">\(a_{ij}=0\)</span> otherwise.</p>

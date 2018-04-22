@@ -350,8 +350,8 @@ L = A+A' - diag(sum(A+A'));                # graph laplacian
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
 %SCRIPT         n = sprintf("o/chladni_%03d.png", i);
-%SCRIPT         x = reshape(200*double(0<f(:,i)),w,w);
-%SCRIPT         iio_write(n, x);
+%SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
+%SCRIPT         imwrite(x, n);
 %SCRIPT endfor
 %SCRIPT END
 
@@ -450,8 +450,8 @@ L = A + A';                                 # graph laplacian
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
 %SCRIPT         n = sprintf("o/dchladni_%03d.png", i);
-%SCRIPT         x = reshape(200*double(0<f(:,i)),w,w);
-%SCRIPT         iio_write(n, x);
+%SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
+%SCRIPT         imwrite(x, n);
 %SCRIPT endfor
 %SCRIPT END
 

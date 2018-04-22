@@ -241,14 +241,15 @@ from $1$ to $n$.  Thus, the set $E$ is also finite (the cardinal is at most
 $n^2$) and we assume that the elements of $E$ are numbered from $1$ to $m$.
 
 
-\begin{tabular}{ll}
-\includegraphics{graph1.png} &
-%SCRIPT echo 'graph {1--2--4--5--6--4--3--1}' | neato -Tpng > graph1.png
-$\begin{cases}
-V  & = \{1,2,3,4,5,6\} \\
-E  & = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
-\end{cases}$
-\end{tabular}
+\includegraphics{graph1.png}
+%SCRIPT echo 'graph {
+%SCRIPT node[shape=circle width=0.3 fixedsize=true]
+%SCRIPT edge [len=0.5]
+%SCRIPT 1--2--4--5--6--4--3--1}' | neato -Tpng > graph1.png
+$\displaystyle\begin{matrix}
+	V   = \{1,2,3,4,5,6\} \\
+	E   =  \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
+\end{matrix}$
 
 
 \subsection{The adjacency list}
@@ -261,9 +262,10 @@ each edge.  The entries of this matrix are integers on the set
 $\{1,\ldots,n\}$. Thus, if the $k$-th row is $(i,j)$, this means that edge
 $k$ connects vertices $i$ to $j$.
 
-\begin{tabular}{ll}
-\includegraphics{graph2.png} &
+\includegraphics{graph2.png}
 %SCRIPT echo 'graph {
+%SCRIPT rankdir="LR"
+%SCRIPT node[shape=circle width=0.3 fixedsize=true]
 %SCRIPT 1--2 [label="1"]
 %SCRIPT 1--3 [label="2"]
 %SCRIPT 2--4 [label="3"]
@@ -272,7 +274,7 @@ $k$ connects vertices $i$ to $j$.
 %SCRIPT 5--6 [label="6"]
 %SCRIPT 4--6 [label="7"]
 %SCRIPT }' | dot -Tpng > graph2.png
-\begin{equation*}
+$
 	\textrm{adjacency list} =
 	\begin{pmatrix}
 		1 & 2 \\
@@ -283,8 +285,7 @@ $k$ connects vertices $i$ to $j$.
 		5 & 6 \\
 		4 & 6 \\
 	\end{pmatrix}
-\end{equation*}
-\end{tabular}
+$
 
 
 The adjacency list is a very efficient representation for sparse graphs (where
@@ -302,7 +303,7 @@ the adjacency matrix is a square matrix $A=a_{ij}$ of size $n\times n$.
 The entries of $A$ are zeros and ones, with $a_{ij}=1$ if there is an edge
 from $i$ to $j$ and $a_{ij}=0$ otherwise.
 
-$$
+$
 A =
 \begin{array}{l|lllllll}
 	V\backslash V
@@ -315,7 +316,8 @@ A =
 	5 & 0 & 0 & 0 & 1 & 0 & 1 \\
 	6 & 0 & 0 & 0 & 1 & 1 & 0 \\
 \end{array}
-$$
+$
+\includegraphics{graph2.png}
 
 Notice that this matrix has somewhat less information than the adjacency
 list, because the ordering of the edges is lost.  Thus, there is a unique way
@@ -340,7 +342,7 @@ In the typical case where $A$ is symmetric with 0 on the diagonal, the matrix
 L is the same as A with minus the degree of each vertex on the diagonal
 entries.
 
-$$
+$
 L =
 \begin{array}{l|lllllll}
 	V\backslash V
@@ -353,7 +355,8 @@ L =
 	5 & 0 & 0 & 0 & 1 &-2 & 1 \\
 	6 & 0 & 0 & 0 & 1 & 1 &-2 \\
 \end{array}
-$$
+$
+\includegraphics{graph2.png}
 
 
 \subsection{The incidence matrix $B$}
@@ -366,7 +369,7 @@ edges of the graph: if the $k$-th edge goes from $i$ to $j$, then, on the
 $k$th row there are values $-1$ and $1$ on positions $i$ and $j$
 respectively; there are zeros everywhere else.
 
-$$
+$
 B =
 \begin{array}{l|lllllll}
 	E\backslash V
@@ -380,7 +383,8 @@ B =
 	6 & 0 & 0 & 0 & 0 &-1 & 1 \\
 	7 & 0 & 0 & 0 &-1 & 0 & 1 \\
 \end{array}
-$$
+$
+\includegraphics{graph2.png}
 
 
 

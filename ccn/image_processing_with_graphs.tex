@@ -108,9 +108,6 @@ Z = \begin{pmatrix}
 3 & 5 \\
 4 & 5
 \end{pmatrix}_{\small 6\times 2}
-$$
-
-$$
 A = \begin{pmatrix}
 	0 & 1 & 1 & 0 & 0 \\
 	1 & 0 & 1 & 0 & 0 \\
@@ -118,9 +115,6 @@ A = \begin{pmatrix}
 	0 & 0 & 1 & 0 & 1 \\
 	0 & 0 & 1 & 1 & 0 \\
 \end{pmatrix}_{\small 5\times 5}
-$$
-
-$$
 B = \begin{pmatrix}
 	-1& 1 & 0 & 0 & 0 \\
 	-1& 0 & 1 & 0 & 0 \\
@@ -449,19 +443,26 @@ example, the dilation of a mask~$m$ can be computed simply by multiplying by
 powers of the adjacency matrix:
 
 \begin{verbatim}
-x = imread("i/beckett.png");                           # load image
-[w,h] = size(x);                                       # extract dimensions
-m = double(x(:) > 66);                                 # flattend and binarize
+x = imread("i/beckett.png");                             # load image
+[w,h] = size(x);                                         # extract dimensions
+m = double(x(:) > 66);                                   # flatten and binarize
 
-A = grid_graph(w,h);                                   # adjacency matrix
-y = (A^4 * m) > 0;                                     # apply 4 dilations
+A = grid_graph(w,h) + speye(w*h);                        # structuring element
+y = A^6 * m;                                             # apply 6 dilations
+y1 = y > 0;                                              # dilation
+y2 = !(y < max(y));                                      # erosion
 
-imwrite(logical(reshape(m,w,h)), "beckett_bin.png");   # save binary mask
-imwrite(logical(reshape(y,w,h)), "beckett_mask.png");  # save dilated mask
+f = 255 / max(y);                                        # gray-scale factor
+imwrite(logical(reshape(m,w,h)), "beckett_bin.png");     # save binary mask
+imwrite(uint8(reshape(y,w,h)*f), "beckett_a6.png");      # save gray-scale
+imwrite(logical(reshape(y1,w,h)), "beckett_a6_t0.png");  # save dilated mask
+imwrite(logical(reshape(y2,w,h)), "beckett_a6_tm.png");  # save dilated mask
 \end{verbatim}
 
 \includegraphics{beckett_bin.png}{\small\verb+beckett_bin.png+}\\
-\includegraphics{beckett_mask.png}{\small\verb+beckett_mask.png+}\\
+\includegraphics{beckett_a6.png}{\small\verb+beckett_a6.png+}\\
+\includegraphics{beckett_a6_t0.png}{\small\verb+beckett_a6_t0.png+}\\
+\includegraphics{beckett_a6_tm.png}{\small\verb+beckett_a6_tm.png+}\\
 
 \section{Linear PDE on graphs}
 

@@ -95,13 +95,13 @@ f, \mathrm{div}(\mathbf{g})
 <h2 id="graphs-and-their-matrices"><span class="header-section-number">2</span> Graphs and their matrices</h2>
 <p>A <em>graph</em> is <span class="math inline">\(G=(V,E)\)</span> where <span class="math inline">\(V\)</span> is a set called the <em>vertices</em> of <span class="math inline">\(G\)</span>, and <span class="math inline">\(E\)</span> is a subset of <span class="math inline">\(V\times V\)</span> called the <em>edges</em> of <span class="math inline">\(G\)</span>.</p>
 <p>We assume always that the set <span class="math inline">\(V\)</span> is finite, and its elements are numbered from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span>. Thus, the set <span class="math inline">\(E\)</span> is also finite (the cardinal is at most <span class="math inline">\(n^2\)</span>) and we assume that the elements of <span class="math inline">\(E\)</span> are numbered from <span class="math inline">\(1\)</span> to <span class="math inline">\(m\)</span>.</p>
-<p><span>ll</span> <img src="graph1.png" alt="image" /> &amp; <span class="math inline">\(\begin{cases}
-V  &amp; = \{1,2,3,4,5,6\} \\
-E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
-\end{cases}\)</span></p>
+<p><img src="graph1.png" alt="image" /> <span class="math inline">\(\displaystyle\begin{matrix}
+    V   = \{1,2,3,4,5,6\} \\
+    E   =  \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
+\end{matrix}\)</span></p>
 <h3 id="the-adjacency-list"><span class="header-section-number">2.1</span> The adjacency list</h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency list is a matrix of <span class="math inline">\(m\)</span> rows and <span class="math inline">\(2\)</span> columns that contains the pairs of vertices connected by each edge. The entries of this matrix are integers on the set <span class="math inline">\(\{1,\ldots,n\}\)</span>. Thus, if the <span class="math inline">\(k\)</span>-th row is <span class="math inline">\((i,j)\)</span>, this means that edge <span class="math inline">\(k\)</span> connects vertices <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>.</p>
-<p><span>ll</span> <img src="graph2.png" alt="image" /> &amp; <span class="math display">\[\textrm{adjacency list} =
+<p><img src="graph2.png" alt="image" /> <span class="math inline">\(\textrm{adjacency list} =
     \begin{pmatrix}
         1 &amp; 2 \\
         1 &amp; 3 \\
@@ -110,11 +110,11 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
         4 &amp; 5 \\
         5 &amp; 6 \\
         4 &amp; 6 \\
-    \end{pmatrix}\]</span></p>
+    \end{pmatrix}\)</span></p>
 <p>The adjacency list is a very efficient representation for sparse graphs (where the number of edges is proportional to the number of vertices). However, it is not very interesting from the algebraic point of view. We will see in the following three other matrices that have a very rich algebraic interpretation.</p>
 <h3 id="the-adjacency-matrix-a"><span class="header-section-number">2.2</span> The adjacency matrix <span class="math inline">\(A\)</span></h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the adjacency matrix is a square matrix <span class="math inline">\(A=a_{ij}\)</span> of size <span class="math inline">\(n\times n\)</span>. The entries of <span class="math inline">\(A\)</span> are zeros and ones, with <span class="math inline">\(a_{ij}=1\)</span> if there is an edge from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span> and <span class="math inline">\(a_{ij}=0\)</span> otherwise.</p>
-<p><span class="math display">\[A =
+<p><span class="math inline">\(A =
 \begin{array}{l|lllllll}
     V\backslash V
       &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 \\
@@ -125,11 +125,11 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
     4 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 1 \\
     5 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 \\
     6 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\
-\end{array}\]</span></p>
+\end{array}\)</span> <img src="graph2.png" alt="image" /></p>
 <p>Notice that this matrix has somewhat less information than the adjacency list, because the ordering of the edges is lost. Thus, there is a unique way to compute the adjacency matrix from the list, but many <span class="math inline">\(m!\)</span> different ways to get the list from the matrix. We can chose an arbitrary canonical ordering of the edges (for example, in lexicographic order).</p>
 <h3 id="the-laplacian-matrix-l"><span class="header-section-number">2.3</span> The Laplacian matrix <span class="math inline">\(L\)</span></h3>
 <p>Let <span class="math inline">\(A\)</span> be the adjacency matrix of a graph <span class="math inline">\(G\)</span>. If we sum the values of all the elements of the <span class="math inline">\(i\)</span>-th row, we obtain the number of edges going out of vertex <span class="math inline">\(i\)</span> (called the degree of the edge). Let us put the vector with all the degrees in the diagonal of a matrix <span class="math inline">\(D\)</span>; in octave/matlab notation <span class="math inline">\(\mathtt{D=diag(sum(A))}\)</span>. The Laplacian matrix of <span class="math inline">\(G\)</span> is defined as <span class="math display">\[L = A - \mathtt{diag}(\mathtt{sum}(A))\]</span> In the typical case where <span class="math inline">\(A\)</span> is symmetric with 0 on the diagonal, the matrix L is the same as A with minus the degree of each vertex on the diagonal entries.</p>
-<p><span class="math display">\[L =
+<p><span class="math inline">\(L =
 \begin{array}{l|lllllll}
     V\backslash V
       &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 \\
@@ -140,10 +140,10 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
     4 &amp; 0 &amp; 1 &amp; 1 &amp;-4 &amp; 1 &amp; 1 \\
     5 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp;-2 &amp; 1 \\
     6 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp;-2 \\
-\end{array}\]</span></p>
+\end{array}\)</span> <img src="graph2.png" alt="image" /></p>
 <h3 id="the-incidence-matrix-b"><span class="header-section-number">2.4</span> The incidence matrix <span class="math inline">\(B\)</span></h3>
 <p>Given a graph of <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges, the incidence matrix is a rectangular matrix <span class="math inline">\(B=b_{ij}\)</span> of <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns. The entries of <span class="math inline">\(B\)</span> are zeros, ones and minus ones given by the edges of the graph: if the <span class="math inline">\(k\)</span>-th edge goes from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>, then, on the <span class="math inline">\(k\)</span>th row there are values <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span> on positions <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> respectively; there are zeros everywhere else.</p>
-<p><span class="math display">\[B =
+<p><span class="math inline">\(B =
 \begin{array}{l|lllllll}
     E\backslash V
       &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 \\
@@ -155,7 +155,7 @@ E  &amp; = \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
     5 &amp; 0 &amp; 0 &amp; 0 &amp;-1 &amp; 1 &amp; 0 \\
     6 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp;-1 &amp; 1 \\
     7 &amp; 0 &amp; 0 &amp; 0 &amp;-1 &amp; 0 &amp; 1 \\
-\end{array}\]</span></p>
+\end{array}\)</span> <img src="graph2.png" alt="image" /></p>
 <p>Notice that the incidence matrix contains the same information as the adjacency list (including the order of the edges).</p>
 <p>There is an interesting relationship between the incidence matrix and the Laplacian matrix, that can be checked algebraically: <span class="math display">\[L = -B^TB\]</span> This identity is the discrete analogue of <span class="math inline">\(\Delta=\mathrm{div\ grad}\)</span>, as we will explain below.</p>
 <h3 id="the-unsigned-incidence-matrix-c"><span class="header-section-number">2.5</span> The unsigned incidence matrix <span class="math inline">\(C\)</span></h3>

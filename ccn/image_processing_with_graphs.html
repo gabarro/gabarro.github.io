@@ -62,15 +62,15 @@ y = A * x;          # obtain a function over the edges</code></pre>
 3 &amp; 4 \\
 3 &amp; 5 \\
 4 &amp; 5
-\end{pmatrix}_{\small 6\times 2}\]</span></p>
-<p><span class="math display">\[A = \begin{pmatrix}
+\end{pmatrix}_{\small 6\times 2}
+A = \begin{pmatrix}
     0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\
     1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
     1 &amp; 1 &amp; 0 &amp; 1 &amp; 1 \\
     0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 \\
     0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\
-\end{pmatrix}_{\small 5\times 5}\]</span></p>
-<p><span class="math display">\[B = \begin{pmatrix}
+\end{pmatrix}_{\small 5\times 5}
+B = \begin{pmatrix}
     -1&amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
     -1&amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
     0 &amp;-1 &amp; 1 &amp; 0 &amp; 0 \\
@@ -297,17 +297,24 @@ imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), &quot;beckett_bot.png&quot;
 It is an interesting exercise to look at these images and try to describe the changes verbally. For example: <span><strong>dilation</strong></span> enlarges the light objects, while <span><strong>erosion</strong></span> enlarges the dark ones. The <span><strong>opening</strong></span> removes the small bright spots and ridges, while <span><strong>closing</strong></span> removes the small dark spots and valleys. All the three <span><strong>gradients</strong></span> look like the euclidean norm of the linear gradient. The <span><strong>inner</strong></span> and <span><strong>outer</strong></span> gradients are very sharp, but are not centered, each one biased towards the dark or the light side of the discontinuities. The <span><strong>centered</strong></span> gradient is the average of the two, which is centered but less sharp. The <span><strong>morphological laplacian</strong></span> is the difference of the inner and outer gradients; it looks almost exactly like the linear laplacian despite being a combination of nonlinear operations. The <span><strong>morphological sharpening</strong></span> is similar to the linear one, based on the reverse heat equation. The <span><strong>top-hat</strong></span> keeps only the britght spots and ridges (those that were removed by the opening), and set to zero the rest of the image. The <span><strong>bottom-hat</strong></span> keeps only the dark spots and valleys (those that were removed by the closing), and sets to zero the rest of the image; thus the bottom-hat produces an image in the negative, that must be negated to visualize it correctly.</p>
 
 <p>As a final comment on graph-based morphology, if you want to do <span> <strong>morphology on binary images</strong></span>, the implementation can be much simpler. For example, the dilation of a mask <span class="math inline">\(m\)</span> can be computed simply by multiplying by powers of the adjacency matrix:</p>
-<pre><code>x = imread(&quot;i/beckett.png&quot;);                           # load image
-[w,h] = size(x);                                       # extract dimensions
-m = double(x(:) &gt; 66);                                 # flattend and binarize
+<pre><code>x = imread(&quot;i/beckett.png&quot;);                             # load image
+[w,h] = size(x);                                         # extract dimensions
+m = double(x(:) &gt; 66);                                   # flatten and binarize
 
-A = grid_graph(w,h);                                   # adjacency matrix
-y = (A^4 * m) &gt; 0;                                     # apply 4 dilations
+A = grid_graph(w,h) + speye(w*h);                        # structuring element
+y = A^6 * m;                                             # apply 6 dilations
+y1 = y &gt; 0;                                              # dilation
+y2 = !(y &lt; max(y));                                      # erosion
 
-imwrite(logical(reshape(m,w,h)), &quot;beckett_bin.png&quot;);   # save binary mask
-imwrite(logical(reshape(y,w,h)), &quot;beckett_mask.png&quot;);  # save dilated mask</code></pre>
+f = 255 / max(y);                                        # gray-scale factor
+imwrite(logical(reshape(m,w,h)), &quot;beckett_bin.png&quot;);     # save binary mask
+imwrite(uint8(reshape(y,w,h)*f), &quot;beckett_a6.png&quot;);      # save gray-scale
+imwrite(logical(reshape(y1,w,h)), &quot;beckett_a6_t0.png&quot;);  # save dilated mask
+imwrite(logical(reshape(y2,w,h)), &quot;beckett_a6_tm.png&quot;);  # save dilated mask</code></pre>
 <p><img src="beckett_bin.png" alt="image" /><span><code>beckett_bin.png</code></span><br />
-<img src="beckett_mask.png" alt="image" /><span><code>beckett_mask.png</code></span><br />
+<img src="beckett_a6.png" alt="image" /><span><code>beckett_a6.png</code></span><br />
+<img src="beckett_a6_t0.png" alt="image" /><span><code>beckett_a6_t0.png</code></span><br />
+<img src="beckett_a6_tm.png" alt="image" /><span><code>beckett_a6_tm.png</code></span><br />
 </p>
 <h2 id="linear-pde-on-graphs"><span class="header-section-number">5</span> Linear PDE on graphs</h2>
 <p>(section in preparation)</p>

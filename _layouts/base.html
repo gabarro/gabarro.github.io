@@ -3,10 +3,22 @@
 		<meta charset='utf-8'>
 		<title>{{ page.title }}</title>
 		<style type="text/css">
-			body { max-width:90ex; }
-			pre { background:lightgray; width:80ch; }
+body{max-width:90ex;}
+pre{background:lightgray;width:80ch;}
 		</style>
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({TeX: {equationNumbers: {autoNumber: "AMS"}}});
+		</script>
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({
+				tex2jax: {
+					inlineMath: [['$','$'], ['\\(','\\)']],
+					processEscapes: true
+				}
+			});
+		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+		</script>
 	</head>
 	<body>
 		{{ content }}

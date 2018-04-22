@@ -1,25 +1,16 @@
 <html>
-    <head>
-        <meta charset='utf-8'>
-        <title>{{ page.title }}</title>
-        <link href="/css/pygc.css" type="text/css" rel="stylesheet" />
-        <link href="/css/stil.css" type="text/css" rel="stylesheet" />
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({TeX: {equationNumbers: {autoNumber: "AMS"}}});
-        </script>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-              tex2jax: {
-                inlineMath: [['$','$'], ['\\(','\\)']],
-                processEscapes: true
-              }
-            });
-        </script>
-        <script type="text/javascript"
-                src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
-        </script>
-    </head>
-    <body>
-        {{ content }}
-    </body>
+	<head>
+		<meta charset='utf-8'>
+		<title>{{ page.title }}</title>
+		<style type="text/css">
+			body { max-width:90ex; }
+			pre { background:lightgray; width:80ch; }
+		</style>
+		<script type="text/javascript"
+	  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full">
+		</script>
+	</head>
+	<body>
+		{{ content }}
+	</body>
 </html>

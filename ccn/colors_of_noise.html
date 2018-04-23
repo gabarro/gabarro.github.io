@@ -26,15 +26,21 @@
 <p>White Gaussian noise is famous because it has very nice properties:
 <ol>
 <li><p>It is easy to generate using pseudorandom numbers
-<li><p>Each pixel is an independent, identically distributed Normal variable
-<li><p>The discrete Fourier, Hartley and Cosine transforms are also white Gaussian noise (except for the obvious symmetries)
+<li><p>Each pixel is an independent, identically distributed Normal
+variable
+<li><p>The discrete Fourier, Hartley and Cosine transforms are also
+white Gaussian noise (except for the obvious symmetries)
 <li><p>In particular, the power spectrum is mostly flat
-<li><p>Applying a linear filter renders the pixel values non-independent, but they are still Normal and identically distributed.
+<li><p>Applying a linear filter renders the pixel values
+non-independent, but they are still Normal and identically
+distributed.
 </ol>
 <p>Some properties of dubious convenience:
 <ol>
-<li><p>The mean is zero, thus it cannot be directly represented as a positive-valued image
-<li><p>Worse, the pixel values are not bounded, thus it has a-priori infinite dynamic range.
+<li><p>The mean is zero, thus it cannot be directly represented as
+a positive-valued image
+<li><p>Worse, the pixel values are not bounded, thus it has a-priori
+infinite dynamic range.
 <li><p>When you see it from far away (zooming-out), it disappears.
 </ol>
 <p>Statistics of white gaussian noise and its DFT:
@@ -158,7 +164,10 @@
 </tbody>
 </table>
 <h2 id="colored-gaussian-noise"><span class="header-section-number">3</span> Colored gaussian noise</h2>
-<p>When the spectrum of noise decays as a power-law, we say that it is “colored” noise. The exponent <span class="math inline">\(\alpha\)</span> of the power law determines its color. The particular case of <span class="math inline">\(\alpha=0\)</span> corresponds to white noise (a flat spectrum).
+<p>When the spectrum of noise decays as a power-law, we say that it is
+“colored” noise. The exponent <span class="math inline">\(\alpha\)</span> of the power law determines its
+color. The particular case of <span class="math inline">\(\alpha=0\)</span> corresponds to white noise (a flat
+spectrum).
 <table>
 <tbody>
 <tr class="odd">

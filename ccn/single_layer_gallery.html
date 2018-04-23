@@ -20,9 +20,11 @@
 <h1 class="title">Gallery of single layer textures</h1>
 
 
-<p>Can a single-layer convolutional neural network hallucinate snowflakes when given white noise as input? The answer is <span><strong>yes</strong></span>.
+<p>Can a single-layer convolutional neural network hallucinate snowflakes when
+given white noise as input? The answer is <span><strong>yes</strong></span>.
 <p>Here we show a gallery of textures created by such “single layer CNN”.
-<p>More precisely, the basic construction depends on three functions:
+<p>More precisely,
+the basic construction depends on three functions:
 <ol>
 <li><p><span class="math inline">\(f\)</span> a probability density on <span class="math inline">\(\mathbf{R}\)</span>
 <li><p><span class="math inline">\(g\in L^1_{loc}(\mathbf{R^2})\)</span> a convolution kernel on the plane
@@ -33,32 +35,47 @@
 <li><p>Build a white noise image <span class="math inline">\(n\)</span> of distribution <span class="math inline">\(f\)</span>.
 <li><p>Compute <span class="math inline">\(I=h\circ (g*n)\)</span>
 </ol>
-<p>The function <span class="math inline">\(h\)</span> is chosen to transport the histogram of <span class="math inline">\(g*n\)</span> into <span class="math inline">\([0,255]\)</span>. For example, a simplest color balance or an Otsu thresholding. The kernel <span class="math inline">\(g\)</span> is typically positive and radial, or a derivative of a radial function.
-<p><em>Note:</em> This is a fully reproducible document. Each greyed-out section is the complete script used to produce the corresponding image. All of them are drawings over a blank canvas of arbitrary size:
+<p>The function <span class="math inline">\(h\)</span> is chosen to transport the histogram of <span class="math inline">\(g*n\)</span>
+into <span class="math inline">\([0,255]\)</span>. For example, a simplest color balance or an Otsu
+thresholding. The kernel <span class="math inline">\(g\)</span> is typically positive and radial, or a
+derivative of a radial function.
+<p><em>Note:</em>
+This is a fully reproducible document.
+Each greyed-out section is the complete script used to produce the
+corresponding image. All of them are drawings over a blank canvas of
+arbitrary size:
 <pre><code>plambda zero:768x768 &quot;&quot; -o canvas;</code></pre>
-<p>For numerical reasons, especially with non-positive kernels, some of the computations are performed in the frequency domain. Thus, sometimes it may not be evident that there is a single linear filter. But all the textures in this page are indeed single-layer.
+<p>For numerical reasons, especially with non-positive kernels, some of the
+computations are performed in the frequency domain. Thus, sometimes it may
+not be evident that there is a single linear filter. But all the textures in
+this page are indeed single-layer.
 <h2 id="binary"><span class="header-section-number">1</span> Binary</h2>
 <p><img src="binary.png" alt="image" />
 <pre><code>plambda canvas randc | blur c 0.5 | plambda - &#39;x x%m &gt; 255 *&#39; -o binary.png</code></pre>
-<p>Comment: this is Cauchy white noise blurred with a Cauchy kernel, binarized at the median value.
+<p>Comment: this is Cauchy white noise blurred with a Cauchy kernel, binarized
+at the median value.
 <h2 id="disks"><span class="header-section-number">2</span> Disks</h2>
 <p><img src="disks.png" alt="image" />
 <pre><code>plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png</code></pre>
-<p>Comment: This is Cauchy white noise blurred with a circular kernel, followed by a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.
+<p>Comment: This is Cauchy white noise blurred with a circular kernel, followed
+by a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.
 <h2 id="starfield"><span class="header-section-number">3</span> Starfield</h2>
 <p><img src="starfield.png" alt="image" />
 <pre><code>plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png</code></pre>
-<p>Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.
+<p>Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by
+a simplest color balance that saturates <span class="math inline">\(1\%\)</span> of the pixels.
 <h2 id="blood"><span class="header-section-number">4</span> Blood</h2>
 <p><img src="blood.png" alt="image" />
 <pre><code>SIGMOID=&#39;2 * tanh 1 + 2 /&#39;
 RED=&#39;dup 1 rot - rot 1 1 1 join3 * 0.7 0.1 0.1 join3 * + 255 *&#39;
 plambda canvas randp|blur c 1|plambda - &quot;x x%O80 - $SIGMOID $RED&quot; -o blood.png</code></pre>
-<p>Comment: this is exactly the same image as <code>starfield.png</code>, but with a red palette.
+<p>Comment: this is exactly the same image as <code>starfield.png</code>, but with a
+red palette.
 <h2 id="islands"><span class="header-section-number">5</span> Islands</h2>
 <p><img src="islands.png" alt="image" />
 <pre><code>plambda canvas randu | blur -s z .4 | plambda - &#39;x x%O80 &gt; 255 *&#39; -o islands.png</code></pre>
-<p>Comment: uniform white noise, blurred by a kernel of the form <span class="math inline">\(1/\log(r)\)</span>, binarized to the 80th quantile.
+<p>Comment: uniform white noise, blurred by a kernel of the form <span class="math inline">\(1/\log(r)\)</span>,
+binarized to the 80th quantile.
 <h2 id="clouds"><span class="header-section-number">6</span> Clouds</h2>
 <p><img src="clouds.png" alt="image" />
 <pre><code>SIGMOID=&#39;4e4 * tanh 1 + 2 /&#39;
@@ -68,47 +85,58 @@ plambda canvas randg|blur o 0.1|plambda - &quot;x x%m - $SIGMOID $BLUE&quot; -o 
 <h2 id="multiscale"><span class="header-section-number">7</span> Multiscale</h2>
 <p><img src="multiscale.png" alt="image" />
 <pre><code>plambda canvas randg | fft | plambda &#39;:R /&#39; | ifft | qauto - multiscale.png</code></pre>
-<p>Comment: this is fractal or pink noise, obtained by forcing a spectral decay of the form <span class="math inline">\(1/|\xi|\)</span>.
+<p>Comment: this is fractal or pink noise, obtained by forcing a spectral decay
+of the form <span class="math inline">\(1/|\xi|\)</span>.
 <h2 id="snowflakes"><span class="header-section-number">8</span> Snowflakes</h2>
 <p><img src="snowflakes.png" alt="image" />
 <pre><code>plambda canvas &quot;:x :y join 6 0 join cpow cimag :r 9 ^ / randc 3 ^ join&quot; |\
     fft | plambda &quot;halve cprod&quot; | ifft | qeasy 2e17 5e17 - snowflakes.png</code></pre>
-<p>Comment: this is a Cauchy-like white noise, filtered by the non-positive kernel <span class="math inline">\(k(x,y) =
-\frac{\mathrm{re}\left\{(x+iy)^6\right\}}{(x^2+y^2)^\frac{9}{2}}\)</span>, and a threshold that keeps only the highest positive values.
+<p>Comment: this is a Cauchy-like white noise, filtered by the non-positive
+kernel <span class="math inline">\(k(x,y) =
+\frac{\mathrm{re}\left\{(x+iy)^6\right\}}{(x^2+y^2)^\frac{9}{2}}\)</span>, and a
+threshold that keeps only the highest positive values.
 <h2 id="dandelions"><span class="header-section-number">9</span> Dandelions</h2>
 <p><img src="dandelions.png" alt="image" />
 <pre><code>KERNEL=&#39;:x :y join 13 0 join cpow creal :r 13.5 ^ / 3 fmax 3 -&#39;
 PALETTE=&#39;dup rot 128 2 / + 0 join3&#39;
 plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#39; | ifft |\
     qeasy 0 3e4 | plambda - &quot;$PALETTE&quot; -o dandelions.png</code></pre>
-<p>Comment: the same construction as <code>snowflakes.png</code> with a different degree of polynomial and a green color palette.
+<p>Comment: the same construction as <code>snowflakes.png</code> with a different
+degree of polynomial and a green color palette.
 <h2 id="heptachords"><span class="header-section-number">10</span> Heptachords</h2>
 <p><img src="heptachords.png" alt="image" />
 <pre><code>KERNEL=&#39;:x :y join 7 0 join cpow creal :r 8 ^ / 3 fmax 3 -&#39;
 plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#39; | ifft |\
     qeasy 1e5 9e5 - heptachords.png</code></pre>
-<p>Comment: yet another polynomial kernel with a carefully selected contrast change.
+<p>Comment: yet another polynomial kernel with a carefully selected contrast
+change.
 <h2 id="neurons"><span class="header-section-number">11</span> Neurons</h2>
 <p><img src="neurons.png" alt="image" />
 <pre><code>plambda canvas randp | blur l 10 | plambda &#39;x,nf&#39; | qeasy 0.4 0 - neurons.png</code></pre>
-<p>Comment: This is Pareto noise filtered by the derivative of Laplace kernel. The final contrast change enhances the near-zero part of the image.
+<p>Comment: This is Pareto noise filtered by the derivative of Laplace kernel.
+The final contrast change enhances the near-zero part of the image.
 <h2 id="sponge"><span class="header-section-number">12</span> Sponge</h2>
 <p><img src="sponge.png" alt="image" />
 <pre><code>plambda canvas randp | blur i 0.3 | plambda &#39;x,nf&#39; | qeasy 0.1 0 - sponge.png</code></pre>
-<p>Comment: This is the same as <code>neurons.png</code>, but using a Shepard instead of a Laplacian kernel.
+<p>Comment: This is the same as <code>neurons.png</code>, but using a Shepard instead
+of a Laplacian kernel.
 <h2 id="lava"><span class="header-section-number">13</span> Lava</h2>
 <p><img src="lava.png" alt="image" />
 <pre><code>plambda canvas &#39;randp randp randp join3&#39; | blur i 0.3 | \
     plambda &#39;x,nf vmin&#39; | qauto - lava.png</code></pre>
-<p>Comment: Minimum of several instances of Pareto noise filtered by the derivative of Shepard kernel.
+<p>Comment: Minimum of several instances of Pareto noise filtered by the
+derivative of Shepard kernel.
 <h2 id="folds"><span class="header-section-number">14</span> Folds</h2>
 <p><img src="folds.png" alt="image" />
 <pre><code>plambda canvas randg | blur l 30 | plambda &#39;x,nf -1 *&#39;|qauto -p 0 - folds.png</code></pre>
-<p>Comment: this is white Gaussian noise blurred by the derivative of a large Laplace kernel. The resulting, nearly constant image, is then stretched to span a visible dynamic range.
+<p>Comment: this is white Gaussian noise blurred by the derivative of a large
+Laplace kernel. The resulting, nearly constant image, is then stretched to
+span a visible dynamic range.
 <h2 id="stucco"><span class="header-section-number">15</span> Stucco</h2>
 <p><img src="stucco.png" alt="image" />
 <pre><code>plambda canvas &#39;randp sqrt&#39; | blur l 2 | plambda &#39;x,S&#39; | qauto -p 1 - stucco.png</code></pre>
-<p>Comment: this is the smoothed directional derivative of a high-variance white noise.
+<p>Comment: this is the smoothed directional derivative of a high-variance white
+noise.
 <h2 id="blobs"><span class="header-section-number">16</span> Blobs</h2>
 <p><img src="blobs.png" alt="image" />
 <pre><code>plambda canvas &#39;randu randu randu randu randu nstack njoin&#39; | blur g 20 |\
@@ -117,7 +145,9 @@ plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#
 <h2 id="combined"><span class="header-section-number">17</span> Combined</h2>
 <p><img src="combined.png" alt="image" />
 <pre><code>plambda neurons.png starfield.png &quot;dup join3&quot; -o combined.png</code></pre>
-<p>Comment: since many of the images above arise from exactly the same instance of white noise, they are closely related. Thus, they can be combined as different channels of a color image to obtain funny effects.
+<p>Comment: since many of the images above arise from exactly the same instance of
+white noise, they are closely related. Thus, they can be combined as
+different channels of a color image to obtain funny effects.
 <p><img src="combined2.png" alt="image" />
 <pre><code>plambda starfield.png neurons.png sponge.png &#39;join3 -1 1 1 join3 *&#39; |\
     qauto -i - combined2.png</code></pre>
@@ -128,7 +158,8 @@ plambda canvas &quot;$KERNEL randp join&quot; | fft | plambda &#39;halve cprod&#
 <pre><code>plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined4.png</code></pre>
 <p>For unrelated images, the effect is less striking.
 <h2 id="appendix-technical-details"><span class="header-section-number">18</span> Appendix: Technical details</h2>
-<p>The programs required to run these scripts are available in <code>imscript</code>: <a href="http://github.com/mnhrdt/imscript" class="uri">http://github.com/mnhrdt/imscript</a>.
+<p>The programs required to run these scripts are available in <code>imscript</code>:
+<a href="http://github.com/mnhrdt/imscript" class="uri">http://github.com/mnhrdt/imscript</a>.
 <p>Here are the help messages of the four main programs:
 <p><span><strong>qauto</strong></span>
 <pre><code>Qauto quantizes an image into [0,255].

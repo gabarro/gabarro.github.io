@@ -1,5 +1,5 @@
 PFLAGS = -N -s --lua-filter=.filter.lua --from latex+raw_tex#--toc
-PFLAGS_HTM = $(PFLAGS) --template=.template.html --mathjax
+PFLAGS_HTM = $(PFLAGS) --template=.template.html --mathjax --wrap=preserve
 PFLAGS_PDF = $(PFLAGS) -H .dpi
 
 

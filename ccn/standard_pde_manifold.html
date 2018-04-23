@@ -20,22 +20,39 @@
 <h1 class="title">The standard PDE on a manifold</h1>
 
 
-<p>We state and solve the standard second-order linear PDE on a compact Riemannian manifold: the potential, diffusion, diffraction and wave equations.
+<p>We state and solve the standard second-order linear PDE on a compact
+Riemannian manifold: the potential, diffusion, diffraction and wave
+equations.
 <h2 id="the-laplace-beltrami-spectrum"><span class="header-section-number">1</span> The Laplace-Beltrami spectrum</h2>
-<p>Let <span class="math inline">\(M\)</span> be a compact Riemannian manifold (with or without boundary), and let <span class="math inline">\(\Delta\)</span> be its Laplace-Beltrami operator, defined as <span class="math inline">\(\Delta=*d*d\)</span>, where <span class="math inline">\(d\)</span> is the exterior derivative (which is independent of the metric) and <span class="math inline">\(*\)</span> is the Hodge duality between <span class="math inline">\(p\)</span>-forms and <span class="math inline">\(d-p\)</span>-forms (which is defined using the metric).
-<p>The following are standard results in differential geometry (see e.g. Warner’s book chapter 6 <a href="https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf">https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf</a>)
+<p>Let <span class="math inline">\(M\)</span> be a compact Riemannian manifold (with or without boundary), and
+let <span class="math inline">\(\Delta\)</span> be its Laplace-Beltrami operator, defined
+as <span class="math inline">\(\Delta=*d*d\)</span>, where <span class="math inline">\(d\)</span> is the exterior derivative (which is independent
+of the metric) and <span class="math inline">\(*\)</span> is the Hodge duality between <span class="math inline">\(p\)</span>-forms
+and <span class="math inline">\(d-p\)</span>-forms (which is defined using the metric).
+<p>The following are standard results in differential geometry (see e.g.
+Warner’s book chapter
+6 <a href="https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf">https://link.springer.com/content/pdf/10.1007%2F978-1-4757-1799-0_6.pdf</a>)
 <ul>
-<li><p>There is a sequence of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span> functions <span class="math inline">\(\varphi_n\)</span> and positive numbers <span class="math inline">\(\lambda_n\to\infty\)</span> such that <span class="math display">\[\Delta\varphi_n=-\lambda_n\varphi_n\]</span>
-<li><p>The functions <span class="math inline">\(\varphi_n\)</span>, suitably normalized, are an orthonormal basis of <span class="math inline">\(L^2(M)\)</span>.
+<li><p>There is a sequence of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span>
+functions <span class="math inline">\(\varphi_n\)</span> and positive
+numbers <span class="math inline">\(\lambda_n\to\infty\)</span> such that
+<span class="math display">\[\Delta\varphi_n=-\lambda_n\varphi_n\]</span>
+<li><p>The functions <span class="math inline">\(\varphi_n\)</span>, suitably normalized, are an
+orthonormal basis of <span class="math inline">\(L^2(M)\)</span>.
 </ul>
-<p>These results generalize Fourier series to an arbitrary smooth manifold <span class="math inline">\(M\)</span>. Any square-integrable function <span class="math inline">\(f:M\to\mathbf{R}\)</span> is written uniquely as <span class="math display">\[f(x)=\sum_nf_n\varphi_n(x)\]</span> and the coefficients <span class="math inline">\(f_n\)</span> are computed by <span class="math display">\[f_n=\int_Mf\varphi_n.\]</span> Some particular cases are the habitual Fourier and sine bases (but not the cosine basis), bessel functions for the disk, and spherical harmonics for the surface of a sphere.
+<p>These results generalize Fourier series to an arbitrary smooth manifold <span class="math inline">\(M\)</span>.
+Any square-integrable function <span class="math inline">\(f:M\to\mathbf{R}\)</span> is written uniquely as
+<span class="math display">\[f(x)=\sum_nf_n\varphi_n(x)\]</span> and the coefficients <span class="math inline">\(f_n\)</span> are computed by
+<span class="math display">\[f_n=\int_Mf\varphi_n.\]</span> Some particular cases are the habitual Fourier and
+sine bases (but not the cosine basis), bessel functions for the disk, and
+spherical harmonics for the surface of a sphere.
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: center;"><span class="math inline">\(M\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\varphi_n\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(-\lambda_n\)</span></th>
+<th style="text-align: left;">
+<th style="text-align: center;"><span class="math inline">\(M\)</span>
+<th style="text-align: center;"><span class="math inline">\(\varphi_n\)</span>
+<th style="text-align: right;"><span class="math inline">\(-\lambda_n\)</span>
 
 </thead>
 <tbody>
@@ -77,101 +94,317 @@
 
 </tbody>
 </table>
-<p>The eigenfunctions <span class="math inline">\(\varphi_n\)</span> are called the vibration modes of <span class="math inline">\(M\)</span>, and the eigenvalues <span class="math inline">\(\lambda_n\)</span> are called the (squared) fundamental frequencies of <span class="math inline">\(M\)</span>.
-<p>Several geometric properties of <span class="math inline">\(M\)</span> can be interpreted in terms of the Laplace-Beltrami spectrum. For example, if <span class="math inline">\(M\)</span> has <span class="math inline">\(k\)</span> connected components, the first <span class="math inline">\(k\)</span> eigenfuntions will be supported successively on each connected component. On a connected manifold <span class="math inline">\(M\)</span>, the first vibration mode can be taken to be positive <span class="math inline">\(\varphi_1\ge0\)</span>, thus all the other modes have non-constant signs (because they are orthogonal to <span class="math inline">\(\varphi_1\)</span>). In particular, the sign of <span class="math inline">\(\varphi_2\)</span> cuts <span class="math inline">\(M\)</span> in two parts in an optimal way, it is the Cheeger cut of <span class="math inline">\(M\)</span>, maximizing the perimeter/area ratio of the cut.
-<p>The zeros of <span class="math inline">\(\varphi_n\)</span> are called the nodal curves (or nodal sets) of <span class="math inline">\(M\)</span>, or also the Chladni patterns. If <span class="math inline">\(M\)</span> is a subdomain of the plane, these patterns can be found by cutting an object in the shape of <span class="math inline">\(M\)</span>, pouring a layer of sand over it, and letting it vibrate by high-volume sound waves at different frequencies. For most frequencies, the sand will not form any particular pattern, but when the frequency coincides with a <span class="math inline">\(\sqrt{\lambda_n}\)</span>, the sand will accumulate over the set <span class="math inline">\([\varphi_n=0]\)</span>, which is the set of points of the surface that do not move when the surface vibrates at this frequency. In the typical case, the number of connected components of <span class="math inline">\([\varphi_n&gt;0]\)</span> grows linearly with <span class="math inline">\(n\)</span>, thus the functions <span class="math inline">\(\varphi_n\)</span> become more oscillating (less regular) as <span class="math inline">\(n\)</span> grows.
-<p>Generally, symmetries of <span class="math inline">\(M\)</span> arise as multiplicities of eigenvalues. The Laplace-Beltrami spectrum <span class="math inline">\({\lambda_1,\lambda_2,\lambda_3,\ldots}\)</span> is closely related, but not identical, to the geodesic length spectrum, that measures the sequence of lengths of all closed geodesics of <span class="math inline">\(M\)</span>. The grand old man of this theory is Yves Colin de Verdière, student of Marcel Berger.
-<p>Geometry is not in general a spectral invariant, but non-isometric manifolds with the same spectrum are difficult to come by. The first pair of distinct but isospectral manifolds was wound in 1964 by John Milnor, in dimension 16. The first example in dimension 2 was found in 1992 by Gordon, Webb and Wolperd, and it answered negatively the famous question of Marc Kac “Can you hear the shape of a drum?’. In 2018, we have many ways to construct discrete and continuous families of isospectral manifolds in dimensions two and above.
+<p>The eigenfunctions <span class="math inline">\(\varphi_n\)</span> are called the vibration modes of <span class="math inline">\(M\)</span>, and the
+eigenvalues <span class="math inline">\(\lambda_n\)</span> are called the (squared) fundamental frequencies of <span class="math inline">\(M\)</span>.
+<p>Several geometric properties of <span class="math inline">\(M\)</span> can be interpreted in terms of the
+Laplace-Beltrami spectrum. For example, if <span class="math inline">\(M\)</span> has <span class="math inline">\(k\)</span> connected components,
+the first <span class="math inline">\(k\)</span> eigenfuntions will be supported successively on each connected
+component. On a connected manifold <span class="math inline">\(M\)</span>, the first vibration mode can be
+taken to be positive <span class="math inline">\(\varphi_1\ge0\)</span>, thus all the other modes have
+non-constant signs (because they are orthogonal to <span class="math inline">\(\varphi_1\)</span>). In
+particular, the sign of <span class="math inline">\(\varphi_2\)</span> cuts <span class="math inline">\(M\)</span> in two parts in an optimal way,
+it is the Cheeger cut of <span class="math inline">\(M\)</span>, maximizing the perimeter/area ratio of the cut.
+<p>The zeros of <span class="math inline">\(\varphi_n\)</span> are called the nodal curves (or nodal sets) of <span class="math inline">\(M\)</span>,
+or also the Chladni patterns. If <span class="math inline">\(M\)</span> is a subdomain of the plane, these
+patterns can be found by cutting an object in the shape of <span class="math inline">\(M\)</span>, pouring a
+layer of sand over it, and letting it vibrate by high-volume sound waves at
+different frequencies. For most frequencies, the sand will not form any
+particular pattern, but when the frequency coincides with
+a <span class="math inline">\(\sqrt{\lambda_n}\)</span>, the sand will accumulate over the set <span class="math inline">\([\varphi_n=0]\)</span>,
+which is the set of points of the surface that do not move when the surface
+vibrates at this frequency. In the typical case, the number of connected
+components of <span class="math inline">\([\varphi_n&gt;0]\)</span> grows linearly with <span class="math inline">\(n\)</span>, thus the
+functions <span class="math inline">\(\varphi_n\)</span> become more oscillating (less regular) as <span class="math inline">\(n\)</span> grows.
+<p>Generally, symmetries of <span class="math inline">\(M\)</span> arise as multiplicities of eigenvalues.
+The Laplace-Beltrami spectrum <span class="math inline">\({\lambda_1,\lambda_2,\lambda_3,\ldots}\)</span> is
+closely related, but not identical, to the geodesic length spectrum, that
+measures the sequence of lengths of all closed geodesics of <span class="math inline">\(M\)</span>. The grand
+old man of this theory is Yves Colin de Verdière, student of Marcel Berger.
+<p>Geometry is not in general a spectral invariant, but non-isometric manifolds
+with the same spectrum are difficult to come by. The first pair of distinct
+but isospectral manifolds was wound in 1964 by John Milnor, in dimension 16.
+The first example in dimension 2 was found in 1992 by Gordon, Webb and
+Wolperd, and it answered negatively the famous question of Marc Kac “Can you
+hear the shape of a drum?’.
+In 2018, we have many ways to construct discrete and continuous families of
+isospectral manifolds in dimensions two and above.
 <h2 id="the-standard-equations-and-their-explicit-solutions"><span class="header-section-number">2</span> The standard equations and their explicit solutions</h2>
-<p>The classical linear second order equations (potential, heat, wave and Schrödinger) are all defined in terms of the Laplacian operator in space. Thus, they can be defined readily on an arbitrary Riemannian manifold <span class="math inline">\(M\)</span>. If <span class="math inline">\(M\)</span> is compact, the solution can be found explicitly in terms of the Laplace-Beltrami eigenfunctions. Henceforth we will call the expression of a function <span class="math inline">\(f:M\to\mathbf{R}\)</span> as <span class="math inline">\(f=\sum_nf_n\varphi_n\)</span> the Fourier series of <span class="math inline">\(f\)</span>, the numbers <span class="math inline">\(f_n\)</span> the Fourier coefficients of <span class="math inline">\(f\)</span> and so on.
-<p>The simplest case is <span><strong>Poisson equation</strong></span> <span class="math display">\[\Delta u = f\]</span> The solution is found by expressing <span class="math inline">\(u\)</span> and <span class="math inline">\(f\)</span> as Fourier series and identifying the coefficients: <span class="math display">\[u(x) = \sum_n\frac{-f_n}{\lambda_n}\varphi_n(x)\]</span> Notice that since <span class="math inline">\(\lambda_n\to\infty\)</span>, the Fourier coefficients of <span class="math inline">\(u\)</span> tend to zero faster than those of <span class="math inline">\(f\)</span>, thus <span class="math inline">\(u\)</span> is more regular than <span class="math inline">\(f\)</span> (this is obvious from the equation, since <span class="math inline">\(\Delta u\)</span> is less regular than <span class="math inline">\(u\)</span>).
-<p>Another simple case is the <span><strong>screened Poisson equation</strong></span> <span class="math display">\[\Delta u = \alpha u + f\]</span> and the solution is found by the same technique: <span class="math display">\[u(x) = \sum_n\frac{-f_n}{\alpha+\lambda_n}\varphi_n(x)\]</span> This is like the regular Poisson equation, but the regularity is enhanced by <span class="math inline">\(\alpha\)</span>.
-<p>The next case is the <span><strong>heat equation</strong></span>, also called <span><strong>diffusion</strong></span> or <span> <strong>smoothing</strong></span> equation: <span class="math display">\[\begin{cases}
+<p>The classical linear second order equations (potential, heat, wave and
+Schrödinger) are all defined in terms of the Laplacian operator in space.
+Thus, they can be defined readily on an arbitrary Riemannian manifold <span class="math inline">\(M\)</span>.
+If <span class="math inline">\(M\)</span> is compact, the solution can be found explicitly in terms of the
+Laplace-Beltrami eigenfunctions. Henceforth we will call the expression of a
+function <span class="math inline">\(f:M\to\mathbf{R}\)</span> as <span class="math inline">\(f=\sum_nf_n\varphi_n\)</span> the Fourier series of <span class="math inline">\(f\)</span>, the
+numbers <span class="math inline">\(f_n\)</span> the Fourier coefficients of <span class="math inline">\(f\)</span> and so on.
+<p>The simplest case is <span><strong>Poisson equation</strong></span>
+<span class="math display">\[\Delta u = f\]</span>
+The solution is found by expressing <span class="math inline">\(u\)</span> and <span class="math inline">\(f\)</span> as Fourier series and
+identifying the coefficients:
+<span class="math display">\[u(x) = \sum_n\frac{-f_n}{\lambda_n}\varphi_n(x)\]</span>
+Notice that since <span class="math inline">\(\lambda_n\to\infty\)</span>, the Fourier coefficients of <span class="math inline">\(u\)</span> tend
+to zero faster than those of <span class="math inline">\(f\)</span>, thus <span class="math inline">\(u\)</span> is more regular than <span class="math inline">\(f\)</span>
+(this is obvious from the equation, since <span class="math inline">\(\Delta u\)</span> is less regular than <span class="math inline">\(u\)</span>).
+<p>Another simple case is the <span><strong>screened Poisson equation</strong></span>
+<span class="math display">\[\Delta u = \alpha u + f\]</span>
+and the solution is found by the same technique:
+<span class="math display">\[u(x) = \sum_n\frac{-f_n}{\alpha+\lambda_n}\varphi_n(x)\]</span>
+This is like the regular Poisson equation, but the regularity is enhanced
+by <span class="math inline">\(\alpha\)</span>.
+<p>The next case is the <span><strong>heat equation</strong></span>, also called <span><strong>diffusion</strong></span> or <span>
+<strong>smoothing</strong></span> equation:
+<span class="math display">\[\begin{cases}
     u_t = \Delta u &amp; (x,t)\in M\times[0,T] \\
     u(x,0)=g(x) &amp; x\in M\\
-\end{cases}\]</span> This equation requires an initial condition <span class="math inline">\(g\)</span>. The solution is found by separation of variables, which leads to a trivial ODE, resulting in <span class="math display">\[u(x,t)=\sum_ng_ne^{-{\lambda_n}t}\varphi_n(x)\]</span> It is immediate to check that this expression is a solution of the heat equation with initial condition <span class="math inline">\(g\)</span>. Several properties of the solution are visible from this form, most notably that <span class="math inline">\(u(x,\infty)=u_1\)</span> if <span class="math inline">\(\lambda_1=0\)</span>, or <span class="math inline">\(1\)</span> otherwise. A pure vibration mode <span class="math inline">\(\varphi_n\)</span> decays exponentially to zero, and the speed of the exponential decay is <span class="math inline">\(\lambda_n\)</span>.
-<p>By combining the heat and Poisson equations, we get the <span><strong>heat equation with source</strong></span>: <span class="math display">\[\begin{cases}
+\end{cases}\]</span>
+This equation requires an initial condition <span class="math inline">\(g\)</span>. The solution is found by
+separation of variables, which leads to a trivial ODE, resulting in
+<span class="math display">\[u(x,t)=\sum_ng_ne^{-{\lambda_n}t}\varphi_n(x)\]</span>
+It is immediate to check that this expression is a solution of the heat
+equation with initial condition <span class="math inline">\(g\)</span>. Several properties of the solution are
+visible from this form, most notably that <span class="math inline">\(u(x,\infty)=u_1\)</span> if <span class="math inline">\(\lambda_1=0\)</span>,
+or <span class="math inline">\(1\)</span> otherwise. A pure vibration mode <span class="math inline">\(\varphi_n\)</span> decays exponentially to
+zero, and the speed of the exponential decay is <span class="math inline">\(\lambda_n\)</span>.
+<p>By combining the heat and Poisson equations, we get the <span><strong>heat equation
+with source</strong></span>:
+<span class="math display">\[\begin{cases}
     u_t = \Delta u + f &amp; (x,t)\in M\times[0,T] \\
     u(x,0)=g(x) &amp; x\in M\\
-\end{cases}\]</span> whose solution is <span class="math display">\[u(x,t)=\sum_n\left(
+\end{cases}\]</span>
+whose solution is
+<span class="math display">\[u(x,t)=\sum_n\left(
 \frac{f_n}{\lambda_n}+g_ne^{-{\lambda_n}t}
 \right)\varphi_n(x)\]</span>
-<p>The solution of the <span><strong>reverse heat equation</strong></span> <span class="math display">\[\begin{cases}
+<p>The solution of the <span><strong>reverse heat equation</strong></span>
+<span class="math display">\[\begin{cases}
     u_t = -\Delta u &amp; (x,t)\in M\times[0,T] \\
     u(x,0)=g(x) &amp; x\in M\\
-\end{cases}\]</span> is formally similar <span class="math display">\[u(x,t)=\sum_ng_ne^{{\lambda_n}t}\varphi_n(x)\]</span> but notice that it blows up, often in a finite time.
-<p>Both direct and reverse heat equations are of the form <span class="math inline">\(u_t=c\Delta u\)</span>, whose solution is <span class="math inline">\(u(x,t)=\sum_n g_n e^{-c\lambda_n t}\varphi_n(x)\)</span>. The constant <span class="math inline">\(c\)</span> is the speed of transmission of heat. An intermediate behaviour between <span class="math inline">\(c&gt;0\)</span> and <span class="math inline">\(c&lt;0\)</span> happens when <span class="math inline">\(c=i\)</span>.
-<p>The <span><strong>linear Schrödinger equation</strong></span>, also called <span><strong>diffraction equation</strong></span> <span class="math display">\[\begin{cases}
+\end{cases}\]</span>
+is formally similar
+<span class="math display">\[u(x,t)=\sum_ng_ne^{{\lambda_n}t}\varphi_n(x)\]</span>
+but notice that it blows up, often in a finite time.
+<p>Both direct and reverse heat equations are of the form <span class="math inline">\(u_t=c\Delta u\)</span>, whose
+solution is <span class="math inline">\(u(x,t)=\sum_n g_n e^{-c\lambda_n t}\varphi_n(x)\)</span>. The
+constant <span class="math inline">\(c\)</span> is the speed of transmission of heat. An intermediate behaviour
+between <span class="math inline">\(c&gt;0\)</span> and <span class="math inline">\(c&lt;0\)</span> happens when <span class="math inline">\(c=i\)</span>.
+<p>The <span><strong>linear Schrödinger equation</strong></span>, also called <span><strong>diffraction equation</strong></span>
+<span class="math display">\[\begin{cases}
     w_t = i\Delta w &amp; (x,t)\in M\times[0,T] \\
     w(x,0)=g(x) &amp; x\in M\\
-\end{cases}\]</span> describes the evolution of a complex-valued function <span class="math inline">\(w\)</span>. It can be interpreted as a system of two coupled real equations by writing <span class="math inline">\(w=u+iv\)</span> (here, assuming a real-valued initial condition <span class="math inline">\(g\)</span>): <span class="math display">\[\begin{cases}
+\end{cases}\]</span>
+describes the evolution of a complex-valued function <span class="math inline">\(w\)</span>. It can be
+interpreted as a system of two coupled real equations by writing <span class="math inline">\(w=u+iv\)</span>
+(here, assuming a real-valued initial condition <span class="math inline">\(g\)</span>):
+<span class="math display">\[\begin{cases}
     u_t = -\Delta v &amp; (x,t)\in M\times[0,T] \\
     v_t = \Delta u &amp; (x,t)\in M\times[0,T] \\
     u(x,0)=g(x) &amp; x\in M\\
     v(x,0)=0 &amp; x\in M\\
-\end{cases}\]</span> The solution is then <span class="math display">\[w(x,t)=\sum_n g_n e^{-i\lambda_n t}\varphi_n(x)\]</span> or, in terms of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>: <span class="math display">\[\begin{cases}
+\end{cases}\]</span>
+The solution is then
+<span class="math display">\[w(x,t)=\sum_n g_n e^{-i\lambda_n t}\varphi_n(x)\]</span>
+or, in terms of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>:
+<span class="math display">\[\begin{cases}
     u(x,t) = \sum_n g_n\cos\left(\lambda_nt\right)\varphi_n(x) \\
     v(x,t) = \sum_n-g_n\sin\left(\lambda_nt\right)\varphi_n(x) \\
-\end{cases}\]</span> thus, a pure vibration mode <span class="math inline">\(\varphi_n\)</span> oscillates periodically, at a frequency <span class="math inline">\(\lambda_n\)</span>. In terms of <span class="math inline">\(|w|\)</span>, this phenomenon is called <em>diffraction</em>.
-<p>The <span><strong>wave equation</strong></span> is <span class="math display">\[\begin{cases}
+\end{cases}\]</span>
+thus, a pure vibration mode <span class="math inline">\(\varphi_n\)</span> oscillates periodically, at a
+frequency <span class="math inline">\(\lambda_n\)</span>. In terms of <span class="math inline">\(|w|\)</span>, this phenomenon is called
+<em>diffraction</em>.
+<p>The <span><strong>wave equation</strong></span> is
+<span class="math display">\[\begin{cases}
     u_{tt} = \Delta u &amp; (x,t)\in M\times[0,T] \\
     u(x,0) = g(x) &amp; x\in M \\
     u_t(x,0) = h(x) &amp; x\in M \\
-\end{cases}\]</span> notice that it requires an initial condition and an initial speed. By linearity, we can deal with these separately, and then sum the results. The solution is then <span class="math display">\[u(x,t)=\sum_n\left(
+\end{cases}\]</span>
+notice that it requires an initial condition and an initial speed. By
+linearity, we can deal with these separately, and then sum the
+results. The solution is then
+<span class="math display">\[u(x,t)=\sum_n\left(
     g_n\cos\left(\sqrt{\lambda_n} t\right)
     +
     \frac{h_n}{\sqrt{\lambda_n}}\sin\left(\sqrt{\lambda_n} t\right)
-    \right)\varphi_n(x)\]</span> Thus, a pure vibration mode <span class="math inline">\(\varphi_n\)</span> oscillates with frequency <span class="math inline">\(\sqrt{\lambda_n}\)</span>.
-<p>Finally the <span><strong>wave equation with a force</strong></span> is the most complex case we treat here: <span class="math display">\[\begin{cases}
+    \right)\varphi_n(x)\]</span>
+Thus, a pure vibration mode <span class="math inline">\(\varphi_n\)</span> oscillates with
+frequency <span class="math inline">\(\sqrt{\lambda_n}\)</span>.
+<p>Finally the <span><strong>wave equation with a force</strong></span> is the most complex case we treat here:
+<span class="math display">\[\begin{cases}
     u_{tt} = \Delta u +f&amp; (x,t)\in M\times[0,T] \\
     u(x,0) = g(x) &amp; x\in M \\
     u_t(x,0) = h(x) &amp; x\in M \\
-\end{cases}\]</span> The solution <span class="math display">\[u(x,t)=\sum_n\left(
+\end{cases}\]</span>
+The solution
+<span class="math display">\[u(x,t)=\sum_n\left(
     \frac{f_n}{\lambda_n}
     +
     g_n\cos\left(\sqrt{\lambda_n} t\right)
     +
     \frac{h_n}{\sqrt{\lambda_n}}\sin\left(\sqrt{\lambda_n} t\right)
-    \right)\varphi_n(x)\]</span> is found by the same methods as above.
+    \right)\varphi_n(x)\]</span>
+is found by the same methods as above.
 <h2 id="discretization-and-implementation-in-octave"><span class="header-section-number">3</span> Discretization and implementation in Octave</h2>
-<p>Except in emblematic cases (rectangle, torus, sphere) the eigenfunctions of an arbitrary manifold <span class="math inline">\(M\)</span> do not have a closed-form expression.
-<p>For practical computations, we are thus restricted to numerical methods in the discrete case. The most convenient form for this discretization is to representd <span class="math inline">\(M\)</span> as a graph with weights in their edges. In this context, we have the following objects
+<p>Except in emblematic cases (rectangle, torus, sphere) the eigenfunctions of
+an arbitrary manifold <span class="math inline">\(M\)</span> do not have a closed-form expression.
+<p>For practical computations, we are thus restricted to numerical methods in the
+discrete case. The most convenient form for this discretization is to
+representd <span class="math inline">\(M\)</span> as a graph with weights in their edges. In this context, we
+have the following objects
 <ul>
 <li><p>The weighted graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math inline">\(V\)</span> is a set of <span class="math inline">\(n\)</span> vertices.
-<li><p>The Laplacian matrix <span class="math inline">\(L\)</span> of this graph, which is of size <span class="math inline">\(n\times n\)</span>
-<li><p>The space <span class="math inline">\(\mathbf{R}^n\)</span> is identified with functions <span class="math inline">\(V\to\mathbf{R}\)</span>. Thus <span class="math inline">\(\mathbf{R}^n\)</span> is the discrete version of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span>.
+<li><p>The Laplacian matrix <span class="math inline">\(L\)</span> of this graph, which is of
+size <span class="math inline">\(n\times n\)</span>
+<li><p>The space <span class="math inline">\(\mathbf{R}^n\)</span> is identified with functions <span class="math inline">\(V\to\mathbf{R}\)</span>.
+Thus <span class="math inline">\(\mathbf{R}^n\)</span> is the discrete version of <span class="math inline">\(\mathcal{C}^\infty(M)\)</span>.
 </ul>
-<p>typically <span class="math inline">\(L\)</span> will be a matrix of rank <span class="math inline">\(n-1\)</span> with a constant eigenvector of eigenvalue 0.
-<p>We can find the eigensystem of <span class="math inline">\(L\)</span> by calling <code>eigs(L)</code> in octave, and transfer the solutions obtained above using the obtained eigenvectors and eigenvalues. However, in most cases the solution is more easily obtained by solving a linear problem.
-<p>To fix the ideas we start with a concrete example: a square domain with flat metric. The following is a complete program that computes the chladni figures of a square domain.
+<p>typically <span class="math inline">\(L\)</span> will be a matrix of rank <span class="math inline">\(n-1\)</span> with a constant eigenvector of
+eigenvalue 0.
+<p>We can find the eigensystem of <span class="math inline">\(L\)</span> by calling <code>eigs(L)</code> in octave, and
+transfer the solutions obtained above using the obtained eigenvectors and
+eigenvalues. However, in most cases the solution is more easily obtained by
+solving a linear problem.
+<p>To fix the ideas we start with a concrete example: a square domain with flat
+metric. The following is a complete program that computes the chladni
+figures of a square domain.
 <pre><code>w = 128;                                   # width and height of the domain
 p = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length p
 A = kron(p, speye(w)) + kron(speye(w), p); # kronecker sum
 L = A+A&#39; - diag(sum(A+A&#39;));                # graph laplacian
 [f,l] = eigs(L, 64, &quot;sm&quot;);                 # eigs of smallest magnitude</code></pre>
-<p>After running this code, the ith eigenfunction is <code>f(:,i)</code> and the eigenvalues are on <code>diag(l)</code>.
-<p><img src="o/chladni_001.png" alt="image" /> <img src="o/chladni_002.png" alt="image" /> <img src="o/chladni_003.png" alt="image" /> <img src="o/chladni_004.png" alt="image" /> <img src="o/chladni_005.png" alt="image" /> <img src="o/chladni_006.png" alt="image" /> <img src="o/chladni_007.png" alt="image" /> <img src="o/chladni_008.png" alt="image" />
-<p><img src="o/chladni_009.png" alt="image" /> <img src="o/chladni_010.png" alt="image" /> <img src="o/chladni_011.png" alt="image" /> <img src="o/chladni_012.png" alt="image" /> <img src="o/chladni_013.png" alt="image" /> <img src="o/chladni_014.png" alt="image" /> <img src="o/chladni_015.png" alt="image" /> <img src="o/chladni_016.png" alt="image" />
-<p><img src="o/chladni_017.png" alt="image" /> <img src="o/chladni_018.png" alt="image" /> <img src="o/chladni_019.png" alt="image" /> <img src="o/chladni_020.png" alt="image" /> <img src="o/chladni_021.png" alt="image" /> <img src="o/chladni_022.png" alt="image" /> <img src="o/chladni_023.png" alt="image" /> <img src="o/chladni_024.png" alt="image" />
-<p><img src="o/chladni_025.png" alt="image" /> <img src="o/chladni_026.png" alt="image" /> <img src="o/chladni_027.png" alt="image" /> <img src="o/chladni_028.png" alt="image" /> <img src="o/chladni_029.png" alt="image" /> <img src="o/chladni_030.png" alt="image" /> <img src="o/chladni_031.png" alt="image" /> <img src="o/chladni_032.png" alt="image" />
-<p><img src="o/chladni_033.png" alt="image" /> <img src="o/chladni_034.png" alt="image" /> <img src="o/chladni_035.png" alt="image" /> <img src="o/chladni_036.png" alt="image" /> <img src="o/chladni_037.png" alt="image" /> <img src="o/chladni_038.png" alt="image" /> <img src="o/chladni_039.png" alt="image" /> <img src="o/chladni_040.png" alt="image" />
-<p><img src="o/chladni_041.png" alt="image" /> <img src="o/chladni_042.png" alt="image" /> <img src="o/chladni_043.png" alt="image" /> <img src="o/chladni_044.png" alt="image" /> <img src="o/chladni_045.png" alt="image" /> <img src="o/chladni_046.png" alt="image" /> <img src="o/chladni_047.png" alt="image" /> <img src="o/chladni_048.png" alt="image" />
-<p><img src="o/chladni_049.png" alt="image" /> <img src="o/chladni_050.png" alt="image" /> <img src="o/chladni_051.png" alt="image" /> <img src="o/chladni_052.png" alt="image" /> <img src="o/chladni_053.png" alt="image" /> <img src="o/chladni_054.png" alt="image" /> <img src="o/chladni_055.png" alt="image" /> <img src="o/chladni_056.png" alt="image" />
-<p><img src="o/chladni_057.png" alt="image" /> <img src="o/chladni_058.png" alt="image" /> <img src="o/chladni_059.png" alt="image" /> <img src="o/chladni_060.png" alt="image" /> <img src="o/chladni_061.png" alt="image" /> <img src="o/chladni_062.png" alt="image" /> <img src="o/chladni_063.png" alt="image" /> <img src="o/chladni_064.png" alt="image" />
+<p>After running this code, the ith eigenfunction is <code>f(:,i)</code> and the
+eigenvalues are on <code>diag(l)</code>.
+<p><img src="o/chladni_001.png" alt="image" />
+<img src="o/chladni_002.png" alt="image" />
+<img src="o/chladni_003.png" alt="image" />
+<img src="o/chladni_004.png" alt="image" />
+<img src="o/chladni_005.png" alt="image" />
+<img src="o/chladni_006.png" alt="image" />
+<img src="o/chladni_007.png" alt="image" />
+<img src="o/chladni_008.png" alt="image" />
+<p><img src="o/chladni_009.png" alt="image" />
+<img src="o/chladni_010.png" alt="image" />
+<img src="o/chladni_011.png" alt="image" />
+<img src="o/chladni_012.png" alt="image" />
+<img src="o/chladni_013.png" alt="image" />
+<img src="o/chladni_014.png" alt="image" />
+<img src="o/chladni_015.png" alt="image" />
+<img src="o/chladni_016.png" alt="image" />
+<p><img src="o/chladni_017.png" alt="image" />
+<img src="o/chladni_018.png" alt="image" />
+<img src="o/chladni_019.png" alt="image" />
+<img src="o/chladni_020.png" alt="image" />
+<img src="o/chladni_021.png" alt="image" />
+<img src="o/chladni_022.png" alt="image" />
+<img src="o/chladni_023.png" alt="image" />
+<img src="o/chladni_024.png" alt="image" />
+<p><img src="o/chladni_025.png" alt="image" />
+<img src="o/chladni_026.png" alt="image" />
+<img src="o/chladni_027.png" alt="image" />
+<img src="o/chladni_028.png" alt="image" />
+<img src="o/chladni_029.png" alt="image" />
+<img src="o/chladni_030.png" alt="image" />
+<img src="o/chladni_031.png" alt="image" />
+<img src="o/chladni_032.png" alt="image" />
+<p><img src="o/chladni_033.png" alt="image" />
+<img src="o/chladni_034.png" alt="image" />
+<img src="o/chladni_035.png" alt="image" />
+<img src="o/chladni_036.png" alt="image" />
+<img src="o/chladni_037.png" alt="image" />
+<img src="o/chladni_038.png" alt="image" />
+<img src="o/chladni_039.png" alt="image" />
+<img src="o/chladni_040.png" alt="image" />
+<p><img src="o/chladni_041.png" alt="image" />
+<img src="o/chladni_042.png" alt="image" />
+<img src="o/chladni_043.png" alt="image" />
+<img src="o/chladni_044.png" alt="image" />
+<img src="o/chladni_045.png" alt="image" />
+<img src="o/chladni_046.png" alt="image" />
+<img src="o/chladni_047.png" alt="image" />
+<img src="o/chladni_048.png" alt="image" />
+<p><img src="o/chladni_049.png" alt="image" />
+<img src="o/chladni_050.png" alt="image" />
+<img src="o/chladni_051.png" alt="image" />
+<img src="o/chladni_052.png" alt="image" />
+<img src="o/chladni_053.png" alt="image" />
+<img src="o/chladni_054.png" alt="image" />
+<img src="o/chladni_055.png" alt="image" />
+<img src="o/chladni_056.png" alt="image" />
+<p><img src="o/chladni_057.png" alt="image" />
+<img src="o/chladni_058.png" alt="image" />
+<img src="o/chladni_059.png" alt="image" />
+<img src="o/chladni_060.png" alt="image" />
+<img src="o/chladni_061.png" alt="image" />
+<img src="o/chladni_062.png" alt="image" />
+<img src="o/chladni_063.png" alt="image" />
+<img src="o/chladni_064.png" alt="image" />
 <p>And now, with Dirichlet boundary conditions (slightly different code)
 <pre><code>w = 128;                                    # width and height of the domain
 p = sparse(1:w-1, 2:w, 1, w, w) - speye(w); # path graph of length p
 A = kron(p, speye(w)) + kron(speye(w), p);  # kronecker sum
 L = A + A&#39;;                                 # graph laplacian
 [f,l] = eigs(L, 64, &quot;sm&quot;);                  # eigs of smallest magnitude</code></pre>
-<p><img src="o/dchladni_001.png" alt="image" /> <img src="o/dchladni_002.png" alt="image" /> <img src="o/dchladni_003.png" alt="image" /> <img src="o/dchladni_004.png" alt="image" /> <img src="o/dchladni_005.png" alt="image" /> <img src="o/dchladni_006.png" alt="image" /> <img src="o/dchladni_007.png" alt="image" /> <img src="o/dchladni_008.png" alt="image" />
-<p><img src="o/dchladni_009.png" alt="image" /> <img src="o/dchladni_010.png" alt="image" /> <img src="o/dchladni_011.png" alt="image" /> <img src="o/dchladni_012.png" alt="image" /> <img src="o/dchladni_013.png" alt="image" /> <img src="o/dchladni_014.png" alt="image" /> <img src="o/dchladni_015.png" alt="image" /> <img src="o/dchladni_016.png" alt="image" />
-<p><img src="o/dchladni_017.png" alt="image" /> <img src="o/dchladni_018.png" alt="image" /> <img src="o/dchladni_019.png" alt="image" /> <img src="o/dchladni_020.png" alt="image" /> <img src="o/dchladni_021.png" alt="image" /> <img src="o/dchladni_022.png" alt="image" /> <img src="o/dchladni_023.png" alt="image" /> <img src="o/dchladni_024.png" alt="image" />
-<p><img src="o/dchladni_025.png" alt="image" /> <img src="o/dchladni_026.png" alt="image" /> <img src="o/dchladni_027.png" alt="image" /> <img src="o/dchladni_028.png" alt="image" /> <img src="o/dchladni_029.png" alt="image" /> <img src="o/dchladni_030.png" alt="image" /> <img src="o/dchladni_031.png" alt="image" /> <img src="o/dchladni_032.png" alt="image" />
-<p><img src="o/dchladni_033.png" alt="image" /> <img src="o/dchladni_034.png" alt="image" /> <img src="o/dchladni_035.png" alt="image" /> <img src="o/dchladni_036.png" alt="image" /> <img src="o/dchladni_037.png" alt="image" /> <img src="o/dchladni_038.png" alt="image" /> <img src="o/dchladni_039.png" alt="image" /> <img src="o/dchladni_040.png" alt="image" />
-<p><img src="o/dchladni_041.png" alt="image" /> <img src="o/dchladni_042.png" alt="image" /> <img src="o/dchladni_043.png" alt="image" /> <img src="o/dchladni_044.png" alt="image" /> <img src="o/dchladni_045.png" alt="image" /> <img src="o/dchladni_046.png" alt="image" /> <img src="o/dchladni_047.png" alt="image" /> <img src="o/dchladni_048.png" alt="image" />
-<p><img src="o/dchladni_049.png" alt="image" /> <img src="o/dchladni_050.png" alt="image" /> <img src="o/dchladni_051.png" alt="image" /> <img src="o/dchladni_052.png" alt="image" /> <img src="o/dchladni_053.png" alt="image" /> <img src="o/dchladni_054.png" alt="image" /> <img src="o/dchladni_055.png" alt="image" /> <img src="o/dchladni_056.png" alt="image" />
-<p><img src="o/dchladni_057.png" alt="image" /> <img src="o/dchladni_058.png" alt="image" /> <img src="o/dchladni_059.png" alt="image" /> <img src="o/dchladni_060.png" alt="image" /> <img src="o/dchladni_061.png" alt="image" /> <img src="o/dchladni_062.png" alt="image" /> <img src="o/dchladni_063.png" alt="image" /> <img src="o/dchladni_064.png" alt="image" />
+<p><img src="o/dchladni_001.png" alt="image" />
+<img src="o/dchladni_002.png" alt="image" />
+<img src="o/dchladni_003.png" alt="image" />
+<img src="o/dchladni_004.png" alt="image" />
+<img src="o/dchladni_005.png" alt="image" />
+<img src="o/dchladni_006.png" alt="image" />
+<img src="o/dchladni_007.png" alt="image" />
+<img src="o/dchladni_008.png" alt="image" />
+<p><img src="o/dchladni_009.png" alt="image" />
+<img src="o/dchladni_010.png" alt="image" />
+<img src="o/dchladni_011.png" alt="image" />
+<img src="o/dchladni_012.png" alt="image" />
+<img src="o/dchladni_013.png" alt="image" />
+<img src="o/dchladni_014.png" alt="image" />
+<img src="o/dchladni_015.png" alt="image" />
+<img src="o/dchladni_016.png" alt="image" />
+<p><img src="o/dchladni_017.png" alt="image" />
+<img src="o/dchladni_018.png" alt="image" />
+<img src="o/dchladni_019.png" alt="image" />
+<img src="o/dchladni_020.png" alt="image" />
+<img src="o/dchladni_021.png" alt="image" />
+<img src="o/dchladni_022.png" alt="image" />
+<img src="o/dchladni_023.png" alt="image" />
+<img src="o/dchladni_024.png" alt="image" />
+<p><img src="o/dchladni_025.png" alt="image" />
+<img src="o/dchladni_026.png" alt="image" />
+<img src="o/dchladni_027.png" alt="image" />
+<img src="o/dchladni_028.png" alt="image" />
+<img src="o/dchladni_029.png" alt="image" />
+<img src="o/dchladni_030.png" alt="image" />
+<img src="o/dchladni_031.png" alt="image" />
+<img src="o/dchladni_032.png" alt="image" />
+<p><img src="o/dchladni_033.png" alt="image" />
+<img src="o/dchladni_034.png" alt="image" />
+<img src="o/dchladni_035.png" alt="image" />
+<img src="o/dchladni_036.png" alt="image" />
+<img src="o/dchladni_037.png" alt="image" />
+<img src="o/dchladni_038.png" alt="image" />
+<img src="o/dchladni_039.png" alt="image" />
+<img src="o/dchladni_040.png" alt="image" />
+<p><img src="o/dchladni_041.png" alt="image" />
+<img src="o/dchladni_042.png" alt="image" />
+<img src="o/dchladni_043.png" alt="image" />
+<img src="o/dchladni_044.png" alt="image" />
+<img src="o/dchladni_045.png" alt="image" />
+<img src="o/dchladni_046.png" alt="image" />
+<img src="o/dchladni_047.png" alt="image" />
+<img src="o/dchladni_048.png" alt="image" />
+<p><img src="o/dchladni_049.png" alt="image" />
+<img src="o/dchladni_050.png" alt="image" />
+<img src="o/dchladni_051.png" alt="image" />
+<img src="o/dchladni_052.png" alt="image" />
+<img src="o/dchladni_053.png" alt="image" />
+<img src="o/dchladni_054.png" alt="image" />
+<img src="o/dchladni_055.png" alt="image" />
+<img src="o/dchladni_056.png" alt="image" />
+<p><img src="o/dchladni_057.png" alt="image" />
+<img src="o/dchladni_058.png" alt="image" />
+<img src="o/dchladni_059.png" alt="image" />
+<img src="o/dchladni_060.png" alt="image" />
+<img src="o/dchladni_061.png" alt="image" />
+<img src="o/dchladni_062.png" alt="image" />
+<img src="o/dchladni_063.png" alt="image" />
+<img src="o/dchladni_064.png" alt="image" />
 <p>For completenes, this is the octave code that saves the figures above
 <pre><code>for i=1:64
         n = sprintf(&quot;o/chladni_%03d.png&quot;, i);

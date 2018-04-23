@@ -1,29 +1,5 @@
-\documentclass[a4paper]{article}
-\usepackage[utf8]{inputenc}     % to allow direct input of accented letters
-\usepackage[english]{babel}     % english typographic conventions
-\usepackage{amsthm,amsmath}     % fancier mathematics
-\usepackage{mathptmx}
-
-% macros
-\def\R{\mathbf{R}}
-\def\Z{\mathbf{Z}}
-\def\d{\mathrm{d}}
-%\DeclareMathOperator*{\argmin}{arg\,min}
-%\DeclareMathOperator*{\argmax}{arg\,max}
-
-% less margins (for easier screen reading)
-\addtolength{\voffset}{-4em}
-\addtolength{\textheight}{8em}
-\addtolength{\hoffset}{-4em}
-\addtolength{\textwidth}{8em}
-
-
 \title{One-dimensional clustering with one cluster}
-\date{}
-\author{}
 
-\begin{document}
-\maketitle
 \begin{abstract}
 	The simplest case of clustering is the one dimensional case:
 	when we want to find clusters of a given set of numbers.  The
@@ -35,6 +11,9 @@
 	problem has actually many solutions with very different
 	properties, and we try to cover them all.
 \end{abstract}
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
 
 \section{The Pythagorean means and the median}
 
@@ -576,6 +555,5 @@ images.
 
 
 
-\end{document}
 
 % vim:set tw=69 filetype=tex spell spelllang=en:

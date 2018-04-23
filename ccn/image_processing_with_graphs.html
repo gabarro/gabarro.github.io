@@ -22,30 +22,62 @@
 
 <p>This is one of the best books in image processing:
 <p><img src="i/graphcover.png" alt="image" />
-<p>You should buy several copies, for yourself, your friends and your family; and ask your lab to buy several copies for the library. Or even better, since the editor (whose name I have trimmed from the cover image) is a notorious bully, instead of buying it, download a copy from libgen and send the money directly to the authors.
-<p>The book is a collection of independent self-contained chapters written by different authors, all of them famous people from the french school of image processing.
-<p>The only critique of this book that I can conceive is that the “practice” part of the title is not really fullfilled. There is not a single line of real computer code displayed in the book. But giving the codes for the hundreds of experiments of a 500 page book is probably too much to ask. The goal of this document is to provide such a code for a small part of the book.
+<p>You should buy several copies, for yourself, your friends and your family;
+and ask your lab to buy several copies for the library. Or even better,
+since the editor (whose name I have trimmed from the cover image) is a
+notorious bully, instead of buying it, download a copy from libgen and send
+the money directly to the authors.
+<p>The book is a collection of independent self-contained chapters written by
+different authors, all of them famous people from the french school of image
+processing.
+<p>The only critique of this book that I can conceive is that the “practice”
+part of the title is not really fullfilled. There is not a single line of
+real computer code displayed in the book. But giving the codes for the
+hundreds of experiments of a 500 page book is probably too much to ask. The
+goal of this document is to provide such a code for a small part of the book.
 <p>My favourite chapters are 6 and 7:
-<p><span><strong>6. A short tour of mathematical morphology on edge and vertex weighted graphs</strong></span>, <span><em>Laurent Najman and Fernand Meyer</em></span>
-<p><span><strong>7. Partial difference quations on graphs for local and nonlocal image processing</strong></span>, <span><em>Abrerrahim Elmoataz, Olivier Lézoray, Vinh-Thong Ta and Sébastien Bougleux</em></span>.
+<p><span><strong>6. A short tour of mathematical morphology on edge and vertex weighted
+graphs</strong></span>, <span><em>Laurent Najman and Fernand Meyer</em></span>
+<p><span><strong>7. Partial difference quations on graphs for local and nonlocal image
+processing</strong></span>, <span><em>Abrerrahim Elmoataz, Olivier Lézoray, Vinh-Thong Ta and
+Sébastien Bougleux</em></span>.
 <p>And these are the chapters whose implementation I detail below.
 <h2 id="the-basic-approach"><span class="header-section-number">1</span> The basic approach</h2>
 <p>The book contains this kind of sentences:
 <blockquote>
-<p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(\mathcal{H}(V)\)</span> be the Hilbert space of real-valued functions defined on the vertices of <span class="math inline">\(G\)</span>. The space <span class="math inline">\(\mathcal{H}(V)\)</span> is endowed with the usual inner product <span class="math inline">\(\left&lt;f,h\right&gt;_{\mathcal{H}(V)}=\sum_{v_i\in V}f(v_i)h(v_i)\)</span>, where <span class="math inline">\(f,h:V\to\mathbf{R}\)</span>. Similarly, let <span class="math inline">\(\mathcal{H}(E)\)</span> be the Hilbert space of real-valued functions defined on the edges of <span class="math inline">\(G\)</span>, <span class="math inline">\(\ldots\)</span>. Now, consider a linear operator between Hilbert spaces <span class="math inline">\(A:\mathcal{H}(V)\to\mathcal{E}(V)\)</span>...
+<p>Let <span class="math inline">\(G=(V,E)\)</span> be a graph and <span class="math inline">\(\mathcal{H}(V)\)</span> be the Hilbert space of
+real-valued functions defined on the vertices of <span class="math inline">\(G\)</span>. The
+space <span class="math inline">\(\mathcal{H}(V)\)</span> is endowed with the usual inner
+product <span class="math inline">\(\left&lt;f,h\right&gt;_{\mathcal{H}(V)}=\sum_{v_i\in V}f(v_i)h(v_i)\)</span>,
+where <span class="math inline">\(f,h:V\to\mathbf{R}\)</span>.
+Similarly, let <span class="math inline">\(\mathcal{H}(E)\)</span> be the Hilbert space of real-valued functions
+defined on the edges of <span class="math inline">\(G\)</span>, <span class="math inline">\(\ldots\)</span>. Now, consider a linear operator
+between Hilbert spaces <span class="math inline">\(A:\mathcal{H}(V)\to\mathcal{E}(V)\)</span>...
 </blockquote>
-<p>While these sentences are crystal clear and very appealing to an audience of mathematicians, I have found them to be intimidating when trying to evangelize people to read the book. Thus, I “translate” them into the following kind of language, which is <span class="math inline">\(100\%\)</span> equivalent:
+<p>While these sentences are crystal clear and very appealing to an audience of
+mathematicians, I have found them to be intimidating when trying to
+evangelize people to read the book. Thus, I “translate” them into the
+following kind of language, which is <span class="math inline">\(100\%\)</span> equivalent:
 <blockquote>
-<p>Consider a graph with <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges. We will use vectors of length <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> to represent functions defined over the vertices or the edges, respectively. We will also use matrices of size <span class="math inline">\(m\times n\)</span> to represent linear maps between them <span class="math inline">\(A:\mathbf{R}^n\to\mathbf{R}^m\)</span>. In octave/matlab:
+<p>Consider a graph with <span class="math inline">\(n\)</span> vertices and <span class="math inline">\(m\)</span> edges. We will use vectors
+of length <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> to represent functions defined over the vertices or
+the edges, respectively. We will also use matrices of size <span class="math inline">\(m\times n\)</span>
+to represent linear maps between them <span class="math inline">\(A:\mathbf{R}^n\to\mathbf{R}^m\)</span>. In octave/matlab:
 <pre><code>n = 100;            # number of vertices in the graph
 m = 200;            # number of edges in the graph
 x = rand(n,1);      # define a random function over the vertices
 A = rand(m,n);      # define a random linear map
 y = A * x;          # obtain a function over the edges</code></pre>
 </blockquote>
-<p>This is easier to interpret thanks to the computer code. Of course, linear maps with random coefficients are silly. We will see more interesting examples below.
+<p>This is easier to interpret thanks to the computer code. Of course, linear
+maps with random coefficients are silly. We will see more interesting
+examples below.
 <h2 id="matrices-of-a-graph"><span class="header-section-number">2</span> Matrices of a graph</h2>
-<p>You would think that to work with graphs on a computer you need some sort of library for graphs. Nothing farther from the truth. What you really need is a library for doing <em>linear algebra</em>. In all the examples here we use octave, but you can translate it easily to python+numpy, which is slightly more verbose.
+<p>You would think that to work with graphs on a computer you need some sort of
+library for graphs. Nothing farther from the truth. What you really need is
+a library for doing <em>linear algebra</em>. In all the examples here we use
+octave, but you can translate it easily to python+numpy, which is slightly
+more verbose.
 <p>In what follows we reserve the letters <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> for the following meanings
 <p><span class="math inline">\(n\, =\ \,\)</span> number of vertices in the graph<br />
 <span class="math inline">\(m =\ \,\)</span> number of edges in the graph
@@ -74,14 +106,27 @@ B = \begin{pmatrix}
     0 &amp; 0 &amp;-1 &amp; 0 &amp; 1 \\
     0 &amp; 0 &amp; 0 &amp;-1 &amp; 1 \\
 \end{pmatrix}_{\small 6\times 5}\]</span>
-<p>There are <span><strong>five</strong></span> basic matrices associated to a graph, for which we will always use the same letters:
-<p><span class="math inline">\(Z\ \,=\ \,\)</span> adjacency list, of size <span class="math inline">\(m\times 2\)</span>, list of vertex index pairs<br />
-<span class="math inline">\(A\ \,=\ \,\)</span> adjacency matrix, of size <span class="math inline">\(n\times n\)</span>, logical matrix of joined vertices<br />
-<span class="math inline">\(B\ \,=\ \,\)</span> incidence matrix, of size <span class="math inline">\(m\times n\)</span>, list of input/output vertices of each edge<br />
-<span class="math inline">\(C\ \,=\ \,\)</span> centering matrix, of size <span class="math inline">\(m\times n\)</span>, defined as <span class="math inline">\(C=\frac{1}{2}|B|\)</span><br />
-<span class="math inline">\(L\ \,=\ \,\)</span> Laplacian matrix, of size <span class="math inline">\(n\times n\)</span>, defined as <span class="math inline">\(L=-B&#39;B\)</span>
-<p>It is very important to understand now the meaning of the matrices <span class="math inline">\(Z,A,B\)</span>. The matrix <span class="math inline">\(Z\)</span> is the easiest to type by hand in a computer, but it is not very useful for doing algebra with it. All the other matrices are fundamental linear operators over functions defined on the graph. Each of these fives matrices, alone, determines completely the graph (modulo the numbering of the edges, in the case of <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span>).
-<p>The matrices <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> satisfy the identity: <span class="math inline">\(A=2C^TC-B^TB/2\)</span>. This allows to compute <span class="math inline">\(A\)</span> from <span class="math inline">\(B\)</span>. To recover <span class="math inline">\(B\)</span> from <span class="math inline">\(A\)</span> we must decide on an ordering for the edges.
+<p>There are <span><strong>five</strong></span> basic matrices associated to a graph, for which we will
+always use the same letters:
+<p><span class="math inline">\(Z\ \,=\ \,\)</span> adjacency list, of size <span class="math inline">\(m\times 2\)</span>,
+list of vertex index pairs<br />
+<span class="math inline">\(A\ \,=\ \,\)</span> adjacency matrix, of size <span class="math inline">\(n\times n\)</span>,
+logical matrix of joined vertices<br />
+<span class="math inline">\(B\ \,=\ \,\)</span> incidence matrix, of size <span class="math inline">\(m\times n\)</span>,
+list of input/output vertices of each edge<br />
+<span class="math inline">\(C\ \,=\ \,\)</span> centering matrix, of size <span class="math inline">\(m\times n\)</span>,
+defined as <span class="math inline">\(C=\frac{1}{2}|B|\)</span><br />
+<span class="math inline">\(L\ \,=\ \,\)</span> Laplacian matrix, of size <span class="math inline">\(n\times n\)</span>,
+defined as <span class="math inline">\(L=-B&#39;B\)</span>
+<p>It is very important to understand now the meaning of the matrices <span class="math inline">\(Z,A,B\)</span>.
+The matrix <span class="math inline">\(Z\)</span> is the easiest to type by hand in a computer, but it is not
+very useful for doing algebra with it. All the other matrices are
+fundamental linear operators over functions defined on the graph. Each of
+these fives matrices, alone, determines completely the graph (modulo the
+numbering of the edges, in the case of <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span>).
+<p>The matrices <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> satisfy the identity: <span class="math inline">\(A=2C^TC-B^TB/2\)</span>. This
+allows to compute <span class="math inline">\(A\)</span> from <span class="math inline">\(B\)</span>. To recover <span class="math inline">\(B\)</span> from <span class="math inline">\(A\)</span> we must decide on an
+ordering for the edges.
 <p>The following octave functions allow to convert between each representation:
 <pre><code>function A = graph_adjacency_from_list(Z)
         n = max(Z(:));                        # number of vertices
@@ -103,7 +148,9 @@ end</code></pre>
 <pre><code>function A = graph_adjacency_from_incidence(B)
         A = max(-B&#39;*B,0);            # equal to (abs(B&#39;*B) - B&#39;*B) / 2
 end</code></pre>
-<p>Typically, in the applications, you can often build <span class="math inline">\(B\)</span> directly so that you do not really need these functions. From <span class="math inline">\(B\)</span>, the other matrices are easily computed if needed by:
+<p>Typically, in the applications, you can often build <span class="math inline">\(B\)</span> directly so that you
+do not really need these functions. From <span class="math inline">\(B\)</span>, the other matrices are easily
+computed if needed by:
 <pre><code>L = -B&#39;*B;
 A = L &gt; 0;
 C = abs(B)/2;</code></pre>
@@ -152,21 +199,36 @@ C = abs(B)/2;</code></pre>
 
 </tbody>
 </table>
-<p>The most important notion is that the matrix <span class="math inline">\(B\)</span> is called the <span> <strong>gradient</strong></span>. It is a linear operator that maps scalar fields (vectors of lenght <span class="math inline">\(n\)</span>) into vector fields (vectors of length <span class="math inline">\(m\)</span>). This definition is used for an arbitrary graph, but it makes a lot of sense when the graph is the grid of an image, because in that case the gradient corresponds exactly to the gradient computed using finite differences.
+<p>The most important notion is that the matrix <span class="math inline">\(B\)</span> is called the <span>
+<strong>gradient</strong></span>. It is a linear operator that maps scalar fields (vectors of
+lenght <span class="math inline">\(n\)</span>) into vector fields (vectors of length <span class="math inline">\(m\)</span>).
+This definition is used for an arbitrary graph, but it makes a lot of sense
+when the graph is the grid of an image, because in that case the gradient
+corresponds exactly to the gradient computed using finite differences.
 <h2 id="the-graph-associated-to-an-image"><span class="header-section-number">3</span> The graph associated to an image</h2>
-<p>The pixels of an image are arranged naturally in the shape of a grid. Here, for example, you have the grid of a <span class="math inline">\(4\times 3\)</span> image:
+<p>The pixels of an image are arranged naturally in the shape of a grid.
+Here, for example, you have the grid of a <span class="math inline">\(4\times 3\)</span> image:
 <p><img src="gridgraph.png" alt="image" />
-<p>Here you see that the graph has <span class="math inline">\(n=12\)</span> vertices and <span class="math inline">\(m=17\)</span> edges. In general, for an image of size <span class="math inline">\(w\times h\)</span>, the graph will have <span class="math inline">\(n=wh\)</span> vertices and <span class="math inline">\(m=(w-1)h+(h-1)w\)</span> edges. The matrix <span class="math inline">\(A\)</span> of such a graph is build by the following octave code
+<p>Here you see that the graph has <span class="math inline">\(n=12\)</span> vertices and <span class="math inline">\(m=17\)</span> edges.
+In general, for an image of size <span class="math inline">\(w\times h\)</span>, the graph will have <span class="math inline">\(n=wh\)</span>
+vertices and <span class="math inline">\(m=(w-1)h+(h-1)w\)</span> edges. The matrix <span class="math inline">\(A\)</span> of such a graph is
+build by the following octave code
 <pre><code>function A = grid_graph(w, h)                       # build a grid graph WxH
         px = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length W
         py = sparse(1:h-1, 2:h, 1, h, h);           # path graph of length H
         U = kron(py,speye(w)) + kron(speye(h),px);  # kronecker sum
         A = U + U&#39;;                                 # symmetrization
 end</code></pre>
-<p>This works because the grid graph is the product graph of two paths, and the adjacency matrix of a product graph is the Kronecker sum of their matrices.
-<p>The graph defines just the <em>domain</em> of an image. We still need the <em>data</em>. As a sample image, we will use the amazing portrait of Samuel Beckett by Jane Bown:
-<p><img src="i/beckett.png" alt="image" /> <span><code>beckett.png</code></span>
-<p>The easiest operator to understand is the Laplacian. The following octave code thus reads an image, applies the laplacian operator, and saves the result.
+<p>This works because the grid graph is the product graph of two paths, and the
+adjacency matrix of a product graph is the Kronecker sum of their matrices.
+<p>The graph defines just the <em>domain</em> of an image. We still need the
+<em>data</em>. As a sample image, we will use the amazing portrait of Samuel
+Beckett by Jane Bown:
+<p><img src="i/beckett.png" alt="image" />
+<span><code>beckett.png</code></span>
+<p>The easiest operator to understand is the Laplacian. The following octave
+code thus reads an image, applies the laplacian operator, and saves the
+result.
 <pre><code>x = imread(&quot;i/beckett.png&quot;);        # load input image
 [w, h] = size(x);                 # extract dimensions
 x = double(x(:));                 # flatten image data into a vector
@@ -175,19 +237,29 @@ L = A - diag(sum(A));             # Laplacian matrix
 y = L * x;                        # Laplacian of the original image
 z = uint8(reshape(127-2*y,w,h));  # contrast change and reshape
 imwrite(z, &quot;beckett-lap.png&quot;);    # save output image</code></pre>
-<p><img src="beckett-lap.png" alt="image" /> <span><code>beckett-lap.png</code></span>
-<p>The typical color coding for looking at a laplacian is such that gray=zero, white=negative, black=positive. As expected, the laplacian enhances the edges and textures while setting the constant regions to zero.
+<p><img src="beckett-lap.png" alt="image" />
+<span><code>beckett-lap.png</code></span>
+<p>The typical color coding for looking at a laplacian is such that gray=zero,
+white=negative, black=positive. As expected, the laplacian enhances the
+edges and textures while setting the constant regions to zero.
 <p>By substracting the laplacian to the image, we “sharpen” the original image.
 <pre><code>y = x - L * x;                                        # image minus laplacian
 imwrite(reshape(uint8(y),w,h), &quot;beckett-sharp.png&quot;);  # save output image</code></pre>
-<p><img src="beckett-sharp.png" alt="image" /> <span><code>beckett-sharp.png</code></span>
-<p>Conversely, we can smooth the image by adding multiples of the laplacian to it, iteratively. This amounts to approximation the solution of the heat equation on the graph:
+<p><img src="beckett-sharp.png" alt="image" />
+<span><code>beckett-sharp.png</code></span>
+<p>Conversely, we can smooth the image by adding multiples of the laplacian to
+it, iteratively. This amounts to approximation the solution of the heat
+equation on the graph:
 <pre><code>S = speye(w*h) + L/4;                                  # smoothing operator
 y = S^8 * x;                                           # run 8 smoothing steps
 imwrite(reshape(uint8(y),w,h), &quot;beckett-smooth.png&quot;);  # save output image</code></pre>
-<p><img src="beckett-smooth.png" alt="image" /> <span><code>beckett-smooth.png</code></span>
+<p><img src="beckett-smooth.png" alt="image" />
+<span><code>beckett-smooth.png</code></span>
 <h2 id="graph-based-mathematical-morphology"><span class="header-section-number">4</span> Graph-based mathematical morphology</h2>
-<p>The morphological operations of <span><strong>dilation</strong></span> and <span><strong>erosion</strong></span> are defined for functions over graphs, as the maximum and minimum value of neighboring vertices. The other morphological operations are all defined in terms of dilation and erosion:
+<p>The morphological operations of <span><strong>dilation</strong></span> and <span><strong>erosion</strong></span> are
+defined for functions over graphs, as the maximum and minimum value of
+neighboring vertices. The other morphological operations are all defined in
+terms of dilation and erosion:
 <table>
 <tbody>
 <tr class="odd">
@@ -240,21 +312,43 @@ imwrite(reshape(uint8(y),w,h), &quot;beckett-smooth.png&quot;);  # save output i
 
 </tbody>
 </table>
-<p>Due to the inequalities <span class="math inline">\(e(u)\le u\le d(u)\)</span>, we can see that all these operations (except the laplacian) produce positive images. The morphological gradients are also called upwind and downwind derivatives.
-<p>Thanks to sparse matrices, the implementation of these operations is very easy. The crucial matrix here is the structuring element matrix <span class="math inline">\(E\)</span>, defined as the adjacency matrix plus the identity
+<p>Due to the inequalities <span class="math inline">\(e(u)\le u\le d(u)\)</span>, we can see that all these
+operations (except the laplacian) produce positive images. The morphological
+gradients are also called upwind and downwind derivatives.
+<p>Thanks to sparse matrices, the implementation of these operations is very
+easy. The crucial matrix here is the structuring element matrix <span class="math inline">\(E\)</span>, defined
+as the adjacency matrix plus the identity
 <p><span class="math display">\[E = A + I_n\]</span>
-<p>The matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> define linear operators on the scalar fields of a graph. In the particular case when the graph is the grid of an image, they can be interpreted as shift-invariant filters defined by the following stencils:
+<p>The matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> define linear operators on the scalar fields of a
+graph. In the particular case when the graph is the grid of an image, they
+can be interpreted as shift-invariant filters defined by the following
+stencils:
 <p><span class="math display">\[\mathrm{stencil}(A)=
 \begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;0&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}
     \qquad
     \qquad
 \mathrm{stencil}(E)=
 \begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;1&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}\]</span>
-<p>Of course, this interpretation is only valid far from the boundary of the image domain. However, bear in mind that the matrix product is a well-defined, so that the boundary condition is dealt with “automatically” by the form of the graph.
+<p>Of course, this interpretation is only valid far from the boundary of the
+image domain. However, bear in mind that the matrix product is a well-defined,
+so that the boundary condition is dealt with “automatically” by the form of
+the graph.
 <h3 id="morphology-on-binary-images"><span class="header-section-number">4.1</span> Morphology on binary images</h3>
-<p>We start with the implementation of mathematical morphology for binary images, which are also called <em>masks</em>. This implementation is easier to understand than for the general gray-scale case. The <span><strong>dilation</strong></span> of a mask <span class="math inline">\(m\)</span> can be computed simply by multiplying the mask by powers of the adjacency matrix. Actually, the <span><strong>erosion</strong></span> and the <span><strong>median filter</strong></span> are also computed by the same operation, and they can be extracted by thresholding the resulting gray-scale image at its minimum, maximum or central values.
-<p>Notice that if you want to apply erosion a certain number of times, you can multiply by a power of the adjacency matrix! Morphology is a nonlinear operation, but the nonlinearity comes from the threshold, not from the matrix multiplication.
-<p>The following code shows the computation of 6 dilations and erosions of the same mask (a binarization of the Beckett portrait):
+<p>We start with the implementation of mathematical morphology for binary
+images, which are also called <em>masks</em>.
+This implementation is easier to understand than for the
+general gray-scale case.
+The <span><strong>dilation</strong></span> of a mask <span class="math inline">\(m\)</span> can be computed simply by multiplying the
+mask by powers of the adjacency matrix. Actually, the <span><strong>erosion</strong></span> and the
+<span><strong>median filter</strong></span> are also computed by the same operation, and they can be
+extracted by thresholding the resulting gray-scale image at its minimum,
+maximum or central values.
+<p>Notice that if you want to apply erosion a certain number of times, you can
+multiply by a power of the adjacency matrix! Morphology is a nonlinear
+operation, but the nonlinearity comes from the threshold, not from the
+matrix multiplication.
+<p>The following code shows the computation of 6 dilations and erosions of the
+same mask (a binarization of the Beckett portrait):
 <pre><code>x = imread(&quot;i/beckett.png&quot;);                             # load image
 [w,h] = size(x);                                         # extract dimensions
 m = double(x(:) &gt; 66);                                   # flatten and binarize
@@ -281,17 +375,30 @@ imwrite(logical(reshape(y3,w,h)), &quot;beckett-6med.png&quot;);   # save median
 </div>
 
 <h3 id="gray-level-morphology"><span class="header-section-number">4.2</span> Gray-level morphology</h3>
-<p>The implementation of morphology for gray-scale images is a bit more complicated. The trick of thresholding the matrix multiplication does not work anymore, because we are multiplying by a vector that has many different values (not only zeros and ones). What we need is a matrix<span class="math inline">\(\times\)</span>vector multiplication that takes the maximum, instead of the sums along each row. After a few hours of head-scratching, I realized that this is achieved by multiplying the matrix <span class="math inline">\(E\)</span> by the diagonal matrix defined by the vector <span class="math inline">\(x\)</span> (which results in a sparse matrix) and then taking the maximum along rows of the resulting matrix. The code is simple, but maybe not evident:
+<p>The implementation of morphology for gray-scale images is a bit more
+complicated. The trick of thresholding the matrix multiplication does not
+work anymore, because we are multiplying by a vector that has many different
+values (not only zeros and ones). What we need is a matrix<span class="math inline">\(\times\)</span>vector
+multiplication that takes the maximum, instead of the sums along each row.
+After a few hours of head-scratching, I realized that this is achieved by
+multiplying the matrix <span class="math inline">\(E\)</span> by the diagonal matrix defined by the vector <span class="math inline">\(x\)</span>
+(which results in a sparse matrix) and then taking the maximum along rows of
+the resulting matrix. The code is simple, but maybe not evident:
 <pre><code>function y = dilation(E, x)
         y = full(max(diag(x)*E))&#39;;    # maximum value along sparse rows
 end</code></pre>
-<p>Notice that this only works for positive-valued images (otherwise the &quot;max&quot; is perturbed by the zeros in the sparse matrix, which are not ignored). If we want to compute the minimum, this technique does not work because the minimum on a sparse matrix is always zero! Yet, we can “cheat” and implement the erosion by computing the dilation of an image in the negative:
+<p>Notice that this only works for positive-valued images (otherwise the &quot;max&quot;
+is perturbed by the zeros in the sparse matrix, which are not ignored). If
+we want to compute the minimum, this technique does not work because the
+minimum on a sparse matrix is always zero! Yet, we can “cheat” and
+implement the erosion by computing the dilation of an image in the negative:
 <pre><code>function y = erosion(E, x)
         m = 1 + max(x);
         t = m - x;
         y = m - dilation(E, t);
 end</code></pre>
-<p>And finally, the implementation of all the morphological operations consists simply in copying the table above:
+<p>And finally, the implementation of all the morphological operations consists
+simply in copying the table above:
 <pre><code>function y = opening(E,x)      y = dilation(E,erosion(E,x));              end
 function y = closing(E,x)      y = erosion(E,dilation(E,x));              end
 function y = egradient(E,x)    y = x - erosion(E,x);                      end
@@ -334,7 +441,24 @@ imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), &quot;beckett-bot.png&quot;
 <li><a href="beckett-bot.png">beckett-bot.png<span><img src="beckett-bot.png" /></span></a>
 </div>
 
-<p>It is an interesting exercise to look at these images and try to describe the changes verbally. For example: <span><strong>dilation</strong></span> enlarges the light objects, while <span><strong>erosion</strong></span> enlarges the dark ones. The <span><strong>opening</strong></span> removes the small bright spots and ridges, while <span><strong>closing</strong></span> removes the small dark spots and valleys. All the three <span><strong>gradients</strong></span> look like the euclidean norm of the linear gradient. The <span><strong>inner</strong></span> and <span><strong>outer</strong></span> gradients are very sharp, but are not centered, each one biased towards the dark or the light side of the discontinuities. The <span><strong>centered</strong></span> gradient is the average of the two, which is centered but less sharp. The <span><strong>morphological laplacian</strong></span> is the difference of the inner and outer gradients; it looks almost exactly like the linear laplacian despite being a combination of nonlinear operations. The <span><strong>morphological sharpening</strong></span> is similar to the linear one, based on the reverse heat equation. The <span><strong>top-hat</strong></span> keeps only the britght spots and ridges (those that were removed by the opening), and set to zero the rest of the image. The <span><strong>bottom-hat</strong></span> keeps only the dark spots and valleys (those that were removed by the closing), and sets to zero the rest of the image; thus the bottom-hat produces an image in the negative, that must be negated to visualize it correctly.
+<p>It is an interesting exercise to look at these images and try to describe the
+changes verbally. For example: <span><strong>dilation</strong></span> enlarges the light objects,
+while <span><strong>erosion</strong></span> enlarges the dark ones. The <span><strong>opening</strong></span> removes the
+small bright spots and ridges, while <span><strong>closing</strong></span> removes the small dark
+spots and valleys. All the three <span><strong>gradients</strong></span> look like the euclidean
+norm of the linear gradient. The <span><strong>inner</strong></span> and <span><strong>outer</strong></span> gradients are
+very sharp, but are not centered, each one biased towards the dark or the
+light side of the discontinuities. The <span><strong>centered</strong></span> gradient is the
+average of the two, which is centered but less sharp. The <span><strong>morphological
+laplacian</strong></span> is the difference of the inner and outer gradients; it looks
+almost exactly like the linear laplacian despite being a combination of
+nonlinear operations. The <span><strong>morphological sharpening</strong></span> is similar to the
+linear one, based on the reverse heat equation. The <span><strong>top-hat</strong></span> keeps only
+the britght spots and ridges (those that were removed by the opening), and
+set to zero the rest of the image. The <span><strong>bottom-hat</strong></span> keeps only the dark
+spots and valleys (those that were removed by the closing), and sets to zero
+the rest of the image; thus the bottom-hat produces an image in the negative,
+that must be negated to visualize it correctly.
 <h2 id="linear-pde-on-graphs"><span class="header-section-number">5</span> Linear PDE on graphs</h2>
 <p>(section in preparation)
 <h3 id="linear-second-order-equations"><span class="header-section-number">5.1</span> Linear second-order equations</h3>

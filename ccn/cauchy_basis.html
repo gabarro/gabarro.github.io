@@ -20,82 +20,163 @@
 <h1 class="title">The Cauchy basis</h1>
 
 
-<p>In this note we describe the construction of the <span><strong>Cauchy basis</strong></span>, whose functions satisfy at the same time Dirichlet and Neumann boundary conditions. Besides being beautiful, it is useful to solve fourth-order boundary problems.
+<p>In this note we describe the construction of the <span><strong>Cauchy basis</strong></span>, whose
+functions satisfy at the same time Dirichlet and Neumann boundary conditions.
+Besides being beautiful, it is useful to solve fourth-order boundary
+problems.
 <h2 id="introduction-fourier-cosine-and-sine-basis"><span class="header-section-number">1</span> Introduction: Fourier, cosine and sine basis</h2>
-<p>Everybody knows the Fourier basis of <span class="math inline">\(L^2([0,2\pi])\)</span>, defined by sine and cosine functions of integer frequencies.
+<p>Everybody knows the Fourier basis of <span class="math inline">\(L^2([0,2\pi])\)</span>, defined by sine and
+cosine functions of integer frequencies.
 <p><span class="math display">\[1,\cos(x),\cos(2x),\ldots,\sin(x),\sin(2x),\ldots\]</span>
 <p><img src="sincos.png" alt="image" />
-<p>This was the original basis used by Joseph Fourier to study the heat equation. Notice that cosines are symmetric around the center of the interval, and sines are anti-symmetric. Thus, all the functions of this basis are necessary to represent arbitrary functions on the whole interval.
-<p>Less well-known are the cosine basis, defined by cosines of half-integer frequencies <span class="math display">\[1,\cos\left(\frac{1}{2}x\right),
+<p>This was the original basis used by Joseph Fourier to study the heat equation.
+Notice that cosines are symmetric around the center of the interval, and
+sines are anti-symmetric. Thus, all the functions of this basis are
+necessary to represent arbitrary functions on the whole interval.
+<p>Less well-known are the cosine basis, defined by cosines of half-integer
+frequencies
+<span class="math display">\[1,\cos\left(\frac{1}{2}x\right),
 \cos(x),
 \cos\left(\frac{3}{2}x\right),
 \cos(2x),\ldots\]</span>
 <p><img src="cos.png" alt="image" />
-<p>and the sine basis, defined by sines of half-integer frequencies <span class="math display">\[\sin\left(\frac{1}{2}x\right),
+<p>and the sine basis, defined by sines of half-integer frequencies
+<span class="math display">\[\sin\left(\frac{1}{2}x\right),
 \sin(x),
 \sin\left(\frac{3}{2}x\right),
 \sin(2x), \ldots\]</span>
 <p><img src="sin.png" alt="image" />
-<p>Each one of these three sequences of functions is a Hilbert basis of the space <span class="math inline">\(L^2([0,2\pi])\)</span>. In particular, you can express a sine as a linear combination of cosines, and vice-versa. This is a favourite exam question of mine. Of course, the convergence is not uniform on the boundaries of the interval.
-<p>The cosine and sine bases are very useful when you want to express solutions of a differential equation (or a variational problem) satisfying particular boundary conditions. Notice that if <span class="math inline">\(f(x)\)</span> is a finite linear combination of the sine basis, then <span class="math inline">\(f(0)=f(2\pi)=0\)</span> and if it is a finite linear combination of the cosine basis, then <span class="math inline">\(f&#39;(0)=f&#39;(2\pi)=0\)</span>. The same relationships hold for series as long as the coefficients decrease fast enough. Thus, the sine basis is useful for <em>Dirichlet boundary conditions</em>, and the cosine basis is useful for <em>Neumann boundary conditions</em>.
+<p>Each one of these three sequences of functions is a Hilbert basis of the
+space <span class="math inline">\(L^2([0,2\pi])\)</span>. In particular, you can express a sine as a linear
+combination of cosines, and vice-versa. This is a favourite exam question of
+mine. Of course, the convergence is not uniform on the boundaries of the
+interval.
+<p>The cosine and sine bases are very useful when you want to express solutions of
+a differential equation (or a variational problem) satisfying particular
+boundary conditions. Notice that if <span class="math inline">\(f(x)\)</span> is a finite linear combination of
+the sine basis, then <span class="math inline">\(f(0)=f(2\pi)=0\)</span> and if it is a finite linear combination
+of the cosine basis, then <span class="math inline">\(f&#39;(0)=f&#39;(2\pi)=0\)</span>. The same relationships hold for
+series as long as the coefficients decrease fast enough. Thus, the sine basis
+is useful for <em>Dirichlet boundary conditions</em>, and the cosine basis is
+useful for <em>Neumann boundary conditions</em>.
 <h2 id="the-cauchy-basis"><span class="header-section-number">2</span> The Cauchy basis</h2>
-<p>The functions of the Cauchy basis, defined below, satisfy simultaneously the four conditions <span class="math inline">\(f(0)=f(1)=f&#39;(0)=f&#39;(1)=0\)</span>.
+<p>The functions of the Cauchy basis, defined below, satisfy simultaneously the
+four conditions <span class="math inline">\(f(0)=f(1)=f&#39;(0)=f&#39;(1)=0\)</span>.
 <p><img src="cauchy.png" alt="image" />
-<p>A simple construction of such a set of functions is obtained by considering eigenfunctions of the fourth derivative that satisfy the four boundary conditions.
-<p>Eigenfunctions of the fourth derivative are of the form <span class="math inline">\(\exp(\rho x)\)</span> where <span class="math inline">\(\rho\)</span> is a fourth-root of <span class="math inline">\(1\)</span>, thus <span class="math inline">\(\rho\in\{1,-1,i,-i\}\)</span>. Equivalently, they are linear combinations of <span class="math inline">\(\sin\)</span>, <span class="math inline">\(\cos\)</span>, <span class="math inline">\(\sinh\)</span> and <span class="math inline">\(\cosh\)</span>
+<p>A simple construction of such a set of functions is obtained by considering
+eigenfunctions of the fourth derivative that satisfy the four boundary
+conditions.
+<p>Eigenfunctions of the fourth derivative are of the form <span class="math inline">\(\exp(\rho x)\)</span>
+where <span class="math inline">\(\rho\)</span> is a fourth-root of <span class="math inline">\(1\)</span>, thus <span class="math inline">\(\rho\in\{1,-1,i,-i\}\)</span>.
+Equivalently, they are linear combinations of <span class="math inline">\(\sin\)</span>, <span class="math inline">\(\cos\)</span>, <span class="math inline">\(\sinh\)</span> and
+<span class="math inline">\(\cosh\)</span>
 <p><span class="math display">\[\varphi(x)=\alpha\cos(\lambda x)+\beta\sin(\lambda x)+\gamma\cosh(\lambda
 x)+\delta\sinh(\lambda x)\]</span>
-<p>This is an eigenfunction of the fourth derivative with eigenvalue <span class="math inline">\(\lambda^4\)</span>, that we can assume to be real positive.
-<p>By imposing the four boundary conditions, we obtain a linear system on the coefficients <span class="math inline">\((\alpha,\beta,\gamma,\delta)\)</span>, with a parameter <span class="math inline">\(\lambda\)</span>. The matrix of this linear system is singular, and its determinant vanishes when <span class="math inline">\(\lambda\)</span> satisfies the equation <span class="math display">\[\cos\lambda\cosh\lambda=1\]</span> The solutions of this equation (which are slight perturbations of even multiples of <span class="math inline">\(pi/2\)</span>) are the eigenvalues of our basis.
-<p>A good enough approximation is given by <span class="math display">\[\lambda_n = \frac{2n+1}{2}\pi - (-1)^n2\exp\left(-\frac{(2n+1)}{2}\pi\right)\]</span> and the eigenfunctions are thus <span class="math display">\[\varphi_n(x)=\sin(\lambda_nx)-\sinh(\lambda_nx)+\beta_n(\cos(\lambda_nx)-\cosh(\lambda_nx))\]</span> where <span class="math display">\[\beta_n=\frac{\sinh\lambda_n-\sin\lambda_n}{\cos\lambda_n-\cosh\lambda_n}.\]</span>
-<p>Notice that, although the functions <span class="math inline">\(\varphi_n\)</span> are beautiful and symmetric inside the interval <span class="math inline">\([0,1]\)</span>, they explode in wild ways outside this interval:
+<p>This is an eigenfunction of the fourth derivative with
+eigenvalue <span class="math inline">\(\lambda^4\)</span>, that we can assume to be real positive.
+<p>By imposing the four boundary conditions, we obtain a linear system on the
+coefficients <span class="math inline">\((\alpha,\beta,\gamma,\delta)\)</span>, with a parameter <span class="math inline">\(\lambda\)</span>. The
+matrix of this linear system is singular, and its determinant vanishes
+when <span class="math inline">\(\lambda\)</span> satisfies the equation
+<span class="math display">\[\cos\lambda\cosh\lambda=1\]</span>
+The solutions of this equation (which are slight perturbations of even
+multiples of <span class="math inline">\(pi/2\)</span>)
+are the eigenvalues of our basis.
+<p>A good enough approximation is given by
+<span class="math display">\[\lambda_n = \frac{2n+1}{2}\pi - (-1)^n2\exp\left(-\frac{(2n+1)}{2}\pi\right)\]</span>
+and the eigenfunctions are thus
+<span class="math display">\[\varphi_n(x)=\sin(\lambda_nx)-\sinh(\lambda_nx)+\beta_n(\cos(\lambda_nx)-\cosh(\lambda_nx))\]</span>
+where
+<span class="math display">\[\beta_n=\frac{\sinh\lambda_n-\sin\lambda_n}{\cos\lambda_n-\cosh\lambda_n}.\]</span>
+<p>Notice that, although the functions <span class="math inline">\(\varphi_n\)</span> are beautiful and symmetric
+inside the interval <span class="math inline">\([0,1]\)</span>, they explode in wild ways outside this interval:
 <p><img src="cauchy2.png" alt="image" />
 <h2 id="properties-and-open-problems"><span class="header-section-number">3</span> Properties and open problems</h2>
-<p>We have just defined a set of functions <span class="math inline">\(\varphi_n(x)\)</span>. By construction, they are <span class="math inline">\(C^\infty\)</span> functions on the interval <span class="math inline">\([0,1]\)</span> that satisfy <span class="math inline">\(0=\varphi_n(0)=\varphi_n(1)=\varphi_n&#39;(0)=\varphi_n&#39;(1)\)</span>. Since these functions are eigenvectors of a linear operator with different eigenvalues, they must be orthogonal. The following remains to be done:
+<p>We have just defined a set of functions <span class="math inline">\(\varphi_n(x)\)</span>. By construction,
+they are <span class="math inline">\(C^\infty\)</span> functions on the interval <span class="math inline">\([0,1]\)</span> that
+satisfy <span class="math inline">\(0=\varphi_n(0)=\varphi_n(1)=\varphi_n&#39;(0)=\varphi_n&#39;(1)\)</span>. Since
+these functions are eigenvectors of a linear operator with different
+eigenvalues, they must be orthogonal. The following remains to be
+done:
 <ol>
 <li><p>Prove that <span class="math inline">\(\{\varphi_n(x)\}\)</span> is a Hilbert basis of <span class="math inline">\(L^2([0,1])\)</span>
 <li><p>Prove that <span class="math inline">\(|\varphi_n(x)|\le 2\)</span> for <span class="math inline">\(x\in[0,1]\)</span>
-<li><p>Prove that <span class="math inline">\(\varphi_{2n}(x)=-\varphi_{2n}(1-x)\)</span> for <span class="math inline">\(x\in[0,1]\)</span> (so that <span class="math inline">\(\varphi_{2n}(1/2)=0\)</span>).
-<li><p>Prove that <span class="math inline">\(\varphi_{2n+1}(x)=\varphi_{2n+1}(1-x)\)</span> for <span class="math inline">\(x\in[0,1]\)</span> (so that <span class="math inline">\(\varphi&#39;_{2n+1}(1/2)=0\)</span>).
-<li><p>Prove that <span class="math inline">\(\varphi_n\)</span> has <span class="math inline">\(n-1\)</span> zeros on <span class="math inline">\((0,1)\)</span>, and identify them.
-<li><p>Compute the exact normalization coefficients required so that the basis is orthonormal.
-<li><p>Obtain an effective algorithm/formula to evaluate  <span class="math inline">\(\varphi_n(x)\)</span> for large values of <span class="math inline">\(n\)</span>, avoiding the numerical cancellations that appear with the current expression. Notice that, thanks to the symmetry properties above, the formula only needs to be stable for <span class="math inline">\(0\le
-        x\le\frac{1}{2}\)</span> (the difficult case being near <span class="math inline">\(\frac{1}{2}\)</span>).
-<li><p>Rewrite the definition so that the interval is centered around 0, and the symmetries are more visible.
-<li><p>Study how the regularity of a function can be measured from the rate of decrease of its &quot;Cauchy coefficients&quot;
-<li><p>Develop a theory of sampling using &quot;Cauchy polynomials&quot; as an interpolation model
-<li><p>Develop a &quot;Fast Cauchy Transform&quot;, to obtain the coefficients of these polynomials from their samples.
+<li><p>Prove that <span class="math inline">\(\varphi_{2n}(x)=-\varphi_{2n}(1-x)\)</span> for <span class="math inline">\(x\in[0,1]\)</span>
+(so that <span class="math inline">\(\varphi_{2n}(1/2)=0\)</span>).
+<li><p>Prove that <span class="math inline">\(\varphi_{2n+1}(x)=\varphi_{2n+1}(1-x)\)</span> for <span class="math inline">\(x\in[0,1]\)</span>
+(so that <span class="math inline">\(\varphi&#39;_{2n+1}(1/2)=0\)</span>).
+<li><p>Prove that <span class="math inline">\(\varphi_n\)</span> has <span class="math inline">\(n-1\)</span> zeros on <span class="math inline">\((0,1)\)</span>, and identify
+them.
+<li><p>Compute the exact normalization coefficients required so that the
+basis is orthonormal.
+<li><p>Obtain an effective algorithm/formula to evaluate
+ <span class="math inline">\(\varphi_n(x)\)</span> for large values of <span class="math inline">\(n\)</span>, avoiding the
+numerical cancellations that appear with the current
+expression. Notice that, thanks to the symmetry properties
+above, the formula only needs to be stable for <span class="math inline">\(0\le
+        x\le\frac{1}{2}\)</span> (the difficult case being
+near <span class="math inline">\(\frac{1}{2}\)</span>).
+<li><p>Rewrite the definition so that the interval is centered around
+0, and the symmetries are more visible.
+<li><p>Study how the regularity of a function can be measured from the
+rate of decrease of its &quot;Cauchy coefficients&quot;
+<li><p>Develop a theory of sampling using &quot;Cauchy polynomials&quot; as an
+interpolation model
+<li><p>Develop a &quot;Fast Cauchy Transform&quot;, to obtain the coefficients
+of these polynomials from their samples.
 <li><p>Extend this basis to the case of a square.
 <li><p>Extend this basis to the case of a disk.
 </ol>
-<p>Some of these propositions are easy, others may not actually be possible (especially the last one).
+<p>Some of these propositions are easy, others may not actually be possible
+(especially the last one).
 <h2 id="detailed-calculation"><span class="header-section-number">4</span> Detailed calculation</h2>
-<p>In this section we detail the construction leading to the Cauchy basis. The computation has two parts. First, we explain how the equation <span class="math inline">\(\cos\lambda\cosh\lambda=1\)</span> is obtained, and then we propose a numerical approximation of the solutions of this equation.
+<p>In this section we detail the construction leading to the Cauchy basis.
+The computation has two parts. First, we explain how the
+equation <span class="math inline">\(\cos\lambda\cosh\lambda=1\)</span> is obtained,
+and then we propose a numerical approximation of the solutions of this
+equation.
 <h3 id="the-eigenvalue-equation"><span class="header-section-number">4.1</span> The eigenvalue equation</h3>
-<p>We start with the basic form <span class="math display">\[\varphi(x)=
+<p>We start with the basic form
+<span class="math display">\[\varphi(x)=
 \alpha\cos\lambda x
 +\beta\sin\lambda x
 +\gamma\cosh\lambda x
-+\delta\sinh\lambda x\]</span> and we want to determine values of the five parameters <span class="math inline">\(\alpha,\beta,\gamma,\delta,\lambda\)</span> so that <span class="math inline">\(\varphi\)</span> satisfies the four boundary conditions <span class="math inline">\(0=\varphi(0)=\varphi(1)=\varphi&#39;(0)=\varphi&#39;(1)\)</span>. We have <span class="math display">\[\varphi&#39;(x)=\lambda\left[
++\delta\sinh\lambda x\]</span>
+and we want to determine values of the five
+parameters <span class="math inline">\(\alpha,\beta,\gamma,\delta,\lambda\)</span> so that <span class="math inline">\(\varphi\)</span> satisfies
+the four boundary conditions <span class="math inline">\(0=\varphi(0)=\varphi(1)=\varphi&#39;(0)=\varphi&#39;(1)\)</span>.
+We have
+<span class="math display">\[\varphi&#39;(x)=\lambda\left[
     -\alpha\sin\lambda x
     +\beta\cos\lambda x
     +\gamma\sinh\lambda x
     +\delta\cosh\lambda x
-\right]\]</span> And setting <span class="math inline">\(0=\varphi(0)\)</span> and <span class="math inline">\(0=\varphi&#39;(0)\)</span> gives respectively <span class="math inline">\(\gamma=-\alpha\)</span> and <span class="math inline">\(\delta=-\beta\)</span>, thus <span class="math display">\[\varphi(x)=
+\right]\]</span>
+And setting <span class="math inline">\(0=\varphi(0)\)</span> and <span class="math inline">\(0=\varphi&#39;(0)\)</span> gives
+respectively <span class="math inline">\(\gamma=-\alpha\)</span> and <span class="math inline">\(\delta=-\beta\)</span>, thus
+<span class="math display">\[\varphi(x)=
     \alpha\left(\cos\lambda x-\cosh\lambda x\right)
     +
-    \beta\left(\sin\lambda x-\sinh\lambda x\right)\]</span> and <span class="math display">\[\varphi&#39;(x)=\lambda
+    \beta\left(\sin\lambda x-\sinh\lambda x\right)\]</span>
+and
+<span class="math display">\[\varphi&#39;(x)=\lambda
 \left[
     \alpha\left(-\sin\lambda x-\sinh\lambda x\right)
     +
     \beta\left(\cos\lambda x-\cosh\lambda x\right)
-    \right]\]</span> To simplify the notation, we write <span class="math display">\[\begin{aligned}
+    \right]\]</span>
+To simplify the notation, we write
+<span class="math display">\[\begin{aligned}
     c &amp;= \cos\lambda \\
     s &amp;= \sin\lambda \\
     k &amp;= \cosh\lambda \\
-    z &amp;= \sinh\lambda \\\end{aligned}\]</span> thus the conditions <span class="math inline">\(0=\varphi(1)\)</span> and <span class="math inline">\(0=\varphi&#39;(1)\)</span> read <span class="math display">\[\begin{aligned}
+    z &amp;= \sinh\lambda \\\end{aligned}\]</span>
+thus the conditions <span class="math inline">\(0=\varphi(1)\)</span> and <span class="math inline">\(0=\varphi&#39;(1)\)</span> read
+<span class="math display">\[\begin{aligned}
     0 &amp;= \alpha(c-k)+\beta(s-z) \\
-    0 &amp;= \alpha(-s-z)+\beta(c-k) \\\end{aligned}\]</span> or, in matrix form <span class="math display">\[\begin{pmatrix}
+    0 &amp;= \alpha(-s-z)+\beta(c-k) \\\end{aligned}\]</span>
+or, in matrix form
+<span class="math display">\[\begin{pmatrix}
     c-k &amp; s-z \\
     -s-z &amp; c-k \\
 \end{pmatrix}
@@ -107,25 +188,69 @@ x)+\delta\sinh(\lambda x)\]</span>
 \begin{pmatrix}
     0 \\
     0 \\
-\end{pmatrix}\]</span> If <span class="math inline">\((\alpha,\beta)\)</span> is not the zero vector, then the matrix must be singular, thus <span class="math display">\[(c-k)^2+(s+z)(s-z)=0\]</span> this condition can be simplified using the trigonometric identities <span class="math inline">\(c^2+s^2=1\)</span> and <span class="math inline">\(k^2-z^2=1\)</span> to obtain the equivalent equation <span class="math inline">\(ck=1\)</span> : <span class="math display">\[\cos\lambda\cosh\lambda=1\]</span> Besides the non-interesting case <span class="math inline">\(\lambda=0\)</span>, this equation has an infinite sequence of solutions <span class="math inline">\(\pm\lambda_n\)</span> that determine the spectrum of our problem. Given such a solution <span class="math inline">\(\lambda_n\)</span>, the corresponding values of <span class="math inline">\(\alpha_n,\beta_n\)</span> are determined from the condition <span class="math inline">\(0=\varphi(1)\)</span>: <span class="math display">\[0 =
+\end{pmatrix}\]</span>
+If <span class="math inline">\((\alpha,\beta)\)</span> is not the zero vector, then the matrix must be singular,
+thus
+<span class="math display">\[(c-k)^2+(s+z)(s-z)=0\]</span>
+this condition can be simplified using the trigonometric
+identities <span class="math inline">\(c^2+s^2=1\)</span> and <span class="math inline">\(k^2-z^2=1\)</span> to obtain the equivalent
+equation <span class="math inline">\(ck=1\)</span> :
+<span class="math display">\[\cos\lambda\cosh\lambda=1\]</span>
+Besides the non-interesting case <span class="math inline">\(\lambda=0\)</span>, this equation has an infinite
+sequence of solutions <span class="math inline">\(\pm\lambda_n\)</span> that determine the spectrum of our
+problem. Given such a solution <span class="math inline">\(\lambda_n\)</span>, the corresponding values
+of <span class="math inline">\(\alpha_n,\beta_n\)</span> are determined from the condition <span class="math inline">\(0=\varphi(1)\)</span>:
+<span class="math display">\[0 =
 \alpha_n(\cos\lambda_n-\cosh\lambda_n)
-+\beta_n(\sin\lambda_n-\sinh\lambda_n)\]</span> we normalize the solution with <span class="math inline">\(\alpha_n=1\)</span> (this is an arbitrary choice, maybe not the best one, but it produces nicely bounded functions on <span class="math inline">\([0,1]\)</span>). Now <span class="math display">\[\beta_n=\frac{\cos\lambda_n-\cosh\lambda_n}{\sinh\lambda_n-\sin\lambda_n}\]</span> and the functions of the basis are <span class="math display">\[\varphi_n(x)=\sin(\lambda_nx)-\sinh(\lambda_nx)+\beta_n(\cos(\lambda_nx)-\cosh(\lambda_nx))\]</span> Or, by rearranging the terms, <span class="math display">\[\varphi_n(x)=
++\beta_n(\sin\lambda_n-\sinh\lambda_n)\]</span>
+we normalize the solution with <span class="math inline">\(\alpha_n=1\)</span> (this is an arbitrary choice,
+maybe not the best one, but it produces nicely bounded functions on <span class="math inline">\([0,1]\)</span>). Now
+<span class="math display">\[\beta_n=\frac{\cos\lambda_n-\cosh\lambda_n}{\sinh\lambda_n-\sin\lambda_n}\]</span>
+and the functions of the basis are
+<span class="math display">\[\varphi_n(x)=\sin(\lambda_nx)-\sinh(\lambda_nx)+\beta_n(\cos(\lambda_nx)-\cosh(\lambda_nx))\]</span>
+Or, by rearranging the terms,
+<span class="math display">\[\varphi_n(x)=
 \frac{
  (\beta_n-1) e^{\lambda_nx}
 +(\beta_n+1) e^{-\lambda_nx}
 +(\beta_n-i) e^{i\lambda_nx}
 +(\beta_n+i) e^{-i\lambda_nx}
-}{2}\]</span> or even <span class="math display">\[\varphi_n(x)=\frac{1}{2}\sum_{\rho^4=1}
-(\beta_n-\rho)e^{\rho\lambda_n x}\]</span> and this last expression is more amenable to computations (derivatives, integrals, scalar products).
+}{2}\]</span>
+or even
+<span class="math display">\[\varphi_n(x)=\frac{1}{2}\sum_{\rho^4=1}
+(\beta_n-\rho)e^{\rho\lambda_n x}\]</span>
+and this last expression is more amenable to computations (derivatives,
+integrals, scalar products).
 <h3 id="numerical-solution-of-the-eigenvalue-equation"><span class="header-section-number">4.2</span> Numerical solution of the eigenvalue equation</h3>
-<p>By plotting the function <span class="math inline">\(x\to\cos x\cosh x\)</span>, it is clear that it crosses the value <span class="math inline">\(1\)</span> infinitely many times, very near to the zeros of <span class="math inline">\(\cos x\)</span>, except for <span class="math inline">\(x=\pi/2\)</span>:
+<p>By plotting the function <span class="math inline">\(x\to\cos x\cosh x\)</span>, it is clear that it crosses the
+value <span class="math inline">\(1\)</span> infinitely many times, very near to the zeros of <span class="math inline">\(\cos x\)</span>, except
+for <span class="math inline">\(x=\pi/2\)</span>:
 <p><img src="coscosh.png" alt="image" />
-<p>Thus, the zeros of the function <span class="math inline">\(\lambda\to\cos\lambda\cosh\lambda-1\)</span> have the form <span class="math display">\[\lambda_n = \frac{2n+1}{2}\pi + \varepsilon_n\]</span> where <span class="math inline">\(\varepsilon_n\)</span> are numbers that tend very fast to zero and alternate sign. We can estimate the number <span class="math inline">\(\varepsilon_n\)</span> by computing the tangent to the graph of <span class="math inline">\(\cos x\cosh x\)</span> at <span class="math inline">\(x=\frac{2n+1}{2}\pi\)</span>, and finding its intersection with the horizontal line <span class="math inline">\(y=1\)</span>: <span class="math display">\[1 = \cos x_n\cosh x_n +
+<p>Thus, the zeros of the function <span class="math inline">\(\lambda\to\cos\lambda\cosh\lambda-1\)</span> have the
+form
+<span class="math display">\[\lambda_n = \frac{2n+1}{2}\pi + \varepsilon_n\]</span>
+where <span class="math inline">\(\varepsilon_n\)</span> are numbers that tend very fast to zero and alternate
+sign.
+We can estimate the number <span class="math inline">\(\varepsilon_n\)</span> by computing the tangent to the
+graph of <span class="math inline">\(\cos x\cosh x\)</span> at <span class="math inline">\(x=\frac{2n+1}{2}\pi\)</span>, and finding its
+intersection with the horizontal line <span class="math inline">\(y=1\)</span>:
+<span class="math display">\[1 = \cos x_n\cosh x_n +
 \left(
 \cos x_n\sinh x_n - \sin x_n\cosh x_n
-\right) \varepsilon_n\]</span> for <span class="math inline">\(x_n=\frac{2n+1}{2}\pi\)</span>. Since <span class="math inline">\(\cos x_n=0\)</span> and <span class="math inline">\(\sin x_n=-(-1)^n\)</span>, this simplifies to <span class="math display">\[\varepsilon_n=\frac{-(-1)^n}{\cosh x_n} \approx -2e^{-x_n}\]</span> resulting in the approximation proposed above <span class="math display">\[\lambda_n\approx\frac{2n+1}{2}\pi-2(-1)^n\exp\left(-\frac{2n+1}{2}\pi\right).\]</span> This approximation is useful, at least for plotting purposes. Notice that the quality of the approximation improves as <span class="math inline">\(n\)</span> grows, so a satisfactory solution can be attained by tabulating the exact values of <span class="math inline">\(\lambda_n\)</span> for small values of <span class="math inline">\(n\)</span>, and using the approximation for the others.
+\right) \varepsilon_n\]</span>
+for <span class="math inline">\(x_n=\frac{2n+1}{2}\pi\)</span>. Since <span class="math inline">\(\cos x_n=0\)</span> and <span class="math inline">\(\sin x_n=-(-1)^n\)</span>, this
+simplifies to
+<span class="math display">\[\varepsilon_n=\frac{-(-1)^n}{\cosh x_n} \approx -2e^{-x_n}\]</span>
+resulting in the approximation proposed above
+<span class="math display">\[\lambda_n\approx\frac{2n+1}{2}\pi-2(-1)^n\exp\left(-\frac{2n+1}{2}\pi\right).\]</span>
+This approximation is useful, at least for plotting purposes.
+Notice that the quality of the approximation improves as <span class="math inline">\(n\)</span> grows, so a
+satisfactory solution can be attained by tabulating the exact values
+of <span class="math inline">\(\lambda_n\)</span> for small values of <span class="math inline">\(n\)</span>, and using the approximation for the
+others.
 <h2 id="computer-code"><span class="header-section-number">5</span> Computer code</h2>
-<p>This is the complete <code>gnuplot</code> code to produce plots of the Cauchy basis:
+<p>This is the complete <code>gnuplot</code> code to produce plots of the Cauchy
+basis:
 <pre><code>X(n)   = (2*n+1)*pi/2                 # approximate eigenvalues (to 0th order)
 L(n)   = X(n) - (-1)**n/cosh(X(n))    # refined eigenvalues (to 1st order)
 s(x)   = sin(x) - sinh(x)             # notation

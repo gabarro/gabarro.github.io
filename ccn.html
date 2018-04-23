@@ -1,116 +1,144 @@
-<html>
-	<head>
-		<title>Coco notes</title>
-	</head>
+<!DOCTYPE html>
+<title>Coco notes</title>
+<h1>Coco notes</h1>
 
-	<body>
-		<h1>Coco notes</h1>
+<img src="coconut.png" />
 
-		<img src="coconut.png" />
+<p>
+These notes are mostly for personal use, so that i do not forget the things
+that took some time to learn.  There is no pretense of novelty anywhere.
 
-		<dl>
-
-			<dt>
-			<a href="ccn/image_processing_with_graphs.html">2018/4/</a>
-			<b>Image processing with graphs</b>
-			<code>[images]</code>
-			</dt>
-			<dd>
-			We propose octave implementations of graph-based mathematical morphology
-			and linear PDE for image processing.
-			</dd>
-
-			<dt>
-			<a href="ccn/one_dimensional_clustering.html">2018/4/</a>
-			<b>One-dimensional clustering with one cluster</b>
-			<code>[math]</code>
-			</dt>
-			<dd>
-			A comprehensive study of the problem of combining several numbers into
-			one.
-			</dd>
-
-			<dt>
-			<a href="ccn/single_layer_gallery.html">2018/4/13</a>
-			<b>Gallery of single-layer textures</b>
-			<code>[images]</code>
-			</dt>
-			<dd>
-			We show how single layer CNN can hallucinate snowflakes and dandelions.
-			</dd>
-
-			<dt>
-			<a href="ccn/gen_fourier.html">2018/</a>
-			<b>Generalizations of Fourier analyisis</b>
-			<code>[math]</code>
-			</dt>
-			<dd>
-			We explain some common generalizations of Fourier analysis: sampling
-			theory, distribution theory, pontryagin duality and spectral geometry.
-			The part on spectral theory is shared with the article about PDE on
-			manifolds (needs some editing yet)
-			</dd>
-
-			<dt>
-			<a href="ccn/standard_pde_manifold.html">2018/4/11</a>
-			<b>The standard PDE on a manifold</b>
-			<code>[math]</code>
-			</dt>
-			<dd>
-			We state and solve the standard linear PDE on a compact Riemannian
-			manifold.
-			</dd>
-
-			<dt>
-			<a href="ccn/algebraic_graph_calculus.html">2018/4/11</a>
-			<b>Algebraic Graph Calculus</b>
-			<code>[math]</code>
-			</dt>
-			<dd>
-			We do graph theory as if it was vector calculus.
-			</dd>
-
-			<dt>
-			<a href="ccn/ftr.html">2018//</a>
-			<b>FTR</b>
-			<code>[programming]</code>
-			</dt>
-			<dd>
-			A portable and ported API for simple graphical interactive programs.
-			</dd>
+<p>
+The source files below are often <i>literate programs</i>: a single file is
+used to run the experiments and to render the result into html and pdf.
+All the notes are thus built by a simple
+<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/Makefile">makefile</a>.
+For image-heavy documents, the html output is recommended because sets of
+related images are collected into galleries (the pdf file will have many
+pages with one image on each).
 
 
-			<dt>
-			<a href="ccn/colors_of_noise.html">2018/4/6</a>
-			<b>Colors of image noise</b>
-			<code>[images]</code>
-			</dt>
-			<dd>
-			We show gaussian noise which is not necessarily white.
-			</dd>
+<h2>1. Image processing</h2>
 
-			<dt>
-			<a href="ccn/makemath.html">2018/4/5</a>
-			<b>Makefiles for mathematicians</b>
-			<code>[programming]</code>
-			</dt>
-			<dd>
-			Why and how to enjoy Makefiles
-			</dd>
+<dl>
+	<dt>
+	<b>Image processing with graphs</b>,
+	<a href="ccn/image_processing_with_graphs.html">html</a>,
+	<a href="ccn/u/image_processing_with_graphs.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/image_processing_with_graphs.tex">tex</a>
+	<dd>
+	We propose octave implementations of graph-based mathematical morphology
+	and linear PDE for image processing.
 
-			<dt>
-			<a href="ccn/cauchy_basis.html">2018/4/4</a>
-			<b>The Cauchy basis</b>
-			<code>[math]</code>
-			</dt>
-			<dd>
-			We introduce a sequence of functions that satisfy
-			Dirichlet and Neumann boundary conditions at the same time.
-			</dd>
+	<dt>
+	<b>Gallery of single-layer textures</b>,
+	<a href="ccn/single_layer_gallery.html">html</a>,
+	<a href="ccn/u/single_layer_gallery.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/single_layer_gallery.tex">tex</a>
+	<dd>
+	We show how single layer CNN can hallucinate snowflakes and dandelions.
 
-		</dl>
+	<dt>
+	<b>Colors of image noise</b>,
+	<a href="ccn/colors_of_noise.html">html</a>,
+	<a href="ccn/u/colors_of_noise.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/colors_of_noise.tex">tex</a>
+	<dd>
+	We show gaussian noise which is not necessarily white.
 
-		<hr />
+	<dt>
+	<b>Imscript tutorial</b>,
+	<a href="ccn/itut/i.html">html</a>,
+	<dd>
+	A tutorial for some of the programs from <a
+		href="http://github.com/mnhrdt/imscript">imscript</a>.
+
+
+</dl>
+
+<h2>2. Math</h2>
+
+<dl>
+	<dt>
+	<b>One-dimensional clustering with one cluster</b>
+	<a href="ccn/one_dimensional_clustering.html">html</a>,
+	<a href="ccn/u/one_dimensional_clustering.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/one_dimensional_clustering.tex">tex</a>
+	<dd>
+	A comprehensive study of the problem of combining several numbers into
+	one.
+
+	<dt>
+	<b>Generalizations of Fourier analyisis</b>,
+	<a href="ccn/gen_fourier.html">html</a>,
+	<a href="ccn/u/gen_fourier.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/gen_fourier.tex">tex</a>
+	<dd>
+	We explain some common generalizations of Fourier analysis: sampling
+	theory, distribution theory, pontryagin duality and spectral geometry.
+	The part on spectral theory is shared with the article about PDE on
+	manifolds (needs some editing yet)
+
+	<dt>
+	<b>The standard PDE on a manifold</b>
+	<a href="ccn/standard_pde_manifold.html">html</a>,
+	<a href="ccn/u/standard_pde_manifold.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/standard_pde_manifold.tex">tex</a>
+	<dd>
+	We state and solve the standard linear PDE on a compact Riemannian
+	manifold.
+
+	<dt>
+	<b>Algebraic Graph Calculus</b>
+	<a href="ccn/algebraic_graph_calculus.html">html</a>,
+	<a href="ccn/u/algebraic_graph_calculus.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/algebraic_graph_calculus.tex">tex</a>
+	<dd>
+	We do graph theory as if it was vector calculus.
+
+	<dt>
+	<b>The Cauchy basis</b>
+	<a href="ccn/cauchy_basis.html">html</a>,
+	<a href="ccn/u/cauchy_basis.pdf">pdf</a>,
+	<a href="https://github.com/gabarro/gabarro.github.io/blob/master/ccn/cauchy_basis.tex">tex</a>
+	<dd>
+	We introduce a sequence of functions that satisfy
+	Dirichlet and Neumann boundary conditions at the same time.
+
+</dl>
+
+<h2>3. Programming</h2>
+
+<dl>
+	<dt>
+	<b>FTR</b>,
+	<a href="ccn/ftr.html">html</a>
+	<dd>
+	A portable and ported API for simple graphical interactive programs.
+
+	<dt>
+	<b>Makefiles for mathematicians</b>,
+	<a href="ccn/makemath.html">html</a>
+	<dd>
+	Why and how to enjoy Makefiles
+
+	<dt>
+	<b>How to write sane C++</b>,
+	<a href="http://gabarro.org/wiki/how_to_write_sane_c++">wiki</a>
+	<dd>
+	A very short set of conventions for programming in C++
+
+	<dt>
+	<b>How to write sane C</b>,
+	<a href="http://gabarro.org/wiki/how_to_write_sane_c">wiki</a>
+	<dd>
+	An elaborate set of conventions for programming in C
+</dl>
+
+
+
+
+<hr />
 
 <!--
 <pre>
@@ -203,9 +231,6 @@ Programming
 
 </pre>
 -->
-
-	</body>
-</html>
 
 <!-- vim: ts=2 sw=2 spell spelllang=fr
 -->

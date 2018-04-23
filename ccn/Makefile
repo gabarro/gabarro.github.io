@@ -1,4 +1,6 @@
-PFLAGS = -N -s#--toc
+PFLAGS = -N -s --lua-filter=.filter.lua --from latex+raw_tex#--toc
+PFLAGS_HTM = $(PFLAGS) --template=.template.html --mathjax
+PFLAGS_PDF = $(PFLAGS) -H .dpi
 
 
 HTML = $(shell ls *.tex | sed 's/\.tex/.html/')
@@ -12,10 +14,10 @@ pdf: $(PDF)
 %.html : %.tex
 	grep ^%SCRIPT $< | cut -c9- | sh
 	@./.process_verbatims $<
-	pandoc $(PFLAGS) -H .css $< --mathjax -t html | sed -f .htmlclean > $@
+	pandoc $(PFLAGS_HTM) $< -t html | sed -f .htmlclean > $@
 
 %.pdf : %.tex %.html
-	pandoc $(PFLAGS) -H .dpi $< -o $@
+	pandoc $(PFLAGS_PDF) $< -o $@
 
 clean :
 	$(RM) $(HTML) $(PDF) canvas *.png *.tiff o/*.png

@@ -90,7 +90,7 @@ $m =\ \,$ number of edges in the graph
 For the following graph, we have~$n=5$ and $m=6$:
 
 \includegraphics{gggx.png}
-%SCRIPT echo 'graph {
+%SCRIPT echo 'graph { node [shape=circle]
 %SCRIPT 1--2 [label="1"]
 %SCRIPT 1--3 [label="2"]
 %SCRIPT 2--3 [label="3  "]
@@ -279,12 +279,12 @@ A = grid_graph(w,h);              # build graph adjacency matrix
 L = A - diag(sum(A));             # Laplacian matrix
 y = L * x;                        # Laplacian of the original image
 z = uint8(reshape(127-2*y,w,h));  # contrast change and reshape
-imwrite(z, "beckett_lap.png");    # save output image
+imwrite(z, "beckett-lap.png");    # save output image
 \end{verbatim}
 
 
-\includegraphics{beckett_lap.png}
-{\small\verb+beckett_lap.png+}
+\includegraphics{beckett-lap.png}
+{\small\verb+beckett-lap.png+}
 
 The typical color coding for looking at a laplacian is such that gray=zero,
 white=negative, black=positive.  As expected, the laplacian enhances the
@@ -294,13 +294,13 @@ By substracting the laplacian to the image, we ``sharpen'' the original image.
 
 \begin{verbatim}
 y = x - L * x;                                        # image minus laplacian
-imwrite(reshape(uint8(y),w,h), "beckett_sharp.png");  # save output image
+imwrite(reshape(uint8(y),w,h), "beckett-sharp.png");  # save output image
 \end{verbatim}
 %z = uint8(reshape(y,w,h));          # reshape
-%imwrite(z, "beckett_sharp.png");    # save output image
+%imwrite(z, "beckett-sharp.png");    # save output image
 
-\includegraphics{beckett_sharp.png}
-{\small\verb+beckett_sharp.png+}
+\includegraphics{beckett-sharp.png}
+{\small\verb+beckett-sharp.png+}
 
 Conversely, we can smooth the image by adding multiples of the laplacian to
 it, iteratively.  This amounts to approximation the solution of the heat
@@ -309,13 +309,13 @@ equation on the graph:
 \begin{verbatim}
 S = speye(w*h) + L/4;                                  # smoothing operator
 y = S^8 * x;                                           # run 8 smoothing steps
-imwrite(reshape(uint8(y),w,h), "beckett_smooth.png");  # save output image
+imwrite(reshape(uint8(y),w,h), "beckett-smooth.png");  # save output image
 \end{verbatim}
 %z = uint8(reshape(y,w,h));          # reshape
-%imwrite(z, "beckett_smooth.png");   # save output image
+%imwrite(z, "beckett-smooth.png");   # save output image
 
-\includegraphics{beckett_smooth.png}
-{\small\verb+beckett_smooth.png+}
+\includegraphics{beckett-smooth.png}
+{\small\verb+beckett-smooth.png+}
 
 \section{Graph-based mathematical morphology}
 
@@ -403,18 +403,20 @@ y2 = !(y < max(y));                                      # extract erosion
 y3 = y > max(y)/2;                                       # extract medfilter
 
 f = 255 / max(y);                                        # gray-scale factor
-imwrite(logical(reshape(m,w,h)),  "beckett_bin.png");    # save binary mask
-imwrite(uint8(reshape(y,w,h)*f),  "beckett_6gray.png");  # save gray-scale
-imwrite(logical(reshape(y1,w,h)), "beckett_6dil.png");   # save dilated mask
-imwrite(logical(reshape(y2,w,h)), "beckett_6ero.png");   # save eroderd mask
-imwrite(logical(reshape(y3,w,h)), "beckett_6med.png");   # save median filter
+imwrite(logical(reshape(m,w,h)),  "beckett-bin.png");    # save binary mask
+imwrite(uint8(reshape(y,w,h)*f),  "beckett-6gray.png");  # save gray-scale
+imwrite(logical(reshape(y1,w,h)), "beckett-6dil.png");   # save dilated mask
+imwrite(logical(reshape(y2,w,h)), "beckett-6ero.png");   # save eroderd mask
+imwrite(logical(reshape(y3,w,h)), "beckett-6med.png");   # save median filter
 \end{verbatim}
 
-\includegraphics{beckett_bin.png}{\small\verb+beckett_bin.png+}\\
-\includegraphics{beckett_6gray.png}{\small\verb+beckett_6gray.png+}\\
-\includegraphics{beckett_6dil.png}{\small\verb+beckett_6dil.png+}\\
-\includegraphics{beckett_6ero.png}{\small\verb+beckett_6ero.png+}\\
-\includegraphics{beckett_6med.png}{\small\verb+beckett_6med.png+}\\
+\begin{gallery}
+	\galleryline{beckett-bin.png}
+	\galleryline{beckett-6gray.png}
+	\galleryline{beckett-6dil.png}
+	\galleryline{beckett-6ero.png}
+	\galleryline{beckett-6med.png}
+\end{gallery}
 
 \subsection{Gray-level morphology}
 
@@ -473,30 +475,32 @@ x = double(x(:));
 A = grid_graph(w,h);
 E = A + speye(w*h);            # structuring element
 
-imwrite(uint8(reshape( dilation(E,x)         ,w,h)), "beckett_dil.png");
-imwrite(uint8(reshape( erosion(E,x)          ,w,h)), "beckett_ero.png");
-imwrite(uint8(reshape( opening(E,x)          ,w,h)), "beckett_ope.png");
-imwrite(uint8(reshape( closing(E,x)          ,w,h)), "beckett_clo.png");
-imwrite(uint8(reshape( 2*igradient(E,x)      ,w,h)), "beckett_igrad.png");
-imwrite(uint8(reshape( 2*egradient(E,x)      ,w,h)), "beckett_egrad.png");
-imwrite(uint8(reshape( 2*cgradient(E,x)      ,w,h)), "beckett_cgrad.png");
-imwrite(uint8(reshape( 127-2*mlaplacian(E,x) ,w,h)), "beckett_mlap.png");
-imwrite(uint8(reshape( msharpen(E,x)         ,w,h)), "beckett_msharp.png");
-imwrite(uint8(reshape( 6*tophat(E,x)         ,w,h)), "beckett_top.png");
-imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett_bot.png");
+imwrite(uint8(reshape( dilation(E,x)         ,w,h)), "beckett-dil.png");
+imwrite(uint8(reshape( erosion(E,x)          ,w,h)), "beckett-ero.png");
+imwrite(uint8(reshape( opening(E,x)          ,w,h)), "beckett-ope.png");
+imwrite(uint8(reshape( closing(E,x)          ,w,h)), "beckett-clo.png");
+imwrite(uint8(reshape( 2*igradient(E,x)      ,w,h)), "beckett-igrad.png");
+imwrite(uint8(reshape( 2*egradient(E,x)      ,w,h)), "beckett-egrad.png");
+imwrite(uint8(reshape( 2*cgradient(E,x)      ,w,h)), "beckett-cgrad.png");
+imwrite(uint8(reshape( 127-2*mlaplacian(E,x) ,w,h)), "beckett-mlap.png");
+imwrite(uint8(reshape( msharpen(E,x)         ,w,h)), "beckett-msharp.png");
+imwrite(uint8(reshape( 6*tophat(E,x)         ,w,h)), "beckett-top.png");
+imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett-bot.png");
 \end{verbatim}
 
-\includegraphics{beckett_dil.png}{\small\verb+beckett_dil.png+}\\
-\includegraphics{beckett_ero.png}{\small\verb+beckett_ero.png+}\\
-\includegraphics{beckett_ope.png}{\small\verb+beckett_ope.png+}\\
-\includegraphics{beckett_clo.png}{\small\verb+beckett_clo.png+}\\
-\includegraphics{beckett_igrad.png}{\small\verb+beckett_igrad.png+}\\
-\includegraphics{beckett_egrad.png}{\small\verb+beckett_egrad.png+}\\
-\includegraphics{beckett_cgrad.png}{\small\verb+beckett_cgrad.png+}\\
-\includegraphics{beckett_mlap.png}{\small\verb+beckett_mlap.png+}\\
-\includegraphics{beckett_msharp.png}{\small\verb+beckett_msharp.png+}\\
-\includegraphics{beckett_top.png}{\small\verb+beckett_top.png+}\\
-\includegraphics{beckett_bot.png}{\small\verb+beckett_bot.png+}\\
+\begin{gallery}
+	\galleryline{beckett-dil.png}
+	\galleryline{beckett-ero.png}
+	\galleryline{beckett-ope.png}
+	\galleryline{beckett-clo.png}
+	\galleryline{beckett-igrad.png}
+	\galleryline{beckett-egrad.png}
+	\galleryline{beckett-cgrad.png}
+	\galleryline{beckett-mlap.png}
+	\galleryline{beckett-msharp.png}
+	\galleryline{beckett-top.png}
+	\galleryline{beckett-bot.png}
+\end{gallery}
 
 It is an interesting exercise to look at these images and try to describe the
 changes verbally.  For example: {\bf dilation} enlarges the light objects,

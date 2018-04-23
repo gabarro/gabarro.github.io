@@ -1,0 +1,39 @@
+/* from Stu Nichol's CSSplay */
+/* see http://www.cssplay.co.uk/menu/photo_simple */
+
+.gallery {
+	position: relative;
+	width: auto;
+height: 400px; }
+
+.gallery .index {
+	padding: 0;
+	margin: 0;
+	width: 11em;
+list-style: none; }
+.gallery .index li {
+	margin: 0;
+padding: 0; }
+.gallery .index a { /* gallery item title */
+	display: block;
+	background-color: #EEEEEE;
+	border: 1px solid #FFFFFF;
+	text-decoration: none;
+	width: 9em;
+padding: 5px; }
+.gallery .index a span { /* gallery item content */
+	display: block;
+	position: absolute;
+	left: -9999px; /* hidden */
+	top: 0;
+padding-left: 2em; }
+
+.gallery .index li:first-child a span {
+	left: 9em;
+z-index: 99; }
+
+.gallery .index a:hover {
+border: 1px solid #888888; }
+.gallery .index a:hover span {
+	left: 9em;
+z-index: 100; }

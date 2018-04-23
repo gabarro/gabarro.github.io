@@ -1,1 +1,4 @@
 \pdfimageresolution 200
+\makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
+\newenvironment{gallery}{}{}
+\newcommand{\galleryline}[1]{\includegraphics{#1}{\tt #1}\newline}

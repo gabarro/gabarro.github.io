@@ -11,4 +11,6 @@
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \pdfimageresolution 200             % change the default for included png files
 \makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
+\newenvironment{gallery}{}{}
+\newcommand{\galleryline}[1]{\includegraphics{#1}{\tt #1}}
 \begin{document}

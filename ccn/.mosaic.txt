@@ -1,6 +1,0 @@
-lrcat binary.png blobs.png | lrcat blood.png -| lrcat clouds.png - a1.png
-lrcat comb3.png combined.png|lrcat combined2.png -|lrcat combined4.png - a2.png
-lrcat dandelions.png disks.png|lrcat folds.png -|lrcat heptachords.png - a3.png
-lrcat islands.png lava.png|lrcat multiscale.png -|lrcat neurons.png - a4.png
-lrcat snowflakes.png sponge.png|lrcat starfield.png -|lrcat stucco.png - a5.png
-tbcat a1.png a2.png | tbcat a3.png -| tbcat a4.png -| tbcat a5.png - tot.png

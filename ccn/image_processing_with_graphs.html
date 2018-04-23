@@ -245,17 +245,54 @@ imwrite(reshape(uint8(y),w,h), &quot;beckett_smooth.png&quot;);  # save output i
 </tbody>
 </table>
 <p>Due to the inequalities <span class="math inline">\(e(u)\le u\le d(u)\)</span>, we can see that all these operations (except the laplacian) produce positive images. The morphological gradients are also called upwind and downwind derivatives.</p>
-<p>Thanks to sparse matrices, the implementation of these operations is very easy. The crucial matrix here is the structuring element matrix <span class="math inline">\(E\)</span>, defined as the adjacency matrix plus the identity. The implementation of the dilation operator is thus</p>
+<p>Thanks to sparse matrices, the implementation of these operations is very easy. The crucial matrix here is the structuring element matrix <span class="math inline">\(E\)</span>, defined as the adjacency matrix plus the identity</p>
+<p><span class="math display">\[E = A + I_n\]</span></p>
+<p>The matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> define linear operators on the scalar fields of a graph. In the particular case when the graph is the grid of an image, they can be interpreted as shift-invariant filters defined by the following stencils:</p>
+<p><span class="math display">\[\mathrm{stencil}(A)=
+\begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;0&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}
+    \qquad
+    \qquad
+\mathrm{stencil}(E)=
+\begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;1&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}\]</span></p>
+<p>Of course, this interpretation is only valid far from the boundary of the image domain. However, bear in mind that the matrix product is a well-defined, so that the boundary condition is dealt with “automatically” by the form of the graph.</p>
+<h3 id="morphology-on-binary-images"><span class="header-section-number">4.1</span> Morphology on binary images</h3>
+<p>We start with the implementation of mathematical morphology for binary images, which are also called <em>masks</em>. This implementation is easier to understand than for the general gray-scale case. The <span><strong>dilation</strong></span> of a mask <span class="math inline">\(m\)</span> can be computed simply by multiplying the mask by powers of the adjacency matrix. Actually, the <span><strong>erosion</strong></span> and the <span><strong>median filter</strong></span> are also computed by the same operation, and they can be extracted by thresholding the resulting gray-scale image at its minimum, maximum or central values.</p>
+<p>Notice that if you want to apply erosion a certain number of times, you can multiply by a power of the adjacency matrix! Morphology is a nonlinear operation, but the nonlinearity comes from the threshold, not from the matrix multiplication.</p>
+<p>The following code shows the computation of 6 dilations and erosions of the same mask (a binarization of the Beckett portrait):</p>
+<pre><code>x = imread(&quot;i/beckett.png&quot;);                             # load image
+[w,h] = size(x);                                         # extract dimensions
+m = double(x(:) &gt; 66);                                   # flatten and binarize
+
+E = grid_graph(w,h) + speye(w*h);                        # structuring element
+y = E^6 * m;                                             # apply 6 times
+y1 = y &gt; 0;                                              # extract dilation
+y2 = !(y &lt; max(y));                                      # extract erosion
+y3 = y &gt; max(y)/2;                                       # extract medfilter
+
+f = 255 / max(y);                                        # gray-scale factor
+imwrite(logical(reshape(m,w,h)),  &quot;beckett_bin.png&quot;);    # save binary mask
+imwrite(uint8(reshape(y,w,h)*f),  &quot;beckett_6gray.png&quot;);  # save gray-scale
+imwrite(logical(reshape(y1,w,h)), &quot;beckett_6dil.png&quot;);   # save dilated mask
+imwrite(logical(reshape(y2,w,h)), &quot;beckett_6ero.png&quot;);   # save eroderd mask
+imwrite(logical(reshape(y3,w,h)), &quot;beckett_6med.png&quot;);   # save median filter</code></pre>
+<p><img src="beckett_bin.png" alt="image" /><span><code>beckett_bin.png</code></span><br />
+<img src="beckett_6gray.png" alt="image" /><span><code>beckett_6gray.png</code></span><br />
+<img src="beckett_6dil.png" alt="image" /><span><code>beckett_6dil.png</code></span><br />
+<img src="beckett_6ero.png" alt="image" /><span><code>beckett_6ero.png</code></span><br />
+<img src="beckett_6med.png" alt="image" /><span><code>beckett_6med.png</code></span><br />
+</p>
+<h3 id="gray-level-morphology"><span class="header-section-number">4.2</span> Gray-level morphology</h3>
+<p>The implementation of morphology for gray-scale images is a bit more complicated. The trick of thresholding the matrix multiplication does not work anymore, because we are multiplying by a vector that has many different values (not only zeros and ones). What we need is a matrix<span class="math inline">\(\times\)</span>vector multiplication that takes the maximum, instead of the sums along each row. After a few hours of head-scratching, I realized that this is achieved by multiplying the matrix <span class="math inline">\(E\)</span> by the diagonal matrix defined by the vector <span class="math inline">\(x\)</span> (which results in a sparse matrix) and then taking the maximum along rows of the resulting matrix. The code is simple, but maybe not evident:</p>
 <pre><code>function y = dilation(E, x)
         y = full(max(diag(x)*E))&#39;;    # maximum value along sparse rows
 end</code></pre>
-<p>Notice that this only works for positive-valued images (otherwise the &quot;max&quot; is perturbed by the zeros in the sparse matrix, which are not ignored). The implementation of the erosion works by computing the dilation of an image in the negative:</p>
+<p>Notice that this only works for positive-valued images (otherwise the &quot;max&quot; is perturbed by the zeros in the sparse matrix, which are not ignored). If we want to compute the minimum, this technique does not work because the minimum on a sparse matrix is always zero! Yet, we can “cheat” and implement the erosion by computing the dilation of an image in the negative:</p>
 <pre><code>function y = erosion(E, x)
         m = 1 + max(x);
         t = m - x;
         y = m - dilation(E, t);
 end</code></pre>
-<p>And the implementation of all the operations consists simply in copying the table above:</p>
+<p>And finally, the implementation of all the morphological operations consists simply in copying the table above:</p>
 <pre><code>function y = opening(E,x)      y = dilation(E,erosion(E,x));              end
 function y = closing(E,x)      y = erosion(E,dilation(E,x));              end
 function y = egradient(E,x)    y = x - erosion(E,x);                      end
@@ -295,27 +332,6 @@ imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), &quot;beckett_bot.png&quot;
 <img src="beckett_top.png" alt="image" /><span><code>beckett_top.png</code></span><br />
 <img src="beckett_bot.png" alt="image" /><span><code>beckett_bot.png</code></span><br />
 It is an interesting exercise to look at these images and try to describe the changes verbally. For example: <span><strong>dilation</strong></span> enlarges the light objects, while <span><strong>erosion</strong></span> enlarges the dark ones. The <span><strong>opening</strong></span> removes the small bright spots and ridges, while <span><strong>closing</strong></span> removes the small dark spots and valleys. All the three <span><strong>gradients</strong></span> look like the euclidean norm of the linear gradient. The <span><strong>inner</strong></span> and <span><strong>outer</strong></span> gradients are very sharp, but are not centered, each one biased towards the dark or the light side of the discontinuities. The <span><strong>centered</strong></span> gradient is the average of the two, which is centered but less sharp. The <span><strong>morphological laplacian</strong></span> is the difference of the inner and outer gradients; it looks almost exactly like the linear laplacian despite being a combination of nonlinear operations. The <span><strong>morphological sharpening</strong></span> is similar to the linear one, based on the reverse heat equation. The <span><strong>top-hat</strong></span> keeps only the britght spots and ridges (those that were removed by the opening), and set to zero the rest of the image. The <span><strong>bottom-hat</strong></span> keeps only the dark spots and valleys (those that were removed by the closing), and sets to zero the rest of the image; thus the bottom-hat produces an image in the negative, that must be negated to visualize it correctly.</p>
-
-<p>As a final comment on graph-based morphology, if you want to do <span> <strong>morphology on binary images</strong></span>, the implementation can be much simpler. For example, the dilation of a mask <span class="math inline">\(m\)</span> can be computed simply by multiplying by powers of the adjacency matrix:</p>
-<pre><code>x = imread(&quot;i/beckett.png&quot;);                             # load image
-[w,h] = size(x);                                         # extract dimensions
-m = double(x(:) &gt; 66);                                   # flatten and binarize
-
-A = grid_graph(w,h) + speye(w*h);                        # structuring element
-y = A^6 * m;                                             # apply 6 dilations
-y1 = y &gt; 0;                                              # dilation
-y2 = !(y &lt; max(y));                                      # erosion
-
-f = 255 / max(y);                                        # gray-scale factor
-imwrite(logical(reshape(m,w,h)), &quot;beckett_bin.png&quot;);     # save binary mask
-imwrite(uint8(reshape(y,w,h)*f), &quot;beckett_a6.png&quot;);      # save gray-scale
-imwrite(logical(reshape(y1,w,h)), &quot;beckett_a6_t0.png&quot;);  # save dilated mask
-imwrite(logical(reshape(y2,w,h)), &quot;beckett_a6_tm.png&quot;);  # save dilated mask</code></pre>
-<p><img src="beckett_bin.png" alt="image" /><span><code>beckett_bin.png</code></span><br />
-<img src="beckett_a6.png" alt="image" /><span><code>beckett_a6.png</code></span><br />
-<img src="beckett_a6_t0.png" alt="image" /><span><code>beckett_a6_t0.png</code></span><br />
-<img src="beckett_a6_tm.png" alt="image" /><span><code>beckett_a6_tm.png</code></span><br />
-</p>
 <h2 id="linear-pde-on-graphs"><span class="header-section-number">5</span> Linear PDE on graphs</h2>
 <p>(section in preparation)</p>
 <h3 id="linear-second-order-equations"><span class="header-section-number">5.1</span> Linear second-order equations</h3>

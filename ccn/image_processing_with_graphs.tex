@@ -345,8 +345,89 @@ gradients are also called upwind and downwind derivatives.
 
 Thanks to sparse matrices, the implementation of these operations is very
 easy.  The crucial matrix here is the structuring element matrix~$E$, defined
-as the adjacency matrix plus the identity.  The implementation of the
-dilation operator is thus
+as the adjacency matrix plus the identity
+
+$$
+E = A + I_n
+$$
+
+The matrices~$A$ and~$E$ define linear operators on the scalar fields of a
+graph.  In the particular case when the graph is the grid of an image, they
+can be interpreted as shift-invariant filters defined by the following
+stencils:
+
+$$
+\mathrm{stencil}(A)=
+\begin{array}{|c|c|c|}\hline0&1&0\\\hline1&0&1\\\hline0&1&0\\\hline\end{array}
+	\qquad
+	\qquad
+\mathrm{stencil}(E)=
+\begin{array}{|c|c|c|}\hline0&1&0\\\hline1&1&1\\\hline0&1&0\\\hline\end{array}
+$$
+
+Of course, this interpretation is only valid far from the boundary of the
+image domain.  However, bear in mind that the matrix product is a well-defined,
+so that the boundary condition is dealt with ``automatically'' by the form of
+the graph.
+
+\subsection{Morphology on binary images}
+
+
+We start with the implementation of mathematical morphology for binary
+images, which are also called~\emph{masks}.
+This implementation is easier to understand than for the
+general gray-scale case.
+The {\bf dilation} of a mask~$m$ can be computed simply by multiplying the
+mask by powers of the adjacency matrix.  Actually, the {\bf erosion} and the
+{\bf median filter} are also computed by the same operation, and they can be
+extracted by thresholding the resulting gray-scale image at its minimum,
+maximum or central values.
+
+Notice that if you want to apply erosion a certain number of times, you can
+multiply by a power of the adjacency matrix!  Morphology is a nonlinear
+operation, but the nonlinearity comes from the threshold, not from the
+matrix multiplication.
+
+The following code shows the computation of 6 dilations and erosions of the
+same mask (a binarization of the Beckett portrait):
+
+\begin{verbatim}
+x = imread("i/beckett.png");                             # load image
+[w,h] = size(x);                                         # extract dimensions
+m = double(x(:) > 66);                                   # flatten and binarize
+
+E = grid_graph(w,h) + speye(w*h);                        # structuring element
+y = E^6 * m;                                             # apply 6 times
+y1 = y > 0;                                              # extract dilation
+y2 = !(y < max(y));                                      # extract erosion
+y3 = y > max(y)/2;                                       # extract medfilter
+
+f = 255 / max(y);                                        # gray-scale factor
+imwrite(logical(reshape(m,w,h)),  "beckett_bin.png");    # save binary mask
+imwrite(uint8(reshape(y,w,h)*f),  "beckett_6gray.png");  # save gray-scale
+imwrite(logical(reshape(y1,w,h)), "beckett_6dil.png");   # save dilated mask
+imwrite(logical(reshape(y2,w,h)), "beckett_6ero.png");   # save eroderd mask
+imwrite(logical(reshape(y3,w,h)), "beckett_6med.png");   # save median filter
+\end{verbatim}
+
+\includegraphics{beckett_bin.png}{\small\verb+beckett_bin.png+}\\
+\includegraphics{beckett_6gray.png}{\small\verb+beckett_6gray.png+}\\
+\includegraphics{beckett_6dil.png}{\small\verb+beckett_6dil.png+}\\
+\includegraphics{beckett_6ero.png}{\small\verb+beckett_6ero.png+}\\
+\includegraphics{beckett_6med.png}{\small\verb+beckett_6med.png+}\\
+
+\subsection{Gray-level morphology}
+
+
+The implementation of morphology for gray-scale images is a bit more
+complicated.  The trick of thresholding the matrix multiplication does not
+work anymore, because we are multiplying by a vector that has many different
+values (not only zeros and ones).  What we need is a matrix$\times$vector
+multiplication that takes the maximum, instead of the sums along each row.
+After a few hours of head-scratching, I realized that this is achieved by
+multiplying the matrix~$E$ by the diagonal matrix defined by the vector~$x$
+(which results in a sparse matrix) and then taking the maximum along rows of
+the resulting matrix.  The code is simple, but maybe not evident:
 
 \begin{verbatim}
 function y = dilation(E, x)
@@ -355,9 +436,10 @@ end
 \end{verbatim}
 
 Notice that this only works for positive-valued images (otherwise the "max"
-is perturbed by the zeros in the sparse matrix, which are not ignored).
-The implementation of the erosion works by computing the dilation of an image
-in the negative:
+is perturbed by the zeros in the sparse matrix, which are not ignored).  If
+we want to compute the minimum, this technique does not work because the
+minimum on a sparse matrix is always zero!  Yet, we can ``cheat'' and
+implement the erosion by computing the dilation of an image in the negative:
 
 \begin{verbatim}
 function y = erosion(E, x)
@@ -367,8 +449,8 @@ function y = erosion(E, x)
 end
 \end{verbatim}
 
-And the implementation of all the operations consists simply in copying the
-table above:
+And finally, the implementation of all the morphological operations consists
+simply in copying the table above:
 
 \begin{verbatim}
 function y = opening(E,x)      y = dilation(E,erosion(E,x));              end
@@ -435,34 +517,6 @@ spots and valleys (those that were removed by the closing), and sets to zero
 the rest of the image; thus the bottom-hat produces an image in the negative,
 that must be negated to visualize it correctly.
 
-\bigskip
-
-As a final comment on graph-based morphology, if you want to do {\bf
-morphology on binary images}, the implementation can be much simpler.  For
-example, the dilation of a mask~$m$ can be computed simply by multiplying by
-powers of the adjacency matrix:
-
-\begin{verbatim}
-x = imread("i/beckett.png");                             # load image
-[w,h] = size(x);                                         # extract dimensions
-m = double(x(:) > 66);                                   # flatten and binarize
-
-A = grid_graph(w,h) + speye(w*h);                        # structuring element
-y = A^6 * m;                                             # apply 6 dilations
-y1 = y > 0;                                              # dilation
-y2 = !(y < max(y));                                      # erosion
-
-f = 255 / max(y);                                        # gray-scale factor
-imwrite(logical(reshape(m,w,h)), "beckett_bin.png");     # save binary mask
-imwrite(uint8(reshape(y,w,h)*f), "beckett_a6.png");      # save gray-scale
-imwrite(logical(reshape(y1,w,h)), "beckett_a6_t0.png");  # save dilated mask
-imwrite(logical(reshape(y2,w,h)), "beckett_a6_tm.png");  # save dilated mask
-\end{verbatim}
-
-\includegraphics{beckett_bin.png}{\small\verb+beckett_bin.png+}\\
-\includegraphics{beckett_a6.png}{\small\verb+beckett_a6.png+}\\
-\includegraphics{beckett_a6_t0.png}{\small\verb+beckett_a6_t0.png+}\\
-\includegraphics{beckett_a6_tm.png}{\small\verb+beckett_a6_tm.png+}\\
 
 \section{Linear PDE on graphs}
 

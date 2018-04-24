@@ -7,9 +7,10 @@ function RawBlock(x)
 	-- for html output, the gallery environment is rendered in html
 	if FORMAT == "html" then
 		if x.text:match("^\\begin{gallery}\n") then
-			o = ''
-			o = o..'<div class="gallery" style="height:400px">\n'
-			o = o..'<ul class="index">\n'
+			l = x.text:match("\\galleryline{(.-)}") -- first file
+			h = io.popen("imprintf %h "..l):read('*all') + 9
+			o = '<div class="gallery" style="height:'..h..'px">\n'
+			o = o..'\n<ul class="index">\n'
 			for l in x.text:gmatch("\\galleryline{(.-)}") do
 				o = o..'<li><a href="'..l..'">'..l..'<span>'..
 				'<img src="'..l..'" /></span></a>\n'

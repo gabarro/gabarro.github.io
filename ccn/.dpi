@@ -1,3 +1,4 @@
+\usepackage{graphicx}
 \pdfimageresolution 200
 \makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
 \newenvironment{gallery}{}{}

@@ -80,7 +80,7 @@ matrix of this linear system is singular, and its determinant vanishes
 when <span class="math inline">\(\lambda\)</span> satisfies the equation
 <span class="math display">\[\cos\lambda\cosh\lambda=1\]</span>
 The solutions of this equation (which are slight perturbations of even
-multiples of <span class="math inline">\(pi/2\)</span>)
+multiples of <span class="math inline">\(p2\)</span>)
 are the eigenvalues of our basis.
 <p>A good enough approximation is given by
 <span class="math display">\[\lambda_n = \frac{2n+1}{2}\pi - (-1)^n2\exp\left(-\frac{(2n+1)}{2}\pi\right)\]</span>
@@ -224,7 +224,7 @@ integrals, scalar products).
 <h3 id="numerical-solution-of-the-eigenvalue-equation"><span class="header-section-number">4.2</span> Numerical solution of the eigenvalue equation</h3>
 <p>By plotting the function <span class="math inline">\(x\to\cos x\cosh x\)</span>, it is clear that it crosses the
 value <span class="math inline">\(1\)</span> infinitely many times, very near to the zeros of <span class="math inline">\(\cos x\)</span>, except
-for <span class="math inline">\(x=\pi/2\)</span>:
+for <span class="math inline">\(x=\p2\)</span>:
 <p><img src="coscosh.png" alt="image" />
 <p>Thus, the zeros of the function <span class="math inline">\(\lambda\to\cos\lambda\cosh\lambda-1\)</span> have the
 form
@@ -251,7 +251,7 @@ others.
 <h2 id="computer-code"><span class="header-section-number">5</span> Computer code</h2>
 <p>This is the complete <code>gnuplot</code> code to produce plots of the Cauchy
 basis:
-<pre><code>X(n)   = (2*n+1)*pi/2                 # approximate eigenvalues (to 0th order)
+<pre><code>X(n)   = (2*n+1)*p2                 # approximate eigenvalues (to 0th order)
 L(n)   = X(n) - (-1)**n/cosh(X(n))    # refined eigenvalues (to 1st order)
 s(x)   = sin(x) - sinh(x)             # notation
 c(x)   = cos(x) - cosh(x)             # notation

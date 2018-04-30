@@ -84,6 +84,16 @@ by composing the dithering with a contrast change, we obtain a one-parameter
 family of methods that contains pure dithering and pure
 binarization as particular cases.
 
+\includegraphics{tanhs.png}
+%SCRIPT gnuplot <<END >tanhs.png
+%SCRIPT set term pngcairo lw 2
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT set key top left
+%SCRIPT plot [-1:1] [-1:1] tanh(10*x)/tanh(10),tanh(1*x)/tanh(1)
+%SCRIPT END
+
+
 In the figures below, the first row contains the result of applying the
 contrast change, and the second row the dithering of each image.
 

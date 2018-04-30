@@ -528,6 +528,98 @@ diagram:
 
 \includegraphics{i/hfpcube.png}
 
+%\subsection{Folding}
+Let us describe the {\bf folding} operation.
+Suppose that~$\varphi$ is a rapidly decreasing smooth function.
+We take a period~$P>0$ and define the function
+$$
+\varphi_P(x):=\sum_{k\in\Z}\varphi(x+kP)
+$$
+Since~$\varphi$ is rapidly decreasing, this series converges
+pointwise, and~$\varphi_P$ is a smooth and~$P$-periodic
+function.  This folding operation transforms defined on~$\R$ to
+functions defined on~$\R/2\pi\Z$
+
+Since~$\varphi$ is rapidly decreasing, we can compute it Fourier
+transform
+$$
+\widehat\varphi(y)=\frac{1}{\sqrt{2\pi}}\int_\R f(x)e^{-ixy}\ud x
+$$
+The {\bf Poisson summation formula} relates the Fourier transform
+of~$\varphi$ with the Fourier series of~$\varphi_P$.  Let us derive
+it.  Since~$\varphi_P$ is~$P$-periodic, we can compute its Fourier
+series
+$$
+\varphi_P(x)=\sum_{n\in\Z}c_n\exp\frac{2\pi inx}{P}
+$$
+which converges pointwise for any~$x$ since~$\varphi_P$ is smooth.
+The Fourier coefficients~$c_n$ are
+$$
+c_n = \frac{1}{P}\int_0^P\varphi_P(x)\exp\frac{-2\pi inx}{P}\ud x
+$$
+by expanding the definition of~$\varphi_P$:
+$$
+c_n = \frac{1}{P}\int_0^P\left(\sum_{k\in\Z}\varphi(x+kP)\right)\exp\frac{-2\pi inx}{P}\ud x
+$$
+and now, since~$\varphi$ is rapidly decreasing, we can interchange
+the sum and the integral, (for example, if~$\varphi$ is compactly
+supported, the sum is finite):
+$$
+c_n = \frac{1}{P}\sum_{k\in\Z}\int_0^P\varphi(x+kP)\exp\frac{-2\pi inx}{P}\ud x
+$$
+now, by the change of variable~$y=x+kP$,
+$$
+c_n =
+\frac{1}{P}\sum_{k\in\Z}\int_{kP}^{(k+1)P}\varphi(y)\exp\frac{-2\pi
+iny}{P}\ud y
+$$
+where we have used the fact that~$\exp$ is~$2\pi i$-periodic to
+simplify~$e^{2\pi ink}=1$.  This sum of integrals over contiguous
+intervals is simply an integral over $\R$, thus
+$$
+c_n =
+\frac{1}{P}\int_\R\varphi(y)e^{-iy\left(\frac{2\pi n}{P}\right)}\ud y
+$$
+where we recognize the Fourier transform of~$\varphi$, thus
+$$
+c_n =\frac{\sqrt{2\pi}}{P}\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right).
+$$
+Replacing the coefficients~$c_n$ into the Fourier series
+of~$\varphi_P$ we obtain the identity
+$$
+\sum_{k\in\Z}\varphi(x+kP)
+=
+\frac{\sqrt{2\pi}}{P}
+\sum_{n\in\Z}
+\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right)
+\exp\frac{2\pi inx}{P}
+$$
+which can be evaluated at~$x=0$ to give the Poisson summation formula
+$$
+\sum_{k\in\Z}\varphi(kP)
+\frac{\sqrt{2\pi}}{P}
+\sum_{n\in\Z}
+\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right).
+$$
+The particular case~$P=\sqrt{2\pi}$ is beautiful:
+$$
+\sum_{k\in\Z}\varphi\left(k\sqrt{2\pi}\right)
+=
+\sum_{n\in\Z}\widehat\varphi\left(n\sqrt{2\pi}\right)
+$$
+As we will see below, the language of distribution theory allows to
+express this formula
+as $$\Xi_{\sqrt{2\pi}}=\widehat\Xi_{\sqrt{2\pi}}$$ (the Fourier transform of a
+Dirac comb is a Dirac comb).
+
+
+
 
 
 \section{Distributions}

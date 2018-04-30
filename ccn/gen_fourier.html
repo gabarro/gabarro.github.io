@@ -418,6 +418,69 @@ of <span class="math inline">\(f\)</span> are closely related.
 encoded in the Fourier-Poisson cube, which is an awesome commutative
 diagram:
 <p><img src="i/hfpcube.png" alt="image" />
+<p>Let us describe the <span><strong>folding</strong></span> operation.
+Suppose that <span class="math inline">\(\varphi\)</span> is a rapidly decreasing smooth function.
+We take a period <span class="math inline">\(P&gt;0\)</span> and define the function
+<span class="math display">\[\varphi_P(x):=\sum_{k\in\mathbf{Z}}\varphi(x+kP)\]</span>
+Since <span class="math inline">\(\varphi\)</span> is rapidly decreasing, this series converges
+pointwise, and <span class="math inline">\(\varphi_P\)</span> is a smooth and <span class="math inline">\(P\)</span>-periodic
+function. This folding operation transforms defined on <span class="math inline">\(\mathbf{R}\)</span> to
+functions defined on <span class="math inline">\(\mathbf{R}/2\pi\mathbf{Z}\)</span>
+<p>Since <span class="math inline">\(\varphi\)</span> is rapidly decreasing, we can compute it Fourier
+transform
+<span class="math display">\[\widehat\varphi(y)=\frac{1}{\sqrt{2\pi}}\int_\mathbf{R}f(x)e^{-ixy}\mathrm{d}x\]</span>
+The <span><strong>Poisson summation formula</strong></span> relates the Fourier transform
+of <span class="math inline">\(\varphi\)</span> with the Fourier series of <span class="math inline">\(\varphi_P\)</span>. Let us derive
+it. Since <span class="math inline">\(\varphi_P\)</span> is <span class="math inline">\(P\)</span>-periodic, we can compute its Fourier
+series
+<span class="math display">\[\varphi_P(x)=\sum_{n\in\mathbf{Z}}c_n\exp\frac{2\pi inx}{P}\]</span>
+which converges pointwise for any <span class="math inline">\(x\)</span> since <span class="math inline">\(\varphi_P\)</span> is smooth.
+The Fourier coefficients <span class="math inline">\(c_n\)</span> are
+<span class="math display">\[c_n = \frac{1}{P}\int_0^P\varphi_P(x)\exp\frac{-2\pi inx}{P}\mathrm{d}x\]</span>
+by expanding the definition of <span class="math inline">\(\varphi_P\)</span>:
+<span class="math display">\[c_n = \frac{1}{P}\int_0^P\left(\sum_{k\in\mathbf{Z}}\varphi(x+kP)\right)\exp\frac{-2\pi inx}{P}\mathrm{d}x\]</span>
+and now, since <span class="math inline">\(\varphi\)</span> is rapidly decreasing, we can interchange
+the sum and the integral, (for example, if <span class="math inline">\(\varphi\)</span> is compactly
+supported, the sum is finite):
+<span class="math display">\[c_n = \frac{1}{P}\sum_{k\in\mathbf{Z}}\int_0^P\varphi(x+kP)\exp\frac{-2\pi inx}{P}\mathrm{d}x\]</span>
+now, by the change of variable <span class="math inline">\(y=x+kP\)</span>,
+<span class="math display">\[c_n =
+\frac{1}{P}\sum_{k\in\mathbf{Z}}\int_{kP}^{(k+1)P}\varphi(y)\exp\frac{-2\pi
+iny}{P}\mathrm{d}y\]</span>
+where we have used the fact that <span class="math inline">\(\exp\)</span> is <span class="math inline">\(2\pi i\)</span>-periodic to
+simplify <span class="math inline">\(e^{2\pi ink}=1\)</span>. This sum of integrals over contiguous
+intervals is simply an integral over <span class="math inline">\(\mathbf{R}\)</span>, thus
+<span class="math display">\[c_n =
+\frac{1}{P}\int_\mathbf{R}\varphi(y)e^{-iy\left(\frac{2\pi n}{P}\right)}\mathrm{d}y\]</span>
+where we recognize the Fourier transform of <span class="math inline">\(\varphi\)</span>, thus
+<span class="math display">\[c_n =\frac{\sqrt{2\pi}}{P}\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right).\]</span>
+Replacing the coefficients <span class="math inline">\(c_n\)</span> into the Fourier series
+of <span class="math inline">\(\varphi_P\)</span> we obtain the identity
+<span class="math display">\[\sum_{k\in\mathbf{Z}}\varphi(x+kP)
+=
+\frac{\sqrt{2\pi}}{P}
+\sum_{n\in\mathbf{Z}}
+\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right)
+\exp\frac{2\pi inx}{P}\]</span>
+which can be evaluated at <span class="math inline">\(x=0\)</span> to give the Poisson summation formula
+<span class="math display">\[\sum_{k\in\mathbf{Z}}\varphi(kP)
+\frac{\sqrt{2\pi}}{P}
+\sum_{n\in\mathbf{Z}}
+\widehat\varphi\left(
+\frac{2\pi n}{P}
+\right).\]</span>
+The particular case <span class="math inline">\(P=\sqrt{2\pi}\)</span> is beautiful:
+<span class="math display">\[\sum_{k\in\mathbf{Z}}\varphi\left(k\sqrt{2\pi}\right)
+=
+\sum_{n\in\mathbf{Z}}\widehat\varphi\left(n\sqrt{2\pi}\right)\]</span>
+As we will see below, the language of distribution theory allows to
+express this formula
+as <span class="math display">\[\Xi_{\sqrt{2\pi}}=\widehat\Xi_{\sqrt{2\pi}}\]</span> (the Fourier transform of a
+Dirac comb is a Dirac comb).
 <h2 id="distributions"><span class="header-section-number">4</span> Distributions</h2>
 <p>Notice that most of sampling theory can be done without recourse to
 distributions. Indeed, Shannon, Nyquist, Whittaker, Borel, all

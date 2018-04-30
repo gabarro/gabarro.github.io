@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>Fourier from the ground up</title>
+<style type="text/css">
+	body{max-width:90ex;}
+	pre{background:lightgray;width:80ch;}
+	.gallery{position:relative;width:auto;height:400px}
+	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
+	.gallery .index li{margin:0;padding:0} 
+	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
+	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
+	.gallery .index li:first-child a span{left:10em;z-index:99}
+	.gallery .index a:hover{ border: 1px solid #888888;}
+	.gallery .index a:hover span{left:10em;z-index:100}
+	.gallery .index a span img{ }
+	.gallery .index a span { white-space:nowrap; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<h1 class="title">Fourier from the ground up</h1>
+
+
+<h2 id="the-algebra-of-trigonometric-polynomials"><span class="header-section-number">1</span> The algebra of trigonometric polynomials</h2>
+<p><span><strong>Definition.</strong></span>
+A <em>trigonometric polynomial</em> is an expression of the form
+<span class="math display">\[f(\theta)=\sum_{n\in\mathbf{Z}} f_n e^{in\theta}\]</span>
+where all the coefficients <span class="math inline">\(f_n\in\mathbf{C}\)</span> are zero except, maybe, a finite
+number of them. The set of all trigonometric polynomials is denoted
+by <span class="math inline">\(\mathcal{P}\)</span>.
+<p>There are two ways to interpret a trigonometric polynomial: as a
+function <span class="math inline">\(\mathbf{Z}\to\mathbf{C}\)</span> defined by <span class="math inline">\(n\mapsto f_n\)</span>, or as a function <span class="math inline">\(\mathbf{R}\to\mathbf{C}\)</span>
+defined by <span class="math inline">\(\theta\mapsto f(\theta)\)</span>. Most of Fourier analysis deals with
+the duality between these two interpretations.
+<p>Let us introduce some <span><strong>common language</strong></span>.
+A trigonometric polynomial is usually called a <em>signal</em>. The
+indices <span class="math inline">\(n\)</span> are called the <em>frequencies</em> and the coefficient <span class="math inline">\(f_n\)</span>
+is called the <em>amplitude of <span class="math inline">\(f\)</span> at the frequency <span class="math inline">\(n\)</span></em>. The
+mapping <span class="math inline">\(n\mapsto\left|f_n\right|^2\)</span> is called the <em>power
+spectrum</em> of the signal <span class="math inline">\(f\)</span>. Building the signal from its amplitudes
+is called is called <em>synthesis</em>, and extracting the amplitudes
+from a signal is called <em>analysis</em>.
+<p>The monomial <span class="math inline">\(e^{in\theta}\)</span> is called a <em>pure wave of frequency <span class="math inline">\(n\)</span></em>.
+Thus, synthesis consists in creating a signal as a linear combination of pure
+waves, and analysis consists in recovering the coefficients of this linear
+combination. The whole of harmonic analysis consists in studying the duality
+between signals <span class="math inline">\(f(\theta)\)</span> and their spectra <span class="math inline">\(f_n\)</span>; how do the operations on
+signals correspond to operations on their spectra, and vice-versa.
+<p><span><strong>Proposition (Elementary properties)</strong></span>
+The following properties hold:
+<ol>
+<li><p>If <span class="math inline">\(f\in\mathcal{P}\)</span> then <span class="math inline">\(f(\theta)\)</span> is a
+function <span class="math inline">\(\mathbf{R}\to\mathbf{C}\)</span> which is <span class="math inline">\(2\pi\)</span>-periodic
+and <span class="math inline">\(\mathcal{C}^\infty\)</span>.
+<li><p>If <span class="math inline">\(f\in\mathcal{P}\)</span> then <span class="math inline">\(f_n\)</span> is a function <span class="math inline">\(\mathbf{Z}\to\mathbf{C}\)</span> of finite
+support.
+<li><p>The set <span class="math inline">\(\mathcal{P}\)</span> is a vector space over <span class="math inline">\(\mathbf{C}\)</span>.
+<li><p>If <span class="math inline">\(h=\lambda f+\mu g\)</span> then <span class="math inline">\(h_n=\lambda f_n+\mu g_n\)</span>.
+<li><p>The set <span class="math inline">\(\mathcal{P}\)</span> is an algebra (thus, closed by
+pointwise product <span class="math inline">\(f(\theta)g(\theta)\)</span>)
+</ol>
+<p><span><em>Proof.</em></span>
+(1) Each monomial <span class="math inline">\(e^{in\theta}\)</span> is <span class="math inline">\(\mathcal{C}^\infty\)</span>
+and <span class="math inline">\(2\pi\)</span>-periodic, and <span class="math inline">\(f\)</span> is a finite linear
+combination of such monomials, so it is
+also <span class="math inline">\(\mathcal{C}^\infty\)</span> and <span class="math inline">\(2\pi\)</span>-periodic.
+(2) This is a rewriting of the defintion of <span class="math inline">\(\mathcal{P}\)</span>.
+(3,4) This result is immediate by linearity of finite sums.
+(5) The product of two finite sums is still a finite sum.
+<p>When interpreting a trigonometric polynomial as a <span class="math inline">\(2\pi\)</span>-periodic
+function <span class="math inline">\(\mathbf{R}\to\mathbf{C}\)</span>, it helps to plot it as a closed curve in the complex
+plane. The monomials <span class="math inline">\(e^{in\theta}\)</span> for <span class="math inline">\(n\neq 0\)</span> all correspond to the unit
+circle traversed <span class="math inline">\(n\)</span> times, clockwise for <span class="math inline">\(n&lt;0\)</span>, anticlockwise for <span class="math inline">\(n&gt;0\)</span>.
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(e^{-3i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{-2i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{-i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{0i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{2i\theta}\)</span>
+<td style="text-align: center;"><span class="math inline">\(e^{3i\theta}\)</span>
+
+<tr class="even">
+<td style="text-align: center;"><img src="monomial-3.png" alt="image" />
+<td style="text-align: center;"><img src="monomial-2.png" alt="image" />
+<td style="text-align: center;"><img src="monomial-1.png" alt="image" />
+<td style="text-align: center;"><img src="monomial+0.png" alt="image" />
+<td style="text-align: center;"><img src="monomial+1.png" alt="image" />
+<td style="text-align: center;"><img src="monomial+2.png" alt="image" />
+<td style="text-align: center;"><img src="monomial+3.png" alt="image" />
+
+<tr class="odd">
+<td style="text-align: center;"><img src="monoal-3.png" alt="image" />
+<td style="text-align: center;"><img src="monoal-2.png" alt="image" />
+<td style="text-align: center;"><img src="monoal-1.png" alt="image" />
+<td style="text-align: center;"><img src="monoal+0.png" alt="image" />
+<td style="text-align: center;"><img src="monoal+1.png" alt="image" />
+<td style="text-align: center;"><img src="monoal+2.png" alt="image" />
+<td style="text-align: center;"><img src="monoal+3.png" alt="image" />
+
+</tbody>
+</table>

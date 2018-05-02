@@ -1,0 +1,172 @@
+#!/usr/bin/env lua5.3
+
+-- lua filter for converting (a subset of) LaTeX into HTML5 with mathjax
+-- Basic idea: leave the math to matjax and search&replace simple sectioning
+-- Note that this does not really parse the LaTeX source, it only performs
+-- a line-based pattern matching
+
+-- read whole input file into a string
+whole_file = io.read("*all")
+
+-- remove comments (TODO: keep some of them as html comments)
+whole_file = whole_file:gsub("%%[^\n]+\n", "\n")
+
+-- change a few character entities
+whole_file = whole_file:gsub("<", "&lt;")
+whole_file = whole_file:gsub(">", "&gt;")
+whole_file = whole_file:gsub("~", "&nbsp;") -- TODO: verify this is always ok
+
+-- change \emph{...} to <i>...</i> (and similar inline stuff)
+whole_file = whole_file:gsub("\\emph{(.-)}", "<i>%1</i>")
+whole_file = whole_file:gsub("\\textbf{(.-)}", "<b>%1</b>")
+whole_file = whole_file:gsub("\\textit{(.-)}", "<i>%1</i>")
+whole_file = whole_file:gsub("\\texttt{(.-)}", "<code>%1</code>")
+whole_file = whole_file:gsub("{\\it (.-)}", "<i>%1</i>")
+whole_file = whole_file:gsub("{\\bf (.-)}", "<b>%1</b>")
+whole_file = whole_file:gsub("{\\tt (.-)}", "<code>%1</code>")
+
+-- change \includegraphics{...} to <img src="...">
+whole_file = whole_file:gsub("\\includegraphics{(.-)}", "<img src=\"%1\">")
+
+-- extract title
+title = whole_file:match("^\\title{(.-)}")
+
+-- start building output file
+output_lines = {}
+table.insert(output_lines, "<!doctype html>\n")
+table.insert(output_lines, "<meta charset=\"utf-8\" />\n")
+table.insert(output_lines, "<title>"..title.."</title>\n")
+
+use_mathjax = true
+if use_mathjax then
+	local url = "https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"
+	url = url.."?config=TeX-AMS_CHTML-full"
+	table.insert(output_lines, "<script type=\"text/x-mathjax-config\">\n")
+	table.insert(output_lines, "\tMathJax.Hub.Config({\n")
+	table.insert(output_lines, "\t\ttex2jax: {\n")
+	table.insert(output_lines, "\t\t\tinlineMath: [['$','$'], ['\\(','\\)']],\n")
+	table.insert(output_lines, "\t\t\tprocessEscapes: true\n")
+	table.insert(output_lines, "\t\t}\n")
+	table.insert(output_lines, "\t});\n")
+	table.insert(output_lines, "</script>\n")
+	table.insert(output_lines, "<script type=\"text/javascript\" async\n")
+	table.insert(output_lines, "\tsrc=\""..url.."\">\n")
+	table.insert(output_lines, "</script>\n")
+end
+
+table.insert(output_lines, "\n")
+
+-- line by line treatment
+
+counter_sec = 1
+counter_ssec = 1
+couter_enum = 1 -- TODO: deal with enum depth
+
+previous_line = ""
+for l in string.gmatch(whole_file, "[^\n]-\n") do
+	u = l    -- line to add to the output (the same, by default)
+
+	-- change \title{...} to <h1>...</h1>
+	m = l:match("^\\title{(.-)}")
+	if m then
+		u = "<h1>"..m.."</h1>\n"
+	end
+
+	-- change \section{...} to <h2>...</h2>
+	m = l:match("^\\section{(.-)}")
+	if m then
+		-- TODO: add section counter
+		u = "<h2>"..m.."</h2>\n"
+	end
+
+	-- change \subsection{...} to <h3>...</h3>
+	m = l:match("^\\subsection{(.-)}")
+	if m then
+		u = "<h3>"..m.."</h3>\n"
+	end
+
+	-- if a paragraph starts, put <p>
+	if previous_line == "\n" and (
+			l:match("^[A-Z][^\n]-\n")
+			or
+			l:match("^<img[^\n]-\n")
+		)
+		then
+		u = "<p>\n"..u
+	end
+
+	-- deal with itemize
+	m = l:match("[%s]*\\begin{itemize}")
+	if m then u = "<ul>\n" end
+	m = l:match("[%s]*\\end{itemize}")
+	if m then u = "</ul>\n" end
+	m = l:match("[%s]*\\item ")
+	if m then u = l:gsub("\\item ", "<li>") end
+	-- TODO: add overriden item stuff
+
+	-- deal with enumerate
+	m = l:match("[%s]*\\begin{enumerate}")
+	if m then u = "<ol>\n" end
+	m = l:match("[%s]*\\end{enumerate}")
+	if m then u = "</ol>\n" end
+	--m = l:match("[%s]*\\item ")
+	--if m then u = l:gsub("\\item ", "<li>") end
+
+	-- deal with verbatim environments
+	m = l:match("[%s]*\\begin{verbatim}")
+	if m then u = l:gsub("\\begin{verbatim}", "<pre>") end
+	m = l:match("[%s]*\\end{verbatim}")
+	if m then u = l:gsub("\\end{verbatim}", "</pre>") end
+
+	-- TODO: tabular->table
+
+	-- theorem environements (with default names)
+	m = l:match("[%s]*\\begin{definition}")
+	if m then u = "<div class=\"definition\"><b>Definition.</b><em>\n" end
+	m = l:match("[%s]*\\end{definition}")
+	if m then u = "</em></div>\n" end
+
+	m = l:match("[%s]*\\begin{proposition}")
+	if m then u = "<div class=\"proposition\"><b>Proposition.</b><em>\n" end
+	m = l:match("[%s]*\\end{proposition}")
+	if m then u = "</em></div>\n" end
+
+	m = l:match("[%s]*\\begin{remark}")
+	if m then u = "<div class=\"remark\"><b>Remark.</b><em>\n" end
+	m = l:match("[%s]*\\end{remark}")
+	if m then u = "</em></div>\n" end
+
+	m = l:match("[%s]*\\begin{lemma}")
+	if m then u = "<div class=\"lemma\"><b>Lemma.</b><em>\n" end
+	m = l:match("[%s]*\\end{lemma}")
+	if m then u = "</em></div>\n" end
+
+	m = l:match("[%s]*\\begin{theorem}")
+	if m then u = "<div class=\"theorem\"><b>Theorem.</b><em>\n" end
+	m = l:match("[%s]*\\end{theorem}")
+	if m then u = "</em></div>\n" end
+
+
+	table.insert(output_lines, u)
+	previous_line = l
+end
+
+for _,l in pairs(output_lines) do
+	io.stdout:write(l)
+end
+
+--while true do
+--	l = io.read()
+--	if l == nil then break end
+--	io.stderr:write("got l=\""..l.."\"\n")
+--
+--	m = l:match("^\\title{(.-)}")
+--	if m then
+--		io.stderr:write("\th1: \""..m.."\"\n")
+--	end
+--
+--	m = l:match("^\\section{(.-)}")
+--	if m then
+--		io.stderr:write("\th2: \""..m.."\"\n")
+--	end
+--end

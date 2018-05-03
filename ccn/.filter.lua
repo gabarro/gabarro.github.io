@@ -6,6 +6,12 @@ function RawBlock(x)
 
 	-- for html output, the gallery environment is rendered in html
 	if FORMAT == "html" then
+		if x.text:match("^\\begin{definition}\n") then
+			io.stderr:write("DEF BLOCK = "..x.text.."\n")
+			t = "there was a \\emph{definition} here"
+			return pandoc.Para(t)
+			--io.stderr:write("DEF y = "..y.."\n")
+		end
 		if x.text:match("^\\begin{gallery}\n") then
 			l = x.text:match("\\galleryline{(.-)}") -- first file
 			h = io.popen("imprintf %h "..l):read('*all') + 9

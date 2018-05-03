@@ -1,0 +1,261 @@
+#!/usr/bin/env lua5.3
+
+-- lua filter for converting (a subset of) LaTeX into HTML5 with mathjax
+-- Basic idea: leave the math to matjax and search&replace simple commands
+-- Note that this does not really parse the LaTeX source, it only performs
+-- a line-based pattern matching for a well-behaved subset of LaTeX that
+-- i am forced to use if i want to run this filter.
+
+-- read whole input file into a string
+whole_file = io.read("*all")
+
+-- extract title and other data
+metadata_title = whole_file:match("^\\title{(.-)}")
+metadata_maths = false
+
+-- table of global substitutions (could be implemented in sed)
+global_substitutions = {
+	-- remove comments (TODO: keep some of them as html comments)
+	{"%%[^\n]+\n", "\n"},
+
+	-- change a few character entities
+	{"&", "&amp;"},   -- note: this affects LaTeX tables, see below
+	{"<", "&lt;"},
+	{">", "&gt;"},
+	{"~", "&nbsp;"},
+
+	-- change \emph{...} to <i>...</i> (and similar inline stuff)
+	{"\\emph{(.-)}", "<i>%1</i>"},
+	{"\\textbf{(.-)}", "<b>%1</b>"},
+	{"\\textit{(.-)}", "<i>%1</i>"},
+	{"\\texttt{(.-)}", "<code>%1</code>"},
+	{"{\\it%s(.-)}", "<i>%1</i>"},
+	{"{\\bf%s(.-)}", "<b>%1</b>"},
+	{"{\\tt%s(.-)}", "<code>%1</code>"},
+	--{"{\\small(.-)}", "<small>%1</small>"},
+
+	-- change \href{link}{text} to <a href="link">text</a>
+	{"\\href{(.-)}{(.-)}", "<a href=\"%1\">%2</a>"},
+
+	-- change \newline to <br>
+	{"\\newline", "<br>"},
+
+	-- change \includegraphics{...} to <img src="...">
+	{"\\includegraphics{(.-)}", "<img src=\"%1\">"},
+
+	-- change \sections to <headers>
+	{"\\title{(.-)}", "<h1>%1</h1>\n"},
+	{"\\section{(.-)}", "<h2>%1</h2>\n"},
+	{"\\subsection{(.-)}", "<h3>%1</h3>\n"},
+
+	-- list environments (TODO: support for \item[] )
+	{"\\item ", "<li>" },
+	{"\\begin{enumerate}", "<ol>"},
+	{"\\end{enumerate}", "</ol>"},
+	{"\\begin{itemize}", "<ul>"},
+	{"\\end{itemize}", "</ul>"},
+	{"\\begin{verbatim}", "<pre>"},
+	{"\\end{verbatim}", "</pre>"},
+	{"\\item%[(.-)%] ", "<li style='list-style-type:none'>%1 "},
+
+	-- change \verb+...+ to <code>...</code>
+	{"\\verb%+([^+]*)%+", "<code>%1</code>"},
+	{"\\verb_([^_]*)_", "<code>%1</code>"},
+
+	-- quotation environements
+	{"\\begin{quotation}", "<blockquote>"},
+	{"\\end{quotation}", "</blockquote>"},
+	{"\\begin{quote}", "<blockquote>"},
+	{"\\end{quote}", "</blockquote>"},
+
+	-- gallery environement
+	{"\\begin{gallery}", "<div class=\"gallery\" style=\"height:400px\"><ul class=\"index\">\n"},
+	{"\\end{gallery}", "</ul></div>"},
+	{"\\galleryline{(.-)}", "<li><a href=\"%1\">%1<span><img src=\"%1\"></span></a>\n"},
+
+	-- theorem environments (TODO: different class for each type)
+	{"\\begin{definition}",  '<p><div class="thm"><b>Definition.</b><em>'},
+	{"\\begin{proposition}", '<p><div class="thm"><b>Proposition.</b><em>'},
+	{"\\begin{lemma}",       '<p><div class="thm"><b>Lemma.</b><em>'},
+	{"\\begin{theorem}",     '<p><div class="thm"><b>Theorem.</b><em>'},
+	{"\\begin{remark}",      '<p><div class="thm"><b>Remark.</b><em>'},
+	{"\\end{definition}",    "</em></div>"},
+	{"\\end{proposition}",   "</em></div>"},
+	{"\\end{lemma}",         "</em></div>"},
+	{"\\end{theorem}",       "</em></div>"},
+	{"\\end{remark}",        "</em></div>"},
+	{"\\begin{proof}",       "<p>\n<i>Proof.</i>"},
+	{"\\end{proof}",         "<span style=\"float:right\">&#8718;</span>"},
+
+	-- tabular (TODO: recover vertical bars)
+	-- XXX: the order of these pattern replacements is important
+	{"%s*\\\\(%s*\\end{tabular})", "%1"},
+	{"\\begin{tabular}{.-}", "<table border=\"1\" cellspacing=\"0\" cellpadding=\"7\">\n<tr><td>\n"},
+	{"\\end{tabular}", "</table>"},
+	-- the following substitutions are only done inside a table environment
+	--{"&amp;", "<td>"},
+	--{"%s*\\\\\n", "\n<tr><td>"},
+	--{"\\hline", ""},
+
+	-- surround \newcommands by math so that mathjax sees it
+	{"\n(\\newcommand[^\n]+)", "$%1$\n"},
+}
+
+
+-- perform the global substitutions
+for _,s in pairs(global_substitutions) do
+	whole_file = whole_file:gsub(s[1], s[2])
+end
+
+-- process the galleries
+list_of_galleries = {}
+
+-- g traverses all gallery blocks
+for g in whole_file:gmatch('(<div class="gallery" .-</ul></div>)') do
+	f = g:match('<img src="(.-)"') -- f=first image file in the gallery
+	h = io.popen("imprintf %h "..f):read("*all*") -- h=image height
+	_,n = g:gsub("<li>", "") -- n=total number of images in the gallery
+	table.insert(list_of_galleries, {f, h, math.ceil(2*n)})
+end
+
+-- adapt the size of each gallery
+for i=1,#list_of_galleries do
+	g = list_of_galleries[i]
+	f,h,n = g[1],g[2],g[3]    -- filename, height in pixels, height in em
+	f2 = f:gsub("%-", "--")   -- escaped filename
+	p = 'gallery" style="height:400px">(.-<a href=")'..f2
+	q = 'gallery" style="min-height:'..h..'px;height:'..n..'em">%1'..f
+	whole_file = whole_file:gsub(p, q)
+end
+
+
+output_template = [[
+<!doctype html>
+<meta charset="utf-8" />
+<title>TITLE</title>
+CSSCODE
+JAXCODE
+]]
+
+boilerplate_css = [[
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	.thm em i { font-style: normal;}]]
+
+css_gallery = [[
+	.gallery{position:relative;width:auto;height:400px}
+	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
+	.gallery .index li{margin:0;padding:0}
+	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
+	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
+	.gallery .index li:first-child a span{left:10em;z-index:99}
+	.gallery .index a:hover{ border: 1px solid #888888;}
+	.gallery .index a:hover span{left:10em;z-index:100}
+	.gallery .index a span img{ }
+	.gallery .index a span { white-space:nowrap; }
+]]
+
+boilerplate_mathjax = [[
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script type="text/javascript" async src="JAXURL?JAXOPT">
+</script>
+]]
+
+JAXURL = "https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"
+JAXOPT = "config=TeX-AMS_CHTML-full"
+
+if whole_file:match("%$") then  -- TODO: perform a more intelligent check here
+	metadata_maths = true
+end
+if not metadata_maths then boilerplate_mathjax = "" end
+
+if whole_file:match("<div class=\"gallery\"") then
+	boilerplate_css = boilerplate_css .. css_gallery
+end
+
+boilerplate_mathjax = boilerplate_mathjax:gsub("JAXURL", JAXURL)
+boilerplate_mathjax = boilerplate_mathjax:gsub("JAXOPT", JAXOPT)
+
+boilerplate_css = "<style type=\"text/css\">\n"..boilerplate_css.."\n</style>"
+output_template = output_template:gsub("TITLE", metadata_title)
+output_template = output_template:gsub("CSSCODE", boilerplate_css)
+output_template = output_template:gsub("JAXCODE", boilerplate_mathjax)
+
+-- start building output file
+output_lines = { output_template }
+table.insert(output_lines, "\n")
+
+
+-- initialize counters
+counter_sec = 0
+counter_ssec = 0
+counter_thm = 0
+table_depth = 0
+
+o = "" -- the previous line
+for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
+	u = l    -- line to add to the output (the same, by default)
+
+	-- if a paragraph starts, put <p>
+	if o == "\n" and (
+			u:match("^[%a][^\n]-\n")
+			or
+			u:match("^<img[^\n]-\n")
+			or
+			u:match("^%$[^%$]")
+		)
+		then
+		u = "<p>\n"..u
+	end
+
+	-- build a table context
+	if o:match("<table"  ) then table_depth = table_depth + 1 end
+	if u:match("</table>") then table_depth = table_depth - 1 end
+
+	-- if inside table, change & and \\ to <td> and <tr>, remove \hline
+	if table_depth > 0 then
+		u = u:gsub("&amp;", "<td>")
+		u = u:gsub("\\\\", "<tr><td>")
+		u = u:gsub("\\hline",  "")
+	end
+
+	-- section counters (TODO: add attr name="sec-n" for easier navigation)
+	if u:match("^<h2>.*$") then
+		counter_sec = counter_sec + 1
+		u = u:gsub("^<h2>", "<h2>"..counter_sec..". ")
+	end
+
+	-- subsection counters
+	if u:match("^<h3>.*$") then
+		counter_ssec = counter_ssec + 1
+		u = u:gsub("^<h3>","<h3>"..counter_sec.."."..counter_ssec..". ")
+	end
+
+	-- theorem counters
+	if u:match("^<div class=\"thm\">.*%.</b>") then
+		counter_thm = counter_thm + 1
+		u = u:gsub("%.</b>", " "..counter_thm..".</b>")
+	end
+
+--	-- compute size of gallery
+--	if o:match('style="height:400px">') then --and u:match('span><img src=') then
+--		io.stderr:write("HO HO HOO l =" .. u)
+--	end
+
+	table.insert(output_lines, u)
+	o = l
+end
+
+-- dump output lines
+for _,l in pairs(output_lines) do
+	if not l:match("^\n$") then
+		io.stdout:write(l)
+	end
+end

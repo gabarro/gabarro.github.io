@@ -7,16 +7,17 @@
 \newcommand{\Z}{\mathbf{Z}}
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\C}{\mathbf{C}}
-\newcommand{\P}{\mathcal{P}}
+\newcommand{\PP}{\mathcal{P}}
 
-{\bf Definition.}
+\begin{definition}
 A~\emph{trigonometric polynomial} is an expression of the form
 $$
 	f(\theta)=\sum_{n\in\Z} f_n e^{in\theta}
 $$
 where all the coefficients~$f_n\in\C$ are zero except, maybe, a finite
 number of them.  The set of all trigonometric polynomials is denoted
-by~$\P$.
+by~$\PP$.
+\end{definition}
 
 There are two ways to interpret a trigonometric polynomial: as a
 function~$\Z\to\C$ defined by~$n\mapsto f_n$, or as a function~$\R\to\C$
@@ -39,38 +40,45 @@ combination.  The whole of harmonic analysis consists in studying the duality
 between signals~$f(\theta)$ and their spectra~$f_n$; how do the operations on
 signals correspond to operations on their spectra, and vice-versa.
 
-%{\bf Proposition (algebraic properties of~$\P$).}
-%The space~$\P$ is a vector space over~$\C$ and also an algebra.  The
-%(algebraic) inner product on~$\P$
+\begin{definition}
+	a b c
+\end{definition}
+
+%{\bf Proposition (algebraic properties of~$\PP$).}
+%The space~$\PP$ is a vector space over~$\C$ and also an algebra.  The
+%(algebraic) inner product on~$\PP$
 %$$
 %\left\langle f,g\right\rangle_a=\sum_{n\in\Z}f_n\bar{g_n}
 %$$ is hermitian, and with the associated
 %norm~$\|f\|_a=\sqrt{\left\langle f,f\right\rangle_a}$, the set of
-%monomials~$e^{in\theta}$ is an orthonormal basis of~$\P$.
+%monomials~$e^{in\theta}$ is an orthonormal basis of~$\PP$.
 %This vector space is neither finite-dimensional nor complete with this norm.
 
-{\bf Proposition (Elementary properties)}
+\begin{proposition}
+(Elementary properties)
 The following properties hold:
 \begin{enumerate}
-	\item If~$f\in\P$ then~$f(\theta)$ is a
+	\item If~$f\in\PP$ then~$f(\theta)$ is a
 		function~$\R\to\C$ which is~$2\pi$-periodic
 		and~$\mathcal{C}^\infty$.
-	\item If~$f\in\P$ then~$f_n$ is a function~$\Z\to\C$ of finite
+	\item If~$f\in\PP$ then~$f_n$ is a function~$\Z\to\C$ of finite
 		support.
-	\item The set~$\P$ is a vector space over~$\C$.
+	\item The set~$\PP$ is a vector space over~$\C$.
 	\item If~$h=\lambda f+\mu g$ then~$h_n=\lambda f_n+\mu g_n$.
-	\item The set~$\P$ is an algebra (thus, closed by
+	\item The set~$\PP$ is an algebra (thus, closed by
 		pointwise product~$f(\theta)g(\theta)$)
 \end{enumerate}
+\end{proposition}
 
-{\it Proof.}
+\begin{proof}
 (1) Each monomial~$e^{in\theta}$ is~$\mathcal{C}^\infty$
 	and~$2\pi$-periodic, and~$f$ is a finite linear
 	combination of such monomials, so it is
 	also~$\mathcal{C}^\infty$ and~$2\pi$-periodic.
-(2) This is a rewriting of the defintion of~$\P$.
+(2) This is a rewriting of the defintion of~$\PP$.
 (3,4) This result is immediate by linearity of finite sums.
 (5) The product of two finite sums is still a finite sum.
+\end{proof}
 
 
 When interpreting a trigonometric polynomial as a~$2\pi$-periodic

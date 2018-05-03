@@ -60,23 +60,23 @@ $$
 <img src="sin.png">
 <p>
 Each one of these three sequences of functions is a Hilbert basis of the
-space&nbsp;$L^2([0,2\pi])$.  In particular, you can express a sine as a linear
+space $L^2([0,2\pi])$.  In particular, you can express a sine as a linear
 combination of cosines, and vice-versa.  This is a favourite exam question of
 mine.  Of course, the convergence is not uniform on the boundaries of the
 interval.
 <p>
 The cosine and sine bases are very useful when you want to express solutions of
 a differential equation (or a variational problem) satisfying particular
-boundary conditions.  Notice that if&nbsp;$f(x)$ is a finite linear combination of
-the sine basis, then&nbsp;$f(0)=f(2\pi)=0$ and if it is a finite linear combination
-of the cosine basis, then&nbsp;$f'(0)=f'(2\pi)=0$.  The same relationships hold for
+boundary conditions.  Notice that if $f(x)$ is a finite linear combination of
+the sine basis, then $f(0)=f(2\pi)=0$ and if it is a finite linear combination
+of the cosine basis, then $f'(0)=f'(2\pi)=0$.  The same relationships hold for
 series as long as the coefficients decrease fast enough.  Thus, the sine basis
 is useful for <i>Dirichlet boundary conditions</i>, and the cosine basis is
 useful for <i>Neumann boundary conditions</i>.
 <h2>2. The Cauchy basis</h2>
 <p>
 The functions of the Cauchy basis, defined below, satisfy simultaneously the
-four conditions&nbsp;$f(0)=f(1)=f'(0)=f'(1)=0$.
+four conditions $f(0)=f(1)=f'(0)=f'(1)=0$.
 <p>
 <img src="cauchy.png">
 <p>
@@ -84,9 +84,9 @@ A simple construction of such a set of functions is obtained by considering
 eigenfunctions of the fourth derivative that satisfy the four boundary
 conditions.
 <p>
-Eigenfunctions of the fourth derivative are of the form&nbsp;$\exp(\rho x)$
-where&nbsp;$\rho$ is a fourth-root of&nbsp;$1$, thus $\rho\in\{1,-1,i,-i\}$.
-Equivalently, they are linear combinations of&nbsp;$\sin$, $\cos$, $\sinh$ and
+Eigenfunctions of the fourth derivative are of the form $\exp(\rho x)$
+where $\rho$ is a fourth-root of $1$, thus $\rho\in\{1,-1,i,-i\}$.
+Equivalently, they are linear combinations of $\sin$, $\cos$, $\sinh$ and
 $\cosh$
 $$
 \varphi(x)=\alpha\cos(\lambda x)+\beta\sin(\lambda x)+\gamma\cosh(\lambda
@@ -94,17 +94,17 @@ x)+\delta\sinh(\lambda x)
 $$
 <p>
 This is an eigenfunction of the fourth derivative with
-eigenvalue&nbsp;$\lambda^4$, that we can assume to be real positive.
+eigenvalue $\lambda^4$, that we can assume to be real positive.
 <p>
 By imposing the four boundary conditions, we obtain a linear system on the
-coefficients&nbsp;$(\alpha,\beta,\gamma,\delta)$, with a parameter&nbsp;$\lambda$.  The
+coefficients $(\alpha,\beta,\gamma,\delta)$, with a parameter $\lambda$.  The
 matrix of this linear system is singular, and its determinant vanishes
-when&nbsp;$\lambda$ satisfies the equation
+when $\lambda$ satisfies the equation
 $$
 \cos\lambda\cosh\lambda=1
 $$
 The solutions of this equation (which are slight perturbations of even
-multiples of&nbsp;$pi/2$)
+multiples of $pi/2$)
 are the eigenvalues of our basis.
 <p>
 A good enough approximation is given by
@@ -120,36 +120,36 @@ $$
 \beta_n=\frac{\sinh\lambda_n-\sin\lambda_n}{\cos\lambda_n-\cosh\lambda_n}.
 $$
 <p>
-Notice that, although the functions&nbsp;$\varphi_n$ are beautiful and symmetric
-inside the interval&nbsp;$[0,1]$, they explode in wild ways outside this interval:
+Notice that, although the functions $\varphi_n$ are beautiful and symmetric
+inside the interval $[0,1]$, they explode in wild ways outside this interval:
 <p>
 <img src="cauchy2.png">
 <h2>3. Properties and open problems</h2>
 <p>
-We have just defined a set of functions&nbsp;$\varphi_n(x)$.  By construction,
-they are $C^\infty$ functions on the interval&nbsp;$[0,1]$ that
-satisfy&nbsp;$0=\varphi_n(0)=\varphi_n(1)=\varphi_n'(0)=\varphi_n'(1)$.  Since
+We have just defined a set of functions $\varphi_n(x)$.  By construction,
+they are $C^\infty$ functions on the interval $[0,1]$ that
+satisfy $0=\varphi_n(0)=\varphi_n(1)=\varphi_n'(0)=\varphi_n'(1)$.  Since
 these functions are eigenvectors of a linear operator with different
 eigenvalues, they must be orthogonal.  The following remains to be
 done:
 <ol>
 	<li>Prove that $\{\varphi_n(x)\}$ is a Hilbert basis of $L^2([0,1])$
-	<li>Prove that $|\varphi_n(x)|\le 2$ for&nbsp;$x\in[0,1]$
-	<li>Prove that $\varphi_{2n}(x)=-\varphi_{2n}(1-x)$ for&nbsp;$x\in[0,1]$
-		(so that&nbsp;$\varphi_{2n}(1/2)=0$).
-	<li>Prove that $\varphi_{2n+1}(x)=\varphi_{2n+1}(1-x)$ for&nbsp;$x\in[0,1]$
-		(so that&nbsp;$\varphi'_{2n+1}(1/2)=0$).
-	<li>Prove that&nbsp;$\varphi_n$ has&nbsp;$n-1$ zeros on&nbsp;$(0,1)$, and identify
+	<li>Prove that $|\varphi_n(x)|\le 2$ for $x\in[0,1]$
+	<li>Prove that $\varphi_{2n}(x)=-\varphi_{2n}(1-x)$ for $x\in[0,1]$
+		(so that $\varphi_{2n}(1/2)=0$).
+	<li>Prove that $\varphi_{2n+1}(x)=\varphi_{2n+1}(1-x)$ for $x\in[0,1]$
+		(so that $\varphi'_{2n+1}(1/2)=0$).
+	<li>Prove that $\varphi_n$ has $n-1$ zeros on $(0,1)$, and identify
 		them.
 	<li>Compute the exact normalization coefficients required so that the
 		basis is orthonormal.
 	<li>Obtain an effective algorithm/formula to evaluate
-		&nbsp;$\varphi_n(x)$ for large values of&nbsp;$n$, avoiding the
+		 $\varphi_n(x)$ for large values of $n$, avoiding the
 		numerical cancellations that appear with the current
 		expression.  Notice that, thanks to the symmetry properties
-		above, the formula only needs to be stable for&nbsp;$0\le
+		above, the formula only needs to be stable for $0\le
 		x\le\frac{1}{2}$ (the difficult case being
-		near&nbsp;$\frac{1}{2}$).
+		near $\frac{1}{2}$).
 	<li>Rewrite the definition so that the interval is centered around
 		0, and the symmetries are more visible.
 	<li>Study how the regularity of a function can be measured from the
@@ -168,7 +168,7 @@ Some of these propositions are easy, others may not actually be possible
 <p>
 In this section we detail the construction leading to the Cauchy basis.
 The computation has two parts.  First, we explain how the
-equation&nbsp;$\cos\lambda\cosh\lambda=1$ is obtained,
+equation $\cos\lambda\cosh\lambda=1$ is obtained,
 and then we propose a numerical approximation of the solutions of this
 equation.
 <h3>4.1. The eigenvalue equation</h3>
@@ -182,8 +182,8 @@ $$
 +\delta\sinh\lambda x
 $$
 and we want to determine values of the five
-parameters&nbsp;$\alpha,\beta,\gamma,\delta,\lambda$ so that&nbsp;$\varphi$ satisfies
-the four boundary conditions&nbsp;$0=\varphi(0)=\varphi(1)=\varphi'(0)=\varphi'(1)$.
+parameters $\alpha,\beta,\gamma,\delta,\lambda$ so that $\varphi$ satisfies
+the four boundary conditions $0=\varphi(0)=\varphi(1)=\varphi'(0)=\varphi'(1)$.
 We have
 $$
 \varphi'(x)=\lambda\left[
@@ -193,8 +193,8 @@ $$
 	+\delta\cosh\lambda x
 \right]
 $$
-And setting&nbsp;$0=\varphi(0)$ and&nbsp;$0=\varphi'(0)$ gives
-respectively&nbsp;$\gamma=-\alpha$ and&nbsp;$\delta=-\beta$, thus
+And setting $0=\varphi(0)$ and $0=\varphi'(0)$ gives
+respectively $\gamma=-\alpha$ and $\delta=-\beta$, thus
 $$
 \varphi(x)=
 	\alpha\left(\cos\lambda x-\cosh\lambda x\right)
@@ -217,7 +217,7 @@ To simplify the notation, we write
 	k &amp;= \cosh\lambda \\
 	z &amp;= \sinh\lambda \\
 \end{eqnarray*}
-thus the conditions&nbsp;$0=\varphi(1)$ and&nbsp;$0=\varphi'(1)$ read
+thus the conditions $0=\varphi(1)$ and $0=\varphi'(1)$ read
 \begin{eqnarray*}
 	0 &amp;= \alpha(c-k)+\beta(s-z) \\
 	0 &amp;= \alpha(-s-z)+\beta(c-k) \\
@@ -238,28 +238,28 @@ $$
 	0 \\
 \end{pmatrix}
 $$
-If&nbsp;$(\alpha,\beta)$ is not the zero vector, then the matrix must be singular,
+If $(\alpha,\beta)$ is not the zero vector, then the matrix must be singular,
 thus
 $$
 (c-k)^2+(s+z)(s-z)=0
 $$
 this condition can be simplified using the trigonometric
-identities&nbsp;$c^2+s^2=1$ and&nbsp;$k^2-z^2=1$ to obtain the equivalent
-equation&nbsp;$ck=1$ :
+identities $c^2+s^2=1$ and $k^2-z^2=1$ to obtain the equivalent
+equation $ck=1$ :
 $$
 \cos\lambda\cosh\lambda=1
 $$
-Besides the non-interesting case&nbsp;$\lambda=0$, this equation has an infinite
-sequence of solutions&nbsp;$\pm\lambda_n$ that determine the spectrum of our
-problem.  Given such a solution&nbsp;$\lambda_n$, the corresponding values
-of&nbsp;$\alpha_n,\beta_n$ are determined from the condition&nbsp;$0=\varphi(1)$:
+Besides the non-interesting case $\lambda=0$, this equation has an infinite
+sequence of solutions $\pm\lambda_n$ that determine the spectrum of our
+problem.  Given such a solution $\lambda_n$, the corresponding values
+of $\alpha_n,\beta_n$ are determined from the condition $0=\varphi(1)$:
 $$
 0 =
 \alpha_n(\cos\lambda_n-\cosh\lambda_n)
 +\beta_n(\sin\lambda_n-\sinh\lambda_n)
 $$
-we normalize the solution with&nbsp;$\alpha_n=1$ (this is an arbitrary choice,
-maybe not the best one, but it produces nicely bounded functions on&nbsp;$[0,1]$).  Now
+we normalize the solution with $\alpha_n=1$ (this is an arbitrary choice,
+maybe not the best one, but it produces nicely bounded functions on $[0,1]$).  Now
 $$
 \beta_n=\frac{\cos\lambda_n-\cosh\lambda_n}{\sinh\lambda_n-\sin\lambda_n}
 $$
@@ -286,29 +286,29 @@ and this last expression is more amenable to computations (derivatives,
 integrals, scalar products).
 <h3>4.2. Numerical solution of the eigenvalue equation</h3>
 <p>
-By plotting the function&nbsp;$x\to\cos x\cosh x$, it is clear that it crosses the
-value&nbsp;$1$ infinitely many times, very near to the zeros of&nbsp;$\cos x$, except
-for&nbsp;$x=\pi/2$:
+By plotting the function $x\to\cos x\cosh x$, it is clear that it crosses the
+value $1$ infinitely many times, very near to the zeros of $\cos x$, except
+for $x=\pi/2$:
 <p>
 <img src="coscosh.png">
 <p>
-Thus, the zeros of the function&nbsp;$\lambda\to\cos\lambda\cosh\lambda-1$ have the
+Thus, the zeros of the function $\lambda\to\cos\lambda\cosh\lambda-1$ have the
 form
 $$
 \lambda_n = \frac{2n+1}{2}\pi + \varepsilon_n
 $$
-where&nbsp;$\varepsilon_n$ are numbers that tend very fast to zero and alternate
+where $\varepsilon_n$ are numbers that tend very fast to zero and alternate
 sign.
-We can estimate the number&nbsp;$\varepsilon_n$ by computing the tangent to the
-graph of&nbsp;$\cos x\cosh x$ at&nbsp;$x=\frac{2n+1}{2}\pi$, and finding its
-intersection with the horizontal line&nbsp;$y=1$:
+We can estimate the number $\varepsilon_n$ by computing the tangent to the
+graph of $\cos x\cosh x$ at $x=\frac{2n+1}{2}\pi$, and finding its
+intersection with the horizontal line $y=1$:
 $$
 1 = \cos x_n\cosh x_n +
 \left(
 \cos x_n\sinh x_n - \sin x_n\cosh x_n
 \right) \varepsilon_n
 $$
-for $x_n=\frac{2n+1}{2}\pi$.  Since&nbsp;$\cos x_n=0$ and&nbsp;$\sin x_n=-(-1)^n$, this
+for $x_n=\frac{2n+1}{2}\pi$.  Since $\cos x_n=0$ and $\sin x_n=-(-1)^n$, this
 simplifies to
 $$
 \varepsilon_n=\frac{-(-1)^n}{\cosh x_n} \approx -2e^{-x_n}
@@ -318,9 +318,9 @@ $$
 \lambda_n\approx\frac{2n+1}{2}\pi-2(-1)^n\exp\left(-\frac{2n+1}{2}\pi\right).
 $$
 This approximation is useful, at least for plotting purposes.
-Notice that the quality of the approximation improves as&nbsp;$n$ grows, so a
+Notice that the quality of the approximation improves as $n$ grows, so a
 satisfactory solution can be attained by tabulating the exact values
-of&nbsp;$\lambda_n$ for small values of&nbsp;$n$, and using the approximation for the
+of $\lambda_n$ for small values of $n$, and using the approximation for the
 others.
 <h2>5. Computer code</h2>
 <p>

@@ -25,34 +25,34 @@ $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\C}{\mathbf{C}}$
 $\newcommand{\PP}{\mathcal{P}}$
 <p><div class="thm"><b>Definition.</b><em>
-A&nbsp;<i>trigonometric polynomial</i> is an expression of the form
+A <i>trigonometric polynomial</i> is an expression of the form
 $$
 	f(\theta)=\sum_{n\in\Z} f_n e^{in\theta}
 $$
-where all the coefficients&nbsp;$f_n\in\C$ are zero except, maybe, a finite
+where all the coefficients $f_n\in\C$ are zero except, maybe, a finite
 number of them.  The set of all trigonometric polynomials is denoted
-by&nbsp;$\PP$.
+by $\PP$.
 </em></div>
 <p>
 There are two ways to interpret a trigonometric polynomial: as a
-function&nbsp;$\Z\to\C$ defined by&nbsp;$n\mapsto f_n$, or as a function&nbsp;$\R\to\C$
-defined by&nbsp;$\theta\mapsto f(\theta)$.  Most of Fourier analysis deals with
+function $\Z\to\C$ defined by $n\mapsto f_n$, or as a function $\R\to\C$
+defined by $\theta\mapsto f(\theta)$.  Most of Fourier analysis deals with
 the duality between these two interpretations.
 <p>
 Let us introduce some <b>common language</b>.
-A trigonometric polynomial is usually called a&nbsp;<i>signal</i>.  The
-indices&nbsp;$n$ are called the&nbsp;<i>frequencies</i> and the coefficient&nbsp;$f_n$
-is called the&nbsp;<i>amplitude of&nbsp;$f$&nbsp;at the frequency&nbsp;$n$</i>.  The
-mapping&nbsp;$n\mapsto\left|f_n\right|^2$ is called the&nbsp;<i>power
-spectrum</i> of the signal&nbsp;$f$.  Building the signal from its amplitudes
-is called is called&nbsp;<i>synthesis</i>, and extracting the amplitudes
-from a signal is called&nbsp;<i>analysis</i>.
+A trigonometric polynomial is usually called a <i>signal</i>.  The
+indices $n$ are called the <i>frequencies</i> and the coefficient $f_n$
+is called the <i>amplitude of $f$ at the frequency $n$</i>.  The
+mapping $n\mapsto\left|f_n\right|^2$ is called the <i>power
+spectrum</i> of the signal $f$.  Building the signal from its amplitudes
+is called is called <i>synthesis</i>, and extracting the amplitudes
+from a signal is called <i>analysis</i>.
 <p>
-The monomial&nbsp;$e^{in\theta}$ is called a&nbsp;<i>pure wave of frequency&nbsp;$n$</i>.
+The monomial $e^{in\theta}$ is called a <i>pure wave of frequency $n$</i>.
 Thus, synthesis consists in creating a signal as a linear combination of pure
 waves, and analysis consists in recovering the coefficients of this linear
 combination.  The whole of harmonic analysis consists in studying the duality
-between signals&nbsp;$f(\theta)$ and their spectra&nbsp;$f_n$; how do the operations on
+between signals $f(\theta)$ and their spectra $f_n$; how do the operations on
 signals correspond to operations on their spectra, and vice-versa.
 <p><div class="thm"><b>Definition.</b><em>
 	a b c
@@ -61,32 +61,32 @@ signals correspond to operations on their spectra, and vice-versa.
 (Elementary properties)
 The following properties hold:
 <ol>
-	<li>If&nbsp;$f\in\PP$ then&nbsp;$f(\theta)$ is a
-		function&nbsp;$\R\to\C$ which is&nbsp;$2\pi$-periodic
-		and&nbsp;$\mathcal{C}^\infty$.
-	<li>If&nbsp;$f\in\PP$ then&nbsp;$f_n$ is a function&nbsp;$\Z\to\C$ of finite
+	<li>If $f\in\PP$ then $f(\theta)$ is a
+		function $\R\to\C$ which is $2\pi$-periodic
+		and $\mathcal{C}^\infty$.
+	<li>If $f\in\PP$ then $f_n$ is a function $\Z\to\C$ of finite
 		support.
-	<li>The set&nbsp;$\PP$ is a vector space over&nbsp;$\C$.
-	<li>If&nbsp;$h=\lambda f+\mu g$ then&nbsp;$h_n=\lambda f_n+\mu g_n$.
-	<li>The set&nbsp;$\PP$ is an algebra (thus, closed by
-		pointwise product&nbsp;$f(\theta)g(\theta)$)
+	<li>The set $\PP$ is a vector space over $\C$.
+	<li>If $h=\lambda f+\mu g$ then $h_n=\lambda f_n+\mu g_n$.
+	<li>The set $\PP$ is an algebra (thus, closed by
+		pointwise product $f(\theta)g(\theta)$)
 </ol>
 </em></div>
 <p>
 <i>Proof.</i>
-(1) Each monomial&nbsp;$e^{in\theta}$ is&nbsp;$\mathcal{C}^\infty$
-	and&nbsp;$2\pi$-periodic, and&nbsp;$f$ is a finite linear
+(1) Each monomial $e^{in\theta}$ is $\mathcal{C}^\infty$
+	and $2\pi$-periodic, and $f$ is a finite linear
 	combination of such monomials, so it is
-	also&nbsp;$\mathcal{C}^\infty$ and&nbsp;$2\pi$-periodic.
-(2) This is a rewriting of the defintion of&nbsp;$\PP$.
+	also $\mathcal{C}^\infty$ and $2\pi$-periodic.
+(2) This is a rewriting of the defintion of $\PP$.
 (3,4) This result is immediate by linearity of finite sums.
 (5) The product of two finite sums is still a finite sum.
 <span style="float:right">&#8718;</span>
 <p>
-When interpreting a trigonometric polynomial as a&nbsp;$2\pi$-periodic
-function&nbsp;$\R\to\C$, it helps to plot it as a closed curve in the complex
-plane.  The monomials&nbsp;$e^{in\theta}$ for&nbsp;$n\neq 0$ all correspond to the unit
-circle traversed&nbsp;$n$ times, clockwise for&nbsp;$n&lt;0$, anticlockwise for&nbsp;$n&gt;0$.
+When interpreting a trigonometric polynomial as a $2\pi$-periodic
+function $\R\to\C$, it helps to plot it as a closed curve in the complex
+plane.  The monomials $e^{in\theta}$ for $n\neq 0$ all correspond to the unit
+circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0$.
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	$e^{-3i\theta}$ <td>

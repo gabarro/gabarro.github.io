@@ -63,24 +63,24 @@ The book contains this kind of sentences:
 $\newcommand{\R}{\mathbf{R}}$
 <blockquote>
 Let $G=(V,E)$ be a graph and $\mathcal{H}(V)$ be the Hilbert space of
-real-valued functions defined on the vertices of&nbsp;$G$.  The
-space&nbsp;$\mathcal{H}(V)$ is endowed with the usual inner
-product&nbsp;$\left&lt;f,h\right&gt;_{\mathcal{H}(V)}=\sum_{v_i\in V}f(v_i)h(v_i)$,
-where&nbsp;$f,h:V\to\R$.
-Similarly, let&nbsp;$\mathcal{H}(E)$ be the Hilbert space of real-valued functions
-defined on the edges of&nbsp;$G$,&nbsp;$\ldots$.  Now, consider a linear operator
-between Hilbert spaces&nbsp;$A:\mathcal{H}(V)\to\mathcal{E}(V)$...
+real-valued functions defined on the vertices of $G$.  The
+space $\mathcal{H}(V)$ is endowed with the usual inner
+product $\left&lt;f,h\right&gt;_{\mathcal{H}(V)}=\sum_{v_i\in V}f(v_i)h(v_i)$,
+where $f,h:V\to\R$.
+Similarly, let $\mathcal{H}(E)$ be the Hilbert space of real-valued functions
+defined on the edges of $G$, $\ldots$.  Now, consider a linear operator
+between Hilbert spaces $A:\mathcal{H}(V)\to\mathcal{E}(V)$...
 </blockquote>
 <p>
 While these sentences are crystal clear and very appealing to an audience of
 mathematicians, I have found them to be intimidating when trying to
 evangelize people to read the book.  Thus, I ``translate'' them into the
-following kind of language, which is&nbsp;$100\
+following kind of language, which is $100\
 <blockquote>
-Consider a graph with&nbsp;$n$ vertices and&nbsp;$m$ edges.  We will use vectors
-of length&nbsp;$n$ and $m$ to represent functions defined over the vertices or
-the edges, respectively.  We will also use matrices of size&nbsp;$m\times n$
-to represent linear maps between them&nbsp;$A:\R^n\to\R^m$.  In octave/matlab:
+Consider a graph with $n$ vertices and $m$ edges.  We will use vectors
+of length $n$ and $m$ to represent functions defined over the vertices or
+the edges, respectively.  We will also use matrices of size $m\times n$
+to represent linear maps between them $A:\R^n\to\R^m$.  In octave/matlab:
 <pre>
 n = 100;            # number of vertices in the graph
 m = 200;            # number of edges in the graph
@@ -97,16 +97,16 @@ examples below.
 <p>
 You would think that to work with graphs on a computer you need some sort of
 library for graphs.  Nothing farther from the truth.  What you really need is
-a library for doing&nbsp;<i>linear algebra</i>.  In all the examples here we use
+a library for doing <i>linear algebra</i>.  In all the examples here we use
 octave, but you can translate it easily to python+numpy, which is slightly
 more verbose.
 <p>
-In what follows we reserve the letters&nbsp;$n$ and&nbsp;$m$ for the following meanings
+In what follows we reserve the letters $n$ and $m$ for the following meanings
 <p>
 $n\, =\ \,$ number of vertices in the graph<br>
 $m =\ \,$ number of edges in the graph
 <p>
-For the following graph, we have&nbsp;$n=5$ and $m=6$:
+For the following graph, we have $n=5$ and $m=6$:
 <p>
 <img src="gggx.png">
 $$
@@ -145,19 +145,19 @@ $A\ \,=\ \,$ adjacency matrix, of size $n\times n$,
 $B\ \,=\ \,$ incidence matrix, of size $m\times n$,
              list of input/output vertices of each edge <br>
 $C\ \,=\ \,$ centering matrix, of size $m\times n$,
-             defined as&nbsp;$C=\frac{1}{2}|B|$ <br>
+             defined as $C=\frac{1}{2}|B|$ <br>
 $L\ \,=\ \,$ Laplacian matrix, of size $n\times n$,
-             defined as&nbsp;$L=-B'B$
+             defined as $L=-B'B$
 <p>
-It is very important to understand now the meaning of the matrices&nbsp;$Z,A,B$.
-The matrix&nbsp;$Z$ is the easiest to type by hand in a computer, but it is not
+It is very important to understand now the meaning of the matrices $Z,A,B$.
+The matrix $Z$ is the easiest to type by hand in a computer, but it is not
 very useful for doing algebra with it.  All the other matrices are
 fundamental linear operators over functions defined on the graph.  Each of
 these fives matrices, alone, determines completely the graph (modulo the
-numbering of the edges, in the case of&nbsp;$A$ and&nbsp;$L$).
+numbering of the edges, in the case of $A$ and $L$).
 <p>
-The matrices&nbsp;$A$, $B$ and&nbsp;$C$ satisfy the identity: $A=2C^TC-B^TB/2$.  This
-allows to compute&nbsp;$A$ from&nbsp;$B$.  To recover&nbsp;$B$ from&nbsp;$A$ we must decide on an
+The matrices $A$, $B$ and $C$ satisfy the identity: $A=2C^TC-B^TB/2$.  This
+allows to compute $A$ from $B$.  To recover $B$ from $A$ we must decide on an
 ordering for the edges.
 <p>
 The following octave functions allow to convert between each representation:
@@ -190,8 +190,8 @@ function A = graph_adjacency_from_incidence(B)
 end
 </pre>
 <p>
-Typically, in the applications, you can often build&nbsp;$B$ directly so that you
-do not really need these functions.  From&nbsp;$B$, the other matrices are easily
+Typically, in the applications, you can often build $B$ directly so that you
+do not really need these functions.  From $B$, the other matrices are easily
 computed if needed by:
  <pre>
 L = -B'*B;
@@ -204,8 +204,8 @@ The following table summarizes the language that we will use everywhere.
 <tr><td>
 	$n$ <td> number of vertices in the graph <tr><td>
 	$m$ <td> number of edges in the graph <tr><td>
-	$u\in\R^n$ <td> scalar field&nbsp;$u$ <tr><td>
-	$\mathbf{v}\in\R^m$ <td> scalar field&nbsp;$\mathbf{v}$ <tr><td>
+	$u\in\R^n$ <td> scalar field $u$ <tr><td>
+	$\mathbf{v}\in\R^m$ <td> scalar field $\mathbf{v}$ <tr><td>
 	$B:\R^n\to\R^m$ <td> gradient <tr><td>
 	$-B^T:\R^m\to\R^n$ <td> divergence <tr><td>
 	$L:\R^n\to\R^n$ <td> Laplacian <tr><td>
@@ -214,21 +214,21 @@ The following table summarizes the language that we will use everywhere.
 	$C^TC:\R^n\to\R^n$ <td> smoothing operator
 </table>
 <p>
-The most important notion is that the matrix&nbsp;$B$ is called the&nbsp;<b>gradient</b>.  It is a linear operator that maps scalar fields (vectors of
-lenght&nbsp;$n$) into vector fields (vectors of length&nbsp;$m$).
+The most important notion is that the matrix $B$ is called the <b>gradient</b>.  It is a linear operator that maps scalar fields (vectors of
+lenght $n$) into vector fields (vectors of length $m$).
 This definition is used for an arbitrary graph, but it makes a lot of sense
 when the graph is the grid of an image, because in that case the gradient
 corresponds exactly to the gradient computed using finite differences.
 <h2>3. The graph associated to an image</h2>
 <p>
 The pixels of an image are arranged naturally in the shape of a grid.
-Here, for example, you have the grid of a&nbsp;$4\times 3$ image:
+Here, for example, you have the grid of a $4\times 3$ image:
 <p>
 <img src="gridgraph.png">
 <p>
-Here you see that the graph has&nbsp;$n=12$ vertices and&nbsp;$m=17$ edges.
-In general, for an image of size&nbsp;$w\times h$, the graph will have&nbsp;$n=wh$
-vertices and&nbsp;$m=(w-1)h+(h-1)w$ edges.  The matrix&nbsp;$A$ of such a graph is
+Here you see that the graph has $n=12$ vertices and $m=17$ edges.
+In general, for an image of size $w\times h$, the graph will have $n=wh$
+vertices and $m=(w-1)h+(h-1)w$ edges.  The matrix $A$ of such a graph is
 build by the following octave code
 <pre>
 function A = grid_graph(w, h)                       # build a grid graph WxH
@@ -242,7 +242,7 @@ end
 This works because the grid graph is the product graph of two paths, and the
 adjacency matrix of a product graph is the Kronecker sum of their matrices.
 <p>
-The graph defines just the&nbsp;<i>domain</i> of an image.  We still need the
+The graph defines just the <i>domain</i> of an image.  We still need the
 <i>data</i>.  As a sample image, we will use the amazing portrait of Samuel
 Beckett by Jane Bown:
 <p>
@@ -312,18 +312,18 @@ terms of dilation and erosion:
 	$e(d(u)) -u$ <td> bottom hat (closing minus image)
 </table>
 <p>
-Due to the inequalities&nbsp;$e(u)\le u\le d(u)$, we can see that all these
+Due to the inequalities $e(u)\le u\le d(u)$, we can see that all these
 operations (except the laplacian) produce positive images.  The morphological
 gradients are also called upwind and downwind derivatives.
 <p>
 Thanks to sparse matrices, the implementation of these operations is very
-easy.  The crucial matrix here is the structuring element matrix&nbsp;$E$, defined
+easy.  The crucial matrix here is the structuring element matrix $E$, defined
 as the adjacency matrix plus the identity
 $$
 E = A + I_n
 $$
 <p>
-The matrices&nbsp;$A$ and&nbsp;$E$ define linear operators on the scalar fields of a
+The matrices $A$ and $E$ define linear operators on the scalar fields of a
 graph.  In the particular case when the graph is the grid of an image, they
 can be interpreted as shift-invariant filters defined by the following
 stencils:
@@ -343,10 +343,10 @@ the graph.
 <h3>4.1. Morphology on binary images</h3>
 <p>
 We start with the implementation of mathematical morphology for binary
-images, which are also called&nbsp;<i>masks</i>.
+images, which are also called <i>masks</i>.
 This implementation is easier to understand than for the
 general gray-scale case.
-The <b>dilation</b> of a mask&nbsp;$m$ can be computed simply by multiplying the
+The <b>dilation</b> of a mask $m$ can be computed simply by multiplying the
 mask by powers of the adjacency matrix.  Actually, the <b>erosion</b> and the
 <b>median filter</b> are also computed by the same operation, and they can be
 extracted by thresholding the resulting gray-scale image at its minimum,
@@ -392,7 +392,7 @@ work anymore, because we are multiplying by a vector that has many different
 values (not only zeros and ones).  What we need is a matrix$\times$vector
 multiplication that takes the maximum, instead of the sums along each row.
 After a few hours of head-scratching, I realized that this is achieved by
-multiplying the matrix&nbsp;$E$ by the diagonal matrix defined by the vector&nbsp;$x$
+multiplying the matrix $E$ by the diagonal matrix defined by the vector $x$
 (which results in a sparse matrix) and then taking the maximum along rows of
 the resulting matrix.  The code is simple, but maybe not evident:
 <pre>

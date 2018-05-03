@@ -39,27 +39,27 @@ $\newcommand{\Z}{\mathbf{Z}}$
 %
 <h2>1. The Laplace-Beltrami spectrum</h2>
 <p>
-Let&nbsp;$M$ be a compact Riemannian manifold (with or without boundary), and
-let&nbsp;$\Delta$ be its Laplace-Beltrami operator, defined
-as&nbsp;$\Delta=*d*d$, where&nbsp;$d$ is the exterior derivative (which is independent
-of the metric) and&nbsp;$*$ is the Hodge duality between&nbsp;$p$-forms
-and&nbsp;$d-p$-forms (which is defined using the metric).
+Let $M$ be a compact Riemannian manifold (with or without boundary), and
+let $\Delta$ be its Laplace-Beltrami operator, defined
+as $\Delta=*d*d$, where $d$ is the exterior derivative (which is independent
+of the metric) and $*$ is the Hodge duality between $p$-forms
+and $d-p$-forms (which is defined using the metric).
 <p>
 The following are standard results in differential geometry (see e.g.
 Warner's book chapter
-6&nbsp;\url{https://link.springer.com/content/pdf/10.1007\
+6 \url{https://link.springer.com/content/pdf/10.1007\
 <ul>
-	<li style='list-style-type:none'>(1) There is a sequence of&nbsp;$\mathcal{C}^\infty(M)$
-		functions&nbsp;$\varphi_n$ and positive
-		numbers&nbsp;$\lambda_n\to\infty$ such that
+	<li style='list-style-type:none'>(1) There is a sequence of $\mathcal{C}^\infty(M)$
+		functions $\varphi_n$ and positive
+		numbers $\lambda_n\to\infty$ such that
 		$$\Delta\varphi_n=-\lambda_n\varphi_n$$
-	<li style='list-style-type:none'>(2) The functions&nbsp;$\varphi_n$, suitably normalized, are an
-		orthonormal basis of&nbsp;$L^2(M)$.
+	<li style='list-style-type:none'>(2) The functions $\varphi_n$, suitably normalized, are an
+		orthonormal basis of $L^2(M)$.
 </ul>
 <p>
-These results generalize Fourier series to an arbitrary smooth manifold&nbsp;$M$.
-Any square-integrable function&nbsp;$f:M\to\R$ is written uniquely as
-$$f(x)=\sum_nf_n\varphi_n(x)$$ and the coefficients&nbsp;$f_n$ are computed by
+These results generalize Fourier series to an arbitrary smooth manifold $M$.
+Any square-integrable function $f:M\to\R$ is written uniquely as
+$$f(x)=\sum_nf_n\varphi_n(x)$$ and the coefficients $f_n$ are computed by
 $$f_n=\int_Mf\varphi_n.$$  Some particular cases are the habitual Fourier and
 sine bases (but not the cosine basis), bessel functions for the disk, and
 spherical harmonics for the surface of a sphere.
@@ -74,38 +74,38 @@ spherical harmonics for the surface of a sphere.
 	$\frac{n^2+m^2}{4}$ <tr><td>
 	torus <td> $(S^1)^2$ <td> $\sin(nx)\sin(my),\ldots$ <td> $n^2+m^2$ <tr><td>
 	disk <td> $|r|\le1$ <td> $\sin,\cos(n\theta)J_n(\rho_{m,n}r)$ <td>
-	$\rho_{m,n}$ roots of&nbsp;$J_n$ <tr><td>
+	$\rho_{m,n}$ roots of $J_n$ <tr><td>
 	sphere <td> $S^2$ <td> $Y^m_l(\theta,\varphi)$ <td> $l^2+l$
 </table>
 <p>
-The eigenfunctions&nbsp;$\varphi_n$ are called the vibration modes of&nbsp;$M$, and the
-eigenvalues&nbsp;$\lambda_n$ are called the (squared) fundamental frequencies of&nbsp;$M$.
+The eigenfunctions $\varphi_n$ are called the vibration modes of $M$, and the
+eigenvalues $\lambda_n$ are called the (squared) fundamental frequencies of $M$.
 <p>
-Several geometric properties of&nbsp;$M$ can be interpreted in terms of the
-Laplace-Beltrami spectrum.  For example, if&nbsp;$M$ has&nbsp;$k$ connected components,
-the first&nbsp;$k$ eigenfuntions will be supported successively on each connected
-component.  On a connected manifold&nbsp;$M$, the first vibration mode can be
-taken to be positive&nbsp;$\varphi_1\ge0$, thus all the other modes have
-non-constant signs (because they are orthogonal to&nbsp;$\varphi_1$).  In
-particular, the sign of&nbsp;$\varphi_2$ cuts&nbsp;$M$ in two parts in an optimal way,
-it is the Cheeger cut of&nbsp;$M$, maximizing the perimeter/area ratio of the cut.
+Several geometric properties of $M$ can be interpreted in terms of the
+Laplace-Beltrami spectrum.  For example, if $M$ has $k$ connected components,
+the first $k$ eigenfuntions will be supported successively on each connected
+component.  On a connected manifold $M$, the first vibration mode can be
+taken to be positive $\varphi_1\ge0$, thus all the other modes have
+non-constant signs (because they are orthogonal to $\varphi_1$).  In
+particular, the sign of $\varphi_2$ cuts $M$ in two parts in an optimal way,
+it is the Cheeger cut of $M$, maximizing the perimeter/area ratio of the cut.
 <p>
-The zeros of&nbsp;$\varphi_n$ are called the nodal curves (or nodal sets) of&nbsp;$M$,
-or also the Chladni patterns.  If&nbsp;$M$ is a subdomain of the plane, these
-patterns can be found by cutting an object in the shape of&nbsp;$M$, pouring a
+The zeros of $\varphi_n$ are called the nodal curves (or nodal sets) of $M$,
+or also the Chladni patterns.  If $M$ is a subdomain of the plane, these
+patterns can be found by cutting an object in the shape of $M$, pouring a
 layer of sand over it, and letting it vibrate by high-volume sound waves at
 different frequencies.  For most frequencies, the sand will not form any
 particular pattern, but when the frequency coincides with
-a&nbsp;$\sqrt{\lambda_n}$, the sand will accumulate over the set&nbsp;$[\varphi_n=0]$,
+a $\sqrt{\lambda_n}$, the sand will accumulate over the set $[\varphi_n=0]$,
 which is the set of points of the surface that do not move when the surface
 vibrates at this frequency.  In the typical case, the number of connected
-components of&nbsp;$[\varphi_n&gt;0]$ grows linearly with&nbsp;$n$, thus the
-functions&nbsp;$\varphi_n$ become more oscillating (less regular) as&nbsp;$n$ grows.
+components of $[\varphi_n&gt;0]$ grows linearly with $n$, thus the
+functions $\varphi_n$ become more oscillating (less regular) as $n$ grows.
 <p>
-Generally, symmetries of&nbsp;$M$ arise as multiplicities of eigenvalues.
-The Laplace-Beltrami spectrum&nbsp;${\lambda_1,\lambda_2,\lambda_3,\ldots}$ is
+Generally, symmetries of $M$ arise as multiplicities of eigenvalues.
+The Laplace-Beltrami spectrum ${\lambda_1,\lambda_2,\lambda_3,\ldots}$ is
 closely related, but not identical, to the geodesic length spectrum, that
-measures the sequence of lengths of all closed geodesics of&nbsp;$M$.  The grand
+measures the sequence of lengths of all closed geodesics of $M$.  The grand
 old man of this theory is Yves Colin de Verdière, student of Marcel Berger.
 <p>
 Geometry is not in general a spectral invariant, but non-isometric manifolds
@@ -120,24 +120,24 @@ isospectral manifolds in dimensions two and above.
 <p>
 The classical linear second order equations (potential, heat, wave and
 Schrödinger) are all defined in terms of the Laplacian operator in space.
-Thus, they can be defined readily on an arbitrary Riemannian manifold&nbsp;$M$.
-If&nbsp;$M$ is compact, the solution can be found explicitly in terms of the
+Thus, they can be defined readily on an arbitrary Riemannian manifold $M$.
+If $M$ is compact, the solution can be found explicitly in terms of the
 Laplace-Beltrami eigenfunctions.  Henceforth we will call the expression of a
-function&nbsp;$f:M\to\R$ as&nbsp;$f=\sum_nf_n\varphi_n$ the Fourier series of&nbsp;$f$, the
-numbers&nbsp;$f_n$ the Fourier coefficients of&nbsp;$f$ and so on.
+function $f:M\to\R$ as $f=\sum_nf_n\varphi_n$ the Fourier series of $f$, the
+numbers $f_n$ the Fourier coefficients of $f$ and so on.
 <p>
 The simplest case is <b>Poisson equation</b>
 $$
 	\Delta u = f
 $$
-The solution is found by expressing&nbsp;$u$ and&nbsp;$f$ as Fourier series and
+The solution is found by expressing $u$ and $f$ as Fourier series and
 identifying the coefficients:
 $$
 u(x) = \sum_n\frac{-f_n}{\lambda_n}\varphi_n(x)
 $$
-Notice that since&nbsp;$\lambda_n\to\infty$, the Fourier coefficients of&nbsp;$u$ tend
-to zero faster than those of&nbsp;$f$, thus&nbsp;$u$ is more regular than&nbsp;$f$
-(this is obvious from the equation, since&nbsp;$\Delta u$ is less regular than&nbsp;$u$).
+Notice that since $\lambda_n\to\infty$, the Fourier coefficients of $u$ tend
+to zero faster than those of $f$, thus $u$ is more regular than $f$
+(this is obvious from the equation, since $\Delta u$ is less regular than $u$).
 <p>
 Another simple case is the <b>screened Poisson equation</b>
 $$
@@ -148,7 +148,7 @@ $$
 u(x) = \sum_n\frac{-f_n}{\alpha+\lambda_n}\varphi_n(x)
 $$
 This is like the regular Poisson equation, but the regularity is enhanced
-by&nbsp;$\alpha$.
+by $\alpha$.
 <p>
 The next case is the <b>heat equation</b>, also called <b>diffusion</b> or <b>smoothing</b> equation:
 $$
@@ -157,16 +157,16 @@ $$
 	u(x,0)=g(x) &amp; x\in M\\
 \end{cases}
 $$
-This equation requires an initial condition&nbsp;$g$.  The solution is found by
+This equation requires an initial condition $g$.  The solution is found by
 separation of variables, which leads to a trivial ODE, resulting in
 $$
 u(x,t)=\sum_ng_ne^{-{\lambda_n}t}\varphi_n(x)
 $$
 It is immediate to check that this expression is a solution of the heat
-equation with initial condition&nbsp;$g$.  Several properties of the solution are
-visible from this form, most notably that&nbsp;$u(x,\infty)=u_1$ if&nbsp;$\lambda_1=0$,
-or&nbsp;$1$ otherwise.  A pure vibration mode&nbsp;$\varphi_n$ decays exponentially to
-zero, and the speed of the exponential decay is&nbsp;$\lambda_n$.
+equation with initial condition $g$.  Several properties of the solution are
+visible from this form, most notably that $u(x,\infty)=u_1$ if $\lambda_1=0$,
+or $1$ otherwise.  A pure vibration mode $\varphi_n$ decays exponentially to
+zero, and the speed of the exponential decay is $\lambda_n$.
 <p>
 By combining the heat and Poisson equations, we get the <b>heat equation
 with source</b>:
@@ -196,10 +196,10 @@ u(x,t)=\sum_ng_ne^{{\lambda_n}t}\varphi_n(x)
 $$
 but notice that it blows up, often in a finite time.
 <p>
-Both direct and reverse heat equations are of the form&nbsp;$u_t=c\Delta u$, whose
-solution is&nbsp;$u(x,t)=\sum_n g_n e^{-c\lambda_n t}\varphi_n(x)$.  The
-constant&nbsp;$c$ is the speed of transmission of heat.  An intermediate behaviour
-between&nbsp;$c&gt;0$ and&nbsp;$c&lt;0$ happens when&nbsp;$c=i$.
+Both direct and reverse heat equations are of the form $u_t=c\Delta u$, whose
+solution is $u(x,t)=\sum_n g_n e^{-c\lambda_n t}\varphi_n(x)$.  The
+constant $c$ is the speed of transmission of heat.  An intermediate behaviour
+between $c&gt;0$ and $c&lt;0$ happens when $c=i$.
 <p>
 The <b>linear Schrödinger equation</b>, also called <b>diffraction equation</b>
 $$
@@ -208,9 +208,9 @@ $$
 	w(x,0)=g(x) &amp; x\in M\\
 \end{cases}
 $$
-describes the evolution of a complex-valued function&nbsp;$w$.  It can be
-interpreted as a system of two coupled real equations by writing&nbsp;$w=u+iv$
-(here, assuming a real-valued initial condition&nbsp;$g$):
+describes the evolution of a complex-valued function $w$.  It can be
+interpreted as a system of two coupled real equations by writing $w=u+iv$
+(here, assuming a real-valued initial condition $g$):
 $$
 \begin{cases}
 	u_t = -\Delta v &amp; (x,t)\in M\times[0,T] \\
@@ -223,15 +223,15 @@ The solution is then
 $$
 w(x,t)=\sum_n g_n e^{-i\lambda_n t}\varphi_n(x)
 $$
-or, in terms of&nbsp;$u$ and&nbsp;$v$:
+or, in terms of $u$ and $v$:
 $$
 \begin{cases}
 	u(x,t) = \sum_n g_n\cos\left(\lambda_nt\right)\varphi_n(x) \\
 	v(x,t) = \sum_n-g_n\sin\left(\lambda_nt\right)\varphi_n(x) \\
 \end{cases}
 $$
-thus, a pure vibration mode&nbsp;$\varphi_n$ oscillates periodically, at a
-frequency&nbsp;$\lambda_n$.  In terms of&nbsp;$|w|$, this phenomenon is called
+thus, a pure vibration mode $\varphi_n$ oscillates periodically, at a
+frequency $\lambda_n$.  In terms of $|w|$, this phenomenon is called
 <i>diffraction</i>.
 <p>
 The <b>wave equation</b> is
@@ -252,8 +252,8 @@ $$
 	\frac{h_n}{\sqrt{\lambda_n}}\sin\left(\sqrt{\lambda_n} t\right)
 	\right)\varphi_n(x)
 $$
-Thus, a pure vibration mode&nbsp;$\varphi_n$ oscillates with
-frequency&nbsp;$\sqrt{\lambda_n}$.
+Thus, a pure vibration mode $\varphi_n$ oscillates with
+frequency $\sqrt{\lambda_n}$.
 <p>
 Finally the <b>wave equation with a force</b> is the most complex case we treat here:
 $$
@@ -277,23 +277,23 @@ is found by the same methods as above.
 <h2>3. Discretization and implementation in Octave</h2>
 <p>
 Except in emblematic cases (rectangle, torus, sphere) the eigenfunctions of
-an arbitrary manifold&nbsp;$M$ do not have a closed-form expression.
+an arbitrary manifold $M$ do not have a closed-form expression.
 <p>
 For practical computations, we are thus restricted to numerical methods in the
 discrete case.  The most convenient form for this discretization is to
-representd&nbsp;$M$ as a graph with weights in their edges.  In this context, we
+representd $M$ as a graph with weights in their edges.  In this context, we
 have the following objects
 <ul>
-	<li>The weighted graph&nbsp;$G=(V,E)$ where&nbsp;$V$ is a set of&nbsp;$n$ vertices.
-	<li>The Laplacian matrix&nbsp;$L$ of this graph, which is of
-		size&nbsp;$n\times n$
-	<li>The space&nbsp;$\R^n$ is identified with functions&nbsp;$V\to\R$.
-		Thus&nbsp;$\R^n$ is the discrete version of&nbsp;$\mathcal{C}^\infty(M)$.
+	<li>The weighted graph $G=(V,E)$ where $V$ is a set of $n$ vertices.
+	<li>The Laplacian matrix $L$ of this graph, which is of
+		size $n\times n$
+	<li>The space $\R^n$ is identified with functions $V\to\R$.
+		Thus $\R^n$ is the discrete version of $\mathcal{C}^\infty(M)$.
 </ul>
-typically&nbsp;$L$ will be a matrix of rank&nbsp;$n-1$ with a constant eigenvector of
+typically $L$ will be a matrix of rank $n-1$ with a constant eigenvector of
 eigenvalue 0.
 <p>
-We can find the eigensystem of&nbsp;$L$ by calling&nbsp;<code>eigs(L)</code> in octave, and
+We can find the eigensystem of $L$ by calling <code>eigs(L)</code> in octave, and
 transfer the solutions obtained above using the obtained eigenvectors and
 eigenvalues.  However, in most cases the solution is more easily obtained by
 solving a linear problem.
@@ -310,7 +310,7 @@ L = A+A' - diag(sum(A+A'));                # graph laplacian
 </pre>
 <p>
 After running this code, the ith eigenfunction is <code>f(:,i)</code> and the
-eigenvalues are on&nbsp;<code>diag(l)</code>.
+eigenvalues are on <code>diag(l)</code>.
 <p>
 <img src="o/chladni_001.png">
 <img src="o/chladni_002.png">

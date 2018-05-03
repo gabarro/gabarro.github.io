@@ -27,19 +27,19 @@ Here we show a gallery of textures created by such ``single layer CNN''.
 More precisely,
 the basic construction depends on three functions:
 <ol>
-	<li>$f$ a probability density on&nbsp;$\mathbf{R}$
+	<li>$f$ a probability density on $\mathbf{R}$
 	<li>$g\in L^1_{loc}(\mathbf{R^2})$ a convolution kernel on the plane
 	<li>$h:\mathbf{R}\to[0,255]$ a monotonic tone mapping
 </ol>
 <p>
-To generate a random texture&nbsp;$I$, run the following algorithm
+To generate a random texture $I$, run the following algorithm
 <ol>
-	<li>Build a white noise image&nbsp;$n$ of distribution&nbsp;$f$.
-	<li>Compute&nbsp;$I=h\circ (g*n)$
+	<li>Build a white noise image $n$ of distribution $f$.
+	<li>Compute $I=h\circ (g*n)$
 </ol>
-The function&nbsp;$h$ is chosen to transport the histogram of&nbsp;$g*n$
-into&nbsp;$[0,255]$.  For example, a simplest color balance or an Otsu
-thresholding.  The kernel&nbsp;$g$ is typically positive and radial, or a
+The function $h$ is chosen to transport the histogram of $g*n$
+into $[0,255]$.  For example, a simplest color balance or an Otsu
+thresholding.  The kernel $g$ is typically positive and radial, or a
 derivative of a radial function.
 <i>Note:</i>
 This is a fully reproducible document.
@@ -69,7 +69,7 @@ at the median value.
 plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png
 </pre>
 Comment: This is Cauchy white noise blurred with a circular kernel, followed
-by a simplest color balance that saturates&nbsp;$1\
+by a simplest color balance that saturates $1\
 <h2>3. Starfield</h2>
 <p>
 <img src="starfield.png">
@@ -77,7 +77,7 @@ by a simplest color balance that saturates&nbsp;$1\
 plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png
 </pre>
 Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by
-a simplest color balance that saturates&nbsp;$1\
+a simplest color balance that saturates $1\
 <h2>4. Blood</h2>
 <p>
 <img src="blood.png">
@@ -94,7 +94,7 @@ red palette.
 <pre>
 plambda canvas randu | blur -s z .4 | plambda - 'x x
 </pre>
-Comment: uniform white noise, blurred by a kernel of the form&nbsp;$1/\log(r)$,
+Comment: uniform white noise, blurred by a kernel of the form $1/\log(r)$,
 binarized to the 80th quantile.
 <h2>6. Clouds</h2>
 <p>
@@ -104,7 +104,7 @@ SIGMOID='4e4 * tanh 1 + 2 /'
 BLUE='dup 1 - -1 * 0 .5 1 join3 * + 255 *'
 plambda canvas randg|blur o 0.1|plambda - "x x
 </pre>
-Comment: white Gaussian noise, blurred by a kernel of the form&nbsp;$\log(r)$, plus a&nbsp;$\tanh$ contrast change centered around the median value.  Finally, a blue palette is applied.
+Comment: white Gaussian noise, blurred by a kernel of the form $\log(r)$, plus a $\tanh$ contrast change centered around the median value.  Finally, a blue palette is applied.
 <h2>7. Multiscale</h2>
 <p>
 <img src="multiscale.png">
@@ -113,7 +113,7 @@ plambda canvas randg | fft | plambda ':R /' | ifft | qauto - multiscale.png
 </pre>
 <p>
 Comment: this is fractal or pink noise, obtained by forcing a spectral decay
-of the form&nbsp;$1/|\xi|$.
+of the form $1/|\xi|$.
 <h2>8. Snowflakes</h2>
 <p>
 <img src="snowflakes.png">
@@ -122,7 +122,7 @@ plambda canvas ":x :y join 6 0 join cpow cimag :r 9 ^ / randc 3 ^ join" |\
 	fft | plambda "halve cprod" | ifft | qeasy 2e17 5e17 - snowflakes.png
 </pre>
 Comment: this is a Cauchy-like white noise, filtered by the non-positive
-kernel&nbsp;$k(x,y) =
+kernel $k(x,y) =
 \frac{\mathrm{re}\left\{(x+iy)^6\right\}}{(x^2+y^2)^\frac{9}{2}}$, and a
 threshold that keeps only the highest positive values.
 <h2>9. Dandelions</h2>

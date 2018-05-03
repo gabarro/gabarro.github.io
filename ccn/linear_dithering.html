@@ -83,13 +83,13 @@ plambda i/bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.
 <p>
 We can pre-process gray-scale images before dithering them.  We consider two
 pre-processings: a <b>contrast change</b> by a function of the
-form&nbsp;$x\mapsto\tanh(\lambda x)/\tanh(\lambda)$, and a <b>linear filtering</b>
+form $x\mapsto\tanh(\lambda x)/\tanh(\lambda)$, and a <b>linear filtering</b>
 of the original image that enhances its contrast.  For simplicity, here we
-assume that our input images are of zero mean and take values on&nbsp;$[-1,1]$.
+assume that our input images are of zero mean and take values on $[-1,1]$.
 <p>
 For the contrast change, notice two things.  First, the
-$\lambda$-scaled&nbsp;$\tanh$ tends to a step function as&nbsp;$\lambda\to\infty$, and
-to the identity on&nbsp;$[-1,1]$ as&nbsp;$\lambda\to0$.
+$\lambda$-scaled $\tanh$ tends to a step function as $\lambda\to\infty$, and
+to the identity on $[-1,1]$ as $\lambda\to0$.
 Second, dithering a binary image produces exactly the same image.  Thus, just
 by composing the dithering with a contrast change, we obtain a one-parameter
 family of methods that contains pure dithering and pure
@@ -115,12 +115,12 @@ contrast change, and the second row the dithering of each image.
 	<img src="weiro-ditanhi.png">
 </table>
 <p>
-For the linear filtering, we consider a family of filters&nbsp;$k$ of the
-form&nbsp;$\widehat{k}(\xi)=|\xi|^\mu$ for&nbsp;$\mu\in[0,2]$, acting over images of
+For the linear filtering, we consider a family of filters $k$ of the
+form $\widehat{k}(\xi)=|\xi|^\mu$ for $\mu\in[0,2]$, acting over images of
 zero mean, suitably normalized to conserve the second moment of the image.
 These filters interpolate continuously between the identity ($\mu=0$) and
-minus the Laplacian operator ($\mu=2$).  The case&nbsp;$\mu=1$ can be
-called&nbsp;<i>linear retinex</i>.  For&nbsp;$\mu&lt;0$, this is called the Riesz scale
+minus the Laplacian operator ($\mu=2$).  The case $\mu=1$ can be
+called <i>linear retinex</i>.  For $\mu&lt;0$, this is called the Riesz scale
 space.
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -234,7 +234,7 @@ kernels).
 	$Q_{0.50}$
 </table>
 <p>
-Notice that some of these images (e.g.,&nbsp;$Y_{20}$ and&nbsp;$Q_{20}$) could pass ass
+Notice that some of these images (e.g., $Y_{20}$ and $Q_{20}$) could pass ass
 ``dithering'', but with sharper edges.  However, they are simply a
 thresholding of the image after a linear filter, where the kernel has been
 chosen carefully.

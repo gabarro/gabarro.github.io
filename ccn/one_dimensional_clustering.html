@@ -33,9 +33,9 @@ $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\Z}{\mathbf{Z}}$
 <h2>1. The Pythagorean means and the median</h2>
 <p>
-Our goal is to combine a set of&nbsp;$N$ numbers&nbsp;$x_1,\ldots,x_N$ into a
-single one.  The simplest choice is the&nbsp;<i>average</i>, also
-called&nbsp;<i>arithmetic mean</i>:
+Our goal is to combine a set of $N$ numbers $x_1,\ldots,x_N$ into a
+single one.  The simplest choice is the <i>average</i>, also
+called <i>arithmetic mean</i>:
 \[
 	\mathrm{avg}(x_1,\ldots,x_N) := \frac{x_1+\cdots+x_N}{N}
 \]
@@ -50,19 +50,19 @@ and the geometric mean:
 	\sqrt[N]{x_1\cdot \cdots\cdot x_N}
 \]
 The geometric mean is somewhat different, because it is only
-well-defined (as a function&nbsp;$\R^N\to\R$ with arbitrary&nbsp;$N$)
+well-defined (as a function $\R^N\to\R$ with arbitrary $N$)
 when all the numbers are positive.  As we will see, the harmonic mean
 also really makes sense only when all the numbers are strictly positive.
 However, the arithmetic mean has good properties for arbitrary input
 numbers (positive, negative, or zero).
 <p>
-For positive numbers, we also have the&nbsp;<i>quadratic mean</i>, also
-called&nbsp;<i>root mean square error</i>:
+For positive numbers, we also have the <i>quadratic mean</i>, also
+called <i>root mean square error</i>:
 \[
 	\mathrm{rms}(x_1,\ldots,x_N) :=
 	\sqrt{\frac{x_1^2+\cdots+x_N^2}{N}}
 \]
-These four functions are called&nbsp;<i>Pythagorean means</i> and they are
+These four functions are called <i>Pythagorean means</i> and they are
 all of fundamental importance.  They are related by the following
 inequalities:
 \[
@@ -73,30 +73,30 @@ inequalities:
 	\le \mathrm{rms}
 	\le \mathrm{max}
 \]
-These inequalities are elementary to prove for&nbsp;$N=2$, and the general
+These inequalities are elementary to prove for $N=2$, and the general
 case is a standard exercise.
 <p>
-Finally, the last ``traditional'' aggregator is the&nbsp;<i>median</i>,
+Finally, the last ``traditional'' aggregator is the <i>median</i>,
 which is computed by sorting the numbers from low to high, and taking
-the middle one (if&nbsp;$N$ is odd) or the average of the two middle
-ones&nbsp;(if&nbsp;$N$ is even).
+the middle one (if $N$ is odd) or the average of the two middle
+ones (if $N$ is even).
 \[
 	\mathrm{med}(x_1,\ldots,x_N):=
 	\begin{cases}
-		x_{{}_{(M)}} &amp; \textrm{if&nbsp;$N=2M+1$} \\
+		x_{{}_{(M)}} &amp; \textrm{if $N=2M+1$} \\
 		&amp;\\
 		\displaystyle\frac{x_{{}_{(M)}}
 		+ x_{{}_{(M+1)}}}{2}
-			&amp; \textrm{if&nbsp;$N=2M$}
+			&amp; \textrm{if $N=2M$}
 	\end{cases}
 \]
-where&nbsp;$x_{(1)},\ldots x_{(N)}$ indicates the sorted
-numbers&nbsp;$x_1,\ldots,x_N$.  There is no general inequality
-relationship between&nbsp;$\mathrm{med}$ and&nbsp;$\mathrm{avg}$, either one can be larger or
+where $x_{(1)},\ldots x_{(N)}$ indicates the sorted
+numbers $x_1,\ldots,x_N$.  There is no general inequality
+relationship between $\mathrm{med}$ and $\mathrm{avg}$, either one can be larger or
 smaller, depending on the particular set of numbers.
 <h2>2. Axiomatic characterization</h2>
 <p>
-A map&nbsp;$f:\R^N\to\R$ with the following properties
+A map $f:\R^N\to\R$ with the following properties
 is called an aggregator function:
 <ul>
 	\item[P0.]
@@ -129,11 +129,11 @@ is called an aggregator function:
 </ul>
 <p>
 Notice that these properties may only be true on a subdomain
-of&nbsp;$\R^N$ where&nbsp;$f$ is well-defined (typically, the positive
-numbers).  Properties&nbsp;$P0--P4$ are very natural, and a bit redundant;
+of $\R^N$ where $f$ is well-defined (typically, the positive
+numbers).  Properties $P0--P4$ are very natural, and a bit redundant;
 for example you can prove identity from monotony and bracketing, etc.
 <p>
-The following properties&nbsp;$P5--P7$ are more special and aggregator
+The following properties $P5--P7$ are more special and aggregator
 functions may or may not have them:
 <ul>
 	\item[P5.]
@@ -158,14 +158,14 @@ belong to families that depend on a real-valued parameter, and for
 extremal values of the parameter they give the min and the max.
 Thus, all these aggregators can be interpreted as different,
 data-guided interpolators between min and max.
-<h3>3.1. Power means&nbsp;$M_p$</h3>
+<h3>3.1. Power means $M_p$</h3>
 <p>
-The <i>power means</i>&nbsp;$M_p$ are defined only for strictly positive numbers:
+The <i>power means</i> $M_p$ are defined only for strictly positive numbers:
 \[
 	M_p(x_1,\ldots,x_N):=\sqrt[p]{\frac{1}{N}\sum_{i=1}^Nx_i^p}
 \]
-Notice that&nbsp;$M_p$ is well defined for&nbsp;$p\neq0$.  We extend the
-definition&nbsp;of&nbsp;$M_p$ to&nbsp;$p=0,\pm\infty$ by taking limits.  The
+Notice that $M_p$ is well defined for $p\neq0$.  We extend the
+definition of $M_p$ to $p=0,\pm\infty$ by taking limits.  The
 resulting definition contains all the Pythagorean means, the minimum and
 the maximum as particular cases:
 \medskip
@@ -183,43 +183,43 @@ the maximum as particular cases:
 </table>
 \medskip
 <p>
-Notice that as the parameter&nbsp;$p$ goes from&nbsp;$-\infty$ to&nbsp;$\infty$, the
-power mean&nbsp;$M_p$ interpolates from the minimum to the maximum sample,
+Notice that as the parameter $p$ goes from $-\infty$ to $\infty$, the
+power mean $M_p$ interpolates from the minimum to the maximum sample,
 passing through the Pythagorean means at the values
-points&nbsp;$p=-1,0,1,2$.
+points $p=-1,0,1,2$.
 <p>
-Power means satisfy properties&nbsp;$P0--P4$ over the positive numbers.
-Although&nbsp;$M_{-1}$ can be defined also for negative numbers, it fails
+Power means satisfy properties $P0--P4$ over the positive numbers.
+Although $M_{-1}$ can be defined also for negative numbers, it fails
 to satisfy the bracketing property, so it is not considered as such.
 <p>
-Except for the values of&nbsp;$p=1,\pm\infty$, the power means do not
-satisfy the additivity property&nbsp;$P5$.  Thus, they are essentially
+Except for the values of $p=1,\pm\infty$, the power means do not
+satisfy the additivity property $P5$.  Thus, they are essentially
 tied to the position of the zero in the real line.
 <p>
 On the other hand, the power means are composable ($P6$).
-<h3>3.2. Order statistics&nbsp;$O_k$ and&nbsp;$O_{\alpha</h3>
+<h3>3.2. Order statistics $O_k$ and $O_{\alpha</h3>
 $}
 <p>
 The power means are not the only natural interpolation between min
 and max; there is indeed a more natural one: the order statistics.
 <p>
-Given a set of&nbsp;$N$ numbers&nbsp;$x_1,\ldots,x_N$, they can always be
+Given a set of $N$ numbers $x_1,\ldots,x_N$, they can always be
 re-indexed so that
 \[
 	x_{(1)} \le x_{(2)} \le \cdots \le x_{(N)}
 \]
-Thus&nbsp;$\max(x_1,\ldots,x_N)=x_{(N)}$
-and&nbsp;$\min(x_1,\ldots,x_N)=x_{(1)}$.  In functional notation, we
+Thus $\max(x_1,\ldots,x_N)=x_{(N)}$
+and $\min(x_1,\ldots,x_N)=x_{(1)}$.  In functional notation, we
 define
 \[
 	O_k(x_1,\ldots,x_N) := x_{(k)}
 \]
-for&nbsp;$k=1,\ldots,N$.  This definition is extended to
-real-valued&nbsp;$k\in[1,N]$ by interpolating linearly between the
-two closest integer values of&nbsp;$k$.  In that case, we often use the
-notation&nbsp;$O_{\alpha}$ for&nbsp;$\alpha\in[0,1]$, where&nbsp;$k=(N-1)\alpha+1$.
-This notation has the advantage of being independent of&nbsp;$N$, so
-that&nbsp;$O_{\frac{1}{2}}$ is always the median.  The following table
+for $k=1,\ldots,N$.  This definition is extended to
+real-valued $k\in[1,N]$ by interpolating linearly between the
+two closest integer values of $k$.  In that case, we often use the
+notation $O_{\alpha}$ for $\alpha\in[0,1]$, where $k=(N-1)\alpha+1$.
+This notation has the advantage of being independent of $N$, so
+that $O_{\frac{1}{2}}$ is always the median.  The following table
 lists other particular cases
 \medskip
 <table border="1" cellspacing="0" cellpadding="7">
@@ -246,8 +246,8 @@ $}
 A simple yet very robust way to locate a cluster, especially when
 there is a large number of points, is to build and histogram of the
 data and find its mode (the position of the bin with higher amount of
-samples).  This method has two parameters, the&nbsp;<i>frequency</i> of the bins,
-and the&nbsp;<i>phase</i>
+samples).  This method has two parameters, the <i>frequency</i> of the bins,
+and the <i>phase</i>
 \[
 	H_{\varphi,\psi}(x_1,\ldots,x_N) :=
 	\psi+\frac{1}{2}\varphi+\varphi\mathrm{argmax}_{k\in\Z}
@@ -256,34 +256,34 @@ and the&nbsp;<i>phase</i>
 \]
 <p>
 Notice
-that the result depends on the two parameters&nbsp;$(\varphi,\psi)$ in a
-very beautiful and fractal way (see&nbsp;Figure&nbsp;\ref{fig:modefractal}).
+that the result depends on the two parameters $(\varphi,\psi)$ in a
+very beautiful and fractal way (see Figure \ref{fig:modefractal}).
 It is impossible to set reasonable values of these parameters without
 knowing anything about the nature of the input data.
-<h3>3.4. Fréchet $p$-centroids&nbsp;$F_p$</h3>
+<h3>3.4. Fréchet $p$-centroids $F_p$</h3>
 <p>
-On a metric space&nbsp;$(M,d)$, the Fréchet centroid of a set of
-points&nbsp;$p_i\in M$ is the point&nbsp;$c\in M$ that minimizes the sum of
-squared differences to&nbsp;$p_i$
+On a metric space $(M,d)$, the Fréchet centroid of a set of
+points $p_i\in M$ is the point $c\in M$ that minimizes the sum of
+squared differences to $p_i$
 \[
 	c := \mathrm{argmin}_{m\in\R}\sum_{i=1}^N d^2(p_i,m).
 \]
 <p>
-Based on this definition, and using the&nbsp;$L^p$ norms on the real line,
-we define the&nbsp;$p-$ centroids of a set of numbers:
+Based on this definition, and using the $L^p$ norms on the real line,
+we define the $p-$ centroids of a set of numbers:
 \[
 	\tilde F_p(x_1,\ldots,x_N) := \mathrm{argmin}_{m\in\R}\sum_{i=1}^N|x_i-m|^p
 \]
-This is well-defined for&nbsp;$p&gt;0$, even if the function to minimize is
-only convex for&nbsp;$p\ge1$.  Instead of&nbsp;$\tilde F_p$, we use the
-following slightly different normalization (which gives the same result for&nbsp;$p&gt;0$).
+This is well-defined for $p&gt;0$, even if the function to minimize is
+only convex for $p\ge1$.  Instead of $\tilde F_p$, we use the
+following slightly different normalization (which gives the same result for $p&gt;0$).
 \[
 	F_p(x_1,\ldots,x_N) :=
 	\mathrm{argmin}_{m\in\R}\sqrt[p]{\frac{1}{N}\sum_{i=1}^N|x_i-m|^p}
 \]
 This normalization has the advantage that the numerical behavior is
-somehow independent of&nbsp;$N$ and&nbsp;$p$  (the function to minimize has
-linear growth at inifinty independently of&nbsp;$p$).
+somehow independent of $N$ and $p$  (the function to minimize has
+linear growth at inifinty independently of $p$).
 <p>
 We find the following interesting particular cases
 \medskip
@@ -298,23 +298,23 @@ We find the following interesting particular cases
 </table>
 \medskip
 <p>
-Notice that the parameter&nbsp;$p$ controls the robustness to outliers.
-For&nbsp;$p=2$ we have the average, which is not very robust to outliers.
-Decreasing&nbsp;$p$ down to&nbsp;$1$, we reach the median that is rather robust
-to outliers.  Decreasing&nbsp;$p$ further to 0 we reach the mode, that is
+Notice that the parameter $p$ controls the robustness to outliers.
+For $p=2$ we have the average, which is not very robust to outliers.
+Decreasing $p$ down to $1$, we reach the median that is rather robust
+to outliers.  Decreasing $p$ further to 0 we reach the mode, that is
 extremely robust to outliers (it is independent of outliers, unlike
-the median).  On the other side, increasing&nbsp;$p\to\infty$ we approach
+the median).  On the other side, increasing $p\to\infty$ we approach
 the average between the two extremal values, which is the least
-robust possible aggregator (it depends&nbsp;<i>only</i> on the outliers).
+robust possible aggregator (it depends <i>only</i> on the outliers).
 <p>
 The Fréchet centroids are position independent, but not composable
 (in fact the ``italian'' theorem says that the only aggregator that
 has all the properties is the arithmetic mean).
 <p>
-Notice that the effective computation of&nbsp;$F_p$ requires solving an
-optimization problem.  For&nbsp;$p\in[1,4)$ Weiszfeld
-algorithm is used.  For&nbsp;$p&gt;4$ we need to use another algorithm, for
-example Newton's method.  For&nbsp;$p&lt;1$ the function is not convex and
+Notice that the effective computation of $F_p$ requires solving an
+optimization problem.  For $p\in[1,4)$ Weiszfeld
+algorithm is used.  For $p&gt;4$ we need to use another algorithm, for
+example Newton's method.  For $p&lt;1$ the function is not convex and
 some sort of search must be performed (starting from seeds between
 each pair of data points, for good measure).
 <p>
@@ -322,9 +322,9 @@ Notice that the Fréchet $p$-centroids can be defined over arbitrary
 metric spaces.  In the case of a Riemannian manifold, the Fréchet
 $\infty$-centroid coincides with the midpoint of the diameter.
 \medskip
-<h3>3.5. L-estimators and&nbsp;$I_\alpha$</h3>
+<h3>3.5. L-estimators and $I_\alpha$</h3>
 <p>
-For&nbsp;$\alpha\in[0,1]$ we define
+For $\alpha\in[0,1]$ we define
 \[
 	I_{\alpha}:=\alpha O_1 + (1-\alpha) O_0
 \]
@@ -340,12 +340,12 @@ Thus,
 </table>
 <p>
 This is just the trivial linear interpolation between min and max.
-It is an example of&nbsp;$L$-estimator.  In general, an&nbsp;$L$ estimator is a
+It is an example of $L$-estimator.  In general, an $L$ estimator is a
 function of the form
 \[
 	L := \frac{\sum_{k=1}^N{\alpha_kO_k}}{\sum_{k=1}^N{\alpha_k}}
 \]
-Some famous&nbsp;$L$ estimators are the midrange, the midhinge (average of
+Some famous $L$ estimators are the midrange, the midhinge (average of
 first and third quartiles), the trimean, truncated means, and other curiosities
 \medskip
 <table border="1" cellspacing="0" cellpadding="7">
@@ -370,8 +370,8 @@ distribution) is that it combines the median's emphasis on center
 values with the midhinge's attention to the extremes.\hfill
 	---Herbert F. Weisberg, <i>Central Tendency and Variability</i>
 </blockquote>
-<h3>3.6. Lehmer&nbsp;$L_p$, Gini&nbsp;$G_{p,q</h3>
-$ and Stolarsky&nbsp;$S_p$ means}
+<h3>3.6. Lehmer $L_p$, Gini $G_{p,q</h3>
+$ and Stolarsky $S_p$ means}
 <p>
 The following aggregators are defined for strictly positive numbers
 \[
@@ -404,7 +404,7 @@ nonzero numbers (not necessarily positive).
 It is the sum of the average and the variance divided by the average.
 The contraharmonic mean of positive numbers is always larger or
 equal than the quadratic mean, but it is otherwise unrelated to the
-other power means for&nbsp;$p&gt;2$.
+other power means for $p&gt;2$.
 <p>
 The Gini means form a very general family of aggregators that
 contains the power means and the Lehmer means as particular cases
@@ -418,7 +418,7 @@ contains the power means and the Lehmer means as particular cases
 		&amp; \textrm{if}\ p=q
 	\end{cases}
 \]
-where the sums and products above are performed over&nbsp;$x\in\{x_1,\ldots
+where the sums and products above are performed over $x\in\{x_1,\ldots
 x_N\}$
 <h3>3.7. Particular aggregators</h3>
 <p>
@@ -427,32 +427,32 @@ are particular cases on their own right
 (for example, the ``MEDIAL''!) Others lie at the
 intersection of different parametric families:
 <p>
-the arithmetic mean is at the same time a power mean&nbsp;$M_1$ and a
-Fréchet centroid&nbsp;$F_2$
+the arithmetic mean is at the same time a power mean $M_1$ and a
+Fréchet centroid $F_2$
 <p>
-the median is at the same time an order statistic&nbsp;$U_{\frac{1}{2}}$ and a
-Fréchet centroid&nbsp;$F_1$
+the median is at the same time an order statistic $U_{\frac{1}{2}}$ and a
+Fréchet centroid $F_1$
 <h3>3.8. Quasi-arithmetic means</h3>
 <p>
 A different, non parametric, generalisation of means that contains
 the power means and many others as particular cases is the following.
 It consists in performing the arithmetic mean behind a ``contrast
-change&nbsp;$f$''.
+change $f$''.
 <p>
-Let&nbsp;$f:\R\to\R$ be a continuous, strictly monotonic function, then we
+Let $f:\R\to\R$ be a continuous, strictly monotonic function, then we
 define
 \[
 	M_f(x_1,\ldots,x_N):=f^{-1}\left(\frac{f(x_1)+\cdots+f(x_N)}{N}\right)
 \]
-The power means for&nbsp;$p\neq0$  appear as particular cases
-when&nbsp;$f(x)=x^p$.  The geometric mean appears for&nbsp;$f(x)=\log(x)$, and
-for&nbsp;$f(x)=\exp(x)$ we obtain the ``soft maximum'' LSE (log sum exp).
+The power means for $p\neq0$  appear as particular cases
+when $f(x)=x^p$.  The geometric mean appears for $f(x)=\log(x)$, and
+for $f(x)=\exp(x)$ we obtain the ``soft maximum'' LSE (log sum exp).
 \clearpage
 <h2>4. Size parameters</h2>
 <p>
 On the previous section we have described methods to define
-the&nbsp;<i>position</i> of a cluster, namely to find&nbsp;<i>where</i> a cluster of numbers is located.  A different
-problem is the computation of the&nbsp;<i>size</i> of a cluster.
+the <i>position</i> of a cluster, namely to find <i>where</i> a cluster of numbers is located.  A different
+problem is the computation of the <i>size</i> of a cluster.
 <p>
 Many criteria for defining the size---but not all---depend on finding
 first the position.
@@ -501,7 +501,7 @@ they are very different, we say that the data is not unimodal:
 \[
 	\frac{M_1(x_1,\ldots,x_N)}{M_0(x_1,\ldots,x_N)} \ge \tau
 \]
-for some threshold&nbsp;$\tau&gt;1$, for example&nbsp;$\tau=2$.  Notice that this
+for some threshold $\tau&gt;1$, for example $\tau=2$.  Notice that this
 criterion is not shift-invariant.
 <p>
 This ratio is a standard measure for homogeneity detection in radar

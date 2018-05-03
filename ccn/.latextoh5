@@ -22,7 +22,8 @@ global_substitutions = {
 	{"&", "&amp;"},   -- note: this affects LaTeX tables, see below
 	{"<", "&lt;"},
 	{">", "&gt;"},
-	{"~", "&nbsp;"},
+	--{"~", "&nbsp;"},
+	{"~", " "},
 
 	-- change \emph{...} to <i>...</i> (and similar inline stuff)
 	{"\\emph{(.-)}", "<i>%1</i>"},

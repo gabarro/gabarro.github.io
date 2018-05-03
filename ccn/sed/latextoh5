@@ -8,52 +8,97 @@
 -- read whole input file into a string
 whole_file = io.read("*all")
 
--- remove comments (TODO: keep some of them as html comments)
-whole_file = whole_file:gsub("%%[^\n]+\n", "\n")
+-- extract title and other data
+metadata_title = whole_file:match("^\\title{(.-)}")
+metadata_maths = false
 
--- change a few character entities
-whole_file = whole_file:gsub("<", "&lt;")
-whole_file = whole_file:gsub(">", "&gt;")
-whole_file = whole_file:gsub("~", "&nbsp;") -- TODO: verify this is always ok
+-- table of global substitutions (could be implemented in sed)
+global_substitutions = {
+	-- remove comments (TODO: keep some of them as html comments)
+	{"%%[^\n]+\n", "\n"},
 
--- change \emph{...} to <i>...</i> (and similar inline stuff)
-whole_file = whole_file:gsub("\\emph{(.-)}", "<i>%1</i>")
-whole_file = whole_file:gsub("\\textbf{(.-)}", "<b>%1</b>")
-whole_file = whole_file:gsub("\\textit{(.-)}", "<i>%1</i>")
-whole_file = whole_file:gsub("\\texttt{(.-)}", "<code>%1</code>")
-whole_file = whole_file:gsub("{\\it (.-)}", "<i>%1</i>")
-whole_file = whole_file:gsub("{\\bf (.-)}", "<b>%1</b>")
-whole_file = whole_file:gsub("{\\tt (.-)}", "<code>%1</code>")
+	-- change a few character entities
+	{"<", "&lt;"},
+	{">", "&gt;"},
+	{"~", "&nbsp;"},
 
--- change \includegraphics{...} to <img src="...">
-whole_file = whole_file:gsub("\\includegraphics{(.-)}", "<img src=\"%1\">")
+	-- change \emph{...} to <i>...</i> (and similar inline stuff)
+	{"\\emph{(.-)}", "<i>%1</i>"},
+	{"\\textbf{(.-)}", "<b>%1</b>"},
+	{"\\textit{(.-)}", "<i>%1</i>"},
+	{"\\texttt{(.-)}", "<code>%1</code>"},
+	{"{\\it (.-)}", "<i>%1</i>"},
+	{"{\\bf (.-)}", "<b>%1</b>"},
+	{"{\\tt (.-)}", "<code>%1</code>"},
 
--- extract title
-title = whole_file:match("^\\title{(.-)}")
+	-- change \includegraphics{...} to <img src="...">
+	{"\\includegraphics{(.-)}", "<img src=\"%1\">"},
 
--- start building output file
-output_lines = {}
-table.insert(output_lines, "<!doctype html>\n")
-table.insert(output_lines, "<meta charset=\"utf-8\" />\n")
-table.insert(output_lines, "<title>"..title.."</title>\n")
+	-- change \sections to <headers>
+	{"\\title{(.-)}", "<h1>%1</h1>\n"},
+	{"\\section{(.-)}", "<h2>%1</h2>\n"},
+	{"\\subsection{(.-)}", "<h3>%1</h3>\n"},
 
-use_mathjax = true
-if use_mathjax then
-	local url = "https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"
-	url = url.."?config=TeX-AMS_CHTML-full"
-	table.insert(output_lines, "<script type=\"text/x-mathjax-config\">\n")
-	table.insert(output_lines, "\tMathJax.Hub.Config({\n")
-	table.insert(output_lines, "\t\ttex2jax: {\n")
-	table.insert(output_lines, "\t\t\tinlineMath: [['$','$'], ['\\(','\\)']],\n")
-	table.insert(output_lines, "\t\t\tprocessEscapes: true\n")
-	table.insert(output_lines, "\t\t}\n")
-	table.insert(output_lines, "\t});\n")
-	table.insert(output_lines, "</script>\n")
-	table.insert(output_lines, "<script type=\"text/javascript\" async\n")
-	table.insert(output_lines, "\tsrc=\""..url.."\">\n")
-	table.insert(output_lines, "</script>\n")
+	-- list environments (TODO: support for \item[] )
+	{"\\item ", "<li>" },
+	{"\\begin{enumerate}", "<ol>"},
+	{"\\end{enumerate}", "</ol>"},
+	{"\\begin{itemize}", "<ul>"},
+	{"\\end{itemize}", "</ul>"},
+	{"\\begin{verbatim}", "<pre>"},
+	{"\\end{verbatim}", "</pre>"},
+
+	-- theorem environments
+	{"\\begin{definition}",
+		"<div class=\"definition\"><b>Definition.</b><em>"},
+	{"\\begin{proposition}",
+		"<div class=\"proposition\"><b>Proposition</b><em>"},
+	{"\\begin{lemma}", "<div class=\"lemma\"><b>Lemma</b><em>"},
+	{"\\begin{theorem}", "<div class=\"theorem\"><b>Theorem</b><em>"},
+	{"\\begin{remark}", "<div class=\"remark\"><b>Remark</b><em>"},
+	{"\\end{definition}", "</em></div>"},
+	{"\\end{proposition}", "</em></div>"},
+	{"\\end{lemma}", "</em></div>"},
+	{"\\end{theorem}", "</em></div>"},
+	{"\\end{remark}", "</em></div>"},
+}
+
+-- perform the global substitutions
+for _,s in pairs(global_substitutions) do
+	whole_file = whole_file:gsub(s[1], s[2])
 end
 
+output_template = [[
+<!doctype html>
+<meta charset="utf-8" />
+<title>TITLE</title>
+JAXCODE
+]]
+
+boilerplate_mathjax = [[
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script type="text/javascript" async
+	src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
+]]
+
+if whole_file:match("%$") then  -- TODO: perform a more intelligent check here
+	metadata_maths = true
+end
+if not metadata_maths then boilerplate_mathjax = "" end
+
+output_template = output_template:gsub("TITLE", metadata_title)
+output_template = output_template:gsub("JAXCODE", boilerplate_mathjax)
+
+-- start building output file
+output_lines = { output_template }
 table.insert(output_lines, "\n")
 
 -- line by line treatment
@@ -66,25 +111,6 @@ previous_line = ""
 for l in string.gmatch(whole_file, "[^\n]-\n") do
 	u = l    -- line to add to the output (the same, by default)
 
-	-- change \title{...} to <h1>...</h1>
-	m = l:match("^\\title{(.-)}")
-	if m then
-		u = "<h1>"..m.."</h1>\n"
-	end
-
-	-- change \section{...} to <h2>...</h2>
-	m = l:match("^\\section{(.-)}")
-	if m then
-		-- TODO: add section counter
-		u = "<h2>"..m.."</h2>\n"
-	end
-
-	-- change \subsection{...} to <h3>...</h3>
-	m = l:match("^\\subsection{(.-)}")
-	if m then
-		u = "<h3>"..m.."</h3>\n"
-	end
-
 	-- if a paragraph starts, put <p>
 	if previous_line == "\n" and (
 			l:match("^[A-Z][^\n]-\n")
@@ -95,78 +121,12 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do
 		u = "<p>\n"..u
 	end
 
-	-- deal with itemize
-	m = l:match("[%s]*\\begin{itemize}")
-	if m then u = "<ul>\n" end
-	m = l:match("[%s]*\\end{itemize}")
-	if m then u = "</ul>\n" end
-	m = l:match("[%s]*\\item ")
-	if m then u = l:gsub("\\item ", "<li>") end
-	-- TODO: add overriden item stuff
-
-	-- deal with enumerate
-	m = l:match("[%s]*\\begin{enumerate}")
-	if m then u = "<ol>\n" end
-	m = l:match("[%s]*\\end{enumerate}")
-	if m then u = "</ol>\n" end
-	--m = l:match("[%s]*\\item ")
-	--if m then u = l:gsub("\\item ", "<li>") end
-
-	-- deal with verbatim environments
-	m = l:match("[%s]*\\begin{verbatim}")
-	if m then u = l:gsub("\\begin{verbatim}", "<pre>") end
-	m = l:match("[%s]*\\end{verbatim}")
-	if m then u = l:gsub("\\end{verbatim}", "</pre>") end
-
-	-- TODO: tabular->table
-
-	-- theorem environements (with default names)
-	m = l:match("[%s]*\\begin{definition}")
-	if m then u = "<div class=\"definition\"><b>Definition.</b><em>\n" end
-	m = l:match("[%s]*\\end{definition}")
-	if m then u = "</em></div>\n" end
-
-	m = l:match("[%s]*\\begin{proposition}")
-	if m then u = "<div class=\"proposition\"><b>Proposition.</b><em>\n" end
-	m = l:match("[%s]*\\end{proposition}")
-	if m then u = "</em></div>\n" end
-
-	m = l:match("[%s]*\\begin{remark}")
-	if m then u = "<div class=\"remark\"><b>Remark.</b><em>\n" end
-	m = l:match("[%s]*\\end{remark}")
-	if m then u = "</em></div>\n" end
-
-	m = l:match("[%s]*\\begin{lemma}")
-	if m then u = "<div class=\"lemma\"><b>Lemma.</b><em>\n" end
-	m = l:match("[%s]*\\end{lemma}")
-	if m then u = "</em></div>\n" end
-
-	m = l:match("[%s]*\\begin{theorem}")
-	if m then u = "<div class=\"theorem\"><b>Theorem.</b><em>\n" end
-	m = l:match("[%s]*\\end{theorem}")
-	if m then u = "</em></div>\n" end
-
-
 	table.insert(output_lines, u)
 	previous_line = l
 end
 
 for _,l in pairs(output_lines) do
-	io.stdout:write(l)
+	if not l:match("^\n$") then
+		io.stdout:write(l)
+	end
 end
-
---while true do
---	l = io.read()
---	if l == nil then break end
---	io.stderr:write("got l=\""..l.."\"\n")
---
---	m = l:match("^\\title{(.-)}")
---	if m then
---		io.stderr:write("\th1: \""..m.."\"\n")
---	end
---
---	m = l:match("^\\section{(.-)}")
---	if m then
---		io.stderr:write("\th2: \""..m.."\"\n")
---	end
---end

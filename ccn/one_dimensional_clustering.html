@@ -1,541 +1,510 @@
-<!DOCTYPE html>
+<!doctype html>
 <meta charset="utf-8" />
 <title>One-dimensional clustering with one cluster</title>
 <style type="text/css">
-	body{max-width:90ex;}
-	pre{background:lightgray;width:80ch;}
-	.gallery{position:relative;width:auto;height:400px}
-	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
-	.gallery .index li{margin:0;padding:0} 
-	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
-	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
-	.gallery .index li:first-child a span{left:10em;z-index:99}
-	.gallery .index a:hover{ border: 1px solid #888888;}
-	.gallery .index a:hover span{left:10em;z-index:100}
-	.gallery .index a span img{ }
-	.gallery .index a span { white-space:nowrap; }
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	.thm em i { font-style: normal;}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
 
-<h1 class="title">One-dimensional clustering with one cluster</h1>
-
-
-<h2 id="the-pythagorean-means-and-the-median"><span class="header-section-number">1</span> The Pythagorean means and the median</h2>
-<p>Our goal is to combine a set of <span class="math inline">\(N\)</span> numbers <span class="math inline">\(x_1,\ldots,x_N\)</span> into a
-single one. The simplest choice is the <em>average</em>, also
-called <em>arithmetic mean</em>:
-<span class="math display">\[\mathrm{avg}(x_1,\ldots,x_N) := \frac{x_1+\cdots+x_N}{N}\]</span>
+<h1>One-dimensional clustering with one cluster</h1>
+\begin{abstract}
+	The simplest case of clustering is the one dimensional case:
+	when we want to find clusters of a given set of numbers.  The
+	simplest 1D clustering is when we know that there is only a
+	single cluster.  This document is a comprehensive study of
+	this simplest case.  Namely, given a finite set of real
+	numbers that form ``one cluster'', we explain how to find it;
+	that is how to determine its position and its size.  This
+	problem has actually many solutions with very different
+	properties, and we try to cover them all.
+\end{abstract}
+$\newcommand{\R}{\mathbf{R}}$
+$\newcommand{\Z}{\mathbf{Z}}$
+<h2>1. The Pythagorean means and the median</h2>
+<p>
+Our goal is to combine a set of&nbsp;$N$ numbers&nbsp;$x_1,\ldots,x_N$ into a
+single one.  The simplest choice is the&nbsp;<i>average</i>, also
+called&nbsp;<i>arithmetic mean</i>:
+\[
+	\mathrm{avg}(x_1,\ldots,x_N) := \frac{x_1+\cdots+x_N}{N}
+\]
 We also have the harmonic mean:
-<span class="math display">\[\mathrm{har}(x_1,\ldots,x_N) :=
-    \frac{N}{\frac{1}{x_1}+\cdots+\frac{1}{x_N}}\]</span>
+\[
+	\mathrm{har}(x_1,\ldots,x_N) :=
+	\frac{N}{\frac{1}{x_1}+\cdots+\frac{1}{x_N}}
+\]
 and the geometric mean:
-<span class="math display">\[\mathrm{geo}(x_1,\ldots,x_N) :=
-    \sqrt[N]{x_1\cdot \cdots\cdot x_N}\]</span>
+\[
+	\mathrm{geo}(x_1,\ldots,x_N) :=
+	\sqrt[N]{x_1\cdot \cdots\cdot x_N}
+\]
 The geometric mean is somewhat different, because it is only
-well-defined (as a function <span class="math inline">\(\mathbf{R}^N\to\mathbf{R}\)</span> with arbitrary <span class="math inline">\(N\)</span>)
-when all the numbers are positive. As we will see, the harmonic mean
+well-defined (as a function&nbsp;$\R^N\to\R$ with arbitrary&nbsp;$N$)
+when all the numbers are positive.  As we will see, the harmonic mean
 also really makes sense only when all the numbers are strictly positive.
 However, the arithmetic mean has good properties for arbitrary input
 numbers (positive, negative, or zero).
-<p>For positive numbers, we also have the <em>quadratic mean</em>, also
-called <em>root mean square error</em>:
-<span class="math display">\[\mathrm{rms}(x_1,\ldots,x_N) :=
-    \sqrt{\frac{x_1^2+\cdots+x_N^2}{N}}\]</span>
-These four functions are called <em>Pythagorean means</em> and they are
-all of fundamental importance. They are related by the following
+<p>
+For positive numbers, we also have the&nbsp;<i>quadratic mean</i>, also
+called&nbsp;<i>root mean square error</i>:
+\[
+	\mathrm{rms}(x_1,\ldots,x_N) :=
+	\sqrt{\frac{x_1^2+\cdots+x_N^2}{N}}
+\]
+These four functions are called&nbsp;<i>Pythagorean means</i> and they are
+all of fundamental importance.  They are related by the following
 inequalities:
-<span class="math display">\[\mathrm{min}
-    \le \mathrm{har}
-    \le \mathrm{geo}
-    \le \mathrm{avg}
-    \le \mathrm{rms}
-    \le \mathrm{max}\]</span>
-These inequalities are elementary to prove for <span class="math inline">\(N=2\)</span>, and the general
+\[
+	\mathrm{min}
+	\le \mathrm{har}
+	\le \mathrm{geo}
+	\le \mathrm{avg}
+	\le \mathrm{rms}
+	\le \mathrm{max}
+\]
+These inequalities are elementary to prove for&nbsp;$N=2$, and the general
 case is a standard exercise.
-<p>Finally, the last “traditional” aggregator is the <em>median</em>,
+<p>
+Finally, the last ``traditional'' aggregator is the&nbsp;<i>median</i>,
 which is computed by sorting the numbers from low to high, and taking
-the middle one (if <span class="math inline">\(N\)</span> is odd) or the average of the two middle
-ones (if <span class="math inline">\(N\)</span> is even).
-<span class="math display">\[\mathrm{med}(x_1,\ldots,x_N):=
-    \begin{cases}
-        x_{{}_{(M)}} &amp; \textrm{if~$N=2M+1$} \\
-        &amp;\\
-        \displaystyle\frac{x_{{}_{(M)}}
-        + x_{{}_{(M+1)}}}{2}
-            &amp; \textrm{if~$N=2M$}
-    \end{cases}\]</span>
-where <span class="math inline">\(x_{(1)},\ldots x_{(N)}\)</span> indicates the sorted
-numbers <span class="math inline">\(x_1,\ldots,x_N\)</span>. There is no general inequality
-relationship between <span class="math inline">\(\mathrm{med}\)</span> and <span class="math inline">\(\mathrm{avg}\)</span>, either one can be larger or
+the middle one (if&nbsp;$N$ is odd) or the average of the two middle
+ones&nbsp;(if&nbsp;$N$ is even).
+\[
+	\mathrm{med}(x_1,\ldots,x_N):=
+	\begin{cases}
+		x_{{}_{(M)}} &amp; \textrm{if&nbsp;$N=2M+1$} \\
+		&amp;\\
+		\displaystyle\frac{x_{{}_{(M)}}
+		+ x_{{}_{(M+1)}}}{2}
+			&amp; \textrm{if&nbsp;$N=2M$}
+	\end{cases}
+\]
+where&nbsp;$x_{(1)},\ldots x_{(N)}$ indicates the sorted
+numbers&nbsp;$x_1,\ldots,x_N$.  There is no general inequality
+relationship between&nbsp;$\mathrm{med}$ and&nbsp;$\mathrm{avg}$, either one can be larger or
 smaller, depending on the particular set of numbers.
-<h2 id="axiomatic-characterization"><span class="header-section-number">2</span> Axiomatic characterization</h2>
-<p>A map <span class="math inline">\(f:\mathbf{R}^N\to\mathbf{R}\)</span> with the following properties
+<h2>2. Axiomatic characterization</h2>
+<p>
+A map&nbsp;$f:\R^N\to\R$ with the following properties
 is called an aggregator function:
 <ul>
-<li><p>(Identity)
-<span class="math inline">\(\qquad\)</span>
-<span class="math inline">\(f(c,\ldots,c)=c\)</span>
-<li><p>(Symmetry)
-<span class="math inline">\(\quad\)</span>
-<span class="math inline">\(f(x_{\sigma_1},\ldots,x_{\sigma_N})=f(x_1,\ldots,x_N)
-        \quad
-        \forall\sigma\in\mathrm{S}_N\)</span>
-<li><p>(Monotony)
-<span class="math inline">\(\quad\)</span>
-<span class="math inline">\((x_1,\ldots,x_N)\le(y_1,\ldots,y_N)
-        \implies
-        f(x_1,\ldots,x_N)\le f(y_1,\ldots,y_N)\)</span>
-<li><p>(Bracketing)
-<span class="math inline">\(\quad\)</span>
-<span class="math inline">\(\mathrm{min}(x_1,\ldots,x_N)
-        \le f(x_1,\ldots,x_N)
-        \le \mathrm{max}(x_1,\ldots,x_N)\)</span>
-<li><p>(Homogeneity)
-<span class="math inline">\(f(\lambda x_1,\ldots,\lambda x_N)
-        =\lambda\ f(x_1,\ldots,x_N)
-        \quad\forall\lambda &gt;0\)</span>
+	\item[P0.]
+		(Identity)
+		$\qquad$
+		$f(c,\ldots,c)=c$
+	\item[P1.]
+		(Symmetry)
+		$\quad$
+		$f(x_{\sigma_1},\ldots,x_{\sigma_N})=f(x_1,\ldots,x_N)
+		\quad
+		\forall\sigma\in\mathrm{S}_N$
+	\item[P2.]
+		(Monotony)
+		$\quad$
+		$(x_1,\ldots,x_N)\le(y_1,\ldots,y_N)
+		\implies
+		f(x_1,\ldots,x_N)\le f(y_1,\ldots,y_N)$
+	\item[P3.]
+		(Bracketing)
+		$\quad$
+		$\mathrm{min}(x_1,\ldots,x_N)
+		\le f(x_1,\ldots,x_N)
+		\le \mathrm{max}(x_1,\ldots,x_N)$
+	\item[P4.]
+		(Homogeneity)
+		$f(\lambda x_1,\ldots,\lambda x_N)
+		=\lambda\ f(x_1,\ldots,x_N)
+		\quad\forall\lambda &gt;0$
 </ul>
-<p>Notice that these properties may only be true on a subdomain
-of <span class="math inline">\(\mathbf{R}^N\)</span> where <span class="math inline">\(f\)</span> is well-defined (typically, the positive
-numbers). Properties <span class="math inline">\(P0--P4\)</span> are very natural, and a bit redundant;
+<p>
+Notice that these properties may only be true on a subdomain
+of&nbsp;$\R^N$ where&nbsp;$f$ is well-defined (typically, the positive
+numbers).  Properties&nbsp;$P0--P4$ are very natural, and a bit redundant;
 for example you can prove identity from monotony and bracketing, etc.
-<p>The following properties <span class="math inline">\(P5--P7\)</span> are more special and aggregator
+<p>
+The following properties&nbsp;$P5--P7$ are more special and aggregator
 functions may or may not have them:
 <ul>
-<li><p>(Additivity)
-<span class="math inline">\(\quad\)</span>
-<span class="math inline">\(f(\lambda+x_1,\ldots,\lambda+x_N)
-        =\lambda+f(x_1,\ldots,x_N)\)</span>
-<li><p>(Composability)
-<span class="math inline">\(f\left(f(x_1,\ldots,x_P),\ldots,f(x_{P(Q-1)},\ldots,x_{PQ})\right)
-        =f(x_1,\ldots,x_N)\quad\forall PQ=N\)</span>
-<li><p>(Continuity)
-<span class="math inline">\(\qquad\)</span>
-<span class="math inline">\(f:\mathbf{R}^N\to\mathbf{R}\)</span> is continuous
+	\item[P5.]
+		(Additivity)
+		$\quad$
+		$f(\lambda+x_1,\ldots,\lambda+x_N)
+		=\lambda+f(x_1,\ldots,x_N)$
+	\item[P6.]
+		(Composability)
+		$f\left(f(x_1,\ldots,x_P),\ldots,f(x_{P(Q-1)},\ldots,x_{PQ})\right)
+		=f(x_1,\ldots,x_N)\quad\forall PQ=N$
+	\item[P7.]
+		(Continuity)
+		$\qquad$
+		$f:\R^N\to\R$ is continuous
 </ul>
-<h2 id="list-of-examples"><span class="header-section-number">3</span> List of examples</h2>
-<p>This list should contain <span><strong>all</strong></span> the aggregator functions that I
-know (whether they are useful or useless). Many aggregator functions
+<h2>3. List of examples</h2>
+<p>
+This list should contain <b>all</b> the aggregator functions that I
+know (whether they are useful or useless).  Many aggregator functions
 belong to families that depend on a real-valued parameter, and for
 extremal values of the parameter they give the min and the max.
 Thus, all these aggregators can be interpreted as different,
 data-guided interpolators between min and max.
-<h3 id="power-meansm_p"><span class="header-section-number">3.1</span> Power means <span class="math inline">\(M_p\)</span></h3>
-<p>The <em>power means</em> <span class="math inline">\(M_p\)</span> are defined only for strictly positive numbers:
-<span class="math display">\[M_p(x_1,\ldots,x_N):=\sqrt[p]{\frac{1}{N}\sum_{i=1}^Nx_i^p}\]</span>
-Notice that <span class="math inline">\(M_p\)</span> is well defined for <span class="math inline">\(p\neq0\)</span>. We extend the
-definition of <span class="math inline">\(M_p\)</span> to <span class="math inline">\(p=0,\pm\infty\)</span> by taking limits. The
+<h3>3.1. Power means&nbsp;$M_p$</h3>
+<p>
+The <i>power means</i>&nbsp;$M_p$ are defined only for strictly positive numbers:
+\[
+	M_p(x_1,\ldots,x_N):=\sqrt[p]{\frac{1}{N}\sum_{i=1}^Nx_i^p}
+\]
+Notice that&nbsp;$M_p$ is well defined for&nbsp;$p\neq0$.  We extend the
+definition&nbsp;of&nbsp;$M_p$ to&nbsp;$p=0,\pm\infty$ by taking limits.  The
 resulting definition contains all the Pythagorean means, the minimum and
 the maximum as particular cases:
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">power mean
-<th style="text-align: center;">meaning
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(M_{-\infty}\)</span>
-<td style="text-align: center;">minimum
-
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(M_{-1}\)</span>
-<td style="text-align: center;">harmonic mean
-
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(M_0\)</span>
-<td style="text-align: center;">geometric mean
-
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(M_1\)</span>
-<td style="text-align: center;">arithmetic mean
-
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(M_2\)</span>
-<td style="text-align: center;">quadratic mean
-
-<tr class="even">
-<td style="text-align: center;"><span class="math inline">\(M_3\)</span>
-<td style="text-align: center;">cubic mean
-
-<tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(M_\infty\)</span>
-<td style="text-align: center;">maximum
-
-</tbody>
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	power mean <td> meaning <tr><td>
+	
+	$M_{-\infty}$ <td> minimum <tr><td>
+	$M_{-1}$ <td> harmonic mean <tr><td>
+	$M_0$ <td> geometric mean <tr><td>
+	$M_1$ <td> arithmetic mean <tr><td>
+	$M_2$ <td> quadratic mean <tr><td>
+	$M_3$ <td> cubic mean <tr><td>
+	$M_\infty$ <td> maximum
 </table>
-
-<p>Notice that as the parameter <span class="math inline">\(p\)</span> goes from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>, the
-power mean <span class="math inline">\(M_p\)</span> interpolates from the minimum to the maximum sample,
+\medskip
+<p>
+Notice that as the parameter&nbsp;$p$ goes from&nbsp;$-\infty$ to&nbsp;$\infty$, the
+power mean&nbsp;$M_p$ interpolates from the minimum to the maximum sample,
 passing through the Pythagorean means at the values
-points <span class="math inline">\(p=-1,0,1,2\)</span>.
-<p>Power means satisfy properties <span class="math inline">\(P0--P4\)</span> over the positive numbers.
-Although <span class="math inline">\(M_{-1}\)</span> can be defined also for negative numbers, it fails
+points&nbsp;$p=-1,0,1,2$.
+<p>
+Power means satisfy properties&nbsp;$P0--P4$ over the positive numbers.
+Although&nbsp;$M_{-1}$ can be defined also for negative numbers, it fails
 to satisfy the bracketing property, so it is not considered as such.
-<p>Except for the values of <span class="math inline">\(p=1,\pm\infty\)</span>, the power means do not
-satisfy the additivity property <span class="math inline">\(P5\)</span>. Thus, they are essentially
+<p>
+Except for the values of&nbsp;$p=1,\pm\infty$, the power means do not
+satisfy the additivity property&nbsp;$P5$.  Thus, they are essentially
 tied to the position of the zero in the real line.
-<p>On the other hand, the power means are composable (<span class="math inline">\(P6\)</span>).
-<h3 id="order-statisticso_k-ando_alpha"><span class="header-section-number">3.2</span> Order statistics <span class="math inline">\(O_k\)</span> and <span class="math inline">\(O_{\alpha}\)</span></h3>
-<p>The power means are not the only natural interpolation between min
+<p>
+On the other hand, the power means are composable ($P6$).
+<h3>3.2. Order statistics&nbsp;$O_k$ and&nbsp;$O_{\alpha</h3>
+$}
+<p>
+The power means are not the only natural interpolation between min
 and max; there is indeed a more natural one: the order statistics.
-<p>Given a set of <span class="math inline">\(N\)</span> numbers <span class="math inline">\(x_1,\ldots,x_N\)</span>, they can always be
+<p>
+Given a set of&nbsp;$N$ numbers&nbsp;$x_1,\ldots,x_N$, they can always be
 re-indexed so that
-<span class="math display">\[x_{(1)} \le x_{(2)} \le \cdots \le x_{(N)}\]</span>
-Thus <span class="math inline">\(\max(x_1,\ldots,x_N)=x_{(N)}\)</span>
-and <span class="math inline">\(\min(x_1,\ldots,x_N)=x_{(1)}\)</span>. In functional notation, we
+\[
+	x_{(1)} \le x_{(2)} \le \cdots \le x_{(N)}
+\]
+Thus&nbsp;$\max(x_1,\ldots,x_N)=x_{(N)}$
+and&nbsp;$\min(x_1,\ldots,x_N)=x_{(1)}$.  In functional notation, we
 define
-<span class="math display">\[O_k(x_1,\ldots,x_N) := x_{(k)}\]</span>
-for <span class="math inline">\(k=1,\ldots,N\)</span>. This definition is extended to
-real-valued <span class="math inline">\(k\in[1,N]\)</span> by interpolating linearly between the
-two closest integer values of <span class="math inline">\(k\)</span>. In that case, we often use the
-notation <span class="math inline">\(O_{\alpha}\)</span> for <span class="math inline">\(\alpha\in[0,1]\)</span>, where <span class="math inline">\(k=(N-1)\alpha+1\)</span>.
-This notation has the advantage of being independent of <span class="math inline">\(N\)</span>, so
-that <span class="math inline">\(O_{\frac{1}{2}}\)</span> is always the median. The following table
+\[
+	O_k(x_1,\ldots,x_N) := x_{(k)}
+\]
+for&nbsp;$k=1,\ldots,N$.  This definition is extended to
+real-valued&nbsp;$k\in[1,N]$ by interpolating linearly between the
+two closest integer values of&nbsp;$k$.  In that case, we often use the
+notation&nbsp;$O_{\alpha}$ for&nbsp;$\alpha\in[0,1]$, where&nbsp;$k=(N-1)\alpha+1$.
+This notation has the advantage of being independent of&nbsp;$N$, so
+that&nbsp;$O_{\frac{1}{2}}$ is always the median.  The following table
 lists other particular cases
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">order statistic
-<th style="text-align: left;">meaning
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(O_0\)</span>
-<td style="text-align: left;">minimum
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(O_{0.1}\)</span>
-<td style="text-align: left;">first decile
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(O_{0.25}\)</span>
-<td style="text-align: left;">first quartile
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(O_{0.5}\)</span>
-<td style="text-align: left;">median
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(O_{0.75}\)</span>
-<td style="text-align: left;">third quartile
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(O_{0.9}\)</span>
-<td style="text-align: left;">ninth decile
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(O_1\)</span>
-<td style="text-align: left;">maximum
-
-</tbody>
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	order statistic <td> meaning <tr><td>
+	
+	$O_0$ <td> minimum <tr><td>
+	$O_{0.1}$ <td> first decile <tr><td>
+	$O_{0.25}$ <td> first quartile <tr><td>
+	$O_{0.5}$ <td> median <tr><td>
+	$O_{0.75}$ <td> third quartile <tr><td>
+	$O_{0.9}$ <td> ninth decile <tr><td>
+	$O_1$ <td> maximum
 </table>
-
-<p>Order statistics can be defined for arbitrary numbers (positive,
+\medskip
+<p>
+Order statistics can be defined for arbitrary numbers (positive,
 negative and zero) and they have the additivity property P5, thus
-they are position-invariant. However, except for the min and the
+they are position-invariant.  However, except for the min and the
 max, they are not composable (P6).
-<h3 id="histogram-modes-h_varphipsi"><span class="header-section-number">3.3</span> Histogram modes <span class="math inline">\(H_{\varphi,\psi}\)</span></h3>
-<p>A simple yet very robust way to locate a cluster, especially when
+<h3>3.3. Histogram modes $H_{\varphi,\psi</h3>
+$}
+<p>
+A simple yet very robust way to locate a cluster, especially when
 there is a large number of points, is to build and histogram of the
 data and find its mode (the position of the bin with higher amount of
-samples). This method has two parameters, the <em>frequency</em> of the bins,
-and the <em>phase</em>
-<span class="math display">\[H_{\varphi,\psi}(x_1,\ldots,x_N) :=
-%   \psi+\frac{1}{2}\varphi+\varphi\argmax_{k\in\Z}
-    \psi+\frac{1}{2}\varphi+\varphi\mathrm{argmax}_{k\in\mathbf{Z}}
-%   \sum_{i=1}^N\int_0^1
-%   \delta\left(y+k+\frac{\psi-x_i}{\varphi}\right)\d y
-    \sum_{i=1}^N\int_{\psi+k\varphi}^{\psi+(k+1)\varphi}
-    \delta(x-x_i)\,\d x\]</span>
+samples).  This method has two parameters, the&nbsp;<i>frequency</i> of the bins,
+and the&nbsp;<i>phase</i>
+\[
+	H_{\varphi,\psi}(x_1,\ldots,x_N) :=
+	\psi+\frac{1}{2}\varphi+\varphi\mathrm{argmax}_{k\in\Z}
+	\sum_{i=1}^N\int_{\psi+k\varphi}^{\psi+(k+1)\varphi}
+	\delta(x-x_i)\,\d x
+\]
+<p>
 Notice
-that the result depends on the two parameters <span class="math inline">\((\varphi,\psi)\)</span> in a
-very beautiful and fractal way (see Figure ).
+that the result depends on the two parameters&nbsp;$(\varphi,\psi)$ in a
+very beautiful and fractal way (see&nbsp;Figure&nbsp;\ref{fig:modefractal}).
 It is impossible to set reasonable values of these parameters without
 knowing anything about the nature of the input data.
-<h3 id="fréchet-p-centroidsf_p"><span class="header-section-number">3.4</span> Fréchet <span class="math inline">\(p\)</span>-centroids <span class="math inline">\(F_p\)</span></h3>
-<p>On a metric space <span class="math inline">\((M,d)\)</span>, the Fréchet centroid of a set of
-points <span class="math inline">\(p_i\in M\)</span> is the point <span class="math inline">\(c\in M\)</span> that minimizes the sum of
-squared differences to <span class="math inline">\(p_i\)</span>
-<span class="math display">\[c := \mathrm{argmin}_{m\in\mathbf{R}}\sum_{i=1}^N d^2(p_i,m).\]</span>
-<p>Based on this definition, and using the <span class="math inline">\(L^p\)</span> norms on the real line,
-we define the <span class="math inline">\(p-\)</span> centroids of a set of numbers:
-<span class="math display">\[\tilde F_p(x_1,\ldots,x_N) := \mathrm{argmin}_{m\in\mathbf{R}}\sum_{i=1}^N|x_i-m|^p\]</span>
-This is well-defined for <span class="math inline">\(p&gt;0\)</span>, even if the function to minimize is
-only convex for <span class="math inline">\(p\ge1\)</span>. Instead of <span class="math inline">\(\tilde F_p\)</span>, we use the
-following slightly different normalization (which gives the same result for <span class="math inline">\(p&gt;0\)</span>).
-<span class="math display">\[F_p(x_1,\ldots,x_N) :=
-    \mathrm{argmin}_{m\in\mathbf{R}}\sqrt[p]{\frac{1}{N}\sum_{i=1}^N|x_i-m|^p}\]</span>
+<h3>3.4. Fréchet $p$-centroids&nbsp;$F_p$</h3>
+<p>
+On a metric space&nbsp;$(M,d)$, the Fréchet centroid of a set of
+points&nbsp;$p_i\in M$ is the point&nbsp;$c\in M$ that minimizes the sum of
+squared differences to&nbsp;$p_i$
+\[
+	c := \mathrm{argmin}_{m\in\R}\sum_{i=1}^N d^2(p_i,m).
+\]
+<p>
+Based on this definition, and using the&nbsp;$L^p$ norms on the real line,
+we define the&nbsp;$p-$ centroids of a set of numbers:
+\[
+	\tilde F_p(x_1,\ldots,x_N) := \mathrm{argmin}_{m\in\R}\sum_{i=1}^N|x_i-m|^p
+\]
+This is well-defined for&nbsp;$p&gt;0$, even if the function to minimize is
+only convex for&nbsp;$p\ge1$.  Instead of&nbsp;$\tilde F_p$, we use the
+following slightly different normalization (which gives the same result for&nbsp;$p&gt;0$).
+\[
+	F_p(x_1,\ldots,x_N) :=
+	\mathrm{argmin}_{m\in\R}\sqrt[p]{\frac{1}{N}\sum_{i=1}^N|x_i-m|^p}
+\]
 This normalization has the advantage that the numerical behavior is
-somehow independent of <span class="math inline">\(N\)</span> and <span class="math inline">\(p\)</span> (the function to minimize has
-linear growth at inifinty independently of <span class="math inline">\(p\)</span>).
-<p>We find the following interesting particular cases
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Fréchet centroid
-<th style="text-align: left;">meaning
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(F_2\)</span>
-<td style="text-align: left;">average
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(F_1\)</span>
-<td style="text-align: left;">median
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(F_{\to\infty}\)</span>
-<td style="text-align: left;">midrange <span class="math inline">\(I_{0.5}=(\min+\max)/2\)</span>
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(F_{\to0}\)</span>
-<td style="text-align: left;">“mode”
-
-</tbody>
+somehow independent of&nbsp;$N$ and&nbsp;$p$  (the function to minimize has
+linear growth at inifinty independently of&nbsp;$p$).
+<p>
+We find the following interesting particular cases
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	Fréchet centroid <td> meaning <tr><td>
+	
+	$F_2$ <td> average <tr><td>
+	$F_1$ <td> median <tr><td>
+	$F_{\to\infty}$ <td> midrange $I_{0.5}=(\min+\max)/2$ <tr><td>
+	$F_{\to0}$ <td> ``mode''
 </table>
-
-<p>Notice that the parameter <span class="math inline">\(p\)</span> controls the robustness to outliers.
-For <span class="math inline">\(p=2\)</span> we have the average, which is not very robust to outliers.
-Decreasing <span class="math inline">\(p\)</span> down to <span class="math inline">\(1\)</span>, we reach the median that is rather robust
-to outliers. Decreasing <span class="math inline">\(p\)</span> further to 0 we reach the mode, that is
+\medskip
+<p>
+Notice that the parameter&nbsp;$p$ controls the robustness to outliers.
+For&nbsp;$p=2$ we have the average, which is not very robust to outliers.
+Decreasing&nbsp;$p$ down to&nbsp;$1$, we reach the median that is rather robust
+to outliers.  Decreasing&nbsp;$p$ further to 0 we reach the mode, that is
 extremely robust to outliers (it is independent of outliers, unlike
-the median). On the other side, increasing <span class="math inline">\(p\to\infty\)</span> we approach
+the median).  On the other side, increasing&nbsp;$p\to\infty$ we approach
 the average between the two extremal values, which is the least
-robust possible aggregator (it depends <em>only</em> on the outliers).
-<p>The Fréchet centroids are position independent, but not composable
-(in fact the “italian” theorem says that the only aggregator that
+robust possible aggregator (it depends&nbsp;<i>only</i> on the outliers).
+<p>
+The Fréchet centroids are position independent, but not composable
+(in fact the ``italian'' theorem says that the only aggregator that
 has all the properties is the arithmetic mean).
-<p>Notice that the effective computation of <span class="math inline">\(F_p\)</span> requires solving an
-optimization problem. For <span class="math inline">\(p\in[1,4)\)</span> Weiszfeld
-algorithm is used. For <span class="math inline">\(p&gt;4\)</span> we need to use another algorithm, for
-example Newton’s method. For <span class="math inline">\(p&lt;1\)</span> the function is not convex and
+<p>
+Notice that the effective computation of&nbsp;$F_p$ requires solving an
+optimization problem.  For&nbsp;$p\in[1,4)$ Weiszfeld
+algorithm is used.  For&nbsp;$p&gt;4$ we need to use another algorithm, for
+example Newton's method.  For&nbsp;$p&lt;1$ the function is not convex and
 some sort of search must be performed (starting from seeds between
 each pair of data points, for good measure).
-<p>Notice that the Fréchet <span class="math inline">\(p\)</span>-centroids can be defined over arbitrary
-metric spaces. In the case of a Riemannian manifold, the Fréchet
-<span class="math inline">\(\infty\)</span>-centroid coincides with the midpoint of the diameter.
-
-<h3 id="l-estimators-andi_alpha"><span class="header-section-number">3.5</span> L-estimators and <span class="math inline">\(I_\alpha\)</span></h3>
-<p>For <span class="math inline">\(\alpha\in[0,1]\)</span> we define
-<span class="math display">\[I_{\alpha}:=\alpha O_1 + (1-\alpha) O_0\]</span>
+<p>
+Notice that the Fréchet $p$-centroids can be defined over arbitrary
+metric spaces.  In the case of a Riemannian manifold, the Fréchet
+$\infty$-centroid coincides with the midpoint of the diameter.
+\medskip
+<h3>3.5. L-estimators and&nbsp;$I_\alpha$</h3>
+<p>
+For&nbsp;$\alpha\in[0,1]$ we define
+\[
+	I_{\alpha}:=\alpha O_1 + (1-\alpha) O_0
+\]
 Thus,
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;"><span class="math inline">\(I_\alpha\)</span>
-<th style="text-align: left;">meaning
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(I_0\)</span>
-<td style="text-align: left;">min
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(I_{0.5}\)</span>
-<td style="text-align: left;">midrange
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(I_1\)</span>
-<td style="text-align: left;">max
-
-</tbody>
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	$I_\alpha$ <td> meaning <tr><td>
+	
+	$I_0$ <td> min <tr><td>
+	$I_{0.5}$ <td> midrange <tr><td>
+	$I_1$ <td> max
 </table>
-<p>This is just the trivial linear interpolation between min and max.
-It is an example of <span class="math inline">\(L\)</span>-estimator. In general, an <span class="math inline">\(L\)</span> estimator is a
+<p>
+This is just the trivial linear interpolation between min and max.
+It is an example of&nbsp;$L$-estimator.  In general, an&nbsp;$L$ estimator is a
 function of the form
-<span class="math display">\[L := \frac{\sum_{k=1}^N{\alpha_kO_k}}{\sum_{k=1}^N{\alpha_k}}\]</span>
-Some famous <span class="math inline">\(L\)</span> estimators are the midrange, the midhinge (average of
+\[
+	L := \frac{\sum_{k=1}^N{\alpha_kO_k}}{\sum_{k=1}^N{\alpha_k}}
+\]
+Some famous&nbsp;$L$ estimators are the midrange, the midhinge (average of
 first and third quartiles), the trimean, truncated means, and other curiosities
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;"><span class="math inline">\(L\)</span>-estimator
-<th style="text-align: left;">name
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(O_0\)</span>
-<td style="text-align: left;">min
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(I_1\)</span>
-<td style="text-align: left;">max
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\((O_0+O_1)/2\)</span>
-<td style="text-align: left;">midrange
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\((O_{0.25}+O_{0.75})/2\)</span>
-<td style="text-align: left;">midhinge (average of quartiles)
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\((O_{0.25}+2O_{0.5}+O_{0.75})/4\)</span>
-<td style="text-align: left;">trimean (average of median
-and midhinge)
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(\frac{2}{N}\sum_{k&gt;N/4}^{3N/4} O_k\)</span>
-<td style="text-align: left;">midmean (average of
-central half)
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\frac{1}{N}\sum_{k=1}^{N} O_k\)</span>
-<td style="text-align: left;">mean (average of
-everything)
-
-</tbody>
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	$L$-estimator <td> name <tr><td>
+	
+	$O_0$ <td> min <tr><td>
+	$I_1$ <td> max <tr><td>
+	$(O_0+O_1)/2$ <td> midrange <tr><td>
+	$(O_{0.25}+O_{0.75})/2$ <td> midhinge (average of quartiles) <tr><td>
+	$(O_{0.25}+2O_{0.5}+O_{0.75})/4$ <td> trimean (average of median
+	and midhinge) <tr><td>
+	$\frac{2}{N}\sum_{k&gt;N/4}^{3N/4} O_k$ <td> midmean (average of
+	central half) <tr><td>
+	$\frac{1}{N}\sum_{k=1}^{N} O_k$ <td> mean (average of
+	everything)
 </table>
-
+\medskip
 <blockquote>
-<p>An advantage of the trimean as a measure of the center (of a
-distribution) is that it combines the median’s emphasis on center
-values with the midhinge’s attention to the extremes.
-—Herbert F. Weisberg, <em>Central Tendency and Variability</em>
+An advantage of the trimean as a measure of the center (of a
+distribution) is that it combines the median's emphasis on center
+values with the midhinge's attention to the extremes.\hfill
+	---Herbert F. Weisberg, <i>Central Tendency and Variability</i>
 </blockquote>
-<h3 id="lehmerl_p-ginig_pq-and-stolarskys_p-means"><span class="header-section-number">3.6</span> Lehmer <span class="math inline">\(L_p\)</span>, Gini <span class="math inline">\(G_{p,q}\)</span> and Stolarsky <span class="math inline">\(S_p\)</span> means</h3>
-<p>The following aggregators are defined for strictly positive numbers
-<p><span class="math display">\[L_p(x_1,\ldots,x_N):=\frac{
-        \displaystyle\sum_{i=1}^N x_i^p
-        }{
-        \displaystyle\sum_{i=1}^N x_i^{p-1}
-        }\]</span>
-<p>This is an increasing family between min and max, different to the
+<h3>3.6. Lehmer&nbsp;$L_p$, Gini&nbsp;$G_{p,q</h3>
+$ and Stolarsky&nbsp;$S_p$ means}
+<p>
+The following aggregators are defined for strictly positive numbers
+\[
+	L_p(x_1,\ldots,x_N):=\frac{
+		\displaystyle\sum_{i=1}^N x_i^p
+		}{
+		\displaystyle\sum_{i=1}^N x_i^{p-1}
+		}
+\]
+<p>
+This is an increasing family between min and max, different to the
 power means, but passing through several common points:
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Lehmer mean
-<th style="text-align: left;">name
-
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(L_{-\infty}\)</span>
-<td style="text-align: left;">min
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(L_0\)</span>
-<td style="text-align: left;">harmonic mean
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(L_{0.5}\)</span>
-<td style="text-align: left;">geometric mean (only for <span class="math inline">\(N=2\)</span> ?)
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(L_1\)</span>
-<td style="text-align: left;">arithmetic mean
-
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(L_2\)</span>
-<td style="text-align: left;">contraharmonic mean
-<span class="math inline">\((x_1^2+\cdots+x_N^2)/(x_1+\cdots+x_N)\)</span>
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(L_{\infty}\)</span>
-<td style="text-align: left;">max
-
-</tbody>
+\medskip
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	Lehmer mean <td> name <tr><td>
+	
+	$L_{-\infty}$ <td> min <tr><td>
+	$L_0$ <td> harmonic mean <tr><td>
+	$L_{0.5}$ <td> geometric mean (only for $N=2$ ?)<tr><td>
+	$L_1$ <td> arithmetic mean <tr><td>
+	$L_2$ <td> contraharmonic mean
+	$(x_1^2+\cdots+x_N^2)/(x_1+\cdots+x_N)$ <tr><td>
+	$L_{\infty}$ <td> max
 </table>
-
-<p>Interestingly, the contraharmonic mean can be defined also for
+\medskip
+<p>
+Interestingly, the contraharmonic mean can be defined also for
 nonzero numbers (not necessarily positive).
 It is the sum of the average and the variance divided by the average.
 The contraharmonic mean of positive numbers is always larger or
 equal than the quadratic mean, but it is otherwise unrelated to the
-other power means for <span class="math inline">\(p&gt;2\)</span>.
-<p>The Gini means form a very general family of aggregators that
+other power means for&nbsp;$p&gt;2$.
+<p>
+The Gini means form a very general family of aggregators that
 contains the power means and the Lehmer means as particular cases
-<span class="math display">\[G_{p,q}(x_1,\ldots,x_N) :=
-    \begin{cases}
-        \sqrt[p-q]{\displaystyle\frac{\sum x^p}{\sum x^q}}
-        &amp; \textrm{if}\ p&gt;q \\
-        &amp;\\
-        \sqrt[\sum x^p]{\prod x^{x^p}}
-        &amp; \textrm{if}\ p=q
-    \end{cases}\]</span>
-where the sums and products above are performed over <span class="math inline">\(x\in\{x_1,\ldots
-x_N\}\)</span>
-<h3 id="particular-aggregators"><span class="header-section-number">3.7</span> Particular aggregators</h3>
-<p>Some aggregator functions do not belong to any parametric family, but
+\[
+	G_{p,q}(x_1,\ldots,x_N) :=
+	\begin{cases}
+		\sqrt[p-q]{\displaystyle\frac{\sum x^p}{\sum x^q}}
+		&amp; \textrm{if}\ p&gt;q \\
+		&amp;\\
+		\sqrt[\sum x^p]{\prod x^{x^p}}
+		&amp; \textrm{if}\ p=q
+	\end{cases}
+\]
+where the sums and products above are performed over&nbsp;$x\in\{x_1,\ldots
+x_N\}$
+<h3>3.7. Particular aggregators</h3>
+<p>
+Some aggregator functions do not belong to any parametric family, but
 are particular cases on their own right
-(for example, the “MEDIAL”!) Others lie at the
+(for example, the ``MEDIAL''!) Others lie at the
 intersection of different parametric families:
-<p>the arithmetic mean is at the same time a power mean <span class="math inline">\(M_1\)</span> and a
-Fréchet centroid <span class="math inline">\(F_2\)</span>
-<p>the median is at the same time an order statistic <span class="math inline">\(U_{\frac{1}{2}}\)</span> and a
-Fréchet centroid <span class="math inline">\(F_1\)</span>
-<h3 id="quasi-arithmetic-means"><span class="header-section-number">3.8</span> Quasi-arithmetic means</h3>
-<p>A different, non parametric, generalisation of means that contains
+<p>
+the arithmetic mean is at the same time a power mean&nbsp;$M_1$ and a
+Fréchet centroid&nbsp;$F_2$
+<p>
+the median is at the same time an order statistic&nbsp;$U_{\frac{1}{2}}$ and a
+Fréchet centroid&nbsp;$F_1$
+<h3>3.8. Quasi-arithmetic means</h3>
+<p>
+A different, non parametric, generalisation of means that contains
 the power means and many others as particular cases is the following.
-It consists in performing the arithmetic mean behind a “contrast
-change <span class="math inline">\(f\)</span>”.
-<p>Let <span class="math inline">\(f:\mathbf{R}\to\mathbf{R}\)</span> be a continuous, strictly monotonic function, then we
+It consists in performing the arithmetic mean behind a ``contrast
+change&nbsp;$f$''.
+<p>
+Let&nbsp;$f:\R\to\R$ be a continuous, strictly monotonic function, then we
 define
-<span class="math display">\[M_f(x_1,\ldots,x_N):=f^{-1}\left(\frac{f(x_1)+\cdots+f(x_N)}{N}\right)\]</span>
-The power means for <span class="math inline">\(p\neq0\)</span> appear as particular cases
-when <span class="math inline">\(f(x)=x^p\)</span>. The geometric mean appears for <span class="math inline">\(f(x)=\log(x)\)</span>, and
-for <span class="math inline">\(f(x)=\exp(x)\)</span> we obtain the “soft maximum” LSE (log sum exp).
-
-<h2 id="size-parameters"><span class="header-section-number">4</span> Size parameters</h2>
-<p>On the previous section we have described methods to define
-the <em>position</em> of a cluster, namely to find <em>where</em> a cluster of numbers is located. A different
-problem is the computation of the <em>size</em> of a cluster.
-<p>Many criteria for defining the size—but not all—depend on finding
+\[
+	M_f(x_1,\ldots,x_N):=f^{-1}\left(\frac{f(x_1)+\cdots+f(x_N)}{N}\right)
+\]
+The power means for&nbsp;$p\neq0$  appear as particular cases
+when&nbsp;$f(x)=x^p$.  The geometric mean appears for&nbsp;$f(x)=\log(x)$, and
+for&nbsp;$f(x)=\exp(x)$ we obtain the ``soft maximum'' LSE (log sum exp).
+\clearpage
+<h2>4. Size parameters</h2>
+<p>
+On the previous section we have described methods to define
+the&nbsp;<i>position</i> of a cluster, namely to find&nbsp;<i>where</i> a cluster of numbers is located.  A different
+problem is the computation of the&nbsp;<i>size</i> of a cluster.
+<p>
+Many criteria for defining the size---but not all---depend on finding
 first the position.
-<p>Besides axioms P1–P4 above, size measures satisfy the following two
+<p>
+Besides axioms P1--P4 above, size measures satisfy the following two
 axioms:
 <ul>
-<li><p>(Identity)
-<span class="math inline">\(\qquad\)</span>
-<span class="math inline">\(f(c,\ldots,c)=0\)</span>
-<li><p>(Position invariance)
-<span class="math inline">\(f(\lambda+x_1,\ldots,\lambda+x_N)
-        =f(x_1,\ldots,x_N)\)</span>
+	\item[P8.]
+		(Identity)
+		$\qquad$
+		$f(c,\ldots,c)=0$
+	\item[P9.]
+		(Position invariance)
+		$f(\lambda+x_1,\ldots,\lambda+x_N)
+		=f(x_1,\ldots,x_N)$
 </ul>
-<p>(please, contrast position invariance with additivity, or position
+(please, contrast position invariance with additivity, or position
 covariance above)
-<p>Some famous size measures
+<p>
+Some famous size measures
 <ul>
-<li><p>The standard deviation <span class="math inline">\(M_2(x_i-M_1(x_1,\ldots,x_N))\)</span>
-<li><p>The absolute average error <span class="math inline">\(M_1(|x_i-M_1(x_1,\ldots,x_N)|)\)</span>
-<li><p>The median absolute deviation <span class="math inline">\(F_1(|x_i-F_1(x_1,\ldots,x_N)|)\)</span>
-<li><p>Non-positive L-statistics: range, inderquartile range,
-interdecile range, H-spread, etc.
-<li><p>The full-width at half maximum (perhaps associated to the
-MEDIAL?)
-<li><p>The distance correlation
-<li><p>The Rousseeuw and Croux statistic <span class="math inline">\(S_n := 1.1926
-        F_1(F_1(|x_i-x_j|))\)</span>
+	<li>The standard deviation $M_2(x_i-M_1(x_1,\ldots,x_N))$
+	<li>The absolute average error $M_1(|x_i-M_1(x_1,\ldots,x_N)|)$
+	<li>The median absolute deviation $F_1(|x_i-F_1(x_1,\ldots,x_N)|)$
+	<li>Non-positive L-statistics: range, inderquartile range,
+		interdecile range, H-spread, etc.
+	<li>The full-width at half maximum (perhaps associated to the
+		MEDIAL?)
+	<li>The distance correlation
+	<li>The Rousseeuw and Croux statistic $S_n := 1.1926
+		F_1(F_1(|x_i-x_j|))$
 </ul>
-
-<h2 id="more-than-one-cluster"><span class="header-section-number">5</span> More than one cluster</h2>
-<p>So far I have talked about the common case when there is a single
+\clearpage
+<h2>5. More than one cluster</h2>
+<p>
+So far I have talked about the common case when there is a single
 cluster of numbers; or, in statistical parlance, that the data is
-unimodal. Yet, it is important to be able to identify whether this
+unimodal.  Yet, it is important to be able to identify whether this
 is this the case, and when the data is not unimodal, how to (god
 forbid!) find several clusters in it.
-<h3 id="how-to-decide-whether-there-is-a-single-cluster"><span class="header-section-number">5.1</span> How to decide whether there is a single cluster</h3>
-<p>A simple criterion for deciding whether a set of numbers forms a
+<h3>5.9. How to decide whether there is a single cluster</h3>
+<p>
+A simple criterion for deciding whether a set of numbers forms a
 single cluster is to compare the geometric and arithmetic means: if
 they are very different, we say that the data is not unimodal:
-<span class="math display">\[\frac{M_1(x_1,\ldots,x_N)}{M_0(x_1,\ldots,x_N)} \ge \tau\]</span>
-for some threshold <span class="math inline">\(\tau&gt;1\)</span>, for example <span class="math inline">\(\tau=2\)</span>. Notice that this
+\[
+	\frac{M_1(x_1,\ldots,x_N)}{M_0(x_1,\ldots,x_N)} \ge \tau
+\]
+for some threshold&nbsp;$\tau&gt;1$, for example&nbsp;$\tau=2$.  Notice that this
 criterion is not shift-invariant.
-<p>This ratio is a standard measure for homogeneity detection in radar
+<p>
+This ratio is a standard measure for homogeneity detection in radar
 images.
-<h3 id="how-to-find-k-clusters-with-known-k-k-means"><span class="header-section-number">5.2</span> How to find K clusters, with known K (K-means)</h3>
-<h3 id="how-to-find-x-clusters-with-unknown-x-x-means"><span class="header-section-number">5.3</span> How to find X clusters, with unknown X (X-means)</h3>
+<h3>5.10. How to find K clusters, with known K (K-means)</h3>
+<h3>5.11. How to find X clusters, with unknown X (X-means)</h3>

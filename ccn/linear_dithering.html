@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <meta charset="utf-8" />
 <title>Linear Dithering</title>
 <style type="text/css">
-	body{max-width:90ex;}
-	pre{background:lightgray;width:80ch;}
-	.gallery{position:relative;width:auto;height:400px}
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	.thm em i { font-style: normal;}	.gallery{position:relative;width:auto;height:400px}
 	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
-	.gallery .index li{margin:0;padding:0} 
+	.gallery .index li{margin:0;padding:0}
 	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
 	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
 	.gallery .index li:first-child a span{left:10em;z-index:99}
@@ -14,36 +14,42 @@
 	.gallery .index a:hover span{left:10em;z-index:100}
 	.gallery .index a span img{ }
 	.gallery .index a span { white-space:nowrap; }
+
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
 
-<h1 class="title">Linear Dithering</h1>
-
-
-<p>Consider the problem of converting a gray-scale image into a binary image,
+<h1>Linear Dithering</h1>
+<p>
+Consider the problem of converting a gray-scale image into a binary image,
 while keeping as much as possible of the visual information.
-The two standard techniques are <span><strong>thresholding</strong></span> and <span><strong>dithering</strong></span>.
-<p>The goal of this note is to show that thresholding and dithering are just two
+The two standard techniques are <b>thresholding</b> and <b>dithering</b>.
+<p>
+The goal of this note is to show that thresholding and dithering are just two
 points on a multidimensional continuum of binarization methods, that we call
-<span><strong>linear dithering</strong></span>.
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="i/weiro.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-bin.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-dit.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-z01.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;">original image
-<td style="text-align: left;">thresholding
-<td style="text-align: left;">dithering
-<td style="text-align: left;">linear dithering
-
-</tbody>
+<b>linear dithering</b>.
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="i/weiro.png"> <td>
+	<img src="weiro-bin.png"> <td>
+	<img src="weiro-dit.png"> <td>
+	<img src="weiro-z01.png"> <tr><td>
+	original image <td>
+	thresholding <td>
+	dithering <td>
+	linear dithering
 </table>
-<h2 id="classic-thresholding-and-dithering"><span class="header-section-number">1</span> Classic thresholding and dithering</h2>
-<p>Thresholding at the right level is surprisingly effective. It is often
+<h2>1. Classic thresholding and dithering</h2>
+<p>
+Thresholding at the right level is surprisingly effective.  It is often
 possible to find a threshold that captures most of the relevant information
 in the image, even in the case of extreme lighting conditions.
 Yet, it is clear than for some images it will be impossible to find a single
@@ -51,263 +57,211 @@ satisfactory threshold.
 Dithering (also called error diffusion) is aimed at representing all the
 possible gray levels of the original image, at the price of a small loss of
 resolution.
-<p>Look at this photo of a famous bongo player, for example. There is a strong
-spot light righto into his face, and the rest of the image is very dark. I
+<p>
+Look at this photo of a famous bongo player, for example.  There is a strong
+spot light righto into his face, and the rest of the image is very dark.  I
 would say that it is impossible to find a single threshold where the face
-and the hand are recognizable. Yet there is! And quite easy to find
+and the hand are recognizable.  Yet there is!  And quite easy to find
 manually, around the value of 87, for example.
 We show also the results of Floyd-Sternberg dithering and the linear
-dithering described below. Notice that Floyd-Sternberg dithering destroys
+dithering described below.  Notice that Floyd-Sternberg dithering destroys
 all the texture of the clothes, which is well-preserved by thresholding and
-linear dithering. (Too well-preserved, in the last case, as it enhances the
+linear dithering.  (Too well-preserved, in the last case, as it enhances the
 jpeg compression artifacts of the original.)
-<div class="gallery" style="height:540.0px">
-
-<ul class="index">
-<li><a href="i/bongos.jpg">bongos.jpg<span><img src="i/bongos.jpg" /></span></a>
-<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png" /></span></a>
-<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png" /></span></a>
-<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png" /></span></a>
-</div>
-
-<pre><code>plambda bongos.jpg &quot;87 &gt; 255 *&quot; -o bongos-bin.png
-dither bongos.jpg bongos-dit.png
-plambda bongos.jpg x,l | blur z 0.25 | plambda - &#39;0 &lt; 255 *&#39; -o bongos-lin.png</code></pre>
-<h2 id="dithering-with-pre-processing"><span class="header-section-number">2</span> Dithering with pre-processing</h2>
-<p>We can pre-process gray-scale images before dithering them. We consider two
-pre-processings: a <span><strong>contrast change</strong></span> by a function of the
-form <span class="math inline">\(x\mapsto\tanh(\lambda x)/\tanh(\lambda)\)</span>, and a <span><strong>linear filtering</strong></span>
-of the original image that enhances its contrast. For simplicity, here we
-assume that our input images are of zero mean and take values on <span class="math inline">\([-1,1]\)</span>.
-<p>For the contrast change, notice two things. First, the
-<span class="math inline">\(\lambda\)</span>-scaled <span class="math inline">\(\tanh\)</span> tends to a step function as <span class="math inline">\(\lambda\to\infty\)</span>, and
-to the identity on <span class="math inline">\([-1,1]\)</span> as <span class="math inline">\(\lambda\to0\)</span>.
-Second, dithering a binary image produces exactly the same image. Thus, just
+<div class="gallery" style="min-height:531px;height:8em"><ul class="index">
+	<li><a href="i/bongos.jpg">i/bongos.jpg<span><img src="i/bongos.jpg"></span></a>
+	<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png"></span></a>
+	<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png"></span></a>
+	<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png"></span></a>
+</ul></div>
+<pre>
+plambda i/bongos.jpg "87 &gt; 255 *" -o bongos-bin.png
+dither i/bongos.jpg bongos-dit.png
+plambda i/bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.png
+</pre>
+<h2>2. Dithering with pre-processing</h2>
+<p>
+We can pre-process gray-scale images before dithering them.  We consider two
+pre-processings: a <b>contrast change</b> by a function of the
+form&nbsp;$x\mapsto\tanh(\lambda x)/\tanh(\lambda)$, and a <b>linear filtering</b>
+of the original image that enhances its contrast.  For simplicity, here we
+assume that our input images are of zero mean and take values on&nbsp;$[-1,1]$.
+<p>
+For the contrast change, notice two things.  First, the
+$\lambda$-scaled&nbsp;$\tanh$ tends to a step function as&nbsp;$\lambda\to\infty$, and
+to the identity on&nbsp;$[-1,1]$ as&nbsp;$\lambda\to0$.
+Second, dithering a binary image produces exactly the same image.  Thus, just
 by composing the dithering with a contrast change, we obtain a one-parameter
 family of methods that contains pure dithering and pure
 binarization as particular cases.
-<p><img src="tanhs.png" alt="image" />
-<p>In the figures below, the first row contains the result of applying the
+<p>
+<img src="tanhs.png">
+<p>
+In the figures below, the first row contains the result of applying the
 contrast change, and the second row the dithering of each image.
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\lambda=0\)</span>
-<td style="text-align: left;"><span class="math inline">\(\lambda=3\)</span>
-<td style="text-align: left;"><span class="math inline">\(\lambda=7\)</span>
-<td style="text-align: left;"><span class="math inline">\(\lambda=\infty\)</span>
-
-<tr class="even">
-<td style="text-align: left;"><img src="weiro-tanh0.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-tanh3.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-tanh7.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-tanhi.png" alt="image" />
-
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-ditanh0.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-ditanh3.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-ditanh7.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-ditanhi.png" alt="image" />
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	$\lambda=0$ <td>
+	$\lambda=3$ <td>
+	$\lambda=7$ <td>
+	$\lambda=\infty$ <tr><td>
+	<img src="weiro-tanh0.png"> <td>
+	<img src="weiro-tanh3.png"> <td>
+	<img src="weiro-tanh7.png"> <td>
+	<img src="weiro-tanhi.png"> <tr><td>
+	<img src="weiro-ditanh0.png"> <td>
+	<img src="weiro-ditanh3.png"> <td>
+	<img src="weiro-ditanh7.png"> <td>
+	<img src="weiro-ditanhi.png">
 </table>
-<p>For the linear filtering, we consider a family of filters <span class="math inline">\(k\)</span> of the
-form <span class="math inline">\(\widehat{k}(\xi)=|\xi|^\mu\)</span> for <span class="math inline">\(\mu\in[0,2]\)</span>, acting over images of
+<p>
+For the linear filtering, we consider a family of filters&nbsp;$k$ of the
+form&nbsp;$\widehat{k}(\xi)=|\xi|^\mu$ for&nbsp;$\mu\in[0,2]$, acting over images of
 zero mean, suitably normalized to conserve the second moment of the image.
-These filters interpolate continuously between the identity (<span class="math inline">\(\mu=0\)</span>) and
-minus the Laplacian operator (<span class="math inline">\(\mu=2\)</span>). The case <span class="math inline">\(\mu=1\)</span> can be
-called <em>linear retinex</em>. For <span class="math inline">\(\mu&lt;0\)</span>, this is called the Riesz scale
+These filters interpolate continuously between the identity ($\mu=0$) and
+minus the Laplacian operator ($\mu=2$).  The case&nbsp;$\mu=1$ can be
+called&nbsp;<i>linear retinex</i>.  For&nbsp;$\mu&lt;0$, this is called the Riesz scale
 space.
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\mu=0.1\)</span>
-<td style="text-align: left;"><span class="math inline">\(\mu=0.5\)</span>
-<td style="text-align: left;"><span class="math inline">\(\mu=1\)</span>
-<td style="text-align: left;"><span class="math inline">\(\mu=2\)</span>
-
-<tr class="even">
-<td style="text-align: left;"><img src="weiro-riesz01.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-riesz05.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-riesz10.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-riesz20.png" alt="image" />
-
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-diriesz01.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-diriesz05.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-diriesz10.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-diriesz20.png" alt="image" />
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	$\mu=0.1$ <td>
+	$\mu=0.5$ <td>
+	$\mu=1$ <td>
+	$\mu=2$<tr><td>
+	<img src="weiro-riesz01.png"> <td>
+	<img src="weiro-riesz05.png"> <td>
+	<img src="weiro-riesz10.png"> <td>
+	<img src="weiro-riesz20.png"> <tr><td>
+	<img src="weiro-diriesz01.png"> <td>
+	<img src="weiro-diriesz05.png"> <td>
+	<img src="weiro-diriesz10.png"> <td>
+	<img src="weiro-diriesz20.png">
 </table>
-<p>Notice that the Laplacian is locally constant nearly everywhere, except just
-around the edges. Thus, dithering this image results in a checkerboard
-pattern of density <span class="math inline">\(50\%\)</span>, but with a characteristic bias around the edges
+<p>
+Notice that the Laplacian is locally constant nearly everywhere, except just
+around the edges.  Thus, dithering this image results in a checkerboard
+pattern of density $50\
 which renders the structures visible.
-<h2 id="thresholding-with-linear-pre-processing"><span class="header-section-number">3</span> Thresholding with linear pre-processing</h2>
-<p>Now, forget a moment about the dithering step and consider only linear
+<h2>3. Thresholding with linear pre-processing</h2>
+<p>
+Now, forget a moment about the dithering step and consider only linear
 filtering and thresholding.
 In modern parlance, thresholding with linear pre-processing would be called
-<em>single layer convolutional neural network with Heaviside activation
-function</em>.
-<p>More precisely, we take an image of zero mean, apply a linear filter, and
+<i>single layer convolutional neural network with Heaviside activation
+function</i>.
+<p>
+More precisely, we take an image of zero mean, apply a linear filter, and
 threshold the result at 0.
-<p>Let us see how changing shape of the kernel produces
-different effects. We use the following radial kernels (we omit the
+<p>
+Let us see how changing shape of the kernel produces
+different effects.  We use the following radial kernels (we omit the
 normalization factors in this table):
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">name
-<td style="text-align: left;">formula
-
-<tr class="even">
-<td style="text-align: left;">Gauss
-<td style="text-align: left;"><span class="math inline">\(G_\sigma(r) =\delta-\exp\frac{-r^2}{2\sigma^2}\)</span>
-
-<tr class="odd">
-<td style="text-align: left;">Laplace
-<td style="text-align: left;"><span class="math inline">\(L_\sigma(r) =\delta-\exp\frac{-r}{\sigma}\)</span>
-
-<tr class="even">
-<td style="text-align: left;">Cauchy
-<td style="text-align: left;"><span class="math inline">\(C_\sigma(r) =\delta-\frac{1}{\sigma^2+r^2}\)</span>
-
-<tr class="odd">
-<td style="text-align: left;">Riesz
-<td style="text-align: left;"><span class="math inline">\(\widehat{R_\sigma}(\rho)=\rho^\sigma\)</span>
-
-<tr class="even">
-<td style="text-align: left;">truncated inverse-log
-<td style="text-align: left;"><span class="math inline">\(Z_\sigma(r)=T_\sigma\frac{1}{\log(r)}\)</span>
-
-<tr class="odd">
-<td style="text-align: left;">log-Cauchy
-<td style="text-align: left;"><span class="math inline">\(Q_\sigma(r)=-\log(\sigma^2+r^2)\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	name <td> formula <tr><td>
+	Gauss <td> $G_\sigma(r) =\delta-\exp\frac{-r^2}{2\sigma^2}$ <tr><td>
+	Laplace <td> $L_\sigma(r) =\delta-\exp\frac{-r}{\sigma}$ <tr><td>
+	Cauchy <td> $C_\sigma(r) =\delta-\frac{1}{\sigma^2+r^2}$ <tr><td>
+	Riesz <td> $\widehat{R_\sigma}(\rho)=\rho^\sigma$ <tr><td>
+	truncated inverse-log <td> $Z_\sigma(r)=T_\sigma\frac{1}{\log(r)}$<tr><td>
+	log-Cauchy <td> $Q_\sigma(r)=-\log(\sigma^2+r^2)$
 </table>
-<p>These filters are all positive, so the effect they produce is blurring the
-images. For this application we apply them to the Laplacian of the input
+<p>
+These filters are all positive, so the effect they produce is blurring the
+images.  For this application we apply them to the Laplacian of the input
 image (or, equivalently, we filter the image by the Laplacian of these
 kernels).
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-ga.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-gb.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-gc.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(G_{0.5}\)</span>
-<td style="text-align: left;"><span class="math inline">\(G_{1}\)</span>
-<td style="text-align: left;"><span class="math inline">\(G_{3}\)</span>
-
-</tbody>
+%
+%
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-ga.png"> <td>
+	<img src="weiro-gb.png"> <td>
+	<img src="weiro-gc.png"> <tr><td>
+	$G_{0.5}$ <td>
+	$G_{1}$ <td>
+	$G_{3}$
 </table>
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-la.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-lb.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-lc.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(L_{0.5}\)</span>
-<td style="text-align: left;"><span class="math inline">\(L_{1}\)</span>
-<td style="text-align: left;"><span class="math inline">\(L_{3}\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-la.png"> <td>
+	<img src="weiro-lb.png"> <td>
+	<img src="weiro-lc.png"> <tr><td>
+	$L_{0.5}$ <td>
+	$L_{1}$ <td>
+	$L_{3}$
 </table>
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-ca.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-cb.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-cc.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(C_{0.5}\)</span>
-<td style="text-align: left;"><span class="math inline">\(C_{1}\)</span>
-<td style="text-align: left;"><span class="math inline">\(C_{3}\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-ca.png"> <td>
+	<img src="weiro-cb.png"> <td>
+	<img src="weiro-cc.png"> <tr><td>
+	$C_{0.5}$ <td>
+	$C_{1}$ <td>
+	$C_{3}$
 </table>
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-z01.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-z10.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-z20.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-z50.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(Z_{0.01}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Z_{0.10}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Z_{0.20}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Z_{0.50}\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-z01.png"> <td>
+	<img src="weiro-z10.png"> <td>
+	<img src="weiro-z20.png"> <td>
+	<img src="weiro-z50.png"> <tr><td>
+	$Z_{0.01}$ <td>
+	$Z_{0.10}$ <td>
+	$Z_{0.20}$ <td>
+	$Z_{0.50}$
 </table>
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-i01.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-i10.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-i20.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-i50.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(Y_{0.01}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Y_{0.10}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Y_{0.20}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Y_{0.50}\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-i01.png"> <td>
+	<img src="weiro-i10.png"> <td>
+	<img src="weiro-i20.png"> <td>
+	<img src="weiro-i50.png"> <tr><td>
+	$Y_{0.01}$ <td>
+	$Y_{0.10}$ <td>
+	$Y_{0.20}$ <td>
+	$Y_{0.50}$
 </table>
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="weiro-q01.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-q10.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-q20.png" alt="image" />
-<td style="text-align: left;"><img src="weiro-q50.png" alt="image" />
-
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(Q_{0.01}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Q_{0.10}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Q_{0.20}\)</span>
-<td style="text-align: left;"><span class="math inline">\(Q_{0.50}\)</span>
-
-</tbody>
+<table border="1" cellspacing="0" cellpadding="7">
+<tr><td>
+	<img src="weiro-q01.png"> <td>
+	<img src="weiro-q10.png"> <td>
+	<img src="weiro-q20.png"> <td>
+	<img src="weiro-q50.png"> <tr><td>
+	$Q_{0.01}$ <td>
+	$Q_{0.10}$ <td>
+	$Q_{0.20}$ <td>
+	$Q_{0.50}$
 </table>
-<p>Notice that some of these images (e.g., <span class="math inline">\(Y_{20}\)</span> and <span class="math inline">\(Q_{20}\)</span>) could pass ass
-“dithering”, but with sharper edges. However, they are simply a
+<p>
+Notice that some of these images (e.g.,&nbsp;$Y_{20}$ and&nbsp;$Q_{20}$) could pass ass
+``dithering'', but with sharper edges.  However, they are simply a
 thresholding of the image after a linear filter, where the kernel has been
 chosen carefully.
-<p>This is just a small exploration of a huge family of <span><strong>linear dithering</strong></span>
+<p>
+This is just a small exploration of a huge family of <b>linear dithering</b>
 methods to produce binary images, that contains thresholding and dithering by
 error diffusion as
 particular cases.
-<p>This technique also works for color images, by treating each RGB channel
-independently, and producing a 3-bit palette at the end. Compared to
+<p>
+This technique also works for color images, by treating each RGB channel
+independently, and producing a 3-bit palette at the end.  Compared to
 traditional dithering error diffusion, it allows a much higher resolution, at
 the price of a considerable loss in color fidelity, due to saturation.
 However, the saturation is much less than for a brutal per-channel
-binarization. See, for example, the
+binarization.   See, for example, the
 blue eyes in this color image:
-<pre><code>dither barb.png barb-dit.png
-plambda barb.png x,l | blur z 0.15 | plambda - &#39;0 &lt; 255 *&#39; -o barb-lin.png
-plambda barb.png &#39;x x%O50 &gt; 255 *&#39; -o barb-bin.png</code></pre>
-<div class="gallery" style="height:581.0px">
-
-<ul class="index">
-<li><a href="i/barb.png">barb.png<span><img src="i/barb.png" /></span></a>
-<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png" /></span></a>
-<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png" /></span></a>
-<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png" /></span></a>
-</div>
-
-
-<p>PS: all the experiments on this note are generated from comments extracted
+<pre>
+dither i/barb.png barb-dit.png
+plambda i/barb.png x,l | blur z 0.15 | plambda - '0 &lt; 255 *' -o barb-lin.png
+plambda i/barb.png 'x x
+</pre>
+<div class="gallery" style="min-height:572px;height:8em"><ul class="index">
+	<li><a href="i/barb.png">i/barb.png<span><img src="i/barb.png"></span></a>
+	<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png"></span></a>
+	<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png"></span></a>
+	<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png"></span></a>
+</ul></div>
+\small
+PS: all the experiments on this note are generated from comments extracted
 of the original .tex source file.

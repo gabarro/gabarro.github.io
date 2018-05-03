@@ -1,151 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <meta charset="utf-8" />
 <title>Zero boilerplate</title>
 <style type="text/css">
-	body{max-width:90ex;}
-	pre{background:lightgray;width:80ch;}
-	.gallery{position:relative;width:auto;height:400px}
-	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
-	.gallery .index li{margin:0;padding:0} 
-	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
-	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
-	.gallery .index li:first-child a span{left:10em;z-index:99}
-	.gallery .index a:hover{ border: 1px solid #888888;}
-	.gallery .index a:hover span{left:10em;z-index:100}
-	.gallery .index a span img{ }
-	.gallery .index a span { white-space:nowrap; }
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	.thm em i { font-style: normal;}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
 
-<h1 class="title">Zero boilerplate</h1>
-
-
-<p>As a young man, I used to curate a collection of “template files”, for all
-the formats and programming languages that I was using. I had a template for
+<h1>Zero boilerplate</h1>
+<p>
+As a young man, I used to curate a collection of ``template files'', for all
+the formats and programming languages that I was using.  I had a template for
 <code>LaTeX</code> files, a template for <code>C</code> programs, a template <code>html</code>
-page, etc. The basic idea was that <em>you never start writing a text file
-from scratch, you just copy an existing file and change some things</em>.
-<p>Now I realize that this is a bad idea. <em>You must start all your projects
-with an empty file</em>. This is the <span><strong>zero boilerplate</strong></span> idea. It is a
+page, etc.  The basic idea was that&nbsp;<i>you never start writing a text file
+from scratch, you just copy an existing file and change some things</i>.
+<p>
+Now I realize that this is a bad idea.&nbsp;<i>You must start all your projects
+with an empty file</i>.  This is the&nbsp;<b>zero boilerplate</b> idea.  It is a
 liberating experience; you feel intimately connected to the underlying
-structure of the system that you rest upon. You grow roots, in a way.
-<p>Here I collect examples of complete files in various languages. Of course,
-you should never copy these files and edit them. Instead, you should
+structure of the system that you rest upon.  You grow roots, in a way.
+<p>
+Here I collect examples of complete files in various languages.  Of course,
+you should never copy these files and edit them.  Instead, you should
 memorize them an re-write the text each time than you need it.
-<h2 id="html"><span class="header-section-number">1</span> HTML</h2>
-<p>In the old days, HTML was a very verbose language. With the advent of XHTML,
+<h2>1. HTML</h2>
+<p>
+In the old days, HTML was a very verbose language.  With the advent of XHTML,
 the situation worsened so much that the default language of the web was
-impossible to write by humans. Fortunately, HTML5 corrects the errors of his
+impossible to write by humans.  Fortunately, HTML5 corrects the errors of his
 predecessors and, thanks to default tagging, it is possible to create web
 documents by hand again.
-<p>This is a minimal <span><strong>HTML</strong></span> file
-<pre><code>&lt;!doctype html&gt;
+<p>
+This is a minimal <b>HTML</b> file
+<pre>
+&lt;!doctype html&gt;
 &lt;title&gt;Coco notes: zero boilerplate&lt;/title&gt;
-
 &lt;h1&gt;Zero boilerplate&lt;/h1&gt;
-
 &lt;p&gt;
-Here begins the text of this page.</code></pre>
-<p>As advised by many people (e.g. the authors of HTML5, the google html coding
+Here begins the text of this page.
+</pre>
+<p>
+As advised by many people (e.g. the authors of HTML5, the google html coding
 guidelines), it is best to omit all implicit tags (such as <code>&lt;html&gt;</code> and
 <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code>), and all automatically closed tags (such as
 <code>&lt;p&gt;</code>, <code>&lt;li&gt;</code> and many others).
-<p>If you want to use a tiny bit of css or mathjax (probably the only acceptable
+<p>
+If you want to use a tiny bit of css or mathjax (probably the only acceptable
 use of javascript), you can do this
-<pre><code>&lt;!doctype html&gt;
+<pre>
+&lt;!doctype html&gt;
 &lt;title&gt;Coco pages: zero boilerplate&lt;/title&gt;
-&lt;style type=&quot;text/css&quot;&gt;
+&lt;style type="text/css"&gt;
         body { max-width: 90ex; }
         pre { background:lightgray; width:80ch; }
 &lt;/style&gt;
-&lt;script src=&quot;//path.to/MathJax.js?config=TeX-AMS_CHTML-full&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-
-
+&lt;script src="//path.to/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"&gt;&lt;/script&gt;
 &lt;h1&gt;Zero boilerplate&lt;/h1&gt;
-
 &lt;p&gt;
-Here begins the text of this page.</code></pre>
-<p>And, if you are a <a href="http://motherfuckingwebsite.com/">decent</a> person, you
+Here begins the text of this page.
+</pre>
+<p>
+And, if you are a <a href="http://motherfuckingwebsite.com/">decent</a> person, you
 should rarely need anything other than that.
-<h2 id="tex-and-latex"><span class="header-section-number">2</span> TeX and LaTex</h2>
-<p>Plain <span><strong>TeX</strong></span> is notoriously boilerplate-free. You just write your
+<h2>2. TeX and LaTex</h2>
+<p>
+Plain <b>TeX</b> is notoriously boilerplate-free.  You just write your
 paragraphs, separated by blank lines, and end your document with <code>\bye</code>.
 This is the best option to write a book, unless you rely on direct entry of
 UTF-8 characters (in which case you can use LuaTeX or XeTeX), fancier math
-(in which case you’ll want AMSTeX), or advanced sectioning and
-indexing capabilities (in which case you’ll want LaTeX).
-<p>A minimal <span><strong>LaTeX</strong></span> file is thus
-<pre><code>\documentclass{article}
+(in which case you'll want AMSTeX), or advanced sectioning and
+indexing capabilities (in which case you'll want LaTeX).
+<p>
+A minimal <b>LaTeX</b> file is thus
+<pre>
+\documentclass{article}
 \begin{document}
 Hello, world!
-\end{document}</code></pre>
-<p>and a LaTeX file in french and with some fancy math,
-<pre><code>\documentclass{article}
-\documentclass[a4paper,11pt]{article}  % classe article standard
-\usepackage[utf8]{inputenc}            % pour écrire les accents directement
-\usepackage[T1]{fontenc}               % pour faire des vrais guillemets
-\usepackage[frenchb]{babel}            % conventions typographiques françaises
-\usepackage{amsmath}                   % mathématiques avancées
-
+\end{document}
+</pre>
+<p>
+and a LaTeX file in french and with some fancy math,
+<pre>
+\documentclass{article}
+\documentclass[a4paper,11pt]{article}  
+\usepackage[utf8]{inputenc}            
+\usepackage[T1]{fontenc}               
+\usepackage[frenchb]{babel}            
+\usepackage{amsmath}                   
 \begin{document}
 Voici le théorème de Stokes:
 $$\int_{\partial\Omega}\omega=\int_\Omega\mathrm{d}\omega$$
-\end{document}</code></pre>
-<p>you should strive to keep your list of packages minimal. The preamble to the
-document should <em>never</em> take more than half a screen.
-<h2 id="c"><span class="header-section-number">3</span> C</h2>
-<p>The <code>C</code> compiler is always a good unix citizen. You can compile an
+\end{document}
+</pre>
+<p>
+you should strive to keep your list of packages minimal.  The preamble to the
+document should&nbsp;<i>never</i> take more than half a screen.
+<h2>3. C</h2>
+<p>
+The <code>C</code> compiler is always a good unix citizen.  You can compile an
 empty file
-<pre><code>cat /dev/null &gt; x.c
-cc -c x.c</code></pre>
-<p>and it will produce a valid empty object <code>x.o</code> that does not have any
+<pre>
+cat /dev/null &gt; x.c
+cc -c x.c
+</pre>
+<p>
+and it will produce a valid empty object <code>x.o</code> that does not have any
 symbols (as you can verify, because <code>nm x.o</code> gives an empty output).
-<p>Thus, no boilerplate is needed for writing a <code>C</code> library.
-<p>If you want to write a command line program in <span><strong>C</strong></span>, it will look
+<p>
+Thus, no boilerplate is needed for writing a&nbsp;<code>C</code> library.
+<p>
+If you want to write a command line program in <b>C</b>, it will look
 something like this:
-<pre><code>#include &lt;stdio.h&gt;   // stderr, fprintf, printf
+<pre>
+#include &lt;stdio.h&gt;   // stderr, fprintf, printf
 #include &lt;stdlib.h&gt;  // atof, free
-#include &quot;image.h&quot;   // image_read, image_write
-
+#include "image.h"   // image_read, image_write
 // regamma, a program to change the gamma of an image
 int main(int c, char *v[])
 {
         // extract input arguments
         if (c != 3)
-                return fprintf(stderr, &quot;usage:\n%s gamma in out\n&quot;, *v);
+                return fprintf(stderr, "usage:\n
         double g      = atof(v[1]);
         char *filename_in  = v[2];
         char *filename_out = v[3];
-
         // read input images
         int w, h;
         float *x = image_read(filename_in, &amp;w, &amp;h);
-
         // change gamma in-place
         for (int i = 0; i &lt; w*h; i++)
                 x[i] = 255 * pow( x[i]/255 , g);
-
         // write output
         image_write(filename_out, x, w, h);
-
         // cleanup and exit
         free(x);
         return 0;
-}</code></pre>
-<p>Notice that all the headers are explicitly justified to be necessary, by
+}
+</pre>
+<p>
+Notice that all the headers are explicitly justified to be necessary, by
 saying which functions are required from each header.
-<h2 id="python"><span class="header-section-number">4</span> Python</h2>
-<p>Like <code>C</code>, the <code>Python</code> interpreter is also a good unix citizen.
+<h2>4. Python</h2>
+<p>
+Like <code>C</code>, the <code>Python</code> interpreter is also a good unix citizen.
 You can run the empty program, that does nothing and gives an empty output.
-Thus, there is no boilerplate required for python. If you want to use
-imports, this is easier than in <code>C</code> because the language can help you to
+Thus, there is no boilerplate required for python.  If you want to use
+imports, this is easier than in&nbsp;<code>C</code> because the language can help you to
 specify which functions you need from each import.
-<pre><code>from imageio              import imread, imwrite
+<pre>
+from imageio              import imread, imwrite
 from scipy.sparse         import eye, diags, kronsum
 from scipy.sparse.linalg  import spsolve
 from numpy                import clip, around, uint8
-f = imread(&quot;lena.png&quot;)                        # read interior image
-g = imread(&quot;landscape.png&quot;)                   # read background image
+f = imread("lena.png")                        # read interior image
+g = imread("landscape.png")                   # read background image
 h,w = g.shape                                 # extract image dimensions
 f = f.flatten()                               # flatten image into a vector
 g = g.flatten()                               # flatten image into a vector
@@ -158,5 +176,7 @@ I = eye(w*h)                                  # identity operator
 A =  I - M    - M*L                           # state the problem (operator)
 b = (I - M)*g - M*L*f                         # state the problem (data)
 x = spsolve(A, b)                             # solve the problem
-imwrite(&quot;out.png&quot;, clip(around(x),0,255).astype(uint8).reshape(h,w)) # save x</code></pre>
-<p>Notice that you only import the strict minimum that you need.
+imwrite("out.png", clip(around(x),0,255).astype(uint8).reshape(h,w)) # save x
+</pre>
+<p>
+Notice that you only import the strict minimum that you need.

@@ -1,55 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <meta charset="utf-8" />
 <title>The canonical noise of an image</title>
 <style type="text/css">
-	body{max-width:90ex;}
-	pre{background:lightgray;width:80ch;}
-	.gallery{position:relative;width:auto;height:400px}
-	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
-	.gallery .index li{margin:0;padding:0} 
-	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
-	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
-	.gallery .index li:first-child a span{left:10em;z-index:99}
-	.gallery .index a:hover{ border: 1px solid #888888;}
-	.gallery .index a:hover span{left:10em;z-index:100}
-	.gallery .index a span img{ }
-	.gallery .index a span { white-space:nowrap; }
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	.thm em i { font-style: normal;}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
-<h1 class="title">The canonical noise of an image</h1>
-
-
-<p>Everybody knows about the <span><strong>random phase noise</strong></span>: you keep the power
-spectrum of an image and randomize its phases. You obtain an image that has
-the same “texture”, but a completely randomized geometry. You cannot
+<h1>The canonical noise of an image</h1>
+<p>
+Everybody knows about the <b>random phase noise</b>: you keep the power
+spectrum of an image and randomize its phases.  You obtain an image that has
+the same ``texture'', but a completely randomized geometry.  You cannot
 recognize any object.
-<pre><code>fft 1 barb.png |plambda &quot;0 rand join cexp cprod&quot; |fft -1 - barb-rpn.png</code></pre>
-<p><img src="i/barb.png" alt="image" /><span>barb.png</span><br />
-<img src="barb-rpn.png" alt="image" /><span>barb-rpn.png</span>
-<p>What happens if you do the opposite? Keep the phases and randomize the
-amplitudes? Well, you lose all kind of texture but all the objects are
+<pre>
+fft 1 i/barb.png |plambda "0 rand join cexp cprod" |fft -1 - barb-rpn.png
+</pre>
+<img src="i/barb.png">{\small\tt barb.png}\\
+<img src="barb-rpn.png">{\small\tt barb-rpn.png}
+<p>
+What happens if you do the opposite?  Keep the phases and randomize the
+amplitudes?  Well, you lose all kind of texture but all the objects are
 recognizable among the very spiky noise.
-<pre><code>fft 1 barb.png|plambda &quot;dup vnorm / randu *&quot;|ifft|qauto -i -p 1 - barb-ran.png</code></pre>
-<p><img src="barb-ran.png" alt="image" /><span>barb-ran.png</span>
-<p>In fact, setting the amplitudes to uniform random is more or less the same
+<pre>
+fft 1 i/barb.png|plambda "dup vnorm / randu *"|ifft|qauto -i -p 1 - barb-ran.png
+</pre>
+<img src="barb-ran.png">{\small\tt barb-ran.png}
+<p>
+In fact, setting the amplitudes to uniform random is more or less the same
 thing that setting them to a constant; the visual effect is very similar, but
-with less noise. This is called the <span><strong>phase image</strong></span>, because it is
+with less noise.  This is called the&nbsp;<b>phase image</b>, because it is
 obtained by throwing away all amplitude information (but not randomizing it)
-and keeping only the phases. It looks very different than the original
+and keeping only the phases.  It looks very different than the original
 image, more or less like a laplacian.
-<pre><code>fft 1 barb.png |plambda &quot;dup vnorm /&quot; |ifft |qauto -i -p 1 - barb-pha.png</code></pre>
-<p><img src="barb-pha.png" alt="image" /><span>barb-pha.png</span>
-<p>The phase image looks very strange because it has a flat spectrum, which is a
-very unnatural spectrum to have. Typically, the spectrum of images decays
-with the inverse of the frequency. Imposing this decay, instead of a flat
-spectrum, we obtain the so-called <span><em>canonical image</em></span>:
-<pre><code>fft 1 barb.png |plambda &quot;dup vnorm / :R /&quot; |ifft |qauto -i -p 1 - barb-can.png</code></pre>
-<p><img src="barb-can.png" alt="image" /><span>barb-can.png</span>
-<p>This image is eerily similar to the original. It looks like a noisy version
-of the original, but the noise is not white. Interestingly, this noise has
-been produced <em>without any use of random numbers!</em> We can call it the
-<span><strong>canonical noise</strong></span> of the image. This works even with binary images:
-<pre><code>fft &lt;binbeck.png|plambda &quot;dup vnorm / :R /&quot; |ifft|qauto -p 9 - binbeck-can.png</code></pre>
-<p><img src="i/binbeck.png" alt="image" /><span>binbeck.png</span><br />
-<img src="binbeck-can.png" alt="image" /><span>binbeck-can.png</span>
+<pre>
+fft 1 i/barb.png |plambda "dup vnorm /" |ifft |qauto -i -p 1 - barb-pha.png
+</pre>
+<img src="barb-pha.png">{\small\tt barb-pha.png}
+<p>
+The phase image looks very strange because it has a flat spectrum, which is a
+very unnatural spectrum to have.  Typically, the spectrum of images decays
+with the inverse of the frequency.  Imposing this decay, instead of a flat
+spectrum, we obtain the so-called {\em canonical image}:
+<pre>
+fft 1 i/barb.png |plambda "dup vnorm / :R /" |ifft |qauto -i -p 1 - barb-can.png
+</pre>
+<img src="barb-can.png">{\small\tt barb-can.png}
+<p>
+This image is eerily similar to the original.  It looks like a noisy version
+of the original, but the noise is not white.  Interestingly, this noise has
+been produced <i>without any use of random numbers!</i>  We can call it the
+<b>canonical noise</b> of the image.  This works even with binary images:
+<pre>
+fft &lt;i/binbeck.png|plambda "dup vnorm / :R /" |ifft|qauto -p 9 - binbeck-can.png
+</pre>
+<img src="i/binbeck.png">{\small\tt binbeck.png}\\
+<img src="binbeck-can.png">{\small\tt binbeck-can.png}

@@ -41,6 +41,7 @@ global_substitutions = {
 
 	-- change \href{link}{text} to <a href="link">text</a>
 	{"\\href{(.-)}{(.-)}", "<a href=\"%1\">%2</a>"},
+	{"\\url{(.-)}", "<a href=\"%1\">%1</a>"},
 
 	-- change \newline to <br>
 	{"\\newline", "<br>"},

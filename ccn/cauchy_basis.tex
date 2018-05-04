@@ -94,11 +94,11 @@ four conditions~$f(0)=f(1)=f'(0)=f'(1)=0$.
 %SCRIPT set title "The Cauchy basis"
 %SCRIPT # define eigenvalues (good enough approximation)
 %SCRIPT L(n) = (2*n+1)*pi/2-(-1)**n*2*exp(-(2*n+1)*pi/2)
-%SCRIPT
+%SCRIPT 
 %SCRIPT # define eigenvectors
 %SCRIPT b(l) = (sinh(l)-sin(l))/(cos(l)-cosh(l))
 %SCRIPT v(l,x) = sin(l*x)-sinh(l*x)+b(l)*(cos(l*x)-cosh(l*x))
-%SCRIPT
+%SCRIPT 
 %SCRIPT # plot the first few functions
 %SCRIPT set key bottom left
 %SCRIPT set samples 1000
@@ -158,11 +158,11 @@ inside the interval~$[0,1]$, they explode in wild ways outside this interval:
 %SCRIPT set samples 1000
 %SCRIPT # define eigenvalues (good enough approximation)
 %SCRIPT L(n)=(2*n+1)*pi/2-(-1)**n*2*exp(-(2*n+1)*pi/2)
-%SCRIPT
+%SCRIPT 
 %SCRIPT # define eigenvectors
 %SCRIPT b(l)=(sinh(l)-sin(l))/(cos(l)-cosh(l))
 %SCRIPT v(l,x)=sin(l*x)-sinh(l*x)+b(l)*(cos(l*x)-cosh(l*x))
-%SCRIPT
+%SCRIPT 
 %SCRIPT # plot the first few functions
 %SCRIPT set key bottom left
 %SCRIPT set samples 1000
@@ -344,11 +344,11 @@ for~$x=\pi/2$:
 %SCRIPT gnuplot <<END >coscosh.png
 %SCRIPT set term pngcairo lw 3
 %SCRIPT set title "zeros of cos(x)*cosh(x)"
-%SCRIPT
+%SCRIPT 
 %SCRIPT fmax(a,b)=a<b?b:a
 %SCRIPT fmin(a,b)=a<b?a:b
 %SCRIPT clip(x,a)=fmax(fmin(x,a),-a)
-%SCRIPT
+%SCRIPT 
 %SCRIPT set samples 1000
 %SCRIPT set zeroaxis
 %SCRIPT plot [0:20] [-5:5] 1,cos(x),cosh(x),clip(cos(x)*cosh(x),4)

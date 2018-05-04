@@ -265,7 +265,7 @@ The graph defines just the~\emph{domain} of an image.  We still need the
 Beckett by Jane Bown:
 
 \includegraphics{i/beckett.png}
-{\small\verb+beckett.png+}
+\verb+beckett.png+
 
 The easiest operator to understand is the Laplacian.  The following octave
 code thus reads an image, applies the laplacian operator, and saves the
@@ -284,7 +284,7 @@ imwrite(z, "beckett-lap.png");    # save output image
 
 
 \includegraphics{beckett-lap.png}
-{\small\verb+beckett-lap.png+}
+\verb+beckett-lap.png+
 
 The typical color coding for looking at a laplacian is such that gray=zero,
 white=negative, black=positive.  As expected, the laplacian enhances the
@@ -300,7 +300,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-sharp.png");  # save output image
 %imwrite(z, "beckett-sharp.png");    # save output image
 
 \includegraphics{beckett-sharp.png}
-{\small\verb+beckett-sharp.png+}
+\verb+beckett-sharp.png+
 
 Conversely, we can smooth the image by adding multiples of the laplacian to
 it, iteratively.  This amounts to approximation the solution of the heat
@@ -315,7 +315,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-smooth.png");  # save output image
 %imwrite(z, "beckett-smooth.png");   # save output image
 
 \includegraphics{beckett-smooth.png}
-{\small\verb+beckett-smooth.png+}
+\verb+beckett-smooth.png+
 
 \section{Graph-based mathematical morphology}
 

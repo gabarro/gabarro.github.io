@@ -69,15 +69,15 @@ all the texture of the clothes, which is well-preserved by thresholding and
 linear dithering.  (Too well-preserved, in the last case, as it enhances the
 jpeg compression artifacts of the original.)
 <div class="gallery" style="min-height:531px;height:8em"><ul class="index">
-	<li><a href="i/bongos.jpg">i/bongos.jpg<span><img src="i/bongos.jpg"></span></a>
+	<li><a href="i/bongos.jpg">bongos.jpg<span><img src="i/bongos.jpg"></span></a>
 	<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png"></span></a>
 	<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png"></span></a>
 	<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png"></span></a>
 </ul></div>
 <pre>
-plambda i/bongos.jpg "87 &gt; 255 *" -o bongos-bin.png
-dither i/bongos.jpg bongos-dit.png
-plambda i/bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.png
+plambda bongos.jpg "87 &gt; 255 *" -o bongos-bin.png
+dither bongos.jpg bongos-dit.png
+plambda bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.png
 </pre>
 <h2>2. Dithering with pre-processing</h2>
 <p>
@@ -250,16 +250,18 @@ However, the saturation is much less than for a brutal per-channel
 binarization.   See, for example, the
 blue eyes in this color image:
 <pre>
-dither i/barb.png barb-dit.png
-plambda i/barb.png x,l | blur z 0.15 | plambda - '0 &lt; 255 *' -o barb-lin.png
-plambda i/barb.png 'x x
+dither barb.png barb-dit.png
+plambda barb.png x,l | blur z 0.15 | plambda - '0 &lt; 255 *' -o barb-lin.png
+plambda barb.png 'x x
 </pre>
 <div class="gallery" style="min-height:572px;height:8em"><ul class="index">
-	<li><a href="i/barb.png">i/barb.png<span><img src="i/barb.png"></span></a>
+	<li><a href="i/barb.png">barb.png<span><img src="i/barb.png"></span></a>
 	<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png"></span></a>
 	<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png"></span></a>
 	<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png"></span></a>
 </ul></div>
-\small
+<p>
+<i>
 PS: all the experiments on this note are generated from comments extracted
 of the original .tex source file.
+</i>

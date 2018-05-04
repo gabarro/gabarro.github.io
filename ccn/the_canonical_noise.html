@@ -14,18 +14,18 @@ spectrum of an image and randomize its phases.  You obtain an image that has
 the same ``texture'', but a completely randomized geometry.  You cannot
 recognize any object.
 <pre>
-fft 1 i/barb.png |plambda "0 rand join cexp cprod" |fft -1 - barb-rpn.png
+fft 1 barb.png |plambda "0 rand join cexp cprod" |fft -1 - barb-rpn.png
 </pre>
-<img src="i/barb.png">{\small\tt barb.png}\\
-<img src="barb-rpn.png">{\small\tt barb-rpn.png}
+<img src="i/barb.png"><code>barb.png</code><br>
+<img src="barb-rpn.png"><code>barb-rpn.png</code>
 <p>
 What happens if you do the opposite?  Keep the phases and randomize the
 amplitudes?  Well, you lose all kind of texture but all the objects are
 recognizable among the very spiky noise.
 <pre>
-fft 1 i/barb.png|plambda "dup vnorm / randu *"|ifft|qauto -i -p 1 - barb-ran.png
+fft 1 barb.png|plambda "dup vnorm / randu *"|ifft|qauto -i -p 1 - barb-ran.png
 </pre>
-<img src="barb-ran.png">{\small\tt barb-ran.png}
+<img src="barb-ran.png"><code>barb-ran.png</code>
 <p>
 In fact, setting the amplitudes to uniform random is more or less the same
 thing that setting them to a constant; the visual effect is very similar, but
@@ -34,25 +34,25 @@ obtained by throwing away all amplitude information (but not randomizing it)
 and keeping only the phases.  It looks very different than the original
 image, more or less like a laplacian.
 <pre>
-fft 1 i/barb.png |plambda "dup vnorm /" |ifft |qauto -i -p 1 - barb-pha.png
+fft 1 barb.png |plambda "dup vnorm /" |ifft |qauto -i -p 1 - barb-pha.png
 </pre>
-<img src="barb-pha.png">{\small\tt barb-pha.png}
+<img src="barb-pha.png"><code>barb-pha.png</code>
 <p>
 The phase image looks very strange because it has a flat spectrum, which is a
 very unnatural spectrum to have.  Typically, the spectrum of images decays
 with the inverse of the frequency.  Imposing this decay, instead of a flat
 spectrum, we obtain the so-called {\em canonical image}:
 <pre>
-fft 1 i/barb.png |plambda "dup vnorm / :R /" |ifft |qauto -i -p 1 - barb-can.png
+fft 1 barb.png |plambda "dup vnorm / :R /" |ifft |qauto -i -p 1 - barb-can.png
 </pre>
-<img src="barb-can.png">{\small\tt barb-can.png}
+<img src="barb-can.png"><code>barb-can.png</code>
 <p>
 This image is eerily similar to the original.  It looks like a noisy version
 of the original, but the noise is not white.  Interestingly, this noise has
 been produced <i>without any use of random numbers!</i>  We can call it the
 <b>canonical noise</b> of the image.  This works even with binary images:
 <pre>
-fft &lt;i/binbeck.png|plambda "dup vnorm / :R /" |ifft|qauto -p 9 - binbeck-can.png
+fft &lt;binbeck.png|plambda "dup vnorm / :R /" |ifft|qauto -p 9 - binbeck-can.png
 </pre>
-<img src="i/binbeck.png">{\small\tt binbeck.png}\\
-<img src="binbeck-can.png">{\small\tt binbeck-can.png}
+<img src="i/binbeck.png"><code>binbeck.png</code><br>
+<img src="binbeck-can.png"><code>binbeck-can.png</code>

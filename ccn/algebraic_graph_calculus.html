@@ -583,6 +583,7 @@ want to interpolate a function which is known only over some vertices).
 In order to do algebra with them, we model subsets as diagonal operators that
 contain the indicator function of the subset as the diagonal entries.  This
 model is used for subsets of vertices and subsets of edges.
+<p>
 <b>Notations</b>:
 Let $X=\{1,\ldots,n\}$ (or any finite ordered set) and $Y\subseteq X$.
 Let $a$ be a vector of length $n$ and $A$ a
@@ -626,6 +627,7 @@ Now that we have described the differential and boundary operators operator
 in matrix form, it is immediate to write the discrete analogues of several
 linear PDE.  This is very beautiful because the analytic properties of the
 corresponding PDE are recovered by elementary linear algebra.
+<p>
 <b>3.6.1.</b>
 <b>Laplace</b> equation on the whole graph:
 \[
@@ -633,12 +635,14 @@ Lu=0
 \]
 If the graph is connected, the matrix $L$ has rank $n-1$ thus its kernel is
 one-dimensional, corresponding to the constant solutions $u=c$.
+<p>
 <b>3.6.2.</b>
 <b>Poisson</b> equation on the whole graph, with data $f:V\to\R$:
 \[
 Lu=f
 \]
 has a unique solution unless $f$ is constant.
+<p>
 <b>3.6.3.</b>
 Laplace equation on a subset $\Omega\subseteq V$, with <b>Dirichlet
 boundary conditions</b>
@@ -651,6 +655,7 @@ diagonal part corresponding to the values of $u$ outside of $\Omega$.
 Notice also that the values of $f$ at the vertices that have no neighbors in
 $\Omega$ only appear in the diagonal part.  The values of $f$ inside $\Omega$
 do not appear at all (are cancelled out).
+<p>
 <b>3.6.4.</b>
 Laplace equation on a subset $\Omega\subseteq V$,
 with <b>Neumann boundary conditions</b>
@@ -667,6 +672,7 @@ or, in an alternative notation
 (\mathrm{diag}(\1_\Omega) L + \mathrm{diag}(B\1_\Omega))B)u
 =\mathrm{diag}(B\1_\Omega) g
 \]
+<p>
 <b>3.6.5.</b>
 <b>Heat equation</b> on the whole graph with initial condition $u_0:V\to\R$:
 \[
@@ -678,6 +684,7 @@ u(0) &amp; = u_0
 This is a system of $n$ first-order linear differential equations with
 constant coefficients.  It has a closed-form solution using the matrix
 exponential $u=e^{tL}u_0$.
+<p>
 <b>3.6.6.</b>
 Heat equation with <b>source term</b> $f:V\to\R$ and initial condition
 $u_0:V\to\R$
@@ -689,6 +696,7 @@ u(0) &amp; = u_0
 \]
 It has likewise a closed-form solution $u=e^{tL}(u_0-L^{-1}f)-L^{-1}f$.
 Notice that $L^{-1}f$ only makes sense when $f$ is not a constant vector.
+<p>
 <b>3.6.7.</b>
 Other combinations are possible, and easy to deduce from the simpler cases:
 Poisson and Heat equation on subsets with various boundary conditions, etc.

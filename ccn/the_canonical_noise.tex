@@ -9,8 +9,8 @@ recognize any object.
 \begin{verbatim}
 fft 1 i/barb.png |plambda "0 rand join cexp cprod" |fft -1 - barb-rpn.png
 \end{verbatim}
-\includegraphics{i/barb.png}{\small\tt barb.png}\\
-\includegraphics{barb-rpn.png}{\small\tt barb-rpn.png}
+\includegraphics{i/barb.png}\verb+barb.png+\newline
+\includegraphics{barb-rpn.png}\verb+barb-rpn.png+
 
 What happens if you do the opposite?  Keep the phases and randomize the
 amplitudes?  Well, you lose all kind of texture but all the objects are
@@ -19,7 +19,7 @@ recognizable among the very spiky noise.
 \begin{verbatim}
 fft 1 i/barb.png|plambda "dup vnorm / randu *"|ifft|qauto -i -p 1 - barb-ran.png
 \end{verbatim}
-\includegraphics{barb-ran.png}{\small\tt barb-ran.png}
+\includegraphics{barb-ran.png}\verb+barb-ran.png+
 
 
 In fact, setting the amplitudes to uniform random is more or less the same
@@ -32,7 +32,7 @@ image, more or less like a laplacian.
 \begin{verbatim}
 fft 1 i/barb.png |plambda "dup vnorm /" |ifft |qauto -i -p 1 - barb-pha.png
 \end{verbatim}
-\includegraphics{barb-pha.png}{\small\tt barb-pha.png}
+\includegraphics{barb-pha.png}\verb_barb-pha.png_
 
 
 The phase image looks very strange because it has a flat spectrum, which is a
@@ -43,7 +43,7 @@ spectrum, we obtain the so-called {\em canonical image}:
 \begin{verbatim}
 fft 1 i/barb.png |plambda "dup vnorm / :R /" |ifft |qauto -i -p 1 - barb-can.png
 \end{verbatim}
-\includegraphics{barb-can.png}{\small\tt barb-can.png}
+\includegraphics{barb-can.png}\verb+barb-can.png+
 
 
 This image is eerily similar to the original.  It looks like a noisy version
@@ -55,8 +55,8 @@ been produced \emph{without any use of random numbers!}  We can call it the
 \begin{verbatim}
 fft <i/binbeck.png|plambda "dup vnorm / :R /" |ifft|qauto -p 9 - binbeck-can.png
 \end{verbatim}
-\includegraphics{i/binbeck.png}{\small\tt binbeck.png}\\
-\includegraphics{binbeck-can.png}{\small\tt binbeck-can.png}
+\includegraphics{i/binbeck.png}\verb+binbeck.png+\newline
+\includegraphics{binbeck-can.png}\verb+binbeck-can.png+
 
 
 

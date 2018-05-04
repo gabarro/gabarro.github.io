@@ -24,9 +24,6 @@ global_substitutions = {
 	-- remove comments (TODO: keep some of them as html comments)
 	{"\\%%", "\\&#37;"},
 	{"%%[^\n]*\n", "\n"},
-	--{"[^\\]%%[^\n]*\n", "\n"},
-	--{"%s%%[^\n]*\n", "\n"},
-
 
 	-- change \emph{...} to <i>...</i> (and similar inline stuff)
 	{"\\emph{(.-)}", "<i>%1</i>"},
@@ -36,7 +33,6 @@ global_substitutions = {
 	{"{\\it%s(.-)}", "<i>%1</i>"},
 	{"{\\bf%s(.-)}", "<b>%1</b>"},
 	{"{\\tt%s(.-)}", "<code>%1</code>"},
-	--{"{\\small(.-)}", "<small>%1</small>"},
 
 	-- change \href{link}{text} to <a href="link">text</a>
 	{"\\href{(.-)}{(.-)}", "<a href=\"%1\">%2</a>"},
@@ -50,6 +46,7 @@ global_substitutions = {
 	-- remove latex-only stuff
 	{"\\clearpage", ""},
 	{"\\thispagestyle{(.-)}", ""},
+	{"\\mbox{(.-)}", '<span>%1</span>'},
 	{"\\fbox{(.-)}", '<span style="border:1px solid">%1</span>'},
 
 	-- change \includegraphics{...} to <img src="...">
@@ -105,18 +102,23 @@ global_substitutions = {
 	{"\\begin{proof}",       "<p>\n<i>Proof.</i>"},
 	{"\\end{proof}",         "<span style=\"float:right\">&#8718;</span>"},
 
+	-- abstract environement (wherever it appears)
+	{"\\begin{abstract}(.-)\\end{abstract}",
+	 '<blockquote style="font-size:80%%"><b>Abstract.</b>%1</blockquote>'
+	},
+
 	-- tabular (TODO: recover vertical bars)
 	-- XXX: the order of these pattern replacements is important
 	{"%s*\\\\(%s*\\end{tabular})", "%1"},
 	{"\\begin{tabular}{.-}", "<table border=\"1\" cellspacing=\"0\" cellpadding=\"7\">\n<tr><td>\n"},
 	{"\\end{tabular}", "</table>"},
-	-- the following substitutions are only done inside a table environment
-	--{"&amp;", "<td>"},
-	--{"%s*\\\\\n", "\n<tr><td>"},
-	--{"\\hline", ""},
 
 	-- surround \newcommands by math so that mathjax sees it
 	{"\n(\\newcommand[^\n]+)", "$%1$\n"},
+
+	-- hack to remove "i/" from displayed image filenames
+	{'([^"])i/([%a.-]-%.png)', "%1%2"},
+	{'([^"])i/([%a.-]-%.jpg)', "%1%2"},
 }
 
 
@@ -226,6 +228,9 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 			u:match("^[%a][^\n]-\n") or
 			u:match("^<img[^\n]-\n") or
 			u:match("^<span[^\n]-\n") or
+			u:match("^<b>[^\n]-\n") or
+			u:match("^<i>[^\n]-\n") or
+			u:match("^<em>[^\n]-\n") or
 			u:match("^%$[^%$]")
 		)
 		then

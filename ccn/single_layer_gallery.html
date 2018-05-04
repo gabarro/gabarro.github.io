@@ -41,6 +41,7 @@ The function $h$ is chosen to transport the histogram of $g*n$
 into $[0,255]$.  For example, a simplest color balance or an Otsu
 thresholding.  The kernel $g$ is typically positive and radial, or a
 derivative of a radial function.
+<p>
 <i>Note:</i>
 This is a fully reproducible document.
 Each greyed-out section is the complete script used to produce the
@@ -229,6 +230,7 @@ The programs required to run these scripts are available in <code>imscript</code
 \url{http://github.com/mnhrdt/imscript}.
 <p>
 Here are the help messages of the four main programs:
+<p>
 <b>qauto</b>
  <pre>
 Qauto quantizes an image into [0,255].
@@ -254,6 +256,7 @@ Examples:
  qauto in.tiff out.png          Quantize an image by simplest color balance.
  qauto -i in.png out.png        Remove color biases
  </pre>
+<p>
 <b>blur</b>
  <pre>
 Blur convolves the input image by the requested positive kernel.
@@ -293,6 +296,7 @@ Examples:
  plambda - "x,l -1 *" | blur i 0.25      Laplacian square root
  plambda - "x,l" | blur z 0.25 | plambda - "0 &gt;"      Linear dithering
  </pre>
+<p>
 <b>plambda</b>
  <pre>
 Plambda evaluates an expression with images as variables.

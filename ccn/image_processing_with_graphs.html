@@ -50,8 +50,10 @@ hundreds of experiments of a 500 page book is probably too much to ask.  The
 goal of this document is to provide such a code for a small part of the book.
 <p>
 My favourite chapters are 6 and 7:
+<p>
 <b>6. A short tour of mathematical morphology on edge and vertex weighted
 graphs</b>, <i>Laurent Najman and Fernand Meyer</i>
+<p>
 <b>7. Partial difference quations on graphs for local and nonlocal image
 processing</b>, <i>Abrerrahim Elmoataz, Olivier Lézoray, Vinh-Thong Ta and
 Sébastien Bougleux</i>.
@@ -247,7 +249,7 @@ The graph defines just the <i>domain</i> of an image.  We still need the
 Beckett by Jane Bown:
 <p>
 <img src="i/beckett.png">
-{\small<code>beckett.png</code>}
+<code>beckett.png</code>
 <p>
 The easiest operator to understand is the Laplacian.  The following octave
 code thus reads an image, applies the laplacian operator, and saves the
@@ -264,7 +266,7 @@ imwrite(z, "beckett-lap.png");    # save output image
 </pre>
 <p>
 <img src="beckett-lap.png">
-{\small<code>beckett-lap.png</code>}
+<code>beckett-lap.png</code>
 <p>
 The typical color coding for looking at a laplacian is such that gray=zero,
 white=negative, black=positive.  As expected, the laplacian enhances the
@@ -277,7 +279,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-sharp.png");  # save output image
 </pre>
 <p>
 <img src="beckett-sharp.png">
-{\small<code>beckett-sharp.png</code>}
+<code>beckett-sharp.png</code>
 <p>
 Conversely, we can smooth the image by adding multiples of the laplacian to
 it, iteratively.  This amounts to approximation the solution of the heat
@@ -289,7 +291,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-smooth.png");  # save output image
 </pre>
 <p>
 <img src="beckett-smooth.png">
-{\small<code>beckett-smooth.png</code>}
+<code>beckett-smooth.png</code>
 <h2>4. Graph-based mathematical morphology</h2>
 <p>
 The morphological operations of <b>dilation</b> and <b>erosion</b> are

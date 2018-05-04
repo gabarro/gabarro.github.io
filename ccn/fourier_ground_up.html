@@ -17,8 +17,11 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>Fourier from the ground up</h1>
+
 <h2>1. The algebra of trigonometric polynomials</h2>
+
 <p>
 $\newcommand{\Z}{\mathbf{Z}}$
 $\newcommand{\Q}{\mathbf{Q}}$
@@ -29,6 +32,7 @@ $\newcommand{\ud}{\mathrm{d}}$
 $\newcommand{\ds}{\displaystyle}$
 $\newcommand{\DFT}{\mathtt{DFT}}$
 $\newcommand{\IDFT}{\mathtt{IDFT}}$
+
 <p><div class="thm"><b>Definition.</b><em>
 A <i>trigonometric polynomial</i> is an expression of the form
 $$
@@ -38,12 +42,14 @@ where all the coefficients $f_n\in\C$ are zero except, maybe, a finite
 number of them.  The set of all trigonometric polynomials is denoted
 by $\PP$.
 </em></div>
+
 <p>
 There are two ways to interpret a trigonometric polynomial: as a
 function $\Z\to\C$ defined by $n\mapsto f_n$, or as a function $\R\to\C$
 defined by $\theta\mapsto f(\theta)$.
 Most of Fourier analysis deals with
 the duality between these two interpretations.
+
 <p>
 Let us introduce some <b>common language</b>.
 A trigonometric polynomial is usually called a <i>signal</i>.  The
@@ -53,6 +59,7 @@ mapping $n\mapsto\left|f_n\right|^2$ is called the <i>power
 spectrum</i> of the signal $f$.  Building the signal from its amplitudes
 is called is called <i>synthesis</i>, and extracting the amplitudes
 from a signal is called <i>analysis</i>.
+
 <p>
 The monomial $e^{in\theta}$ is called a <i>pure wave of frequency $n$</i>.
 Thus, synthesis consists in creating a signal as a linear combination of pure
@@ -61,6 +68,7 @@ combination.  Using this language, we say that harmonic analysis consists in
 studying the duality between signals $f(\theta)$ and their spectra $f_n$; how
 do the operations on signals correspond to operations on their spectra, and
 vice-versa.
+
 <p><div class="thm"><b>Proposition.</b><em>
 (Elementary properties)
 The following properties hold:
@@ -76,6 +84,7 @@ The following properties hold:
 		pointwise product $f(\theta)g(\theta)$)
 </ol>
 </em></div>
+
 <p>
 <i>Proof.</i>
 (1) Each monomial $e^{in\theta}$ is $\mathcal{C}^\infty$
@@ -86,6 +95,7 @@ The following properties hold:
 (3,4) This result is immediate by linearity of finite sums.
 (5) The product of two finite sums is still a finite sum.
 <span style="float:right">&#8718;</span>
+
 <p>
 The point (3) of this proposition is of fundamental importance.  In a more
 general context, it is called the <i>superposition principle</i>.  Although it
@@ -93,13 +103,16 @@ is algebraically trivial, it may be non-intuitive when using the language of
 signal processing: when computing the sum of two signals, their amplitudes at
 each frequency add up separately. <i>There can be no destructive
 interference between different frequencies.</i>
+
 <p>
 When interpreting a trigonometric polynomial as a $2\pi$-periodic
 function $\R\to\C$, it helps to plot it as a closed curve in the complex
 plane.  The monomials $e^{in\theta}$ for $n\neq 0$ all correspond to the unit
 circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0$.
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$e^{-3i\theta}$ <td>
 	$e^{-2i\theta}$ <td>
 	$e^{-i\theta}$ <td>
@@ -122,11 +135,70 @@ circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0
 	<img src="monoal+2.png"> <td>
 	<img src="monoal+3.png">
 </table>
+<!--
+%SCRIPT cat <<END >monomial.g
+%SCRIPT set term pngcairo crop size 160,160
+%SCRIPT unset key; unset border; unset xtics; unset ytics; unset ztics
+%SCRIPT set samples 1000; set parametric; set view equal xyz
+%SCRIPT set margins at screen 0, at screen 1, at screen 0, at screen 1
+%SCRIPT splot [0:2*pi] [-1:1] [-1:1] \
+%SCRIPT 	-1,u,-1              lw 0 lc rgb "gray"                  ,\
+%SCRIPT 	-1,u,+1              lw 0 lc rgb "gray"                  ,\
+%SCRIPT 	+1,u,-1              lw 0 lc rgb "gray"                  ,\
+%SCRIPT 	(u-pi)/pi,0,-1       lw 0 lc rgb "gray"                  ,\
+%SCRIPT 	(u-pi)/pi,2*pi,-1    lw 0 lc rgb "gray"                  ,\
+-->
+
+<!--
+%SCRIPT 	-1,0,(u-pi)/pi       lw 0 lc rgb "gray"                  ,\
+%SCRIPT 	-1,2*pi,(u-pi)/pi    lw 0 lc rgb "gray"                  ,\
+-->
+
+<!--
+%SCRIPT 	cos(f*u),u,-1        lw 0 lc rgb "blue" dashtype '- '    ,\
+%SCRIPT 	-1,u,sin(f*u)        lw 0 lc rgb "blue" dashtype '- '    ,\
+-->
+
+<!--
+%SCRIPT 	cos(f*u),u,sin(f*u)  lw 1 lc rgb "red"                   ,\
+%SCRIPT 	u/(2*pi),0,0         lw 2 lc rgb "black"                 ,\
+%SCRIPT 	0,0,u/(2*pi)         lw 2 lc rgb "black"
+%SCRIPT END
+%SCRIPT gnuplot -e "f=+0" monomial.g &gt; monomial+0.png &amp;
+%SCRIPT gnuplot -e "f=+1" monomial.g &gt; monomial+1.png &amp;
+%SCRIPT gnuplot -e "f=+2" monomial.g &gt; monomial+2.png &amp;
+%SCRIPT gnuplot -e "f=+3" monomial.g &gt; monomial+3.png &amp;
+%SCRIPT gnuplot -e "f=-1" monomial.g &gt; monomial-1.png &amp;
+%SCRIPT gnuplot -e "f=-2" monomial.g &gt; monomial-2.png &amp;
+%SCRIPT gnuplot -e "f=-3" monomial.g &gt; monomial-3.png &amp;
+%SCRIPT wait
+-->
+
+<!--
+%SCRIPT cat <<END >mz.g
+%SCRIPT set term pngcairo crop size 192,192
+%SCRIPT unset key;unset xtics; unset ytics; set size ratio -1
+%SCRIPT set zeroaxis lw 1 lc rgb "gray" lt 1
+%SCRIPT plot [-5:5] [-1:2] "&lt; cat -" w circles fill solid
+%SCRIPT END
+%SCRIPT X=`seq -5 5`
+%SCRIPT for i in $X; do echo $i $((i==-3)); done |gnuplot mz.g &gt;monoal-3.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==-2)); done |gnuplot mz.g &gt;monoal-2.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==-1)); done |gnuplot mz.g &gt;monoal-1.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+0)); done |gnuplot mz.g &gt;monoal+0.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+1)); done |gnuplot mz.g &gt;monoal+1.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+2)); done |gnuplot mz.g &gt;monoal+2.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+3)); done |gnuplot mz.g &gt;monoal+3.png &amp;
+%SCRIPT wait
+-->
+
 <h3>1.1. Convolution theorems</h3>
+
 <p>
 Proposition \ref{prp:elementary}(3) explains how to analyze the pointwise sum
 of two signals.  The convolution theorem explains how to analyze their
 pointwise product:
+
 <p><div class="thm"><b>Proposition <span style="font-weight:normal">(First convolution theorem)</span>.</b><em>
 	Let $h(\theta)=f(\theta)g(\theta)$, then
 	\(
@@ -135,6 +207,7 @@ pointwise product:
 		
 		\)
 </em></div>
+
 <p>
 <i>Proof.</i>
 	The proof is a verification, just as for \ref{prp:elementary}(3), but
@@ -162,15 +235,18 @@ pointwise product:
 	thus, identifying the coefficients we have
 	that $\ds h_k=\sum_{n\in\Z} f_n g_{k-n}$.
 <span style="float:right">&#8718;</span>
+
 <p>
 The sequence $h_n=\sum_{k\in\Z} f_k g_{n-k}$ is called the <i>discrete
 convolution</i> of the sequences $f_n$ and $g_n$.  Thus, the first convolution
 theorem says that the spectrum of a pointwise product is the convolution of the
 spectra.
+
 <p>
 The second convolution theorem is the dual version of this statement: the
 pointwise product of spectra is the spectrum of the convolution.  For that, we
 need to define the convolution of two signals:
+
 <p><div class="thm"><b>Definition <span style="font-weight:normal">(Convolution of two trigonometric polynomials)</span>.</b><em>
 	Let $f,g\in\PP$.  We define the <i>periodic convolution</i> of $f$
 	and $g$ as
@@ -178,10 +254,12 @@ need to define the convolution of two signals:
 		(f*g)(\theta)=\int_0^{2\pi}f(t)g(\theta-t)\ud t
 	\]
 </em></div>
+
 <p><div class="thm"><b>Proposition.</b><em>
 	The function $h=f*g$ is well-defined and it belongs to $\PP$.
 	Moreover, $h_n=2\pi f_n g_n$.
 </em></div>
+
 <p>
 <i>Proof.</i>
 	The expression that defines $(f*g)(\theta)$ is an integral of
@@ -193,11 +271,17 @@ need to define the convolution of two signals:
 		=
 	\]
 <span style="float:right">&#8718;</span>
+
 <h3>1.2. Norm, product and energy conservation</h3>
+
 <h3>1.3. Degree</h3>
+
 <h3>1.4. Sampling and the DFT</h3>
+
 <h3>1.5. Zero-padding and aliasing</h3>
+
 <h3>1.6. Analytic properties</h3>
+
 <p>
 The set $\PP$ of trigonometric polynomials $\PP$ is like the set $\Q$ of rational
 numbers. They are both easy to define and manipulate, and all the results about
@@ -212,7 +296,9 @@ obtained using the norm $\|f\|_2$ defined above.  We will see that using
 stricter norms (involving the derivatives of $f$) we obtain completions that
 are smaller spaces (Sobolev spaces).  And we can even obtain larger completions
 (periodic distributions) by using topologies that do not come from any norm.
+
 <h3>1.7. Higher dimensions</h3>
+
 <p>
 A trigonometric polynomial of $N$ coefficients is an expression of the form
 \[
@@ -223,7 +309,9 @@ points $\theta_k=\frac{2\pi k}{M}$.
 Sampling theory studies the relationship between the vector of
 coefficients $f_n$ and the vector of samples $f(\theta_k)$, depending on the
 values of $M$ and $N$.
+
 <p>
+
 <p>
 The ideal case is when <span style="border:1px solid">$N=M$</span>, or perfect sampling.  In that case there
 are as many coefficients as samples, and there is a linear bijection between
@@ -235,7 +323,9 @@ them, whose matrix is given by the DFT:
 \]
 This formula says that the IDFT of the vector $f_n$ is the
 vector $f(\theta_k)$.
+
 <p>
+
 <p>
 When <span style="border:1px solid">$M&gt;N$</span> we have more samples than coefficients.  This is called
 oversampling, or redundant sampling, or zero-padding, depending on the point of
@@ -247,7 +337,9 @@ view:
 \]
 where $zp(f_n)$ is the vector $f_n$ padded by zeros until length $M$.
 This says that the IDFT of the vector $zp(f_n)$ is the vector $f(\theta_k)$.
+
 <p>
+
 <p>
 When <span style="border:1px solid">$M&lt;N$</span> we have less samples than coefficients.  This is called
 undersampling or aliasing.  We can still write the samples as the IDFT of a
@@ -272,7 +364,9 @@ residue modulo $M$, and we can group them:
 \]
 so the samples $f(\theta_k)$ are, as always the IDFT of the
 coefficients $\mathrm{alias}(f_n)$.
+
 <p>
+
 <p>
 <b>Note:</b>
 The choice of interval for the indices $n\in\{0,\ldots,N-1\}$ may appear
@@ -281,20 +375,25 @@ being $n\in\left\{-\frac{N}{2},\ldots,\frac{N}{2}-1\right\}$.
 But we can actually take an arbitrary interval $I_N\subset\Z$, as long as our
 euclidean residue is defined to be inside: $p\% N\in I_N$.  With this notation,
 the formulas above become
+
 <p>
 This is a trigonometric polynomial of $N$ coefficients:
 \[
 	F(\theta)=\sum_{n\in I_N}f_n e^{in\theta}
 \]
+
 <p>
 And those are $M$ samples:
 \[
 	\theta_k=\frac{2\pi k}{M} \qquad k=0,\ldots,M
 \]
+
 <p>
 Sampling theory studies the relationship between the vectors $(f_n)\in\C^N$
 and <span>$(F(\theta_k))\in\C^M$</span>.
+
 <p>
+
 <p>
 The case <span style="border:1px solid">$M=N$</span> is called ideal sampling.  The relationship is a linear
 bijection between samples and coefficients that is, by definition, the $\DFT$.
@@ -302,6 +401,7 @@ bijection between samples and coefficients that is, by definition, the $\DFT$.
 	F(\theta_k)=\sum_{n\in I_M}f_ne^{\frac{2\pi ink}{M}}
 \]
 We have $F(\theta_k) = \IDFT(f_n)$ (this is our definition of $\IDFT$).
+
 <p>
 <span style="border:1px solid">$M&gt;N$</span> oversampling or zero-padding:
 \[
@@ -320,6 +420,7 @@ We have $F(\theta_k) = \IDFT(zp(f)_m)$, where
 		0 &amp; \mathrm{if}\ m\in I_M\setminus I_N \\
 	\end{cases}
 \]
+
 <p>
 <span style="border:1px solid">$M&lt;N$</span> undersampling or aliasing:
 \[
@@ -335,3 +436,4 @@ We still have $F(\theta_k)=\IDFT(alias(f)_m)$, where
 \[
 	alias(f)_m=\sum_{(n\ \mathrm{mod}_I\  M)=m} f_n
 \]
+

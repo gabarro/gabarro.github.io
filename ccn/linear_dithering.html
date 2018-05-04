@@ -27,17 +27,27 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>Linear Dithering</h1>
+
 <p>
 Consider the problem of converting a gray-scale image into a binary image,
 while keeping as much as possible of the visual information.
 The two standard techniques are <b>thresholding</b> and <b>dithering</b>.
+
 <p>
 The goal of this note is to show that thresholding and dithering are just two
 points on a multidimensional continuum of binarization methods, that we call
 <b>linear dithering</b>.
+
+<!--
+%SCRIPT plambda weiro.png "87 > 255 *" -o weiro-bin.png
+%SCRIPT dither weiro.png weiro-dit.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.1|plambda - '0 &lt; 255 *' -o weiro-lin.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="i/weiro.png"> <td>
 	<img src="weiro-bin.png"> <td>
 	<img src="weiro-dit.png"> <td>
@@ -47,7 +57,9 @@ points on a multidimensional continuum of binarization methods, that we call
 	dithering <td>
 	linear dithering
 </table>
+
 <h2>1. Classic thresholding and dithering</h2>
+
 <p>
 Thresholding at the right level is surprisingly effective.  It is often
 possible to find a threshold that captures most of the relevant information
@@ -57,6 +69,7 @@ satisfactory threshold.
 Dithering (also called error diffusion) is aimed at representing all the
 possible gray levels of the original image, at the price of a small loss of
 resolution.
+
 <p>
 Look at this photo of a famous bongo player, for example.  There is a strong
 spot light righto into his face, and the rest of the image is very dark.  I
@@ -68,24 +81,33 @@ dithering described below.  Notice that Floyd-Sternberg dithering destroys
 all the texture of the clothes, which is well-preserved by thresholding and
 linear dithering.  (Too well-preserved, in the last case, as it enhances the
 jpeg compression artifacts of the original.)
+
 <div class="gallery" style="min-height:531px;height:8em"><ul class="index">
+
 	<li><a href="i/bongos.jpg">bongos.jpg<span><img src="i/bongos.jpg"></span></a>
+
 	<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png"></span></a>
+
 	<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png"></span></a>
+
 	<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png"></span></a>
+
 </ul></div>
 <pre>
 plambda bongos.jpg "87 &gt; 255 *" -o bongos-bin.png
 dither bongos.jpg bongos-dit.png
 plambda bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.png
 </pre>
+
 <h2>2. Dithering with pre-processing</h2>
+
 <p>
 We can pre-process gray-scale images before dithering them.  We consider two
 pre-processings: a <b>contrast change</b> by a function of the
 form $x\mapsto\tanh(\lambda x)/\tanh(\lambda)$, and a <b>linear filtering</b>
 of the original image that enhances its contrast.  For simplicity, here we
 assume that our input images are of zero mean and take values on $[-1,1]$.
+
 <p>
 For the contrast change, notice two things.  First, the
 $\lambda$-scaled $\tanh$ tends to a step function as $\lambda\to\infty$, and
@@ -94,13 +116,37 @@ Second, dithering a binary image produces exactly the same image.  Thus, just
 by composing the dithering with a contrast change, we obtain a one-parameter
 family of methods that contains pure dithering and pure
 binarization as particular cases.
+
 <p>
 <img src="tanhs.png">
+<!--
+%SCRIPT gnuplot <<END >tanhs.png
+%SCRIPT set term pngcairo lw 2
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT set key top left
+%SCRIPT plot [-1:1] [-1:1] tanh(10*x)/tanh(10),tanh(1*x)/tanh(1)
+%SCRIPT END
+-->
+
 <p>
 In the figures below, the first row contains the result of applying the
 contrast change, and the second row the dithering of each image.
+
+<!--
+%SCRIPT ditanh() { plambda "127 - 127 / $1 * tanh $1 tanh / 127 * 127 +" ; }
+%SCRIPT cat weiro.png | ditanh 0.1 | iion - weiro-tanh0.png
+%SCRIPT cat weiro.png | ditanh 3   | iion - weiro-tanh3.png
+%SCRIPT cat weiro.png | ditanh 7   | iion - weiro-tanh7.png
+%SCRIPT cat weiro.png | ditanh 900 | iion - weiro-tanhi.png
+%SCRIPT cat weiro.png | ditanh 0.1 | dither - weiro-ditanh0.png
+%SCRIPT cat weiro.png | ditanh 3   | dither - weiro-ditanh3.png
+%SCRIPT cat weiro.png | ditanh 7   | dither - weiro-ditanh7.png
+%SCRIPT cat weiro.png | ditanh 900 | dither - weiro-ditanhi.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$\lambda=0$ <td>
 	$\lambda=3$ <td>
 	$\lambda=7$ <td>
@@ -114,6 +160,7 @@ contrast change, and the second row the dithering of each image.
 	<img src="weiro-ditanh7.png"> <td>
 	<img src="weiro-ditanhi.png">
 </table>
+
 <p>
 For the linear filtering, we consider a family of filters $k$ of the
 form $\widehat{k}(\xi)=|\xi|^\mu$ for $\mu\in[0,2]$, acting over images of
@@ -122,8 +169,22 @@ These filters interpolate continuously between the identity ($\mu=0$) and
 minus the Laplacian operator ($\mu=2$).  The case $\mu=1$ can be
 called <i>linear retinex</i>.  For $\mu&lt;0$, this is called the Riesz scale
 space.
+
+<!--
+%SCRIPT riesz() { periodize | fft | plambda ":R $1 ^ *" | ifft | imhalve ; }
+%SCRIPT cat weiro.png | riesz 0.1 | qauto - weiro-riesz01.png            &amp;
+%SCRIPT cat weiro.png | riesz 0.5 | qauto - weiro-riesz05.png            &amp;
+%SCRIPT cat weiro.png | riesz 1.0 | qauto - weiro-riesz10.png            &amp;
+%SCRIPT cat weiro.png | riesz 2.0 | qauto - weiro-riesz20.png            &amp;
+%SCRIPT cat weiro.png | riesz 0.1 | qauto | dither - weiro-diriesz01.png &amp;
+%SCRIPT cat weiro.png | riesz 0.5 | qauto | dither - weiro-diriesz05.png &amp;
+%SCRIPT cat weiro.png | riesz 1.0 | qauto | dither - weiro-diriesz10.png &amp;
+%SCRIPT cat weiro.png | riesz 2.0 | qauto | dither - weiro-diriesz20.png &amp;
+%SCRIPT wait
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$\mu=0.1$ <td>
 	$\mu=0.5$ <td>
 	$\mu=1$ <td>
@@ -137,27 +198,33 @@ space.
 	<img src="weiro-diriesz10.png"> <td>
 	<img src="weiro-diriesz20.png">
 </table>
+
 <p>
 Notice that the Laplacian is locally constant nearly everywhere, except just
 around the edges.  Thus, dithering this image results in a checkerboard
 pattern of density $50\%$, but with a characteristic bias around the edges
 which renders the structures visible.
+
 <h2>3. Thresholding with linear pre-processing</h2>
+
 <p>
 Now, forget a moment about the dithering step and consider only linear
 filtering and thresholding.
 In modern parlance, thresholding with linear pre-processing would be called
 <i>single layer convolutional neural network with Heaviside activation
 function</i>.
+
 <p>
 More precisely, we take an image of zero mean, apply a linear filter, and
 threshold the result at 0.
+
 <p>
 Let us see how changing shape of the kernel produces
 different effects.  We use the following radial kernels (we omit the
 normalization factors in this table):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	name <td> formula <tr><td>
 	Gauss <td> $G_\sigma(r) =\delta-\exp\frac{-r^2}{2\sigma^2}$ <tr><td>
 	Laplace <td> $L_\sigma(r) =\delta-\exp\frac{-r}{\sigma}$ <tr><td>
@@ -166,13 +233,21 @@ normalization factors in this table):
 	truncated inverse-log <td> $Z_\sigma(r)=T_\sigma\frac{1}{\log(r)}$<tr><td>
 	log-Cauchy <td> $Q_\sigma(r)=-\log(\sigma^2+r^2)$
 </table>
+
 <p>
 These filters are all positive, so the effect they produce is blurring the
 images.  For this application we apply them to the Laplacian of the input
 image (or, equivalently, we filter the image by the Laplacian of these
 kernels).
+
+<!--
+%SCRIPT plambda x,l<weiro.png|blur -z g 0.5|plambda - '0 < 255 *' -o weiro-ga.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z g 1|plambda - '0 &lt; 255 *' -o weiro-gb.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z g 3|plambda - '0 &lt; 255 *' -o weiro-gc.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-ga.png"> <td>
 	<img src="weiro-gb.png"> <td>
 	<img src="weiro-gc.png"> <tr><td>
@@ -180,8 +255,15 @@ kernels).
 	$G_{1}$ <td>
 	$G_{3}$
 </table>
+
+<!--
+%SCRIPT plambda x,l<weiro.png|blur -z l 0.5|plambda - '0 < 255 *' -o weiro-la.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z l 1|plambda - '0 &lt; 255 *' -o weiro-lb.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z l 3|plambda - '0 &lt; 255 *' -o weiro-lc.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-la.png"> <td>
 	<img src="weiro-lb.png"> <td>
 	<img src="weiro-lc.png"> <tr><td>
@@ -189,8 +271,15 @@ kernels).
 	$L_{1}$ <td>
 	$L_{3}$
 </table>
+
+<!--
+%SCRIPT plambda x,l<weiro.png|blur -z c 0.5|plambda - '0 < 255 *' -o weiro-ca.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z c 1|plambda - '0 &lt; 255 *' -o weiro-cb.png
+%SCRIPT plambda x,l&lt;weiro.png|blur -z c 3|plambda - '0 &lt; 255 *' -o weiro-cc.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-ca.png"> <td>
 	<img src="weiro-cb.png"> <td>
 	<img src="weiro-cc.png"> <tr><td>
@@ -198,8 +287,16 @@ kernels).
 	$C_{1}$ <td>
 	$C_{3}$
 </table>
+
+<!--
+%SCRIPT plambda weiro.png x,l|blur -z z 0.01|plambda - '0 < 255 *' -o weiro-z01.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.10|plambda - '0 &lt; 255 *' -o weiro-z10.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.20|plambda - '0 &lt; 255 *' -o weiro-z20.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.50|plambda - '0 &lt; 255 *' -o weiro-z50.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-z01.png"> <td>
 	<img src="weiro-z10.png"> <td>
 	<img src="weiro-z20.png"> <td>
@@ -209,8 +306,16 @@ kernels).
 	$Z_{0.20}$ <td>
 	$Z_{0.50}$
 </table>
+
+<!--
+%SCRIPT plambda weiro.png x,l|blur -z i 0.01|plambda - '0 < 255 *' -o weiro-i01.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.10|plambda - '0 &lt; 255 *' -o weiro-i10.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.20|plambda - '0 &lt; 255 *' -o weiro-i20.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.50|plambda - '0 &lt; 255 *' -o weiro-i50.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-i01.png"> <td>
 	<img src="weiro-i10.png"> <td>
 	<img src="weiro-i20.png"> <td>
@@ -220,8 +325,16 @@ kernels).
 	$Y_{0.20}$ <td>
 	$Y_{0.50}$
 </table>
+
+<!--
+%SCRIPT plambda weiro.png x,l|blur -z q 0.01|plambda - '0 < 255 *' -o weiro-q01.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.10|plambda - '0 &lt; 255 *' -o weiro-q10.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.20|plambda - '0 &lt; 255 *' -o weiro-q20.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.50|plambda - '0 &lt; 255 *' -o weiro-q50.png
+-->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="weiro-q01.png"> <td>
 	<img src="weiro-q10.png"> <td>
 	<img src="weiro-q20.png"> <td>
@@ -231,16 +344,19 @@ kernels).
 	$Q_{0.20}$ <td>
 	$Q_{0.50}$
 </table>
+
 <p>
 Notice that some of these images (e.g., $Y_{20}$ and $Q_{20}$) could pass ass
 ``dithering'', but with sharper edges.  However, they are simply a
 thresholding of the image after a linear filter, where the kernel has been
 chosen carefully.
+
 <p>
 This is just a small exploration of a huge family of <b>linear dithering</b>
 methods to produce binary images, that contains thresholding and dithering by
 error diffusion as
 particular cases.
+
 <p>
 This technique also works for color images, by treating each RGB channel
 independently, and producing a 3-bit palette at the end.  Compared to
@@ -249,19 +365,27 @@ the price of a considerable loss in color fidelity, due to saturation.
 However, the saturation is much less than for a brutal per-channel
 binarization.   See, for example, the
 blue eyes in this color image:
+
 <pre>
 dither barb.png barb-dit.png
 plambda barb.png x,l | blur z 0.15 | plambda - '0 &lt; 255 *' -o barb-lin.png
 plambda barb.png 'x x
 </pre>
 <div class="gallery" style="min-height:572px;height:8em"><ul class="index">
+
 	<li><a href="i/barb.png">barb.png<span><img src="i/barb.png"></span></a>
+
 	<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png"></span></a>
+
 	<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png"></span></a>
+
 	<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png"></span></a>
+
 </ul></div>
+
 <p>
 <i>
 PS: all the experiments on this note are generated from comments extracted
 of the original .tex source file.
 </i>
+

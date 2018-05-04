@@ -17,14 +17,23 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>Colors of image noise</h1>
+
 <h2>1. White Gaussian noise</h2>
+
 <p>
 Everybody knows about white Gaussian noise
+
 <p>
 <img src="white.png">
+<!--
+%SCRIPT plambda zero:512x512 randg | qauto -p 0.1 - white.png &amp;
+-->
+
 <p>
 White Gaussian noise is famous because it has very nice properties:
+
 <ol>
 	<li>It is easy to generate using pseudorandom numbers
 	<li>Each pixel is an independent, identically distributed Normal
@@ -36,6 +45,7 @@ White Gaussian noise is famous because it has very nice properties:
 		non-independent, but they are still Normal and identically
 		distributed.
 </ol>
+
 <p>
 Some properties of dubious convenience:
 <ol>
@@ -45,10 +55,13 @@ Some properties of dubious convenience:
 		infinite dynamic range.
 	<li>When you see it from far away (zooming-out), it disappears.
 </ol>
+
 <p>
 Statistics of white gaussian noise and its DFT:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="w256.png"> <td>
 	<img src="w256_h.png"> <td>
 	<img src="w256_f.png"> <td>
@@ -58,11 +71,24 @@ Statistics of white gaussian noise and its DFT:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg -o w256.tiff
+%SCRIPT qauto -p 0.1 w256.tiff w256.png &amp;
+%SCRIPT plambda w256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; w256_h.png &amp;
+%SCRIPT fft&lt;w256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - w256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;w256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; w256_p.png &amp;
+-->
+
 <h2>2. Blurred white Gaussian noise</h2>
+
 <p>
 White gaussian noise blurred by a small gaussian kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="b256.png"> <td>
 	<img src="b256_h.png"> <td>
 	<img src="b256_f.png"> <td>
@@ -72,10 +98,22 @@ White gaussian noise blurred by a small gaussian kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur g 1 - b256.tiff
+%SCRIPT qauto -p 0.1 b256.tiff b256.png &amp;
+%SCRIPT plambda b256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; b256_h.png &amp;
+%SCRIPT fft&lt;b256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - b256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;b256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; b256_p.png &amp;
+-->
+
 <p>
 White gaussian noise blurred by a larger gaussian kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="B256.png"> <td>
 	<img src="B256_h.png"> <td>
 	<img src="B256_f.png"> <td>
@@ -85,10 +123,22 @@ White gaussian noise blurred by a larger gaussian kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur g 5 - B256.tiff
+%SCRIPT qauto -p 0.1 B256.tiff B256.png &amp;
+%SCRIPT plambda B256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; B256_h.png &amp;
+%SCRIPT fft&lt;B256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - B256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;B256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; B256_p.png &amp;
+-->
+
 <p>
 White gaussian noise blurred by a Cauchy kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="c256.png"> <td>
 	<img src="c256_h.png"> <td>
 	<img src="c256_f.png"> <td>
@@ -98,10 +148,22 @@ White gaussian noise blurred by a Cauchy kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur c 1 - c256.tiff
+%SCRIPT qauto -p 0.1 c256.tiff c256.png &amp;
+%SCRIPT plambda c256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; c256_h.png &amp;
+%SCRIPT fft&lt;c256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - c256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;c256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; c256_p.png &amp;
+-->
+
 <p>
 White gaussian noise blurred by a Laplace kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="l256.png"> <td>
 	<img src="l256_h.png"> <td>
 	<img src="l256_f.png"> <td>
@@ -111,10 +173,22 @@ White gaussian noise blurred by a Laplace kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur l 1 - l256.tiff
+%SCRIPT qauto -p 0.1 l256.tiff l256.png &amp;
+%SCRIPT plambda l256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; l256_h.png &amp;
+%SCRIPT fft&lt;l256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - l256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;l256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; l256_p.png &amp;
+-->
+
 <p>
 White gaussian noise blurred by a Disk kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="d256.png"> <td>
 	<img src="d256_h.png"> <td>
 	<img src="d256_f.png"> <td>
@@ -124,10 +198,22 @@ White gaussian noise blurred by a Disk kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur disk 4.5 - d256.tiff
+%SCRIPT qauto -p 0.1 d256.tiff d256.png &amp;
+%SCRIPT plambda d256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; d256_h.png &amp;
+%SCRIPT fft&lt;d256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - d256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;d256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; d256_p.png &amp;
+-->
+
 <p>
 White gaussian noise blurred by a Square kernel:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="s256.png"> <td>
 	<img src="s256_h.png"> <td>
 	<img src="s256_f.png"> <td>
@@ -137,14 +223,27 @@ White gaussian noise blurred by a Square kernel:
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg |blur square 14 - s256.tiff
+%SCRIPT qauto -p 0.1 s256.tiff s256.png
+%SCRIPT plambda s256.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; s256_h.png &amp;
+%SCRIPT fft&lt;s256.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - s256_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\n'; fft &lt;s256.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; s256_p.png &amp;
+-->
+
 <h2>3. Colored gaussian noise</h2>
+
 <p>
 When the spectrum of noise decays as a power-law, we say that it is
 ``colored'' noise.  The exponent $\alpha$ of the power law determines its
 color.  The particular case of $\alpha=0$ corresponds to white noise (a flat
 spectrum).
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="purple.png"> <td>
 	<img src="blue.png"> <td>
 	<img src="white2.png"> <tr><td>
@@ -159,10 +258,22 @@ spectrum).
 	$\alpha=-2$ brown <td>
 	$\alpha=-3$ smooth
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg -o white.tiff
+%SCRIPT cat white.tiff|qauto -p 0.1 - white2.png &amp;
+%SCRIPT cat white.tiff|fft|plambda ':R 2 ^ *'|ifft|qauto -p 0.1 - purple.png &amp;
+%SCRIPT cat white.tiff|fft|plambda ':R 1 ^ *'|ifft|qauto -p 0.1 - blue.png &amp;
+%SCRIPT cat white.tiff|fft|plambda ':R -1 ^ *'|ifft|qauto -p 0.1 - pink.png &amp;
+%SCRIPT cat white.tiff|fft|plambda ':R -2 ^ *'|ifft|qauto -p 0.1 - brown.png &amp;
+%SCRIPT cat white.tiff|fft|plambda ':R -3 ^ *'|ifft|qauto -p 0.1 - smooth.png &amp;
+-->
+
 <p>
 Statistics of Pink noise ($\alpha=-1$):
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="KK-1.png"> <td>
 	<img src="KK-1_h.png"> <td>
 	<img src="KK-1_f.png"> <td>
@@ -172,10 +283,22 @@ Statistics of Pink noise ($\alpha=-1$):
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg|fft|plambda ':R -1 ^ *'|ifft >KK-1.tiff
+%SCRIPT qauto -p 0.1 KK-1.tiff KK-1.png &amp;
+%SCRIPT plambda KK-1.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' |\
+%SCRIPT        gnuplot &gt; KK-1_h.png &amp;
+%SCRIPT fft&lt;KK-1.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - KK-1_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "log avg |û(ξ)|"\nset logscale y\n'; fft &lt;KK-1.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; KK-1_p.png &amp;
+-->
+
 <p>
 Statistics of Brown noise ($\alpha=-2$):
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="KK-2.png"> <td>
 	<img src="KK-2_h.png"> <td>
 	<img src="KK-2_f.png"> <td>
@@ -185,10 +308,22 @@ Statistics of Brown noise ($\alpha=-2$):
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg|fft|plambda ':R -2 ^ *'|ifft >KK-2.tiff
+%SCRIPT qauto -p 0.1 KK-2.tiff KK-2.png &amp;
+%SCRIPT plambda KK-2.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; KK-2_h.png &amp;
+%SCRIPT fft&lt;KK-2.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - KK-2_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\nset logscale y\n'; fft &lt;KK-2.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; KK-2_p.png &amp;
+-->
+
 <p>
 Statistics of Smooth noise ($\alpha=-3$):
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="KK-3.png"> <td>
 	<img src="KK-3_h.png"> <td>
 	<img src="KK-3_f.png"> <td>
@@ -198,10 +333,22 @@ Statistics of Smooth noise ($\alpha=-3$):
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg|fft|plambda ':R -3 ^ *'|ifft >KK-3.tiff
+%SCRIPT qauto -p 0.1 KK-3.tiff KK-3.png &amp;
+%SCRIPT plambda KK-3.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; KK-3_h.png &amp;
+%SCRIPT fft&lt;KK-3.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - KK-3_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\nset logscale y\n'; fft &lt;KK-3.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; KK-3_p.png &amp;
+-->
+
 <p>
 Statistics of Blue noise ($\alpha=1$):
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="KK+1.png"> <td>
 	<img src="KK+1_h.png"> <td>
 	<img src="KK+1_f.png"> <td>
@@ -211,10 +358,22 @@ Statistics of Blue noise ($\alpha=1$):
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg|fft|plambda ':R 1 ^ *'|ifft >KK+1.tiff
+%SCRIPT qauto -p 0.1 KK+1.tiff KK+1.png &amp;
+%SCRIPT plambda KK+1.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; KK+1_h.png &amp;
+%SCRIPT fft&lt;KK+1.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - KK+1_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\nset logscale y\n'; fft &lt;KK+1.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; KK+1_p.png &amp;
+-->
+
 <p>
 Statistics of Purple noise ($\alpha=2$):
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<img src="KK+2.png"> <td>
 	<img src="KK+2_h.png"> <td>
 	<img src="KK+2_f.png"> <td>
@@ -224,3 +383,17 @@ Statistics of Purple noise ($\alpha=2$):
 	$\log|\hat u(\xi)|$ <td>
 	average spectral profile
 </table>
+<!--
+%SCRIPT plambda zero:256x256 randg|fft|plambda ':R 2 ^ *'|ifft >KK+2.tiff
+%SCRIPT qauto -p 0.1 KK+2.tiff KK+2.png &amp;
+%SCRIPT plambda KK+2.tiff 'x
+%SCRIPT        sed 's/cairo/cairo enhanced font "Verdana,8" size 256,256/' | \
+%SCRIPT        gnuplot &gt; KK+2_h.png &amp;
+%SCRIPT fft&lt;KK+2.tiff|fftshift|plambda 'vnorm 1 + log'|qauto -p .1 - KK+2_f.png&amp;
+%SCRIPT (printf 'set term pngcairo size 256,256\nset format y ""\nset xlabel "±|ξ|"\nset ylabel "avg |û(ξ)|"\nset logscale y\n'; fft &lt;KK+2.tiff|fftshift|plambda 'vnorm'|cline nan|sed 's/data//g')|gnuplot &gt; KK+2_p.png &amp;
+-->
+
+<!--
+%SCRIPT wait
+-->
+

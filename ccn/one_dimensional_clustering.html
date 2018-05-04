@@ -17,7 +17,9 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>One-dimensional clustering with one cluster</h1>
+
 <blockquote style="font-size:80%"><b>Abstract.</b>
 	The simplest case of clustering is the one dimensional case:
 	when we want to find clusters of a given set of numbers.  The
@@ -31,7 +33,9 @@
 </blockquote>
 $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\Z}{\mathbf{Z}}$
+
 <h2>1. The Pythagorean means and the median</h2>
+
 <p>
 Our goal is to combine a set of $N$ numbers $x_1,\ldots,x_N$ into a
 single one.  The simplest choice is the <i>average</i>, also
@@ -55,6 +59,7 @@ when all the numbers are positive.  As we will see, the harmonic mean
 also really makes sense only when all the numbers are strictly positive.
 However, the arithmetic mean has good properties for arbitrary input
 numbers (positive, negative, or zero).
+
 <p>
 For positive numbers, we also have the <i>quadratic mean</i>, also
 called <i>root mean square error</i>:
@@ -75,6 +80,7 @@ inequalities:
 \]
 These inequalities are elementary to prove for $N=2$, and the general
 case is a standard exercise.
+
 <p>
 Finally, the last ``traditional'' aggregator is the <i>median</i>,
 which is computed by sorting the numbers from low to high, and taking
@@ -94,7 +100,9 @@ where $x_{(1)},\ldots x_{(N)}$ indicates the sorted
 numbers $x_1,\ldots,x_N$.  There is no general inequality
 relationship between $\mathrm{med}$ and $\mathrm{avg}$, either one can be larger or
 smaller, depending on the particular set of numbers.
+
 <h2>2. Axiomatic characterization</h2>
+
 <p>
 A map $f:\R^N\to\R$ with the following properties
 is called an aggregator function:
@@ -127,14 +135,17 @@ is called an aggregator function:
 		=\lambda\ f(x_1,\ldots,x_N)
 		\quad\forall\lambda &gt;0$
 </ul>
+
 <p>
 Notice that these properties may only be true on a subdomain
 of $\R^N$ where $f$ is well-defined (typically, the positive
 numbers).  Properties $P0--P4$ are very natural, and a bit redundant;
 for example you can prove identity from monotony and bracketing, etc.
+
 <p>
 The following properties $P5--P7$ are more special and aggregator
 functions may or may not have them:
+
 <ul>
 	\item[P5.]
 		(Additivity)
@@ -150,7 +161,9 @@ functions may or may not have them:
 		$\qquad$
 		$f:\R^N\to\R$ is continuous
 </ul>
+
 <h2>3. List of examples</h2>
+
 <p>
 This list should contain <b>all</b> the aggregator functions that I
 know (whether they are useful or useless).  Many aggregator functions
@@ -158,7 +171,9 @@ belong to families that depend on a real-valued parameter, and for
 extremal values of the parameter they give the min and the max.
 Thus, all these aggregators can be interpreted as different,
 data-guided interpolators between min and max.
+
 <h3>3.1. Power means $M_p$</h3>
+
 <p>
 The <i>power means</i> $M_p$ are defined only for strictly positive numbers:
 \[
@@ -168,9 +183,12 @@ Notice that $M_p$ is well defined for $p\neq0$.  We extend the
 definition of $M_p$ to $p=0,\pm\infty$ by taking limits.  The
 resulting definition contains all the Pythagorean means, the minimum and
 the maximum as particular cases:
+
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	power mean <td> meaning <tr><td>
 	
 	$M_{-\infty}$ <td> minimum <tr><td>
@@ -181,27 +199,35 @@ the maximum as particular cases:
 	$M_3$ <td> cubic mean <tr><td>
 	$M_\infty$ <td> maximum
 </table>
+
 <p>
+
 <p>
 Notice that as the parameter $p$ goes from $-\infty$ to $\infty$, the
 power mean $M_p$ interpolates from the minimum to the maximum sample,
 passing through the Pythagorean means at the values
 points $p=-1,0,1,2$.
+
 <p>
 Power means satisfy properties $P0--P4$ over the positive numbers.
 Although $M_{-1}$ can be defined also for negative numbers, it fails
 to satisfy the bracketing property, so it is not considered as such.
+
 <p>
 Except for the values of $p=1,\pm\infty$, the power means do not
 satisfy the additivity property $P5$.  Thus, they are essentially
 tied to the position of the zero in the real line.
+
 <p>
 On the other hand, the power means are composable ($P6$).
+
 <h3>3.2. Order statistics $O_k$ and $O_{\alpha</h3>
 $}
+
 <p>
 The power means are not the only natural interpolation between min
 and max; there is indeed a more natural one: the order statistics.
+
 <p>
 Given a set of $N$ numbers $x_1,\ldots,x_N$, they can always be
 re-indexed so that
@@ -221,9 +247,12 @@ notation $O_{\alpha}$ for $\alpha\in[0,1]$, where $k=(N-1)\alpha+1$.
 This notation has the advantage of being independent of $N$, so
 that $O_{\frac{1}{2}}$ is always the median.  The following table
 lists other particular cases
+
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	order statistic <td> meaning <tr><td>
 	
 	$O_0$ <td> minimum <tr><td>
@@ -234,14 +263,18 @@ lists other particular cases
 	$O_{0.9}$ <td> ninth decile <tr><td>
 	$O_1$ <td> maximum
 </table>
+
 <p>
+
 <p>
 Order statistics can be defined for arbitrary numbers (positive,
 negative and zero) and they have the additivity property P5, thus
 they are position-invariant.  However, except for the min and the
 max, they are not composable (P6).
+
 <h3>3.3. Histogram modes $H_{\varphi,\psi</h3>
 $}
+
 <p>
 A simple yet very robust way to locate a cluster, especially when
 there is a large number of points, is to build and histogram of the
@@ -250,17 +283,22 @@ samples).  This method has two parameters, the <i>frequency</i> of the bins,
 and the <i>phase</i>
 \[
 	H_{\varphi,\psi}(x_1,\ldots,x_N) :=
+
 	\psi+\frac{1}{2}\varphi+\varphi\mathrm{argmax}_{k\in\Z}
+
 	\sum_{i=1}^N\int_{\psi+k\varphi}^{\psi+(k+1)\varphi}
 	\delta(x-x_i)\,\d x
 \]
+
 <p>
 Notice
 that the result depends on the two parameters $(\varphi,\psi)$ in a
 very beautiful and fractal way (see Figure \ref{fig:modefractal}).
 It is impossible to set reasonable values of these parameters without
 knowing anything about the nature of the input data.
+
 <h3>3.4. Fréchet $p$-centroids $F_p$</h3>
+
 <p>
 On a metric space $(M,d)$, the Fréchet centroid of a set of
 points $p_i\in M$ is the point $c\in M$ that minimizes the sum of
@@ -268,6 +306,7 @@ squared differences to $p_i$
 \[
 	c := \mathrm{argmin}_{m\in\R}\sum_{i=1}^N d^2(p_i,m).
 \]
+
 <p>
 Based on this definition, and using the $L^p$ norms on the real line,
 we define the $p-$ centroids of a set of numbers:
@@ -284,11 +323,15 @@ following slightly different normalization (which gives the same result for $p&
 This normalization has the advantage that the numerical behavior is
 somehow independent of $N$ and $p$  (the function to minimize has
 linear growth at inifinty independently of $p$).
+
 <p>
 We find the following interesting particular cases
+
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	Fréchet centroid <td> meaning <tr><td>
 	
 	$F_2$ <td> average <tr><td>
@@ -296,7 +339,9 @@ We find the following interesting particular cases
 	$F_{\to\infty}$ <td> midrange $I_{0.5}=(\min+\max)/2$ <tr><td>
 	$F_{\to0}$ <td> ``mode''
 </table>
+
 <p>
+
 <p>
 Notice that the parameter $p$ controls the robustness to outliers.
 For $p=2$ we have the average, which is not very robust to outliers.
@@ -306,10 +351,12 @@ extremely robust to outliers (it is independent of outliers, unlike
 the median).  On the other side, increasing $p\to\infty$ we approach
 the average between the two extremal values, which is the least
 robust possible aggregator (it depends <i>only</i> on the outliers).
+
 <p>
 The Fréchet centroids are position independent, but not composable
 (in fact the ``italian'' theorem says that the only aggregator that
 has all the properties is the arithmetic mean).
+
 <p>
 Notice that the effective computation of $F_p$ requires solving an
 optimization problem.  For $p\in[1,4)$ Weiszfeld
@@ -317,12 +364,16 @@ algorithm is used.  For $p&gt;4$ we need to use another algorithm, for
 example Newton's method.  For $p&lt;1$ the function is not convex and
 some sort of search must be performed (starting from seeds between
 each pair of data points, for good measure).
+
 <p>
 Notice that the Fréchet $p$-centroids can be defined over arbitrary
 metric spaces.  In the case of a Riemannian manifold, the Fréchet
 $\infty$-centroid coincides with the midpoint of the diameter.
+
 <p>
+
 <h3>3.5. L-estimators and $I_\alpha$</h3>
+
 <p>
 For $\alpha\in[0,1]$ we define
 \[
@@ -330,14 +381,17 @@ For $\alpha\in[0,1]$ we define
 \]
 Thus,
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$I_\alpha$ <td> meaning <tr><td>
 	
 	$I_0$ <td> min <tr><td>
 	$I_{0.5}$ <td> midrange <tr><td>
 	$I_1$ <td> max
 </table>
+
 <p>
 This is just the trivial linear interpolation between min and max.
 It is an example of $L$-estimator.  In general, an $L$ estimator is a
@@ -347,9 +401,12 @@ function of the form
 \]
 Some famous $L$ estimators are the midrange, the midhinge (average of
 first and third quartiles), the trimean, truncated means, and other curiosities
+
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$L$-estimator <td> name <tr><td>
 	
 	$O_0$ <td> min <tr><td>
@@ -363,17 +420,22 @@ first and third quartiles), the trimean, truncated means, and other curiosities
 	$\frac{1}{N}\sum_{k=1}^{N} O_k$ <td> mean (average of
 	everything)
 </table>
+
 <p>
+
 <blockquote>
 An advantage of the trimean as a measure of the center (of a
 distribution) is that it combines the median's emphasis on center
 values with the midhinge's attention to the extremes.\hfill
 	---Herbert F. Weisberg, <i>Central Tendency and Variability</i>
 </blockquote>
+
 <h3>3.6. Lehmer $L_p$, Gini $G_{p,q</h3>
 $ and Stolarsky $S_p$ means}
+
 <p>
 The following aggregators are defined for strictly positive numbers
+
 \[
 	L_p(x_1,\ldots,x_N):=\frac{
 		\displaystyle\sum_{i=1}^N x_i^p
@@ -381,12 +443,16 @@ The following aggregators are defined for strictly positive numbers
 		\displaystyle\sum_{i=1}^N x_i^{p-1}
 		}
 \]
+
 <p>
 This is an increasing family between min and max, different to the
 power means, but passing through several common points:
+
 <p>
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	Lehmer mean <td> name <tr><td>
 	
 	$L_{-\infty}$ <td> min <tr><td>
@@ -397,7 +463,9 @@ power means, but passing through several common points:
 	$(x_1^2+\cdots+x_N^2)/(x_1+\cdots+x_N)$ <tr><td>
 	$L_{\infty}$ <td> max
 </table>
+
 <p>
+
 <p>
 Interestingly, the contraharmonic mean can be defined also for
 nonzero numbers (not necessarily positive).
@@ -405,6 +473,7 @@ It is the sum of the average and the variance divided by the average.
 The contraharmonic mean of positive numbers is always larger or
 equal than the quadratic mean, but it is otherwise unrelated to the
 other power means for $p&gt;2$.
+
 <p>
 The Gini means form a very general family of aggregators that
 contains the power means and the Lehmer means as particular cases
@@ -420,24 +489,31 @@ contains the power means and the Lehmer means as particular cases
 \]
 where the sums and products above are performed over $x\in\{x_1,\ldots
 x_N\}$
+
 <h3>3.7. Particular aggregators</h3>
+
 <p>
 Some aggregator functions do not belong to any parametric family, but
 are particular cases on their own right
 (for example, the ``MEDIAL''!) Others lie at the
 intersection of different parametric families:
+
 <p>
 the arithmetic mean is at the same time a power mean $M_1$ and a
 Fréchet centroid $F_2$
+
 <p>
 the median is at the same time an order statistic $U_{\frac{1}{2}}$ and a
 Fréchet centroid $F_1$
+
 <h3>3.8. Quasi-arithmetic means</h3>
+
 <p>
 A different, non parametric, generalisation of means that contains
 the power means and many others as particular cases is the following.
 It consists in performing the arithmetic mean behind a ``contrast
 change $f$''.
+
 <p>
 Let $f:\R\to\R$ be a continuous, strictly monotonic function, then we
 define
@@ -447,14 +523,18 @@ define
 The power means for $p\neq0$  appear as particular cases
 when $f(x)=x^p$.  The geometric mean appears for $f(x)=\log(x)$, and
 for $f(x)=\exp(x)$ we obtain the ``soft maximum'' LSE (log sum exp).
+
 <h2>4. Size parameters</h2>
+
 <p>
 On the previous section we have described methods to define
 the <i>position</i> of a cluster, namely to find <i>where</i> a cluster of numbers is located.  A different
 problem is the computation of the <i>size</i> of a cluster.
+
 <p>
 Many criteria for defining the size---but not all---depend on finding
 first the position.
+
 <p>
 Besides axioms P1--P4 above, size measures satisfy the following two
 axioms:
@@ -468,8 +548,10 @@ axioms:
 		$f(\lambda+x_1,\ldots,\lambda+x_N)
 		=f(x_1,\ldots,x_N)$
 </ul>
+
 (please, contrast position invariance with additivity, or position
 covariance above)
+
 <p>
 Some famous size measures
 <ul>
@@ -484,14 +566,18 @@ Some famous size measures
 	<li>The Rousseeuw and Croux statistic $S_n := 1.1926
 		F_1(F_1(|x_i-x_j|))$
 </ul>
+
 <h2>5. More than one cluster</h2>
+
 <p>
 So far I have talked about the common case when there is a single
 cluster of numbers; or, in statistical parlance, that the data is
 unimodal.  Yet, it is important to be able to identify whether this
 is this the case, and when the data is not unimodal, how to (god
 forbid!) find several clusters in it.
+
 <h3>5.9. How to decide whether there is a single cluster</h3>
+
 <p>
 A simple criterion for deciding whether a set of numbers forms a
 single cluster is to compare the geometric and arithmetic means: if
@@ -501,8 +587,12 @@ they are very different, we say that the data is not unimodal:
 \]
 for some threshold $\tau&gt;1$, for example $\tau=2$.  Notice that this
 criterion is not shift-invariant.
+
 <p>
 This ratio is a standard measure for homogeneity detection in radar
 images.
+
 <h3>5.10. How to find K clusters, with known K (K-means)</h3>
+
 <h3>5.11. How to find X clusters, with unknown X (X-means)</h3>
+

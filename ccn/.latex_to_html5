@@ -15,11 +15,16 @@ metadata_maths = false
 
 -- table of global substitutions (could be implemented in sed)
 global_substitutions = {
+
 	-- change a few character entities
 	{"&", "&amp;"},   -- note: this affects LaTeX tables, see below
 	{"<", "&lt;"},
 	{">", "&gt;"},
 	{"~", " "}, -- real non-breaking space here, equivalent to &nbsp;
+
+	-- htmlize SCRIPT tags
+	{"\n%%(SCRIPT[^\n]+)", "\n<!--\n&#37;%1\n-->"},
+	{"\n%-%->\n<!%-%-", ""},
 
 	-- remove comments (TODO: keep some of them as html comments)
 	{"\\%%", "\\&#37;"},
@@ -218,13 +223,14 @@ counter_sec = 0
 counter_ssec = 0
 counter_thm = 0
 table_depth = 0
+toggle_pre = false
 
 o = "" -- the previous line
 for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	u = l    -- line to add to the output (the same, by default)
 
 	-- if a paragraph starts, put <p>
-	if o == "\n" and (
+	if o == "\n" and not toggle_pre and (
 			u:match("^[%a][^\n]-\n") or
 			u:match("^<img[^\n]-\n") or
 			u:match("^<span[^\n]-\n") or
@@ -266,16 +272,27 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 		u = u:gsub("%.</b>", " "..counter_thm..".</b>")
 	end
 
-	-- post-processing replacements
-	u = u:gsub("&#37;", "%%")
+	-- <pre> book-keeping
+	if u:match("^<pre") then toggle_pre = true end
+	if u:match("^ <pre") then toggle_pre = true end
+	if u:match("</pre>") then toggle_pre = false end
 
-	table.insert(output_lines, u)
+	-- post-processing replacements
+	u = u:gsub("&#37;", "%%") --percent entity
+	if o == "<!--\n" and u:match("^%%SCRIPT ") then --replace <> in SCRIPT
+		u = u:gsub("&lt;", "<")
+		u = u:gsub("&gt;", ">")
+	end
+
+	if o ~= "\n" or u ~= "\n" then -- uniq-ify blank lines
+		table.insert(output_lines, u)
+	end
 	o = l
 end
 
 -- dump output lines
 for _,l in pairs(output_lines) do
-	if not l:match("^\n$") then
+	--if not l:match("^\n$") then
 		io.stdout:write(l)
-	end
+	--end
 end

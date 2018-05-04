@@ -17,26 +17,43 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>The Cauchy basis</h1>
+
 <p>
 In this note we describe the construction of the <b>Cauchy basis</b>, whose
 functions satisfy at the same time Dirichlet and Neumann boundary conditions.
 Besides being beautiful, it is useful to solve fourth-order boundary
 problems.
+
 <h2>1. Introduction: Fourier, cosine and sine basis</h2>
+
 <p>
 Everybody knows the Fourier basis of $L^2([0,2\pi])$, defined by sine and
 cosine functions of integer frequencies.
+
 $$
 	1,\cos(x),\cos(2x),\ldots,\sin(x),\sin(2x),\ldots
 $$
+
 <p>
 <img src="sincos.png">
+<!--
+%SCRIPT gnuplot <<END >sincos.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "The Fourier basis"
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [0:2*pi] [-1.5:2] 1,sin(x),cos(x),sin(2*x),cos(2*x)
+%SCRIPT END
+-->
+
 <p>
 This was the original basis used by Joseph Fourier to study the heat equation.
 Notice that cosines are symmetric around the center of the interval, and
 sines are anti-symmetric.  Thus, all the functions of this basis are
 necessary to represent arbitrary functions on the whole interval.
+
 <p>
 Less well-known are the cosine basis, defined by cosines of half-integer
 frequencies
@@ -46,8 +63,19 @@ $$
 \cos\left(\frac{3}{2}x\right),
 \cos(2x),\ldots
 $$
+
 <p>
 <img src="cos.png">
+<!--
+%SCRIPT gnuplot <<END >cos.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "The cosine basis"
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [0:2*pi] [-1.5:2] 1,cos(x/2),cos(x),cos(3*x/2)
+%SCRIPT END
+-->
+
 <p>
 and the sine basis, defined by sines of half-integer frequencies
 $$
@@ -56,14 +84,26 @@ $$
 \sin\left(\frac{3}{2}x\right),
 \sin(2x), \ldots
 $$
+
 <p>
 <img src="sin.png">
+<!--
+%SCRIPT gnuplot <<END >sin.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "The sine basis"
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [0:2*pi] [-1.5:2] sin(x/2),sin(x),sin(3*x/2),sin(2*x)
+%SCRIPT END
+-->
+
 <p>
 Each one of these three sequences of functions is a Hilbert basis of the
 space $L^2([0,2\pi])$.  In particular, you can express a sine as a linear
 combination of cosines, and vice-versa.  This is a favourite exam question of
 mine.  Of course, the convergence is not uniform on the boundaries of the
 interval.
+
 <p>
 The cosine and sine bases are very useful when you want to express solutions of
 a differential equation (or a variational problem) satisfying particular
@@ -73,28 +113,54 @@ of the cosine basis, then $f'(0)=f'(2\pi)=0$.  The same relationships hold for
 series as long as the coefficients decrease fast enough.  Thus, the sine basis
 is useful for <i>Dirichlet boundary conditions</i>, and the cosine basis is
 useful for <i>Neumann boundary conditions</i>.
+
 <h2>2. The Cauchy basis</h2>
+
 <p>
 The functions of the Cauchy basis, defined below, satisfy simultaneously the
 four conditions $f(0)=f(1)=f'(0)=f'(1)=0$.
+
 <p>
 <img src="cauchy.png">
+<!--
+%SCRIPT gnuplot <<END >cauchy.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "The Cauchy basis"
+%SCRIPT # define eigenvalues (good enough approximation)
+%SCRIPT L(n) = (2*n+1)*pi/2-(-1)**n*2*exp(-(2*n+1)*pi/2)
+%SCRIPT 
+%SCRIPT # define eigenvectors
+%SCRIPT b(l) = (sinh(l)-sin(l))/(cos(l)-cosh(l))
+%SCRIPT v(l,x) = sin(l*x)-sinh(l*x)+b(l)*(cos(l*x)-cosh(l*x))
+%SCRIPT 
+%SCRIPT # plot the first few functions
+%SCRIPT set key bottom left
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [-0:1] [-2:2] v(L(1),x),v(L(2),x),v(L(3),x),v(L(4),x),v(L(5),x)
+%SCRIPT END
+-->
+
 <p>
 A simple construction of such a set of functions is obtained by considering
 eigenfunctions of the fourth derivative that satisfy the four boundary
 conditions.
+
 <p>
 Eigenfunctions of the fourth derivative are of the form $\exp(\rho x)$
 where $\rho$ is a fourth-root of $1$, thus $\rho\in\{1,-1,i,-i\}$.
 Equivalently, they are linear combinations of $\sin$, $\cos$, $\sinh$ and
 $\cosh$
+
 $$
 \varphi(x)=\alpha\cos(\lambda x)+\beta\sin(\lambda x)+\gamma\cosh(\lambda
 x)+\delta\sinh(\lambda x)
 $$
+
 <p>
 This is an eigenfunction of the fourth derivative with
 eigenvalue $\lambda^4$, that we can assume to be real positive.
+
 <p>
 By imposing the four boundary conditions, we obtain a linear system on the
 coefficients $(\alpha,\beta,\gamma,\delta)$, with a parameter $\lambda$.  The
@@ -106,6 +172,7 @@ $$
 The solutions of this equation (which are slight perturbations of even
 multiples of $pi/2$)
 are the eigenvalues of our basis.
+
 <p>
 A good enough approximation is given by
 $$
@@ -119,12 +186,35 @@ where
 $$
 \beta_n=\frac{\sinh\lambda_n-\sin\lambda_n}{\cos\lambda_n-\cosh\lambda_n}.
 $$
+
 <p>
 Notice that, although the functions $\varphi_n$ are beautiful and symmetric
 inside the interval $[0,1]$, they explode in wild ways outside this interval:
+
 <p>
 <img src="cauchy2.png">
+<!--
+%SCRIPT gnuplot <<END >cauchy2.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "The Cauchy basis, outside"
+%SCRIPT set samples 1000
+%SCRIPT # define eigenvalues (good enough approximation)
+%SCRIPT L(n)=(2*n+1)*pi/2-(-1)**n*2*exp(-(2*n+1)*pi/2)
+%SCRIPT 
+%SCRIPT # define eigenvectors
+%SCRIPT b(l)=(sinh(l)-sin(l))/(cos(l)-cosh(l))
+%SCRIPT v(l,x)=sin(l*x)-sinh(l*x)+b(l)*(cos(l*x)-cosh(l*x))
+%SCRIPT 
+%SCRIPT # plot the first few functions
+%SCRIPT set key bottom left
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [-0.25:1.25] [-2:2] v(L(1),x),v(L(2),x),v(L(3),x),v(L(4),x),v(L(5),x)
+%SCRIPT END
+-->
+
 <h2>3. Properties and open problems</h2>
+
 <p>
 We have just defined a set of functions $\varphi_n(x)$.  By construction,
 they are $C^\infty$ functions on the interval $[0,1]$ that
@@ -132,6 +222,7 @@ satisfy $0=\varphi_n(0)=\varphi_n(1)=\varphi_n'(0)=\varphi_n'(1)$.  Since
 these functions are eigenvectors of a linear operator with different
 eigenvalues, they must be orthogonal.  The following remains to be
 done:
+
 <ol>
 	<li>Prove that $\{\varphi_n(x)\}$ is a Hilbert basis of $L^2([0,1])$
 	<li>Prove that $|\varphi_n(x)|\le 2$ for $x\in[0,1]$
@@ -161,17 +252,22 @@ done:
 	<li>Extend this basis to the case of a square.
 	<li>Extend this basis to the case of a disk.
 </ol>
+
 <p>
 Some of these propositions are easy, others may not actually be possible
 (especially the last one).
+
 <h2>4. Detailed calculation</h2>
+
 <p>
 In this section we detail the construction leading to the Cauchy basis.
 The computation has two parts.  First, we explain how the
 equation $\cos\lambda\cosh\lambda=1$ is obtained,
 and then we propose a numerical approximation of the solutions of this
 equation.
+
 <h3>4.1. The eigenvalue equation</h3>
+
 <p>
 We start with the basic form
 $$
@@ -284,13 +380,31 @@ $$
 $$
 and this last expression is more amenable to computations (derivatives,
 integrals, scalar products).
+
 <h3>4.2. Numerical solution of the eigenvalue equation</h3>
+
 <p>
 By plotting the function $x\to\cos x\cosh x$, it is clear that it crosses the
 value $1$ infinitely many times, very near to the zeros of $\cos x$, except
 for $x=\pi/2$:
+
 <p>
 <img src="coscosh.png">
+<!--
+%SCRIPT gnuplot <<END >coscosh.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT set title "zeros of cos(x)*cosh(x)"
+%SCRIPT 
+%SCRIPT fmax(a,b)=a&lt;b?b:a
+%SCRIPT fmin(a,b)=a&lt;b?a:b
+%SCRIPT clip(x,a)=fmax(fmin(x,a),-a)
+%SCRIPT 
+%SCRIPT set samples 1000
+%SCRIPT set zeroaxis
+%SCRIPT plot [0:20] [-5:5] 1,cos(x),cosh(x),clip(cos(x)*cosh(x),4)
+%SCRIPT END
+-->
+
 <p>
 Thus, the zeros of the function $\lambda\to\cos\lambda\cosh\lambda-1$ have the
 form
@@ -322,10 +436,13 @@ Notice that the quality of the approximation improves as $n$ grows, so a
 satisfactory solution can be attained by tabulating the exact values
 of $\lambda_n$ for small values of $n$, and using the approximation for the
 others.
+
 <h2>5. Computer code</h2>
+
 <p>
 This is the complete <code>gnuplot</code> code to produce plots of the Cauchy
 basis:
+
 <pre>
 X(n)   = (2*n+1)*pi/2                 # approximate eigenvalues (to 0th order)
 L(n)   = X(n) - (-1)**n/cosh(X(n))    # refined eigenvalues (to 1st order)
@@ -335,5 +452,19 @@ u(l,x) = s(l*x) - c(l*x) * s(l)/c(l)  # generic eigenfunction
 v(n,x) = u(L(n),x)                    # n-th eigenfunction
 plot [-0:1] [-2:3] v(1,x),v(2,x),v(3,x),v(4,x),v(5,x)
 </pre>
+
 <p>
 <img src="cauchy3.png">
+<!--
+%SCRIPT gnuplot <<END >cauchy3.png
+%SCRIPT set term pngcairo lw 3
+%SCRIPT X(n) = (2*n+1)*pi/2
+%SCRIPT L(n) = X(n) - (-1)**n/cosh(X(n))
+%SCRIPT s(x) = sin(x) - sinh(x)
+%SCRIPT c(x) = cos(x) - cosh(x)
+%SCRIPT u(l,x) = s(l*x) - c(l*x) * s(l)/c(l)
+%SCRIPT v(n,x) = u(L(n),x)
+%SCRIPT plot [-0:1] [-2:3] v(1,x),v(2,x),v(3,x),v(4,x),v(5,x)
+%SCRIPT END
+-->
+

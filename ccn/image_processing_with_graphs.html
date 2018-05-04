@@ -27,42 +27,55 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>Image processing with graphs</h1>
+
 <p>
 This is one of the best books in image processing:
+
 <p>
 <img src="i/graphcover.png">
+
 <p>
 You should buy several copies, for yourself, your friends and your family;
 and ask your lab to buy several copies for the library.  Or even better,
 since the editor (whose name I have trimmed from the cover image) is a
 notorious bully, instead of buying it, download a copy from libgen and send
 the money directly to the authors.
+
 <p>
 The book is a collection of independent self-contained chapters written by
 different authors, all of them famous people from the french school of image
 processing.
+
 <p>
 The only critique of this book that I can conceive is that the ``practice''
 part of the title is not really fullfilled.  There is not a single line of
 real computer code displayed in the book.  But giving the codes for the
 hundreds of experiments of a 500 page book is probably too much to ask.  The
 goal of this document is to provide such a code for a small part of the book.
+
 <p>
 My favourite chapters are 6 and 7:
+
 <p>
 <b>6. A short tour of mathematical morphology on edge and vertex weighted
 graphs</b>, <i>Laurent Najman and Fernand Meyer</i>
+
 <p>
 <b>7. Partial difference quations on graphs for local and nonlocal image
 processing</b>, <i>Abrerrahim Elmoataz, Olivier Lézoray, Vinh-Thong Ta and
 Sébastien Bougleux</i>.
+
 <p>
 And these are the chapters whose implementation I detail below.
+
 <h2>1. The basic approach</h2>
+
 <p>
 The book contains this kind of sentences:
 $\newcommand{\R}{\mathbf{R}}$
+
 <blockquote>
 Let $G=(V,E)$ be a graph and $\mathcal{H}(V)$ be the Hilbert space of
 real-valued functions defined on the vertices of $G$.  The
@@ -73,16 +86,19 @@ Similarly, let $\mathcal{H}(E)$ be the Hilbert space of real-valued functions
 defined on the edges of $G$, $\ldots$.  Now, consider a linear operator
 between Hilbert spaces $A:\mathcal{H}(V)\to\mathcal{E}(V)$...
 </blockquote>
+
 <p>
 While these sentences are crystal clear and very appealing to an audience of
 mathematicians, I have found them to be intimidating when trying to
 evangelize people to read the book.  Thus, I ``translate'' them into the
 following kind of language, which is $100\%$ equivalent:
+
 <blockquote>
 Consider a graph with $n$ vertices and $m$ edges.  We will use vectors
 of length $n$ and $m$ to represent functions defined over the vertices or
 the edges, respectively.  We will also use matrices of size $m\times n$
 to represent linear maps between them $A:\R^n\to\R^m$.  In octave/matlab:
+
 <pre>
 n = 100;            # number of vertices in the graph
 m = 200;            # number of edges in the graph
@@ -91,26 +107,44 @@ A = rand(m,n);      # define a random linear map
 y = A * x;          # obtain a function over the edges
 </pre>
 </blockquote>
+
 <p>
 This is easier to interpret thanks to the computer code.  Of course, linear
 maps with random coefficients are silly.  We will see more interesting
 examples below.
+
 <h2>2. Matrices of a graph</h2>
+
 <p>
 You would think that to work with graphs on a computer you need some sort of
 library for graphs.  Nothing farther from the truth.  What you really need is
 a library for doing <i>linear algebra</i>.  In all the examples here we use
 octave, but you can translate it easily to python+numpy, which is slightly
 more verbose.
+
 <p>
 In what follows we reserve the letters $n$ and $m$ for the following meanings
+
 <p>
 $n\, =\ \,$ number of vertices in the graph<br>
 $m =\ \,$ number of edges in the graph
+
 <p>
 For the following graph, we have $n=5$ and $m=6$:
+
 <p>
 <img src="gggx.png">
+<!--
+%SCRIPT echo 'graph { node [shape=circle]
+%SCRIPT 1--2 [label="1"]
+%SCRIPT 1--3 [label="2"]
+%SCRIPT 2--3 [label="3  "]
+%SCRIPT 3--4 [label="4  "]
+%SCRIPT 3--5 [label="5"]
+%SCRIPT 4--5 [label=" 6 "]
+%SCRIPT }' | neato -Tpng &gt; gggx.png
+-->
+
 $$
 Z = \begin{pmatrix}
 1 &amp; 2 \\
@@ -136,9 +170,11 @@ B = \begin{pmatrix}
 	0 &amp; 0 &amp; 0 &amp;-1 &amp; 1 \\
 \end{pmatrix}_{\small 6\times 5}
 $$
+
 <p>
 There are <b>five</b> basic matrices associated to a graph, for which we will
 always use the same letters:
+
 <p>
 $Z\ \,=\ \,$ adjacency list, of size $m\times 2$,
              list of vertex index pairs <br>
@@ -150,6 +186,7 @@ $C\ \,=\ \,$ centering matrix, of size $m\times n$,
              defined as $C=\frac{1}{2}|B|$ <br>
 $L\ \,=\ \,$ Laplacian matrix, of size $n\times n$,
              defined as $L=-B'B$
+
 <p>
 It is very important to understand now the meaning of the matrices $Z,A,B$.
 The matrix $Z$ is the easiest to type by hand in a computer, but it is not
@@ -157,12 +194,15 @@ very useful for doing algebra with it.  All the other matrices are
 fundamental linear operators over functions defined on the graph.  Each of
 these fives matrices, alone, determines completely the graph (modulo the
 numbering of the edges, in the case of $A$ and $L$).
+
 <p>
 The matrices $A$, $B$ and $C$ satisfy the identity: $A=2C^TC-B^TB/2$.  This
 allows to compute $A$ from $B$.  To recover $B$ from $A$ we must decide on an
 ordering for the edges.
+
 <p>
 The following octave functions allow to convert between each representation:
+
 <pre>
 function A = graph_adjacency_from_list(Z)
         n = max(Z(:));                        # number of vertices
@@ -170,6 +210,7 @@ function A = graph_adjacency_from_list(Z)
         A = U + U';                           # symmetrization
 end
 </pre>
+
 <pre>
 function B = graph_incidence_from_adjacency(A)
         [i,j] = find(triu(A));                 # find the (i,j) positions
@@ -180,30 +221,37 @@ function B = graph_incidence_from_adjacency(A)
         B = B1 - B2;                           # signed incidence matrix
 end
 </pre>
+
 <pre>
 function Z = graph_list_from_adjacency(A)
         [i,j] = find(triu(A));
         Z = [i j];
 end
 </pre>
+
 <pre>
 function A = graph_adjacency_from_incidence(B)
         A = max(-B'*B,0);            # equal to (abs(B'*B) - B'*B) / 2
 end
 </pre>
+
 <p>
 Typically, in the applications, you can often build $B$ directly so that you
 do not really need these functions.  From $B$, the other matrices are easily
 computed if needed by:
+
  <pre>
 L = -B'*B;
 A = L &gt; 0;
 C = abs(B)/2;
 </pre> 
+
 <p>
 The following table summarizes the language that we will use everywhere.
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$n$ <td> number of vertices in the graph <tr><td>
 	$m$ <td> number of edges in the graph <tr><td>
 	$u\in\R^n$ <td> scalar field $u$ <tr><td>
@@ -215,23 +263,48 @@ The following table summarizes the language that we will use everywhere.
 	$C^T:\R^m\to\R^n$ <td> centering operator (from edges to vertices) <tr><td>
 	$C^TC:\R^n\to\R^n$ <td> smoothing operator
 </table>
+
 <p>
 The most important notion is that the matrix $B$ is called the <b>gradient</b>.  It is a linear operator that maps scalar fields (vectors of
 lenght $n$) into vector fields (vectors of length $m$).
 This definition is used for an arbitrary graph, but it makes a lot of sense
 when the graph is the grid of an image, because in that case the gradient
 corresponds exactly to the gradient computed using finite differences.
+
 <h2>3. The graph associated to an image</h2>
+
 <p>
 The pixels of an image are arranged naturally in the shape of a grid.
 Here, for example, you have the grid of a $4\times 3$ image:
+
 <p>
 <img src="gridgraph.png">
+<!--
+%SCRIPT echo 'graph {
+%SCRIPT node [shape=circle width=0.3 fixedsize=true]
+%SCRIPT 1--2--3--4;5--6--7--8;9--10--11--12
+%SCRIPT 1--5--9;2--6--10;3--7--11;4--8--12
+%SCRIPT 1  [pos="0,100"  ]
+%SCRIPT 2  [pos="50,100" ]
+%SCRIPT 3  [pos="100,100"]
+%SCRIPT 4  [pos="150,100"]
+%SCRIPT 5  [pos="0,50"   ]
+%SCRIPT 6  [pos="50,50"  ]
+%SCRIPT 7  [pos="100,50" ]
+%SCRIPT 8  [pos="150,50" ]
+%SCRIPT 9  [pos="0,0"    ]
+%SCRIPT 10 [pos="50,0"   ]
+%SCRIPT 11 [pos="100,0"  ]
+%SCRIPT 12 [pos="150,0"  ]
+%SCRIPT }' | neato -n -Tpng &gt; gridgraph.png
+-->
+
 <p>
 Here you see that the graph has $n=12$ vertices and $m=17$ edges.
 In general, for an image of size $w\times h$, the graph will have $n=wh$
 vertices and $m=(w-1)h+(h-1)w$ edges.  The matrix $A$ of such a graph is
 build by the following octave code
+
 <pre>
 function A = grid_graph(w, h)                       # build a grid graph WxH
         px = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length W
@@ -240,20 +313,25 @@ function A = grid_graph(w, h)                       # build a grid graph WxH
         A = U + U';                                 # symmetrization
 end
 </pre>
+
 <p>
 This works because the grid graph is the product graph of two paths, and the
 adjacency matrix of a product graph is the Kronecker sum of their matrices.
+
 <p>
 The graph defines just the <i>domain</i> of an image.  We still need the
 <i>data</i>.  As a sample image, we will use the amazing portrait of Samuel
 Beckett by Jane Bown:
+
 <p>
 <img src="i/beckett.png">
 <code>beckett.png</code>
+
 <p>
 The easiest operator to understand is the Laplacian.  The following octave
 code thus reads an image, applies the laplacian operator, and saves the
 result.
+
 <pre>
 x = imread("i/beckett.png");        # load input image
 [w, h] = size(x);                 # extract dimensions
@@ -264,42 +342,54 @@ y = L * x;                        # Laplacian of the original image
 z = uint8(reshape(127-2*y,w,h));  # contrast change and reshape
 imwrite(z, "beckett-lap.png");    # save output image
 </pre>
+
 <p>
 <img src="beckett-lap.png">
 <code>beckett-lap.png</code>
+
 <p>
 The typical color coding for looking at a laplacian is such that gray=zero,
 white=negative, black=positive.  As expected, the laplacian enhances the
 edges and textures while setting the constant regions to zero.
+
 <p>
 By substracting the laplacian to the image, we ``sharpen'' the original image.
+
 <pre>
 y = x - L * x;                                        # image minus laplacian
 imwrite(reshape(uint8(y),w,h), "beckett-sharp.png");  # save output image
 </pre>
+
 <p>
 <img src="beckett-sharp.png">
 <code>beckett-sharp.png</code>
+
 <p>
 Conversely, we can smooth the image by adding multiples of the laplacian to
 it, iteratively.  This amounts to approximation the solution of the heat
 equation on the graph:
+
 <pre>
 S = speye(w*h) + L/4;                                  # smoothing operator
 y = S^8 * x;                                           # run 8 smoothing steps
 imwrite(reshape(uint8(y),w,h), "beckett-smooth.png");  # save output image
 </pre>
+
 <p>
 <img src="beckett-smooth.png">
 <code>beckett-smooth.png</code>
+
 <h2>4. Graph-based mathematical morphology</h2>
+
 <p>
 The morphological operations of <b>dilation</b> and <b>erosion</b> are
 defined for functions over graphs, as the maximum and minimum value of
 neighboring vertices.  The other morphological operations are all defined in
 terms of dilation and erosion:
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	$u$ <td> function defined on the vertices of the graph <tr><td>
 	$d(u)$ <td> dilation (max value among neighboring vertices) <tr><td>
 	$e(u)$ <td> erosion (min value among neighboring vertices) <tr><td>
@@ -313,22 +403,27 @@ terms of dilation and erosion:
 	$u - d(e(u))$ <td> top hat (image minus opening) <tr><td>
 	$e(d(u)) -u$ <td> bottom hat (closing minus image)
 </table>
+
 <p>
 Due to the inequalities $e(u)\le u\le d(u)$, we can see that all these
 operations (except the laplacian) produce positive images.  The morphological
 gradients are also called upwind and downwind derivatives.
+
 <p>
 Thanks to sparse matrices, the implementation of these operations is very
 easy.  The crucial matrix here is the structuring element matrix $E$, defined
 as the adjacency matrix plus the identity
+
 $$
 E = A + I_n
 $$
+
 <p>
 The matrices $A$ and $E$ define linear operators on the scalar fields of a
 graph.  In the particular case when the graph is the grid of an image, they
 can be interpreted as shift-invariant filters defined by the following
 stencils:
+
 $$
 \mathrm{stencil}(A)=
 \begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;0&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}
@@ -337,12 +432,15 @@ $$
 \mathrm{stencil}(E)=
 \begin{array}{|c|c|c|}\hline0&amp;1&amp;0\\\hline1&amp;1&amp;1\\\hline0&amp;1&amp;0\\\hline\end{array}
 $$
+
 <p>
 Of course, this interpretation is only valid far from the boundary of the
 image domain.  However, bear in mind that the matrix product is a well-defined,
 so that the boundary condition is dealt with ``automatically'' by the form of
 the graph.
+
 <h3>4.1. Morphology on binary images</h3>
+
 <p>
 We start with the implementation of mathematical morphology for binary
 images, which are also called <i>masks</i>.
@@ -353,25 +451,28 @@ mask by powers of the adjacency matrix.  Actually, the <b>erosion</b> and the
 <b>median filter</b> are also computed by the same operation, and they can be
 extracted by thresholding the resulting gray-scale image at its minimum,
 maximum or central values.
+
 <p>
 Notice that if you want to apply erosion a certain number of times, you can
 multiply by a power of the adjacency matrix!  Morphology is a nonlinear
 operation, but the nonlinearity comes from the threshold, not from the
 matrix multiplication.
+
 <p>
 The following code shows the computation of 6 dilations and erosions of the
 same mask (a binarization of the Beckett portrait):
+
 <pre>
 x = imread("i/beckett.png");                             # load image
 [w,h] = size(x);                                         # extract dimensions
 m = double(x(:) &gt; 66);                                   # flatten and binarize
-<p>
+
 E = grid_graph(w,h) + speye(w*h);                        # structuring element
 y = E^6 * m;                                             # apply 6 times
 y1 = y &gt; 0;                                              # extract dilation
 y2 = !(y &lt; max(y));                                      # extract erosion
 y3 = y &gt; max(y)/2;                                       # extract medfilter
-<p>
+
 f = 255 / max(y);                                        # gray-scale factor
 imwrite(logical(reshape(m,w,h)),  "beckett-bin.png");    # save binary mask
 imwrite(uint8(reshape(y,w,h)*f),  "beckett-6gray.png");  # save gray-scale
@@ -379,14 +480,23 @@ imwrite(logical(reshape(y1,w,h)), "beckett-6dil.png");   # save dilated mask
 imwrite(logical(reshape(y2,w,h)), "beckett-6ero.png");   # save eroderd mask
 imwrite(logical(reshape(y3,w,h)), "beckett-6med.png");   # save median filter
 </pre>
+
 <div class="gallery" style="min-height:308px;height:10em"><ul class="index">
+
 	<li><a href="beckett-bin.png">beckett-bin.png<span><img src="beckett-bin.png"></span></a>
+
 	<li><a href="beckett-6gray.png">beckett-6gray.png<span><img src="beckett-6gray.png"></span></a>
+
 	<li><a href="beckett-6dil.png">beckett-6dil.png<span><img src="beckett-6dil.png"></span></a>
+
 	<li><a href="beckett-6ero.png">beckett-6ero.png<span><img src="beckett-6ero.png"></span></a>
+
 	<li><a href="beckett-6med.png">beckett-6med.png<span><img src="beckett-6med.png"></span></a>
+
 </ul></div>
+
 <h3>4.2. Gray-level morphology</h3>
+
 <p>
 The implementation of morphology for gray-scale images is a bit more
 complicated.  The trick of thresholding the matrix multiplication does not
@@ -397,17 +507,20 @@ After a few hours of head-scratching, I realized that this is achieved by
 multiplying the matrix $E$ by the diagonal matrix defined by the vector $x$
 (which results in a sparse matrix) and then taking the maximum along rows of
 the resulting matrix.  The code is simple, but maybe not evident:
+
 <pre>
 function y = dilation(E, x)
         y = full(max(diag(x)*E))';    # maximum value along sparse rows
 end
 </pre>
+
 <p>
 Notice that this only works for positive-valued images (otherwise the "max"
 is perturbed by the zeros in the sparse matrix, which are not ignored).  If
 we want to compute the minimum, this technique does not work because the
 minimum on a sparse matrix is always zero!  Yet, we can ``cheat'' and
 implement the erosion by computing the dilation of an image in the negative:
+
 <pre>
 function y = erosion(E, x)
         m = 1 + max(x);
@@ -415,9 +528,11 @@ function y = erosion(E, x)
         y = m - dilation(E, t);
 end
 </pre>
+
 <p>
 And finally, the implementation of all the morphological operations consists
 simply in copying the table above:
+
 <pre>
 function y = opening(E,x)      y = dilation(E,erosion(E,x));              end
 function y = closing(E,x)      y = erosion(E,dilation(E,x));              end
@@ -429,15 +544,17 @@ function y = msharpen(E,x)     y = x - mlaplacian(E,x);                   end
 function y = tophat(E,x)       y = x - opening(E,x);                      end
 function y = bothat(E,x)       y = closing(E,x) - x;                      end
 </pre>
+
 <p>
 The following code tests all these operations:
+
 <pre>
 x = imread("i/beckett.png");
 [w,h] = size(x);
 x = double(x(:));
 A = grid_graph(w,h);
 E = A + speye(w*h);            # structuring element
-<p>
+
 imwrite(uint8(reshape( dilation(E,x)         ,w,h)), "beckett-dil.png");
 imwrite(uint8(reshape( erosion(E,x)          ,w,h)), "beckett-ero.png");
 imwrite(uint8(reshape( opening(E,x)          ,w,h)), "beckett-ope.png");
@@ -450,19 +567,33 @@ imwrite(uint8(reshape( msharpen(E,x)         ,w,h)), "beckett-msharp.png");
 imwrite(uint8(reshape( 6*tophat(E,x)         ,w,h)), "beckett-top.png");
 imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett-bot.png");
 </pre>
+
 <div class="gallery" style="min-height:308px;height:22em"><ul class="index">
+
 	<li><a href="beckett-dil.png">beckett-dil.png<span><img src="beckett-dil.png"></span></a>
+
 	<li><a href="beckett-ero.png">beckett-ero.png<span><img src="beckett-ero.png"></span></a>
+
 	<li><a href="beckett-ope.png">beckett-ope.png<span><img src="beckett-ope.png"></span></a>
+
 	<li><a href="beckett-clo.png">beckett-clo.png<span><img src="beckett-clo.png"></span></a>
+
 	<li><a href="beckett-igrad.png">beckett-igrad.png<span><img src="beckett-igrad.png"></span></a>
+
 	<li><a href="beckett-egrad.png">beckett-egrad.png<span><img src="beckett-egrad.png"></span></a>
+
 	<li><a href="beckett-cgrad.png">beckett-cgrad.png<span><img src="beckett-cgrad.png"></span></a>
+
 	<li><a href="beckett-mlap.png">beckett-mlap.png<span><img src="beckett-mlap.png"></span></a>
+
 	<li><a href="beckett-msharp.png">beckett-msharp.png<span><img src="beckett-msharp.png"></span></a>
+
 	<li><a href="beckett-top.png">beckett-top.png<span><img src="beckett-top.png"></span></a>
+
 	<li><a href="beckett-bot.png">beckett-bot.png<span><img src="beckett-bot.png"></span></a>
+
 </ul></div>
+
 <p>
 It is an interesting exercise to look at these images and try to describe the
 changes verbally.  For example: <b>dilation</b> enlarges the light objects,
@@ -482,7 +613,12 @@ set to zero the rest of the image.  The <b>bottom-hat</b> keeps only the dark
 spots and valleys (those that were removed by the closing), and sets to zero
 the rest of the image; thus the bottom-hat produces an image in the negative,
 that must be negated to visualize it correctly.
+
 <h2>5. Linear PDE on graphs</h2>
+
 (section in preparation)
+
 <h3>5.3. Linear second-order equations</h3>
+
 <h3>5.4. Linear first-order equations</h3>
+

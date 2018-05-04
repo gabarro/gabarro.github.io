@@ -17,24 +17,30 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>The standard PDE on a manifold</h1>
+
 <p>
 We state and solve the standard second-order linear PDE on a compact
 Riemannian manifold: the potential, diffusion, diffraction and wave
 equations.
 $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\Z}{\mathbf{Z}}$
+
 <h2>1. The Laplace-Beltrami spectrum</h2>
+
 <p>
 Let $M$ be a compact Riemannian manifold (with or without boundary), and
 let $\Delta$ be its Laplace-Beltrami operator, defined
 as $\Delta=*d*d$, where $d$ is the exterior derivative (which is independent
 of the metric) and $*$ is the Hodge duality between $p$-forms
 and $d-p$-forms (which is defined using the metric).
+
 <p>
 The following are standard results in differential geometry (see e.g.
 Warner's book chapter
 6 \url{https://link.springer.com/content/pdf/10.1007\%2F978-1-4757-1799-0_6.pdf})
+
 <ul>
 	<li style='list-style-type:none'>(1) There is a sequence of $\mathcal{C}^\infty(M)$
 		functions $\varphi_n$ and positive
@@ -43,6 +49,7 @@ Warner's book chapter
 	<li style='list-style-type:none'>(2) The functions $\varphi_n$, suitably normalized, are an
 		orthonormal basis of $L^2(M)$.
 </ul>
+
 <p>
 These results generalize Fourier series to an arbitrary smooth manifold $M$.
 Any square-integrable function $f:M\to\R$ is written uniquely as
@@ -50,8 +57,10 @@ $$f(x)=\sum_nf_n\varphi_n(x)$$ and the coefficients $f_n$ are computed by
 $$f_n=\int_Mf\varphi_n.$$  Some particular cases are the habitual Fourier and
 sine bases (but not the cosine basis), bessel functions for the disk, and
 spherical harmonics for the surface of a sphere.
+
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
+
 	<td>$M$ <td> $\varphi_n$ <td> $-\lambda_n$ <tr><td>
 	
 	interval <td> $[0,2\pi]$ <td> $\sin\left(\frac{nx}{2}\right)$ <td> $n^2/4$ <tr><td>
@@ -64,9 +73,11 @@ spherical harmonics for the surface of a sphere.
 	$\rho_{m,n}$ roots of $J_n$ <tr><td>
 	sphere <td> $S^2$ <td> $Y^m_l(\theta,\varphi)$ <td> $l^2+l$
 </table>
+
 <p>
 The eigenfunctions $\varphi_n$ are called the vibration modes of $M$, and the
 eigenvalues $\lambda_n$ are called the (squared) fundamental frequencies of $M$.
+
 <p>
 Several geometric properties of $M$ can be interpreted in terms of the
 Laplace-Beltrami spectrum.  For example, if $M$ has $k$ connected components,
@@ -76,6 +87,7 @@ taken to be positive $\varphi_1\ge0$, thus all the other modes have
 non-constant signs (because they are orthogonal to $\varphi_1$).  In
 particular, the sign of $\varphi_2$ cuts $M$ in two parts in an optimal way,
 it is the Cheeger cut of $M$, maximizing the perimeter/area ratio of the cut.
+
 <p>
 The zeros of $\varphi_n$ are called the nodal curves (or nodal sets) of $M$,
 or also the Chladni patterns.  If $M$ is a subdomain of the plane, these
@@ -88,12 +100,14 @@ which is the set of points of the surface that do not move when the surface
 vibrates at this frequency.  In the typical case, the number of connected
 components of $[\varphi_n&gt;0]$ grows linearly with $n$, thus the
 functions $\varphi_n$ become more oscillating (less regular) as $n$ grows.
+
 <p>
 Generally, symmetries of $M$ arise as multiplicities of eigenvalues.
 The Laplace-Beltrami spectrum ${\lambda_1,\lambda_2,\lambda_3,\ldots}$ is
 closely related, but not identical, to the geodesic length spectrum, that
 measures the sequence of lengths of all closed geodesics of $M$.  The grand
 old man of this theory is Yves Colin de Verdière, student of Marcel Berger.
+
 <p>
 Geometry is not in general a spectral invariant, but non-isometric manifolds
 with the same spectrum are difficult to come by.  The first pair of distinct
@@ -103,7 +117,9 @@ Wolperd, and it answered negatively the famous question of Marc Kac ``Can you
 hear the shape of a drum?'.
 In 2018, we have many ways to construct discrete and continuous families of
 isospectral manifolds in dimensions two and above.
+
 <h2>2. The standard equations and their explicit solutions</h2>
+
 <p>
 The classical linear second order equations (potential, heat, wave and
 Schrödinger) are all defined in terms of the Laplacian operator in space.
@@ -112,6 +128,7 @@ If $M$ is compact, the solution can be found explicitly in terms of the
 Laplace-Beltrami eigenfunctions.  Henceforth we will call the expression of a
 function $f:M\to\R$ as $f=\sum_nf_n\varphi_n$ the Fourier series of $f$, the
 numbers $f_n$ the Fourier coefficients of $f$ and so on.
+
 <p>
 The simplest case is <b>Poisson equation</b>
 $$
@@ -125,6 +142,7 @@ $$
 Notice that since $\lambda_n\to\infty$, the Fourier coefficients of $u$ tend
 to zero faster than those of $f$, thus $u$ is more regular than $f$
 (this is obvious from the equation, since $\Delta u$ is less regular than $u$).
+
 <p>
 Another simple case is the <b>screened Poisson equation</b>
 $$
@@ -136,6 +154,7 @@ u(x) = \sum_n\frac{-f_n}{\alpha+\lambda_n}\varphi_n(x)
 $$
 This is like the regular Poisson equation, but the regularity is enhanced
 by $\alpha$.
+
 <p>
 The next case is the <b>heat equation</b>, also called <b>diffusion</b> or <b>smoothing</b> equation:
 $$
@@ -154,6 +173,7 @@ equation with initial condition $g$.  Several properties of the solution are
 visible from this form, most notably that $u(x,\infty)=u_1$ if $\lambda_1=0$,
 or $1$ otherwise.  A pure vibration mode $\varphi_n$ decays exponentially to
 zero, and the speed of the exponential decay is $\lambda_n$.
+
 <p>
 By combining the heat and Poisson equations, we get the <b>heat equation
 with source</b>:
@@ -169,6 +189,7 @@ u(x,t)=\sum_n\left(
 \frac{f_n}{\lambda_n}+g_ne^{-{\lambda_n}t}
 \right)\varphi_n(x)
 $$
+
 <p>
 The solution of the <b>reverse heat equation</b>
 $$
@@ -182,11 +203,13 @@ $$
 u(x,t)=\sum_ng_ne^{{\lambda_n}t}\varphi_n(x)
 $$
 but notice that it blows up, often in a finite time.
+
 <p>
 Both direct and reverse heat equations are of the form $u_t=c\Delta u$, whose
 solution is $u(x,t)=\sum_n g_n e^{-c\lambda_n t}\varphi_n(x)$.  The
 constant $c$ is the speed of transmission of heat.  An intermediate behaviour
 between $c&gt;0$ and $c&lt;0$ happens when $c=i$.
+
 <p>
 The <b>linear Schrödinger equation</b>, also called <b>diffraction equation</b>
 $$
@@ -220,6 +243,7 @@ $$
 thus, a pure vibration mode $\varphi_n$ oscillates periodically, at a
 frequency $\lambda_n$.  In terms of $|w|$, this phenomenon is called
 <i>diffraction</i>.
+
 <p>
 The <b>wave equation</b> is
 $$
@@ -241,6 +265,7 @@ $$
 $$
 Thus, a pure vibration mode $\varphi_n$ oscillates with
 frequency $\sqrt{\lambda_n}$.
+
 <p>
 Finally the <b>wave equation with a force</b> is the most complex case we treat here:
 $$
@@ -261,10 +286,13 @@ $$
 	\right)\varphi_n(x)
 $$
 is found by the same methods as above.
+
 <h2>3. Discretization and implementation in Octave</h2>
+
 <p>
 Except in emblematic cases (rectangle, torus, sphere) the eigenfunctions of
 an arbitrary manifold $M$ do not have a closed-form expression.
+
 <p>
 For practical computations, we are thus restricted to numerical methods in the
 discrete case.  The most convenient form for this discretization is to
@@ -279,15 +307,18 @@ have the following objects
 </ul>
 typically $L$ will be a matrix of rank $n-1$ with a constant eigenvector of
 eigenvalue 0.
+
 <p>
 We can find the eigensystem of $L$ by calling <code>eigs(L)</code> in octave, and
 transfer the solutions obtained above using the obtained eigenvectors and
 eigenvalues.  However, in most cases the solution is more easily obtained by
 solving a linear problem.
+
 <p>
 To fix the ideas we start with a concrete example: a square domain with flat
 metric.  The following is a complete program that computes the chladni
 figures of a square domain.
+
 <pre>
 w = 128;                                   # width and height of the domain
 p = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length p
@@ -295,9 +326,26 @@ A = kron(p, speye(w)) + kron(speye(w), p); # kronecker sum
 L = A+A' - diag(sum(A+A'));                # graph laplacian
 [f,l] = eigs(L, 64, "sm");                 # eigs of smallest magnitude
 </pre>
+<!--
+%SCRIPT mkdir -p o
+%SCRIPT octave &lt;&lt;END
+%SCRIPT w = 96;
+%SCRIPT p = sparse(1:w-1, 2:w, 1, w, w);
+%SCRIPT A = kron(p, speye(w)) + kron(speye(w), p);
+%SCRIPT L = A+A' - diag(sum(A+A'));
+%SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
+%SCRIPT for i=1:64
+%SCRIPT         n = sprintf("o/chladni_
+%SCRIPT         x = uint8(reshape(200*double(0&lt;f(:,i)),w,w));
+%SCRIPT         imwrite(x, n);
+%SCRIPT endfor
+%SCRIPT END
+-->
+
 <p>
 After running this code, the ith eigenfunction is <code>f(:,i)</code> and the
 eigenvalues are on <code>diag(l)</code>.
+
 <p>
 <img src="o/chladni_001.png">
 <img src="o/chladni_002.png">
@@ -307,6 +355,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_006.png">
 <img src="o/chladni_007.png">
 <img src="o/chladni_008.png">
+
 <p>
 <img src="o/chladni_009.png">
 <img src="o/chladni_010.png">
@@ -316,6 +365,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_014.png">
 <img src="o/chladni_015.png">
 <img src="o/chladni_016.png">
+
 <p>
 <img src="o/chladni_017.png">
 <img src="o/chladni_018.png">
@@ -325,6 +375,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_022.png">
 <img src="o/chladni_023.png">
 <img src="o/chladni_024.png">
+
 <p>
 <img src="o/chladni_025.png">
 <img src="o/chladni_026.png">
@@ -334,6 +385,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_030.png">
 <img src="o/chladni_031.png">
 <img src="o/chladni_032.png">
+
 <p>
 <img src="o/chladni_033.png">
 <img src="o/chladni_034.png">
@@ -343,6 +395,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_038.png">
 <img src="o/chladni_039.png">
 <img src="o/chladni_040.png">
+
 <p>
 <img src="o/chladni_041.png">
 <img src="o/chladni_042.png">
@@ -352,6 +405,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_046.png">
 <img src="o/chladni_047.png">
 <img src="o/chladni_048.png">
+
 <p>
 <img src="o/chladni_049.png">
 <img src="o/chladni_050.png">
@@ -361,6 +415,7 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_054.png">
 <img src="o/chladni_055.png">
 <img src="o/chladni_056.png">
+
 <p>
 <img src="o/chladni_057.png">
 <img src="o/chladni_058.png">
@@ -370,8 +425,10 @@ eigenvalues are on <code>diag(l)</code>.
 <img src="o/chladni_062.png">
 <img src="o/chladni_063.png">
 <img src="o/chladni_064.png">
+
 <p>
 And now, with Dirichlet boundary conditions (slightly different code)
+
 <pre>
 w = 128;                                    # width and height of the domain
 p = sparse(1:w-1, 2:w, 1, w, w) - speye(w); # path graph of length p
@@ -379,6 +436,21 @@ A = kron(p, speye(w)) + kron(speye(w), p);  # kronecker sum
 L = A + A';                                 # graph laplacian
 [f,l] = eigs(L, 64, "sm");                  # eigs of smallest magnitude
 </pre>
+<!--
+%SCRIPT octave <<END
+%SCRIPT w = 96;
+%SCRIPT p = sparse(1:w-1, 2:w, 1, w, w) - speye(w);
+%SCRIPT A = kron(p, speye(w)) + kron(speye(w), p);
+%SCRIPT L = A + A';
+%SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
+%SCRIPT for i=1:64
+%SCRIPT         n = sprintf("o/dchladni_
+%SCRIPT         x = uint8(reshape(200*double(0&lt;f(:,i)),w,w));
+%SCRIPT         imwrite(x, n);
+%SCRIPT endfor
+%SCRIPT END
+-->
+
 <p>
 <img src="o/dchladni_001.png">
 <img src="o/dchladni_002.png">
@@ -388,6 +460,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_006.png">
 <img src="o/dchladni_007.png">
 <img src="o/dchladni_008.png">
+
 <p>
 <img src="o/dchladni_009.png">
 <img src="o/dchladni_010.png">
@@ -397,6 +470,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_014.png">
 <img src="o/dchladni_015.png">
 <img src="o/dchladni_016.png">
+
 <p>
 <img src="o/dchladni_017.png">
 <img src="o/dchladni_018.png">
@@ -406,6 +480,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_022.png">
 <img src="o/dchladni_023.png">
 <img src="o/dchladni_024.png">
+
 <p>
 <img src="o/dchladni_025.png">
 <img src="o/dchladni_026.png">
@@ -415,6 +490,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_030.png">
 <img src="o/dchladni_031.png">
 <img src="o/dchladni_032.png">
+
 <p>
 <img src="o/dchladni_033.png">
 <img src="o/dchladni_034.png">
@@ -424,6 +500,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_038.png">
 <img src="o/dchladni_039.png">
 <img src="o/dchladni_040.png">
+
 <p>
 <img src="o/dchladni_041.png">
 <img src="o/dchladni_042.png">
@@ -433,6 +510,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_046.png">
 <img src="o/dchladni_047.png">
 <img src="o/dchladni_048.png">
+
 <p>
 <img src="o/dchladni_049.png">
 <img src="o/dchladni_050.png">
@@ -442,6 +520,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_054.png">
 <img src="o/dchladni_055.png">
 <img src="o/dchladni_056.png">
+
 <p>
 <img src="o/dchladni_057.png">
 <img src="o/dchladni_058.png">
@@ -451,6 +530,7 @@ L = A + A';                                 # graph laplacian
 <img src="o/dchladni_062.png">
 <img src="o/dchladni_063.png">
 <img src="o/dchladni_064.png">
+
 <p>
 For completenes, this is the octave code that saves the figures above
 <pre>
@@ -460,3 +540,4 @@ for i=1:64
         iio_write(n, x);
 endfor
 </pre>
+

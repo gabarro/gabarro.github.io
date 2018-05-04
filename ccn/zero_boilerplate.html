@@ -17,43 +17,54 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+
 <h1>Zero boilerplate</h1>
+
 <p>
 As a young man, I used to curate a collection of ``template files'', for all
 the formats and programming languages that I was using.  I had a template for
 <code>LaTeX</code> files, a template for <code>C</code> programs, a template <code>html</code>
 page, etc.  The basic idea was that <i>you never start writing a text file
 from scratch, you just copy an existing file and change some things</i>.
+
 <p>
 Now I realize that this is a bad idea. <i>You must start all your projects
 with an empty file</i>.  This is the <b>zero boilerplate</b> idea.  It is a
 liberating experience; you feel intimately connected to the underlying
 structure of the system that you rest upon.  You grow roots, in a way.
+
 <p>
 Here I collect examples of complete files in various languages.  Of course,
 you should never copy these files and edit them.  Instead, you should
 memorize them an re-write the text each time than you need it.
+
 <h2>1. HTML</h2>
+
 <p>
 In the old days, HTML was a very verbose language.  With the advent of XHTML,
 the situation worsened so much that the default language of the web was
 impossible to write by humans.  Fortunately, HTML5 corrects the errors of his
 predecessors and, thanks to default tagging, it is possible to create web
 documents by hand again.
+
 <p>
 This is a minimal <b>HTML</b> file
 <pre>
 &lt;!doctype html&gt;
 &lt;title&gt;Coco notes: zero boilerplate&lt;/title&gt;
+
 &lt;h1&gt;Zero boilerplate&lt;/h1&gt;
+
 &lt;p&gt;
 Here begins the text of this page.
 </pre>
+
 <p>
 As advised by many people (e.g. the authors of HTML5, the google html coding
 guidelines), it is best to omit all implicit tags (such as <code>&lt;html&gt;</code> and
 <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code>), and all automatically closed tags (such as
 <code>&lt;p&gt;</code>, <code>&lt;li&gt;</code> and many others).
+
 <p>
 If you want to use a tiny bit of css or mathjax (probably the only acceptable
 use of javascript), you can do this
@@ -65,14 +76,19 @@ use of javascript), you can do this
         pre { background:lightgray; width:80ch; }
 &lt;/style&gt;
 &lt;script src="//path.to/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"&gt;&lt;/script&gt;
+
 &lt;h1&gt;Zero boilerplate&lt;/h1&gt;
+
 &lt;p&gt;
 Here begins the text of this page.
 </pre>
+
 <p>
 And, if you are a <a href="http://motherfuckingwebsite.com/">decent</a> person, you
 should rarely need anything other than that.
+
 <h2>2. TeX and LaTex</h2>
+
 <p>
 Plain <b>TeX</b> is notoriously boilerplate-free.  You just write your
 paragraphs, separated by blank lines, and end your document with <code>\bye</code>.
@@ -80,6 +96,7 @@ This is the best option to write a book, unless you rely on direct entry of
 UTF-8 characters (in which case you can use LuaTeX or XeTeX), fancier math
 (in which case you'll want AMSTeX), or advanced sectioning and
 indexing capabilities (in which case you'll want LaTeX).
+
 <p>
 A minimal <b>LaTeX</b> file is thus
 <pre>
@@ -88,8 +105,10 @@ A minimal <b>LaTeX</b> file is thus
 Hello, world!
 \end{document}
 </pre>
+
 <p>
 and a LaTeX file in french and with some fancy math,
+
 <pre>
 \documentclass{article}
 \documentclass[a4paper,11pt]{article}  
@@ -97,34 +116,44 @@ and a LaTeX file in french and with some fancy math,
 \usepackage[T1]{fontenc}               
 \usepackage[frenchb]{babel}            
 \usepackage{amsmath}                   
+
 \begin{document}
 Voici le théorème de Stokes:
 $$\int_{\partial\Omega}\omega=\int_\Omega\mathrm{d}\omega$$
 \end{document}
 </pre>
+
 <p>
 you should strive to keep your list of packages minimal.  The preamble to the
 document should <i>never</i> take more than half a screen.
+
 <h2>3. C</h2>
+
 <p>
 The <code>C</code> compiler is always a good unix citizen.  You can compile an
 empty file
+
 <pre>
 cat /dev/null &gt; x.c
 cc -c x.c
 </pre>
+
 <p>
 and it will produce a valid empty object <code>x.o</code> that does not have any
 symbols (as you can verify, because <code>nm x.o</code> gives an empty output).
+
 <p>
 Thus, no boilerplate is needed for writing a <code>C</code> library.
+
 <p>
 If you want to write a command line program in <b>C</b>, it will look
 something like this:
+
 <pre>
 #include &lt;stdio.h&gt;   // stderr, fprintf, printf
 #include &lt;stdlib.h&gt;  // atof, free
 #include "image.h"   // image_read, image_write
+
 // regamma, a program to change the gamma of an image
 int main(int c, char *v[])
 {
@@ -134,29 +163,37 @@ int main(int c, char *v[])
         double g      = atof(v[1]);
         char *filename_in  = v[2];
         char *filename_out = v[3];
+
         // read input images
         int w, h;
         float *x = image_read(filename_in, &amp;w, &amp;h);
+
         // change gamma in-place
         for (int i = 0; i &lt; w*h; i++)
                 x[i] = 255 * pow( x[i]/255 , g);
+
         // write output
         image_write(filename_out, x, w, h);
+
         // cleanup and exit
         free(x);
         return 0;
 }
 </pre>
+
 <p>
 Notice that all the headers are explicitly justified to be necessary, by
 saying which functions are required from each header.
+
 <h2>4. Python</h2>
+
 <p>
 Like <code>C</code>, the <code>Python</code> interpreter is also a good unix citizen.
 You can run the empty program, that does nothing and gives an empty output.
 Thus, there is no boilerplate required for python.  If you want to use
 imports, this is easier than in <code>C</code> because the language can help you to
 specify which functions you need from each import.
+
 <pre>
 from imageio              import imread, imwrite
 from scipy.sparse         import eye, diags, kronsum
@@ -178,5 +215,7 @@ b = (I - M)*g - M*L*f                         # state the problem (data)
 x = spsolve(A, b)                             # solve the problem
 imwrite("out.png", clip(around(x),0,255).astype(uint8).reshape(h,w)) # save x
 </pre>
+
 <p>
 Notice that you only import the strict minimum that you need.
+

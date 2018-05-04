@@ -168,7 +168,7 @@ Notice that $M_p$ is well defined for $p\neq0$.  We extend the
 definition of $M_p$ to $p=0,\pm\infty$ by taking limits.  The
 resulting definition contains all the Pythagorean means, the minimum and
 the maximum as particular cases:
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	power mean <td> meaning <tr><td>
@@ -181,7 +181,7 @@ the maximum as particular cases:
 	$M_3$ <td> cubic mean <tr><td>
 	$M_\infty$ <td> maximum
 </table>
-\medskip
+<p>
 <p>
 Notice that as the parameter $p$ goes from $-\infty$ to $\infty$, the
 power mean $M_p$ interpolates from the minimum to the maximum sample,
@@ -221,7 +221,7 @@ notation $O_{\alpha}$ for $\alpha\in[0,1]$, where $k=(N-1)\alpha+1$.
 This notation has the advantage of being independent of $N$, so
 that $O_{\frac{1}{2}}$ is always the median.  The following table
 lists other particular cases
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	order statistic <td> meaning <tr><td>
@@ -234,7 +234,7 @@ lists other particular cases
 	$O_{0.9}$ <td> ninth decile <tr><td>
 	$O_1$ <td> maximum
 </table>
-\medskip
+<p>
 <p>
 Order statistics can be defined for arbitrary numbers (positive,
 negative and zero) and they have the additivity property P5, thus
@@ -286,7 +286,7 @@ somehow independent of $N$ and $p$  (the function to minimize has
 linear growth at inifinty independently of $p$).
 <p>
 We find the following interesting particular cases
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	Fréchet centroid <td> meaning <tr><td>
@@ -296,7 +296,7 @@ We find the following interesting particular cases
 	$F_{\to\infty}$ <td> midrange $I_{0.5}=(\min+\max)/2$ <tr><td>
 	$F_{\to0}$ <td> ``mode''
 </table>
-\medskip
+<p>
 <p>
 Notice that the parameter $p$ controls the robustness to outliers.
 For $p=2$ we have the average, which is not very robust to outliers.
@@ -321,7 +321,7 @@ each pair of data points, for good measure).
 Notice that the Fréchet $p$-centroids can be defined over arbitrary
 metric spaces.  In the case of a Riemannian manifold, the Fréchet
 $\infty$-centroid coincides with the midpoint of the diameter.
-\medskip
+<p>
 <h3>3.5. L-estimators and $I_\alpha$</h3>
 <p>
 For $\alpha\in[0,1]$ we define
@@ -329,7 +329,7 @@ For $\alpha\in[0,1]$ we define
 	I_{\alpha}:=\alpha O_1 + (1-\alpha) O_0
 \]
 Thus,
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	$I_\alpha$ <td> meaning <tr><td>
@@ -347,7 +347,7 @@ function of the form
 \]
 Some famous $L$ estimators are the midrange, the midhinge (average of
 first and third quartiles), the trimean, truncated means, and other curiosities
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	$L$-estimator <td> name <tr><td>
@@ -363,7 +363,7 @@ first and third quartiles), the trimean, truncated means, and other curiosities
 	$\frac{1}{N}\sum_{k=1}^{N} O_k$ <td> mean (average of
 	everything)
 </table>
-\medskip
+<p>
 <blockquote>
 An advantage of the trimean as a measure of the center (of a
 distribution) is that it combines the median's emphasis on center
@@ -384,7 +384,7 @@ The following aggregators are defined for strictly positive numbers
 <p>
 This is an increasing family between min and max, different to the
 power means, but passing through several common points:
-\medskip
+<p>
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	Lehmer mean <td> name <tr><td>
@@ -397,7 +397,7 @@ power means, but passing through several common points:
 	$(x_1^2+\cdots+x_N^2)/(x_1+\cdots+x_N)$ <tr><td>
 	$L_{\infty}$ <td> max
 </table>
-\medskip
+<p>
 <p>
 Interestingly, the contraharmonic mean can be defined also for
 nonzero numbers (not necessarily positive).
@@ -447,7 +447,6 @@ define
 The power means for $p\neq0$  appear as particular cases
 when $f(x)=x^p$.  The geometric mean appears for $f(x)=\log(x)$, and
 for $f(x)=\exp(x)$ we obtain the ``soft maximum'' LSE (log sum exp).
-\clearpage
 <h2>4. Size parameters</h2>
 <p>
 On the previous section we have described methods to define
@@ -485,7 +484,6 @@ Some famous size measures
 	<li>The Rousseeuw and Croux statistic $S_n := 1.1926
 		F_1(F_1(|x_i-x_j|))$
 </ul>
-\clearpage
 <h2>5. More than one cluster</h2>
 <p>
 So far I have talked about the common case when there is a single

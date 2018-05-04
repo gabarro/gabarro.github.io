@@ -8,7 +8,7 @@ pdf: $(PDF)
 %.html : %.tex
 	grep ^%SCRIPT $< | cut -c9- | sh
 	@./.process_verbatims $<
-	./.latextoh5 < $< > $@
+	./.latex_to_html5 < $< > $@
 
 %.pdf : %.tex %.html .header.tex .footer.tex
 	cat .header.tex $< .footer.tex | ./.pdflatexfilter > $@

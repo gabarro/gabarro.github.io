@@ -140,7 +140,7 @@ space.
 <p>
 Notice that the Laplacian is locally constant nearly everywhere, except just
 around the edges.  Thus, dithering this image results in a checkerboard
-pattern of density $50\
+pattern of density $50\%$, but with a characteristic bias around the edges
 which renders the structures visible.
 <h2>3. Thresholding with linear pre-processing</h2>
 <p>
@@ -171,8 +171,6 @@ These filters are all positive, so the effect they produce is blurring the
 images.  For this application we apply them to the Laplacian of the input
 image (or, equivalently, we filter the image by the Laplacian of these
 kernels).
-%
-%
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 	<img src="weiro-ga.png"> <td>

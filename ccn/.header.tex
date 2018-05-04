@@ -15,6 +15,7 @@
 \setlength{\parskip}{7pt}           % spacing between paragraphs
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \pdfimageresolution 200             % change the default for included png files
+\pdfinfoomitdate=1\pdftrailerid{}   % ensure reproducible PDF
 \makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
 \newenvironment{gallery}{}{}
 \newcommand{\galleryline}[1]{\includegraphics{#1}{\footnotesize\tt #1}\newline}

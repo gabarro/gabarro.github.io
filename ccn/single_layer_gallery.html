@@ -69,7 +69,7 @@ at the median value.
 plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png
 </pre>
 Comment: This is Cauchy white noise blurred with a circular kernel, followed
-by a simplest color balance that saturates $1\
+by a simplest color balance that saturates $1\%$ of the pixels.
 <h2>3. Starfield</h2>
 <p>
 <img src="starfield.png">
@@ -77,7 +77,7 @@ by a simplest color balance that saturates $1\
 plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png
 </pre>
 Comment: This is Pareto white noise blurred with a Cauchy kernel, followed by
-a simplest color balance that saturates $1\
+a simplest color balance that saturates $1\%$ of the pixels.
 <h2>4. Blood</h2>
 <p>
 <img src="blood.png">
@@ -223,10 +223,6 @@ fftshift dandelions.png|plambda - starfield.png -|blur L 20|qauto -i - comb3.png
 plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined4.png
 </pre>
 For unrelated images, the effect is less striking.
-%
-%
-%
-%
 <h2>18. Appendix: Technical details</h2>
 <p>
 The programs required to run these scripts are available in <code>imscript</code>:

@@ -27,6 +27,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>Linear Dithering</h1>
 
@@ -43,7 +50,7 @@ points on a multidimensional continuum of binarization methods, that we call
 <!--
 %SCRIPT plambda weiro.png "87 > 255 *" -o weiro-bin.png
 %SCRIPT dither weiro.png weiro-dit.png
-%SCRIPT plambda weiro.png x,l|blur -z z 0.1|plambda - '0 &lt; 255 *' -o weiro-lin.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.1|plambda - '0 < 255 *' -o weiro-lin.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -242,8 +249,8 @@ kernels).
 
 <!--
 %SCRIPT plambda x,l<weiro.png|blur -z g 0.5|plambda - '0 < 255 *' -o weiro-ga.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z g 1|plambda - '0 &lt; 255 *' -o weiro-gb.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z g 3|plambda - '0 &lt; 255 *' -o weiro-gc.png
+%SCRIPT plambda x,l<weiro.png|blur -z g 1|plambda - '0 < 255 *' -o weiro-gb.png
+%SCRIPT plambda x,l<weiro.png|blur -z g 3|plambda - '0 < 255 *' -o weiro-gc.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -258,8 +265,8 @@ kernels).
 
 <!--
 %SCRIPT plambda x,l<weiro.png|blur -z l 0.5|plambda - '0 < 255 *' -o weiro-la.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z l 1|plambda - '0 &lt; 255 *' -o weiro-lb.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z l 3|plambda - '0 &lt; 255 *' -o weiro-lc.png
+%SCRIPT plambda x,l<weiro.png|blur -z l 1|plambda - '0 < 255 *' -o weiro-lb.png
+%SCRIPT plambda x,l<weiro.png|blur -z l 3|plambda - '0 < 255 *' -o weiro-lc.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -274,8 +281,8 @@ kernels).
 
 <!--
 %SCRIPT plambda x,l<weiro.png|blur -z c 0.5|plambda - '0 < 255 *' -o weiro-ca.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z c 1|plambda - '0 &lt; 255 *' -o weiro-cb.png
-%SCRIPT plambda x,l&lt;weiro.png|blur -z c 3|plambda - '0 &lt; 255 *' -o weiro-cc.png
+%SCRIPT plambda x,l<weiro.png|blur -z c 1|plambda - '0 < 255 *' -o weiro-cb.png
+%SCRIPT plambda x,l<weiro.png|blur -z c 3|plambda - '0 < 255 *' -o weiro-cc.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -290,9 +297,9 @@ kernels).
 
 <!--
 %SCRIPT plambda weiro.png x,l|blur -z z 0.01|plambda - '0 < 255 *' -o weiro-z01.png
-%SCRIPT plambda weiro.png x,l|blur -z z 0.10|plambda - '0 &lt; 255 *' -o weiro-z10.png
-%SCRIPT plambda weiro.png x,l|blur -z z 0.20|plambda - '0 &lt; 255 *' -o weiro-z20.png
-%SCRIPT plambda weiro.png x,l|blur -z z 0.50|plambda - '0 &lt; 255 *' -o weiro-z50.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.10|plambda - '0 < 255 *' -o weiro-z10.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.20|plambda - '0 < 255 *' -o weiro-z20.png
+%SCRIPT plambda weiro.png x,l|blur -z z 0.50|plambda - '0 < 255 *' -o weiro-z50.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -309,9 +316,9 @@ kernels).
 
 <!--
 %SCRIPT plambda weiro.png x,l|blur -z i 0.01|plambda - '0 < 255 *' -o weiro-i01.png
-%SCRIPT plambda weiro.png x,l|blur -z i 0.10|plambda - '0 &lt; 255 *' -o weiro-i10.png
-%SCRIPT plambda weiro.png x,l|blur -z i 0.20|plambda - '0 &lt; 255 *' -o weiro-i20.png
-%SCRIPT plambda weiro.png x,l|blur -z i 0.50|plambda - '0 &lt; 255 *' -o weiro-i50.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.10|plambda - '0 < 255 *' -o weiro-i10.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.20|plambda - '0 < 255 *' -o weiro-i20.png
+%SCRIPT plambda weiro.png x,l|blur -z i 0.50|plambda - '0 < 255 *' -o weiro-i50.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -328,9 +335,9 @@ kernels).
 
 <!--
 %SCRIPT plambda weiro.png x,l|blur -z q 0.01|plambda - '0 < 255 *' -o weiro-q01.png
-%SCRIPT plambda weiro.png x,l|blur -z q 0.10|plambda - '0 &lt; 255 *' -o weiro-q10.png
-%SCRIPT plambda weiro.png x,l|blur -z q 0.20|plambda - '0 &lt; 255 *' -o weiro-q20.png
-%SCRIPT plambda weiro.png x,l|blur -z q 0.50|plambda - '0 &lt; 255 *' -o weiro-q50.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.10|plambda - '0 < 255 *' -o weiro-q10.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.20|plambda - '0 < 255 *' -o weiro-q20.png
+%SCRIPT plambda weiro.png x,l|blur -z q 0.50|plambda - '0 < 255 *' -o weiro-q50.png
 -->
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
@@ -388,4 +395,11 @@ plambda barb.png 'x x
 PS: all the experiments on this note are generated from comments extracted
 of the original .tex source file.
 </i>
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Linear_Dithering" width="1" height="1">
 

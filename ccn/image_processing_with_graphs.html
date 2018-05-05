@@ -27,6 +27,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>Image processing with graphs</h1>
 
@@ -142,7 +149,7 @@ For the following graph, we have $n=5$ and $m=6$:
 %SCRIPT 3--4 [label="4  "]
 %SCRIPT 3--5 [label="5"]
 %SCRIPT 4--5 [label=" 6 "]
-%SCRIPT }' | neato -Tpng &gt; gggx.png
+%SCRIPT }' | neato -Tpng > gggx.png
 -->
 
 $$
@@ -296,7 +303,7 @@ Here, for example, you have the grid of a $4\times 3$ image:
 %SCRIPT 10 [pos="50,0"   ]
 %SCRIPT 11 [pos="100,0"  ]
 %SCRIPT 12 [pos="150,0"  ]
-%SCRIPT }' | neato -n -Tpng &gt; gridgraph.png
+%SCRIPT }' | neato -n -Tpng > gridgraph.png
 -->
 
 <p>
@@ -621,4 +628,11 @@ that must be negated to visualize it correctly.
 <h3>5.3. Linear second-order equations</h3>
 
 <h3>5.4. Linear first-order equations</h3>
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Image_processing_with_graphs" width="1" height="1">
 

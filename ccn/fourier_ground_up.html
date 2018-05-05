@@ -17,6 +17,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>Fourier from the ground up</h1>
 
@@ -147,30 +154,21 @@ circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0
 %SCRIPT 	+1,u,-1              lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	(u-pi)/pi,0,-1       lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	(u-pi)/pi,2*pi,-1    lw 0 lc rgb "gray"                  ,\
--->
-
-<!--
 %SCRIPT 	-1,0,(u-pi)/pi       lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	-1,2*pi,(u-pi)/pi    lw 0 lc rgb "gray"                  ,\
--->
-
-<!--
 %SCRIPT 	cos(f*u),u,-1        lw 0 lc rgb "blue" dashtype '- '    ,\
 %SCRIPT 	-1,u,sin(f*u)        lw 0 lc rgb "blue" dashtype '- '    ,\
--->
-
-<!--
 %SCRIPT 	cos(f*u),u,sin(f*u)  lw 1 lc rgb "red"                   ,\
 %SCRIPT 	u/(2*pi),0,0         lw 2 lc rgb "black"                 ,\
 %SCRIPT 	0,0,u/(2*pi)         lw 2 lc rgb "black"
 %SCRIPT END
-%SCRIPT gnuplot -e "f=+0" monomial.g &gt; monomial+0.png &amp;
-%SCRIPT gnuplot -e "f=+1" monomial.g &gt; monomial+1.png &amp;
-%SCRIPT gnuplot -e "f=+2" monomial.g &gt; monomial+2.png &amp;
-%SCRIPT gnuplot -e "f=+3" monomial.g &gt; monomial+3.png &amp;
-%SCRIPT gnuplot -e "f=-1" monomial.g &gt; monomial-1.png &amp;
-%SCRIPT gnuplot -e "f=-2" monomial.g &gt; monomial-2.png &amp;
-%SCRIPT gnuplot -e "f=-3" monomial.g &gt; monomial-3.png &amp;
+%SCRIPT gnuplot -e "f=+0" monomial.g > monomial+0.png &amp;
+%SCRIPT gnuplot -e "f=+1" monomial.g > monomial+1.png &amp;
+%SCRIPT gnuplot -e "f=+2" monomial.g > monomial+2.png &amp;
+%SCRIPT gnuplot -e "f=+3" monomial.g > monomial+3.png &amp;
+%SCRIPT gnuplot -e "f=-1" monomial.g > monomial-1.png &amp;
+%SCRIPT gnuplot -e "f=-2" monomial.g > monomial-2.png &amp;
+%SCRIPT gnuplot -e "f=-3" monomial.g > monomial-3.png &amp;
 %SCRIPT wait
 -->
 
@@ -179,16 +177,16 @@ circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0
 %SCRIPT set term pngcairo crop size 192,192
 %SCRIPT unset key;unset xtics; unset ytics; set size ratio -1
 %SCRIPT set zeroaxis lw 1 lc rgb "gray" lt 1
-%SCRIPT plot [-5:5] [-1:2] "&lt; cat -" w circles fill solid
+%SCRIPT plot [-5:5] [-1:2] "< cat -" w circles fill solid
 %SCRIPT END
 %SCRIPT X=`seq -5 5`
-%SCRIPT for i in $X; do echo $i $((i==-3)); done |gnuplot mz.g &gt;monoal-3.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==-2)); done |gnuplot mz.g &gt;monoal-2.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==-1)); done |gnuplot mz.g &gt;monoal-1.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==+0)); done |gnuplot mz.g &gt;monoal+0.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==+1)); done |gnuplot mz.g &gt;monoal+1.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==+2)); done |gnuplot mz.g &gt;monoal+2.png &amp;
-%SCRIPT for i in $X; do echo $i $((i==+3)); done |gnuplot mz.g &gt;monoal+3.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==-3)); done |gnuplot mz.g >monoal-3.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==-2)); done |gnuplot mz.g >monoal-2.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==-1)); done |gnuplot mz.g >monoal-1.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+0)); done |gnuplot mz.g >monoal+0.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+1)); done |gnuplot mz.g >monoal+1.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+2)); done |gnuplot mz.g >monoal+2.png &amp;
+%SCRIPT for i in $X; do echo $i $((i==+3)); done |gnuplot mz.g >monoal+3.png &amp;
 %SCRIPT wait
 -->
 
@@ -436,4 +434,11 @@ We still have $F(\theta_k)=\IDFT(alias(f)_m)$, where
 \[
 	alias(f)_m=\sum_{(n\ \mathrm{mod}_I\  M)=m} f_n
 \]
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Fourier_from_the_ground_up" width="1" height="1">
 

@@ -161,6 +161,16 @@ output_template = [[
 <title>TITLE</title>
 CSSCODE
 JAXCODE
+LITCODE
+]]
+
+boilerplate_lit = [[
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
 ]]
 
 boilerplate_css = [[
@@ -202,6 +212,8 @@ if whole_file:match("%$") then  -- TODO: perform a more intelligent check here
 end
 if not metadata_maths then boilerplate_mathjax = "" end
 
+if not whole_file:match("&#37;SCRIPT") then boilerplate_lit = "" end
+
 if whole_file:match("<div class=\"gallery\"") then
 	boilerplate_css = boilerplate_css .. css_gallery
 end
@@ -213,6 +225,7 @@ boilerplate_css = "<style type=\"text/css\">\n"..boilerplate_css.."\n</style>"
 output_template = output_template:gsub("TITLE", metadata_title)
 output_template = output_template:gsub("CSSCODE", boilerplate_css)
 output_template = output_template:gsub("JAXCODE", boilerplate_mathjax)
+output_template = output_template:gsub("LITCODE", boilerplate_lit)
 
 -- start building output file
 output_lines = { output_template }
@@ -280,7 +293,7 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 
 	-- post-processing replacements
 	u = u:gsub("&#37;", "%%") --percent entity
-	if o == "<!--\n" and u:match("^%%SCRIPT ") then --replace <> in SCRIPT
+	if u:match("^%%SCRIPT ") then --replace <> in SCRIPT
 		u = u:gsub("&lt;", "<")
 		u = u:gsub("&gt;", ">")
 	end
@@ -290,6 +303,15 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	end
 	o = l
 end
+
+table.insert(output_lines, "\n<hr>\n\n")
+table.insert(output_lines, '\n<!-- yes i know, wanna fight about it ? -->\n')
+tracker = string.format('<img src="%s?a=%s" width="1" height="1">\n\n',
+	"http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png",
+	metadata_title:gsub("%s", "_")
+	)
+table.insert(output_lines, tracker)
+--table.insert(output_lines, "<!-- enric meinhardt-llopis, 2018 -->\n\n")
 
 -- dump output lines
 for _,l in pairs(output_lines) do

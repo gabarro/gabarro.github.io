@@ -17,6 +17,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>The standard PDE on a manifold</h1>
 
@@ -328,7 +335,7 @@ L = A+A' - diag(sum(A+A'));                # graph laplacian
 </pre>
 <!--
 %SCRIPT mkdir -p o
-%SCRIPT octave &lt;&lt;END
+%SCRIPT octave <<END
 %SCRIPT w = 96;
 %SCRIPT p = sparse(1:w-1, 2:w, 1, w, w);
 %SCRIPT A = kron(p, speye(w)) + kron(speye(w), p);
@@ -336,7 +343,7 @@ L = A+A' - diag(sum(A+A'));                # graph laplacian
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
 %SCRIPT         n = sprintf("o/chladni_
-%SCRIPT         x = uint8(reshape(200*double(0&lt;f(:,i)),w,w));
+%SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
 %SCRIPT         imwrite(x, n);
 %SCRIPT endfor
 %SCRIPT END
@@ -445,7 +452,7 @@ L = A + A';                                 # graph laplacian
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
 %SCRIPT         n = sprintf("o/dchladni_
-%SCRIPT         x = uint8(reshape(200*double(0&lt;f(:,i)),w,w));
+%SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
 %SCRIPT         imwrite(x, n);
 %SCRIPT endfor
 %SCRIPT END
@@ -540,4 +547,11 @@ for i=1:64
         iio_write(n, x);
 endfor
 </pre>
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=The_standard_PDE_on_a_manifold" width="1" height="1">
 

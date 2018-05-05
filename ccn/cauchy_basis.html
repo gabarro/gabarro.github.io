@@ -17,6 +17,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>The Cauchy basis</h1>
 
@@ -395,8 +402,8 @@ for $x=\pi/2$:
 %SCRIPT set term pngcairo lw 3
 %SCRIPT set title "zeros of cos(x)*cosh(x)"
 %SCRIPT 
-%SCRIPT fmax(a,b)=a&lt;b?b:a
-%SCRIPT fmin(a,b)=a&lt;b?a:b
+%SCRIPT fmax(a,b)=a<b?b:a
+%SCRIPT fmin(a,b)=a<b?a:b
 %SCRIPT clip(x,a)=fmax(fmin(x,a),-a)
 %SCRIPT 
 %SCRIPT set samples 1000
@@ -467,4 +474,11 @@ plot [-0:1] [-2:3] v(1,x),v(2,x),v(3,x),v(4,x),v(5,x)
 %SCRIPT plot [-0:1] [-2:3] v(1,x),v(2,x),v(3,x),v(4,x),v(5,x)
 %SCRIPT END
 -->
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=The_Cauchy_basis" width="1" height="1">
 

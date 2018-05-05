@@ -131,13 +131,10 @@ circle traversed~$n$ times, clockwise for~$n<0$, anticlockwise for~$n>0$.
 %SCRIPT 	+1,u,-1              lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	(u-pi)/pi,0,-1       lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	(u-pi)/pi,2*pi,-1    lw 0 lc rgb "gray"                  ,\
-%%SCRIPT 	(u-pi)/pi,2*pi,+1    lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	-1,0,(u-pi)/pi       lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	-1,2*pi,(u-pi)/pi    lw 0 lc rgb "gray"                  ,\
-%%SCRIPT 	+1,2*pi,(u-pi)/pi    lw 0 lc rgb "gray"                  ,\
 %SCRIPT 	cos(f*u),u,-1        lw 0 lc rgb "blue" dashtype '- '    ,\
 %SCRIPT 	-1,u,sin(f*u)        lw 0 lc rgb "blue" dashtype '- '    ,\
-%%SCRIPT 	cos(f*u),2*pi,sin(f*u) lw 0 lc rgb "blue" dashtype '- '  ,\
 %SCRIPT 	cos(f*u),u,sin(f*u)  lw 1 lc rgb "red"                   ,\
 %SCRIPT 	u/(2*pi),0,0         lw 2 lc rgb "black"                 ,\
 %SCRIPT 	0,0,u/(2*pi)         lw 2 lc rgb "black"

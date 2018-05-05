@@ -17,6 +17,13 @@
 <script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
 
 <h1>Algebraic graph calculus</h1>
 
@@ -228,7 +235,7 @@ $n^2$) and we assume that the elements of $E$ are numbered from $1$ to $m$.
 %SCRIPT echo 'graph {
 %SCRIPT node[shape=circle width=0.3 fixedsize=true]
 %SCRIPT edge [len=0.5]
-%SCRIPT 1--2--4--5--6--4--3--1}' | neato -Tpng &gt; graph1.png
+%SCRIPT 1--2--4--5--6--4--3--1}' | neato -Tpng > graph1.png
 -->
 $\displaystyle\begin{matrix}
 	V   = \{1,2,3,4,5,6\} \\
@@ -258,7 +265,7 @@ $k$ connects vertices $i$ to $j$.
 %SCRIPT 4--5 [label="5"]
 %SCRIPT 5--6 [label="6"]
 %SCRIPT 4--6 [label="7"]
-%SCRIPT }' | dot -Tpng &gt; graph2.png
+%SCRIPT }' | dot -Tpng > graph2.png
 -->
 $
 	\textrm{adjacency list} =
@@ -566,7 +573,7 @@ through all the neighbors of $a$ in the graph.
 %SCRIPT 4 [label="50"]
 %SCRIPT 5 [label="52"]
 %SCRIPT 6 [label="53"]
-%SCRIPT }' | neato -Tpng &gt; graph3.png
+%SCRIPT }' | neato -Tpng > graph3.png
 %SCRIPT echo 'graph { 1--2--4--5--6--4--3--1
 %SCRIPT 1 [label="-3"]
 %SCRIPT 2 [label="3"]
@@ -574,7 +581,7 @@ through all the neighbors of $a$ in the graph.
 %SCRIPT 4 [label="4"]
 %SCRIPT 5 [label="-1"]
 %SCRIPT 6 [label="-4"]
-%SCRIPT }' | neato -Tpng &gt; graph4.png
+%SCRIPT }' | neato -Tpng > graph4.png
 -->
 
 <p>
@@ -645,14 +652,14 @@ difference between the values at each side of the edge.
 %SCRIPT 4 [label="50"]
 %SCRIPT 5 [label="52"]
 %SCRIPT 6 [label="53"]
-%SCRIPT 1-&gt;2 [label=" "]
-%SCRIPT 1-&gt;3 [label=" "]
-%SCRIPT 2-&gt;4 [label=" "]
-%SCRIPT 3-&gt;4 [label=" "]
-%SCRIPT 4-&gt;5 [label=" "]
-%SCRIPT 5-&gt;6 [label=" "]
-%SCRIPT 4-&gt;6 [label=" "]
-%SCRIPT }' | dot -Tpng &gt; graph5.png
+%SCRIPT 1->2 [label=" "]
+%SCRIPT 1->3 [label=" "]
+%SCRIPT 2->4 [label=" "]
+%SCRIPT 3->4 [label=" "]
+%SCRIPT 4->5 [label=" "]
+%SCRIPT 5->6 [label=" "]
+%SCRIPT 4->6 [label=" "]
+%SCRIPT }' | dot -Tpng > graph5.png
 %SCRIPT echo 'digraph {
 %SCRIPT 1 [label="  "]
 %SCRIPT 2 [label="  "]
@@ -660,14 +667,14 @@ difference between the values at each side of the edge.
 %SCRIPT 4 [label="  "]
 %SCRIPT 5 [label="  "]
 %SCRIPT 6 [label="  "]
-%SCRIPT 1-&gt;2 [label="-3"]
-%SCRIPT 1-&gt;3 [label="2"]
-%SCRIPT 2-&gt;4 [label="1"]
-%SCRIPT 3-&gt;4 [label="0"]
-%SCRIPT 4-&gt;5 [label="2"]
-%SCRIPT 5-&gt;6 [label="1"]
-%SCRIPT 4-&gt;6 [label="3"]
-%SCRIPT  }' | dot -Tpng &gt; graph6.png
+%SCRIPT 1->2 [label="-3"]
+%SCRIPT 1->3 [label="2"]
+%SCRIPT 2->4 [label="1"]
+%SCRIPT 3->4 [label="0"]
+%SCRIPT 4->5 [label="2"]
+%SCRIPT 5->6 [label="1"]
+%SCRIPT 4->6 [label="3"]
+%SCRIPT  }' | dot -Tpng > graph6.png
 -->
 
 <p>
@@ -936,4 +943,11 @@ or, in matrix notation,
 
 <p>
 which is exactly the same thing, written differently.
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Algebraic_graph_calculus" width="1" height="1">
 

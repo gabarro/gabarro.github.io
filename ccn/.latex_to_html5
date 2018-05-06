@@ -26,7 +26,7 @@ global_substitutions = {
 	{"\n%%(SCRIPT[^\n]+)", "\n<!--\n&#37;%1\n-->"},
 	{"\n%-%->\n<!%-%-", ""},
 
-	-- remove comments (TODO: keep some of them as html comments)
+	-- remove comments (FIXME: do not remove comments inside verbatim! )
 	{"\\%%", "\\&#37;"},
 	{"%%[^\n]*\n", "\n"},
 
@@ -88,25 +88,31 @@ global_substitutions = {
 	{"\\end{gallery}", "</ul></div>"},
 	{"\\galleryline{(.-)}", "<li><a href=\"%1\">%1<span><img src=\"%1\"></span></a>\n"},
 
-	-- theorem environments (TODO: different class for each type)
-	-- note, this is ugly due to the [] name option, but there's nothing
-	-- fancy going on
-	{"\\begin{proposition}%[(.-)%]",
-'<p><div class="thm"><b>Proposition <span style="font-weight:normal">(%1)</span>.</b><em>'},
-	{"\\begin{definition}%[(.-)%]",
-'<p><div class="thm"><b>Definition <span style="font-weight:normal">(%1)</span>.</b><em>'},
-	{"\\begin{definition}",  '<p><div class="thm"><b>Definition.</b><em>'},
-	{"\\begin{proposition}", '<p><div class="thm"><b>Proposition.</b><em>'},
-	{"\\begin{lemma}",       '<p><div class="thm"><b>Lemma.</b><em>'},
-	{"\\begin{theorem}",     '<p><div class="thm"><b>Theorem.</b><em>'},
-	{"\\begin{remark}",      '<p><div class="thm"><b>Remark.</b><em>'},
-	{"\\end{definition}",    "</em></div>"},
-	{"\\end{proposition}",   "</em></div>"},
-	{"\\end{lemma}",         "</em></div>"},
-	{"\\end{theorem}",       "</em></div>"},
-	{"\\end{remark}",        "</em></div>"},
-	{"\\begin{proof}",       "<p>\n<i>Proof.</i>"},
-	{"\\end{proof}",         "<span style=\"float:right\">&#8718;</span>"},
+--	-- theorem environments (TODO: different class for each type)
+--	-- note, this is ugly due to the [] name option, but there's nothing
+--	-- fancy going on
+--	{"\\begin{proposition}%[(.-)%]",
+--		'<p>\n<div class="thm"><b>Proposition .</b>(%1)<em>'},
+--	{"\\begin{definition}%[(.-)%]",
+--		'<p>\n<div class="thm"><b>Definition .</b>(%1)<em>'},
+--	{"\\begin{lemma}%[(.-)%]",
+--		'<p>\n<div class="thm"><b>Lemma .</b>(%1)<em>'},
+--	{"\\begin{theorem}%[(.-)%]",
+--		'<p>\n<div class="thm"><b>Theorem .</b>(%1)<em>'},
+--	{"\\begin{remark}%[(.-)%]",
+--		'<p>\n<div class="thm"><b>Remark .</b>(%1)<em>'},
+--	{"\\begin{definition}", '<p>\n<div class="thm"><b>Definition.</b><em>'},
+--	{"\\begin{proposition}",'<p>\n<div class="thm"><b>Proposition.</b><em>'},
+--	{"\\begin{lemma}",      '<p>\n<div class="thm"><b>Lemma.</b><em>'},
+--	{"\\begin{theorem}",    '<p>\n<div class="thm"><b>Theorem.</b><em>'},
+--	{"\\begin{remark}",     '<p>\n<div class="thm"><b>Remark.</b><em>'},
+--	{"\\end{definition}",   "</em></div>"},
+--	{"\\end{proposition}",  "</em></div>"},
+--	{"\\end{lemma}",        "</em></div>"},
+--	{"\\end{theorem}",      "</em></div>"},
+--	{"\\end{remark}",       "</em></div>"},
+	{"\\begin{proof}",      "<p>\n<i>Proof.</i>"},
+	{"\\end{proof}",        "<span style=\"float:right\">&#8718;</span>"},
 
 	-- abstract environement (wherever it appears)
 	{"\\begin{abstract}(.-)\\end{abstract}",
@@ -127,9 +133,21 @@ global_substitutions = {
 	{'([^"])i/([%a.-]-%.jpg)', "%1%2"},
 }
 
+-- add theorem-like environments to the list of substitutions
+thm_envs = {"Theorem", "Definition", "Remark", "Lemma", "Proposition"}
+for _,X in pairs(thm_envs) do
+	x = X:lower()
+	p = {"\\begin{"..x.."}%[(.-)%]",
+		'<p>\n<div class="thm"><b>'..X..'</b> (%1). <em>'}
+	q = {"\\begin{"..x.."}", '<p>\n<div class="thm"><b>'..X.."</b>. <em>"}
+	r = {"\\end{"..x.."}", "</em></div>"}
+	table.insert(global_substitutions, p)
+	table.insert(global_substitutions, q)
+	table.insert(global_substitutions, r)
+end
 
 -- perform the global substitutions
-for _,s in pairs(global_substitutions) do
+for _,s in ipairs(global_substitutions) do
 	whole_file = whole_file:gsub(s[1], s[2])
 end
 
@@ -281,9 +299,9 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	end
 
 	-- theorem counters
-	if u:match("^<div class=\"thm\">.*%.</b>") then
+	if u:match("^<div class=\"thm\">.*%</b>") then
 		counter_thm = counter_thm + 1
-		u = u:gsub("%.</b>", " "..counter_thm..".</b>")
+		u = u:gsub("%</b>", " "..counter_thm.."</b>")
 	end
 
 	-- <pre> book-keeping
@@ -314,7 +332,7 @@ table.insert(output_lines, tracker)
 --table.insert(output_lines, "<!-- enric meinhardt-llopis, 2018 -->\n\n")
 
 -- dump output lines
-for _,l in pairs(output_lines) do
+for _,l in ipairs(output_lines) do
 	--if not l:match("^\n$") then
 		io.stdout:write(l)
 	--end

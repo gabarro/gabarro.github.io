@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <title>Linear Dithering</title>
-<style type="text/css">
+<style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
 	.thm em i { font-style: normal;}	.gallery{position:relative;width:auto;height:400px}
@@ -24,7 +24,7 @@
 		}
 	});
 </script>
-<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
 <!--
@@ -55,10 +55,10 @@ points on a multidimensional continuum of binarization methods, that we call
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="i/weiro.png"> <td>
-	<img src="weiro-bin.png"> <td>
-	<img src="weiro-dit.png"> <td>
-	<img src="weiro-z01.png"> <tr><td>
+	<img src="i/weiro.png" alt="image"> <td>
+	<img src="weiro-bin.png" alt="image"> <td>
+	<img src="weiro-dit.png" alt="image"> <td>
+	<img src="weiro-z01.png" alt="image"> <tr><td>
 	original image <td>
 	thresholding <td>
 	dithering <td>
@@ -91,13 +91,13 @@ jpeg compression artifacts of the original.)
 
 <div class="gallery" style="min-height:531px;height:8em"><ul class="index">
 
-	<li><a href="i/bongos.jpg">bongos.jpg<span><img src="i/bongos.jpg"></span></a>
+	<li><a href="i/bongos.jpg">bongos.jpg<span><img src="i/bongos.jpg" alt=""></span></a>
 
-	<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png"></span></a>
+	<li><a href="bongos-bin.png">bongos-bin.png<span><img src="bongos-bin.png" alt=""></span></a>
 
-	<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png"></span></a>
+	<li><a href="bongos-dit.png">bongos-dit.png<span><img src="bongos-dit.png" alt=""></span></a>
 
-	<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png"></span></a>
+	<li><a href="bongos-lin.png">bongos-lin.png<span><img src="bongos-lin.png" alt=""></span></a>
 
 </ul></div>
 <pre>
@@ -125,7 +125,7 @@ family of methods that contains pure dithering and pure
 binarization as particular cases.
 
 <p>
-<img src="tanhs.png">
+<img src="tanhs.png" alt="image">
 <!--
 %SCRIPT gnuplot <<END >tanhs.png
 %SCRIPT set term pngcairo lw 2
@@ -158,14 +158,14 @@ contrast change, and the second row the dithering of each image.
 	$\lambda=3$ <td>
 	$\lambda=7$ <td>
 	$\lambda=\infty$ <tr><td>
-	<img src="weiro-tanh0.png"> <td>
-	<img src="weiro-tanh3.png"> <td>
-	<img src="weiro-tanh7.png"> <td>
-	<img src="weiro-tanhi.png"> <tr><td>
-	<img src="weiro-ditanh0.png"> <td>
-	<img src="weiro-ditanh3.png"> <td>
-	<img src="weiro-ditanh7.png"> <td>
-	<img src="weiro-ditanhi.png">
+	<img src="weiro-tanh0.png" alt="image"> <td>
+	<img src="weiro-tanh3.png" alt="image"> <td>
+	<img src="weiro-tanh7.png" alt="image"> <td>
+	<img src="weiro-tanhi.png" alt="image"> <tr><td>
+	<img src="weiro-ditanh0.png" alt="image"> <td>
+	<img src="weiro-ditanh3.png" alt="image"> <td>
+	<img src="weiro-ditanh7.png" alt="image"> <td>
+	<img src="weiro-ditanhi.png" alt="image">
 </table>
 
 <p>
@@ -196,14 +196,14 @@ space.
 	$\mu=0.5$ <td>
 	$\mu=1$ <td>
 	$\mu=2$<tr><td>
-	<img src="weiro-riesz01.png"> <td>
-	<img src="weiro-riesz05.png"> <td>
-	<img src="weiro-riesz10.png"> <td>
-	<img src="weiro-riesz20.png"> <tr><td>
-	<img src="weiro-diriesz01.png"> <td>
-	<img src="weiro-diriesz05.png"> <td>
-	<img src="weiro-diriesz10.png"> <td>
-	<img src="weiro-diriesz20.png">
+	<img src="weiro-riesz01.png" alt="image"> <td>
+	<img src="weiro-riesz05.png" alt="image"> <td>
+	<img src="weiro-riesz10.png" alt="image"> <td>
+	<img src="weiro-riesz20.png" alt="image"> <tr><td>
+	<img src="weiro-diriesz01.png" alt="image"> <td>
+	<img src="weiro-diriesz05.png" alt="image"> <td>
+	<img src="weiro-diriesz10.png" alt="image"> <td>
+	<img src="weiro-diriesz20.png" alt="image">
 </table>
 
 <p>
@@ -255,9 +255,9 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-ga.png"> <td>
-	<img src="weiro-gb.png"> <td>
-	<img src="weiro-gc.png"> <tr><td>
+	<img src="weiro-ga.png" alt="image"> <td>
+	<img src="weiro-gb.png" alt="image"> <td>
+	<img src="weiro-gc.png" alt="image"> <tr><td>
 	$G_{0.5}$ <td>
 	$G_{1}$ <td>
 	$G_{3}$
@@ -271,9 +271,9 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-la.png"> <td>
-	<img src="weiro-lb.png"> <td>
-	<img src="weiro-lc.png"> <tr><td>
+	<img src="weiro-la.png" alt="image"> <td>
+	<img src="weiro-lb.png" alt="image"> <td>
+	<img src="weiro-lc.png" alt="image"> <tr><td>
 	$L_{0.5}$ <td>
 	$L_{1}$ <td>
 	$L_{3}$
@@ -287,9 +287,9 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-ca.png"> <td>
-	<img src="weiro-cb.png"> <td>
-	<img src="weiro-cc.png"> <tr><td>
+	<img src="weiro-ca.png" alt="image"> <td>
+	<img src="weiro-cb.png" alt="image"> <td>
+	<img src="weiro-cc.png" alt="image"> <tr><td>
 	$C_{0.5}$ <td>
 	$C_{1}$ <td>
 	$C_{3}$
@@ -304,10 +304,10 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-z01.png"> <td>
-	<img src="weiro-z10.png"> <td>
-	<img src="weiro-z20.png"> <td>
-	<img src="weiro-z50.png"> <tr><td>
+	<img src="weiro-z01.png" alt="image"> <td>
+	<img src="weiro-z10.png" alt="image"> <td>
+	<img src="weiro-z20.png" alt="image"> <td>
+	<img src="weiro-z50.png" alt="image"> <tr><td>
 	$Z_{0.01}$ <td>
 	$Z_{0.10}$ <td>
 	$Z_{0.20}$ <td>
@@ -323,10 +323,10 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-i01.png"> <td>
-	<img src="weiro-i10.png"> <td>
-	<img src="weiro-i20.png"> <td>
-	<img src="weiro-i50.png"> <tr><td>
+	<img src="weiro-i01.png" alt="image"> <td>
+	<img src="weiro-i10.png" alt="image"> <td>
+	<img src="weiro-i20.png" alt="image"> <td>
+	<img src="weiro-i50.png" alt="image"> <tr><td>
 	$Y_{0.01}$ <td>
 	$Y_{0.10}$ <td>
 	$Y_{0.20}$ <td>
@@ -342,10 +342,10 @@ kernels).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="weiro-q01.png"> <td>
-	<img src="weiro-q10.png"> <td>
-	<img src="weiro-q20.png"> <td>
-	<img src="weiro-q50.png"> <tr><td>
+	<img src="weiro-q01.png" alt="image"> <td>
+	<img src="weiro-q10.png" alt="image"> <td>
+	<img src="weiro-q20.png" alt="image"> <td>
+	<img src="weiro-q50.png" alt="image"> <tr><td>
 	$Q_{0.01}$ <td>
 	$Q_{0.10}$ <td>
 	$Q_{0.20}$ <td>
@@ -380,13 +380,13 @@ plambda barb.png 'x x
 </pre>
 <div class="gallery" style="min-height:572px;height:8em"><ul class="index">
 
-	<li><a href="i/barb.png">barb.png<span><img src="i/barb.png"></span></a>
+	<li><a href="i/barb.png">barb.png<span><img src="i/barb.png" alt=""></span></a>
 
-	<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png"></span></a>
+	<li><a href="barb-dit.png">barb-dit.png<span><img src="barb-dit.png" alt=""></span></a>
 
-	<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png"></span></a>
+	<li><a href="barb-lin.png">barb-lin.png<span><img src="barb-lin.png" alt=""></span></a>
 
-	<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png"></span></a>
+	<li><a href="barb-bin.png">barb-bin.png<span><img src="barb-bin.png" alt=""></span></a>
 
 </ul></div>
 
@@ -401,5 +401,5 @@ of the original .tex source file.
 
 
 <!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Linear_Dithering" width="1" height="1">
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Linear_Dithering" width="1" height="1" alt="">
 

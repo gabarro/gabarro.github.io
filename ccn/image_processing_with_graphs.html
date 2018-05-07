@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <title>Image processing with graphs</title>
-<style type="text/css">
+<style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
 	.thm em i { font-style: normal;}	.gallery{position:relative;width:auto;height:400px}
@@ -24,7 +24,7 @@
 		}
 	});
 </script>
-<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
 <!--
@@ -41,7 +41,7 @@
 This is one of the best books in image processing:
 
 <p>
-<img src="i/graphcover.png">
+<img src="i/graphcover.png" alt="image">
 
 <p>
 You should buy several copies, for yourself, your friends and your family;
@@ -140,7 +140,7 @@ $m =\ \,$ number of edges in the graph
 For the following graph, we have $n=5$ and $m=6$:
 
 <p>
-<img src="gggx.png">
+<img src="gggx.png" alt="image">
 <!--
 %SCRIPT echo 'graph { node [shape=circle]
 %SCRIPT 1--2 [label="1"]
@@ -285,7 +285,7 @@ The pixels of an image are arranged naturally in the shape of a grid.
 Here, for example, you have the grid of a $4\times 3$ image:
 
 <p>
-<img src="gridgraph.png">
+<img src="gridgraph.png" alt="image">
 <!--
 %SCRIPT echo 'graph {
 %SCRIPT node [shape=circle width=0.3 fixedsize=true]
@@ -331,7 +331,7 @@ The graph defines just the <i>domain</i> of an image.  We still need the
 Beckett by Jane Bown:
 
 <p>
-<img src="i/beckett.png">
+<img src="i/beckett.png" alt="image">
 <code>beckett.png</code>
 
 <p>
@@ -351,7 +351,7 @@ imwrite(z, "beckett-lap.png");    # save output image
 </pre>
 
 <p>
-<img src="beckett-lap.png">
+<img src="beckett-lap.png" alt="image">
 <code>beckett-lap.png</code>
 
 <p>
@@ -368,7 +368,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-sharp.png");  # save output image
 </pre>
 
 <p>
-<img src="beckett-sharp.png">
+<img src="beckett-sharp.png" alt="image">
 <code>beckett-sharp.png</code>
 
 <p>
@@ -383,7 +383,7 @@ imwrite(reshape(uint8(y),w,h), "beckett-smooth.png");  # save output image
 </pre>
 
 <p>
-<img src="beckett-smooth.png">
+<img src="beckett-smooth.png" alt="image">
 <code>beckett-smooth.png</code>
 
 <h2>4. Graph-based mathematical morphology</h2>
@@ -490,15 +490,15 @@ imwrite(logical(reshape(y3,w,h)), "beckett-6med.png");   # save median filter
 
 <div class="gallery" style="min-height:308px;height:10em"><ul class="index">
 
-	<li><a href="beckett-bin.png">beckett-bin.png<span><img src="beckett-bin.png"></span></a>
+	<li><a href="beckett-bin.png">beckett-bin.png<span><img src="beckett-bin.png" alt=""></span></a>
 
-	<li><a href="beckett-6gray.png">beckett-6gray.png<span><img src="beckett-6gray.png"></span></a>
+	<li><a href="beckett-6gray.png">beckett-6gray.png<span><img src="beckett-6gray.png" alt=""></span></a>
 
-	<li><a href="beckett-6dil.png">beckett-6dil.png<span><img src="beckett-6dil.png"></span></a>
+	<li><a href="beckett-6dil.png">beckett-6dil.png<span><img src="beckett-6dil.png" alt=""></span></a>
 
-	<li><a href="beckett-6ero.png">beckett-6ero.png<span><img src="beckett-6ero.png"></span></a>
+	<li><a href="beckett-6ero.png">beckett-6ero.png<span><img src="beckett-6ero.png" alt=""></span></a>
 
-	<li><a href="beckett-6med.png">beckett-6med.png<span><img src="beckett-6med.png"></span></a>
+	<li><a href="beckett-6med.png">beckett-6med.png<span><img src="beckett-6med.png" alt=""></span></a>
 
 </ul></div>
 
@@ -577,27 +577,27 @@ imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett-bot.png");
 
 <div class="gallery" style="min-height:308px;height:22em"><ul class="index">
 
-	<li><a href="beckett-dil.png">beckett-dil.png<span><img src="beckett-dil.png"></span></a>
+	<li><a href="beckett-dil.png">beckett-dil.png<span><img src="beckett-dil.png" alt=""></span></a>
 
-	<li><a href="beckett-ero.png">beckett-ero.png<span><img src="beckett-ero.png"></span></a>
+	<li><a href="beckett-ero.png">beckett-ero.png<span><img src="beckett-ero.png" alt=""></span></a>
 
-	<li><a href="beckett-ope.png">beckett-ope.png<span><img src="beckett-ope.png"></span></a>
+	<li><a href="beckett-ope.png">beckett-ope.png<span><img src="beckett-ope.png" alt=""></span></a>
 
-	<li><a href="beckett-clo.png">beckett-clo.png<span><img src="beckett-clo.png"></span></a>
+	<li><a href="beckett-clo.png">beckett-clo.png<span><img src="beckett-clo.png" alt=""></span></a>
 
-	<li><a href="beckett-igrad.png">beckett-igrad.png<span><img src="beckett-igrad.png"></span></a>
+	<li><a href="beckett-igrad.png">beckett-igrad.png<span><img src="beckett-igrad.png" alt=""></span></a>
 
-	<li><a href="beckett-egrad.png">beckett-egrad.png<span><img src="beckett-egrad.png"></span></a>
+	<li><a href="beckett-egrad.png">beckett-egrad.png<span><img src="beckett-egrad.png" alt=""></span></a>
 
-	<li><a href="beckett-cgrad.png">beckett-cgrad.png<span><img src="beckett-cgrad.png"></span></a>
+	<li><a href="beckett-cgrad.png">beckett-cgrad.png<span><img src="beckett-cgrad.png" alt=""></span></a>
 
-	<li><a href="beckett-mlap.png">beckett-mlap.png<span><img src="beckett-mlap.png"></span></a>
+	<li><a href="beckett-mlap.png">beckett-mlap.png<span><img src="beckett-mlap.png" alt=""></span></a>
 
-	<li><a href="beckett-msharp.png">beckett-msharp.png<span><img src="beckett-msharp.png"></span></a>
+	<li><a href="beckett-msharp.png">beckett-msharp.png<span><img src="beckett-msharp.png" alt=""></span></a>
 
-	<li><a href="beckett-top.png">beckett-top.png<span><img src="beckett-top.png"></span></a>
+	<li><a href="beckett-top.png">beckett-top.png<span><img src="beckett-top.png" alt=""></span></a>
 
-	<li><a href="beckett-bot.png">beckett-bot.png<span><img src="beckett-bot.png"></span></a>
+	<li><a href="beckett-bot.png">beckett-bot.png<span><img src="beckett-bot.png" alt=""></span></a>
 
 </ul></div>
 
@@ -634,5 +634,5 @@ that must be negated to visualize it correctly.
 
 
 <!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Image_processing_with_graphs" width="1" height="1">
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Image_processing_with_graphs" width="1" height="1" alt="">
 

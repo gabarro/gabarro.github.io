@@ -56,7 +56,7 @@ global_substitutions = {
 	{"\\fbox{(.-)}", '<span style="border:1px solid">%1</span>'},
 
 	-- change \includegraphics{...} to <img src="...">
-	{"\\includegraphics{(.-)}", "<img src=\"%1\">"},
+	{"\\includegraphics{(.-)}", '<img src="%1" alt="image">'},
 
 	-- change \sections to <headers>
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
@@ -86,7 +86,7 @@ global_substitutions = {
 	-- gallery environement
 	{"\\begin{gallery}", "<div class=\"gallery\" style=\"height:400px\"><ul class=\"index\">\n"},
 	{"\\end{gallery}", "</ul></div>"},
-	{"\\galleryline{(.-)}", "<li><a href=\"%1\">%1<span><img src=\"%1\"></span></a>\n"},
+	{"\\galleryline{(.-)}", '<li><a href="%1">%1<span><img src="%1" alt=""></span></a>\n'},
 
 --	-- theorem environments (TODO: different class for each type)
 --	-- note, this is ugly due to the [] name option, but there's nothing
@@ -218,7 +218,7 @@ boilerplate_mathjax = [[
 		}
 	});
 </script>
-<script type="text/javascript" async src="JAXURL?JAXOPT">
+<script async src="JAXURL?JAXOPT">
 </script>
 ]]
 
@@ -239,7 +239,7 @@ end
 boilerplate_mathjax = boilerplate_mathjax:gsub("JAXURL", JAXURL)
 boilerplate_mathjax = boilerplate_mathjax:gsub("JAXOPT", JAXOPT)
 
-boilerplate_css = "<style type=\"text/css\">\n"..boilerplate_css.."\n</style>"
+boilerplate_css = "<style>\n"..boilerplate_css.."\n</style>"
 output_template = output_template:gsub("TITLE", metadata_title)
 output_template = output_template:gsub("CSSCODE", boilerplate_css)
 output_template = output_template:gsub("JAXCODE", boilerplate_mathjax)
@@ -262,7 +262,10 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	u = l    -- line to add to the output (the same, by default)
 
 	-- if a paragraph starts, put <p>
-	if o == "\n" and not toggle_pre and (
+	if o == "\n" and
+		not toggle_pre and
+		not u:match("^%$\\newcommand") and
+		(
 			u:match("^[%a][^\n]-\n") or
 			u:match("^<img[^\n]-\n") or
 			u:match("^<span[^\n]-\n") or
@@ -324,7 +327,7 @@ end
 
 table.insert(output_lines, "\n<hr>\n\n")
 table.insert(output_lines, '\n<!-- yes i know, wanna fight about it ? -->\n')
-tracker = string.format('<img src="%s?a=%s" width="1" height="1">\n\n',
+tracker = string.format('<img src="%s?a=%s" width="1" height="1" alt="">\n\n',
 	"http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png",
 	metadata_title:gsub("%s", "_")
 	)

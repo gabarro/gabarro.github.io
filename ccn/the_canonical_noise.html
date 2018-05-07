@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <title>The canonical noise of an image</title>
-<style type="text/css">
+<style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
 	.thm em i { font-style: normal;}
@@ -20,8 +20,8 @@ recognize any object.
 <pre>
 fft 1 barb.png |plambda "0 rand join cexp cprod" |fft -1 - barb-rpn.png
 </pre>
-<img src="i/barb.png"><code>barb.png</code><br>
-<img src="barb-rpn.png"><code>barb-rpn.png</code>
+<img src="i/barb.png" alt="image"><code>barb.png</code><br>
+<img src="barb-rpn.png" alt="image"><code>barb-rpn.png</code>
 
 <p>
 What happens if you do the opposite?  Keep the phases and randomize the
@@ -31,7 +31,7 @@ recognizable among the very spiky noise.
 <pre>
 fft 1 barb.png|plambda "dup vnorm / randu *"|ifft|qauto -i -p 1 - barb-ran.png
 </pre>
-<img src="barb-ran.png"><code>barb-ran.png</code>
+<img src="barb-ran.png" alt="image"><code>barb-ran.png</code>
 
 <p>
 In fact, setting the amplitudes to uniform random is more or less the same
@@ -44,7 +44,7 @@ image, more or less like a laplacian.
 <pre>
 fft 1 barb.png |plambda "dup vnorm /" |ifft |qauto -i -p 1 - barb-pha.png
 </pre>
-<img src="barb-pha.png"><code>barb-pha.png</code>
+<img src="barb-pha.png" alt="image"><code>barb-pha.png</code>
 
 <p>
 The phase image looks very strange because it has a flat spectrum, which is a
@@ -55,7 +55,7 @@ spectrum, we obtain the so-called {\em canonical image}:
 <pre>
 fft 1 barb.png |plambda "dup vnorm / :R /" |ifft |qauto -i -p 1 - barb-can.png
 </pre>
-<img src="barb-can.png"><code>barb-can.png</code>
+<img src="barb-can.png" alt="image"><code>barb-can.png</code>
 
 <p>
 This image is eerily similar to the original.  It looks like a noisy version
@@ -66,13 +66,13 @@ been produced <i>without any use of random numbers!</i>  We can call it the
 <pre>
 fft &lt;binbeck.png|plambda "dup vnorm / :R /" |ifft|qauto -p 9 - binbeck-can.png
 </pre>
-<img src="i/binbeck.png"><code>binbeck.png</code><br>
-<img src="binbeck-can.png"><code>binbeck-can.png</code>
+<img src="i/binbeck.png" alt="image"><code>binbeck.png</code><br>
+<img src="binbeck-can.png" alt="image"><code>binbeck-can.png</code>
 
 
 <hr>
 
 
 <!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=The_canonical_noise_of_an_image" width="1" height="1">
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=The_canonical_noise_of_an_image" width="1" height="1" alt="">
 

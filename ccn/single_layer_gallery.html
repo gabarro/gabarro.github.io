@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <title>Gallery of single layer textures</title>
-<style type="text/css">
+<style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
 	.thm em i { font-style: normal;}
@@ -14,7 +14,7 @@
 		}
 	});
 </script>
-<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
 
@@ -68,7 +68,7 @@ this page are indeed single-layer.
 <h2>1. Binary</h2>
 
 <p>
-<img src="binary.png">
+<img src="binary.png" alt="image">
 <pre>
 plambda canvas randc | blur c 0.5 | plambda - 'x x
 </pre>
@@ -78,7 +78,7 @@ at the median value.
 <h2>2. Disks</h2>
 
 <p>
-<img src="disks.png">
+<img src="disks.png" alt="image">
 <pre>
 plambda canvas randc | blur disk 30 | qauto -p 1 - disks.png
 </pre>
@@ -88,7 +88,7 @@ by a simplest color balance that saturates $1\%$ of the pixels.
 <h2>3. Starfield</h2>
 
 <p>
-<img src="starfield.png">
+<img src="starfield.png" alt="image">
 <pre>
 plambda canvas randp | blur c 1 | qauto -p 1 - starfield.png
 </pre>
@@ -98,7 +98,7 @@ a simplest color balance that saturates $1\%$ of the pixels.
 <h2>4. Blood</h2>
 
 <p>
-<img src="blood.png">
+<img src="blood.png" alt="image">
 <pre>
 SIGMOID='2 * tanh 1 + 2 /'
 RED='dup 1 rot - rot 1 1 1 join3 * 0.7 0.1 0.1 join3 * + 255 *'
@@ -110,7 +110,7 @@ red palette.
 <h2>5. Islands</h2>
 
 <p>
-<img src="islands.png">
+<img src="islands.png" alt="image">
 <pre>
 plambda canvas randu | blur -s z .4 | plambda - 'x x
 </pre>
@@ -120,7 +120,7 @@ binarized to the 80th quantile.
 <h2>6. Clouds</h2>
 
 <p>
-<img src="clouds.png">
+<img src="clouds.png" alt="image">
 <pre>
 SIGMOID='4e4 * tanh 1 + 2 /'
 BLUE='dup 1 - -1 * 0 .5 1 join3 * + 255 *'
@@ -131,7 +131,7 @@ Comment: white Gaussian noise, blurred by a kernel of the form $\log(r)$, plus 
 <h2>7. Multiscale</h2>
 
 <p>
-<img src="multiscale.png">
+<img src="multiscale.png" alt="image">
 <pre>
 plambda canvas randg | fft | plambda ':R /' | ifft | qauto - multiscale.png
 </pre>
@@ -143,7 +143,7 @@ of the form $1/|\xi|$.
 <h2>8. Snowflakes</h2>
 
 <p>
-<img src="snowflakes.png">
+<img src="snowflakes.png" alt="image">
 <pre>
 plambda canvas ":x :y join 6 0 join cpow cimag :r 9 ^ / randc 3 ^ join" |\
 	fft | plambda "halve cprod" | ifft | qeasy 2e17 5e17 - snowflakes.png
@@ -156,7 +156,7 @@ threshold that keeps only the highest positive values.
 <h2>9. Dandelions</h2>
 
 <p>
-<img src="dandelions.png">
+<img src="dandelions.png" alt="image">
 <pre>
 KERNEL=':x :y join 13 0 join cpow creal :r 13.5 ^ / 3 fmax 3 -'
 PALETTE='dup rot 128 2 / + 0 join3'
@@ -169,7 +169,7 @@ degree of polynomial and a green color palette.
 <h2>10. Heptachords</h2>
 
 <p>
-<img src="heptachords.png">
+<img src="heptachords.png" alt="image">
 <pre>
 KERNEL=':x :y join 7 0 join cpow creal :r 8 ^ / 3 fmax 3 -'
 plambda canvas "$KERNEL randp join" | fft | plambda 'halve cprod' | ifft |\
@@ -181,7 +181,7 @@ change.
 <h2>11. Neurons</h2>
 
 <p>
-<img src="neurons.png">
+<img src="neurons.png" alt="image">
 <pre>
 plambda canvas randp | blur l 10 | plambda 'x,nf' | qeasy 0.4 0 - neurons.png
 </pre>
@@ -191,7 +191,7 @@ The final contrast change enhances the near-zero part of the image.
 <h2>12. Sponge</h2>
 
 <p>
-<img src="sponge.png">
+<img src="sponge.png" alt="image">
 <pre>
 plambda canvas randp | blur i 0.3 | plambda 'x,nf' | qeasy 0.1 0 - sponge.png
 </pre>
@@ -201,7 +201,7 @@ of a Laplacian kernel.
 <h2>13. Lava</h2>
 
 <p>
-<img src="lava.png">
+<img src="lava.png" alt="image">
 <pre>
 plambda canvas 'randp randp randp join3' | blur i 0.3 | \
 	plambda 'x,nf vmin' | qauto - lava.png
@@ -212,7 +212,7 @@ derivative of Shepard kernel.
 <h2>14. Folds</h2>
 
 <p>
-<img src="folds.png">
+<img src="folds.png" alt="image">
 <pre>
 plambda canvas randg | blur l 30 | plambda 'x,nf -1 *'|qauto -p 0 - folds.png
 </pre>
@@ -223,7 +223,7 @@ span a visible dynamic range.
 <h2>15. Stucco</h2>
 
 <p>
-<img src="stucco.png">
+<img src="stucco.png" alt="image">
 <pre>
 plambda canvas 'randp sqrt' | blur l 2 | plambda 'x,S' | qauto -p 1 - stucco.png
 </pre>
@@ -233,7 +233,7 @@ noise.
 <h2>16. Blobs</h2>
 
 <p>
-<img src="blobs.png">
+<img src="blobs.png" alt="image">
 <pre>
 plambda canvas 'randu randu randu randu randu nstack njoin' | blur g 20 |\
 	plambda vmax | qauto -p 0.1 - blobs.png
@@ -243,7 +243,7 @@ Comment: this is the max of four Perlin noises.
 <h2>17. Combined</h2>
 
 <p>
-<img src="combined.png">
+<img src="combined.png" alt="image">
 <pre>
 plambda neurons.png starfield.png "dup join3" -o combined.png
 </pre>
@@ -252,7 +252,7 @@ white noise, they are closely related.  Thus, they can be combined as
 different channels of a color image to obtain funny effects.
 
 <p>
-<img src="combined2.png">
+<img src="combined2.png" alt="image">
 <pre>
 plambda starfield.png neurons.png sponge.png 'join3 -1 1 1 join3 *' |\
 	qauto -i - combined2.png
@@ -260,13 +260,13 @@ plambda starfield.png neurons.png sponge.png 'join3 -1 1 1 join3 *' |\
 Comment: in color images, the choice of a color palette or another can have dramatic effects.
 
 <p>
-<img src="comb3.png">
+<img src="comb3.png" alt="image">
 <pre>
 fftshift dandelions.png|plambda - starfield.png -|blur L 20|qauto -i - comb3.png
 </pre>
 
 <p>
-<img src="combined4.png">
+<img src="combined4.png" alt="image">
 <pre>
 plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined4.png
 </pre>
@@ -517,5 +517,5 @@ Examples:
 
 
 <!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Gallery_of_single_layer_textures" width="1" height="1">
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Gallery_of_single_layer_textures" width="1" height="1" alt="">
 

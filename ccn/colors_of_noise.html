@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <title>Colors of image noise</title>
-<style type="text/css">
+<style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
 	.thm em i { font-style: normal;}
@@ -14,7 +14,7 @@
 		}
 	});
 </script>
-<script type="text/javascript" async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
 </script>
 
 <!--
@@ -33,7 +33,7 @@
 Everybody knows about white Gaussian noise
 
 <p>
-<img src="white.png">
+<img src="white.png" alt="image">
 <!--
 %SCRIPT plambda zero:512x512 randg | qauto -p 0.1 - white.png &amp;
 -->
@@ -69,10 +69,10 @@ Statistics of white gaussian noise and its DFT:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="w256.png"> <td>
-	<img src="w256_h.png"> <td>
-	<img src="w256_f.png"> <td>
-	<img src="w256_p.png"> <tr><td>
+	<img src="w256.png" alt="image"> <td>
+	<img src="w256_h.png" alt="image"> <td>
+	<img src="w256_f.png" alt="image"> <td>
+	<img src="w256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -96,10 +96,10 @@ White gaussian noise blurred by a small gaussian kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="b256.png"> <td>
-	<img src="b256_h.png"> <td>
-	<img src="b256_f.png"> <td>
-	<img src="b256_p.png"> <tr><td>
+	<img src="b256.png" alt="image"> <td>
+	<img src="b256_h.png" alt="image"> <td>
+	<img src="b256_f.png" alt="image"> <td>
+	<img src="b256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -121,10 +121,10 @@ White gaussian noise blurred by a larger gaussian kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="B256.png"> <td>
-	<img src="B256_h.png"> <td>
-	<img src="B256_f.png"> <td>
-	<img src="B256_p.png"> <tr><td>
+	<img src="B256.png" alt="image"> <td>
+	<img src="B256_h.png" alt="image"> <td>
+	<img src="B256_f.png" alt="image"> <td>
+	<img src="B256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -146,10 +146,10 @@ White gaussian noise blurred by a Cauchy kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="c256.png"> <td>
-	<img src="c256_h.png"> <td>
-	<img src="c256_f.png"> <td>
-	<img src="c256_p.png"> <tr><td>
+	<img src="c256.png" alt="image"> <td>
+	<img src="c256_h.png" alt="image"> <td>
+	<img src="c256_f.png" alt="image"> <td>
+	<img src="c256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -171,10 +171,10 @@ White gaussian noise blurred by a Laplace kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="l256.png"> <td>
-	<img src="l256_h.png"> <td>
-	<img src="l256_f.png"> <td>
-	<img src="l256_p.png"> <tr><td>
+	<img src="l256.png" alt="image"> <td>
+	<img src="l256_h.png" alt="image"> <td>
+	<img src="l256_f.png" alt="image"> <td>
+	<img src="l256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -196,10 +196,10 @@ White gaussian noise blurred by a Disk kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="d256.png"> <td>
-	<img src="d256_h.png"> <td>
-	<img src="d256_f.png"> <td>
-	<img src="d256_p.png"> <tr><td>
+	<img src="d256.png" alt="image"> <td>
+	<img src="d256_h.png" alt="image"> <td>
+	<img src="d256_f.png" alt="image"> <td>
+	<img src="d256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -221,10 +221,10 @@ White gaussian noise blurred by a Square kernel:
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="s256.png"> <td>
-	<img src="s256_h.png"> <td>
-	<img src="s256_f.png"> <td>
-	<img src="s256_p.png"> <tr><td>
+	<img src="s256.png" alt="image"> <td>
+	<img src="s256_h.png" alt="image"> <td>
+	<img src="s256_f.png" alt="image"> <td>
+	<img src="s256_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -251,16 +251,16 @@ spectrum).
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="purple.png"> <td>
-	<img src="blue.png"> <td>
-	<img src="white2.png"> <tr><td>
+	<img src="purple.png" alt="image"> <td>
+	<img src="blue.png" alt="image"> <td>
+	<img src="white2.png" alt="image"> <tr><td>
 	$\alpha=2$ purple <td>
 	$\alpha=1$ blue <td>
 	$\alpha=0$ white <tr><td>
 	$\phantom{a}$ <td><td><tr><td>
-	<img src="pink.png"> <td>
-	<img src="brown.png"> <td>
-	<img src="smooth.png"> <tr><td>
+	<img src="pink.png" alt="image"> <td>
+	<img src="brown.png" alt="image"> <td>
+	<img src="smooth.png" alt="image"> <tr><td>
 	$\alpha=-1$ pink <td>
 	$\alpha=-2$ brown <td>
 	$\alpha=-3$ smooth
@@ -281,10 +281,10 @@ Statistics of Pink noise ($\alpha=-1$):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="KK-1.png"> <td>
-	<img src="KK-1_h.png"> <td>
-	<img src="KK-1_f.png"> <td>
-	<img src="KK-1_p.png"> <tr><td>
+	<img src="KK-1.png" alt="image"> <td>
+	<img src="KK-1_h.png" alt="image"> <td>
+	<img src="KK-1_f.png" alt="image"> <td>
+	<img src="KK-1_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -306,10 +306,10 @@ Statistics of Brown noise ($\alpha=-2$):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="KK-2.png"> <td>
-	<img src="KK-2_h.png"> <td>
-	<img src="KK-2_f.png"> <td>
-	<img src="KK-2_p.png"> <tr><td>
+	<img src="KK-2.png" alt="image"> <td>
+	<img src="KK-2_h.png" alt="image"> <td>
+	<img src="KK-2_f.png" alt="image"> <td>
+	<img src="KK-2_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -331,10 +331,10 @@ Statistics of Smooth noise ($\alpha=-3$):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="KK-3.png"> <td>
-	<img src="KK-3_h.png"> <td>
-	<img src="KK-3_f.png"> <td>
-	<img src="KK-3_p.png"> <tr><td>
+	<img src="KK-3.png" alt="image"> <td>
+	<img src="KK-3_h.png" alt="image"> <td>
+	<img src="KK-3_f.png" alt="image"> <td>
+	<img src="KK-3_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -356,10 +356,10 @@ Statistics of Blue noise ($\alpha=1$):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="KK+1.png"> <td>
-	<img src="KK+1_h.png"> <td>
-	<img src="KK+1_f.png"> <td>
-	<img src="KK+1_p.png"> <tr><td>
+	<img src="KK+1.png" alt="image"> <td>
+	<img src="KK+1_h.png" alt="image"> <td>
+	<img src="KK+1_f.png" alt="image"> <td>
+	<img src="KK+1_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -381,10 +381,10 @@ Statistics of Purple noise ($\alpha=2$):
 <table border="1" cellspacing="0" cellpadding="7">
 <tr><td>
 
-	<img src="KK+2.png"> <td>
-	<img src="KK+2_h.png"> <td>
-	<img src="KK+2_f.png"> <td>
-	<img src="KK+2_p.png"> <tr><td>
+	<img src="KK+2.png" alt="image"> <td>
+	<img src="KK+2_h.png" alt="image"> <td>
+	<img src="KK+2_f.png" alt="image"> <td>
+	<img src="KK+2_p.png" alt="image"> <tr><td>
 	$u(x)$ <td>
 	histogram of $u$ <td>
 	$\log|\hat u(\xi)|$ <td>
@@ -409,5 +409,5 @@ Statistics of Purple noise ($\alpha=2$):
 
 
 <!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Colors_of_image_noise" width="1" height="1">
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Colors_of_image_noise" width="1" height="1" alt="">
 

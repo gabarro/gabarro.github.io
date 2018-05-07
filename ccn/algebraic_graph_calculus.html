@@ -4,6 +4,8 @@
 <style>
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
 	.thm em i { font-style: normal;}
 </style>
 <script type="text/x-mathjax-config">
@@ -27,7 +29,6 @@
 
 <h1>Algebraic graph calculus</h1>
 
-<p>
 $\newcommand{\1}{\mathbf{1}}$
 $\newcommand{\R}{\mathbf{R}}$
 
@@ -436,7 +437,7 @@ The main idea is that scalar fields correspond to
 functions defined on vertices, and vector fields correspond to functions
 defined on edges.
 
-<table border="1" cellspacing="0" cellpadding="7">
+<table>
 <tr><td>
 
 	
@@ -557,7 +558,7 @@ of $u$ is denoted by $\Delta u$ and is defined as the scalar field $\Delta u:V\t
 Notice that the sum is performed for a fixed vertex $a$, and $b$ varies
 through all the neighbors of $a$ in the graph.
 
-<table border="1" cellspacing="0" cellpadding="7">
+<table>
 <tr><td>
 
 	<img src="graph3.png" alt="image"> <td>
@@ -636,7 +637,7 @@ defined on vertices into a function defined on edges.  There is a very
 natural way of doing that: the value at each edge is obtained as the
 difference between the values at each side of the edge.
 
-<table border="1" cellspacing="0" cellpadding="7">
+<table>
 <tr><td>
 
 	<img src="graph5.png" alt="image"> <td>

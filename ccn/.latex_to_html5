@@ -122,7 +122,7 @@ global_substitutions = {
 	-- tabular (TODO: recover vertical bars)
 	-- XXX: the order of these pattern replacements is important
 	{"%s*\\\\(%s*\\end{tabular})", "%1"},
-	{"\\begin{tabular}{.-}", "<table border=\"1\" cellspacing=\"0\" cellpadding=\"7\">\n<tr><td>\n"},
+	{"\\begin{tabular}{.-}", "<table>\n<tr><td>\n"},
 	{"\\end{tabular}", "</table>"},
 
 	-- surround \newcommands by math so that mathjax sees it
@@ -194,7 +194,10 @@ boilerplate_lit = [[
 boilerplate_css = [[
 	body { max-width:90ex; }
 	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
 	.thm em i { font-style: normal;}]]
+-- TODO: only add the styling if the concerned elements are present
 
 css_gallery = [[
 	.gallery{position:relative;width:auto;height:400px}

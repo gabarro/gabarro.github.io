@@ -14,4 +14,4 @@ pdf: $(PDF)
 	cat .header.tex $< .footer.tex | ./.pdflatexfilter > $@
 
 clean :
-	$(RM) $(HTML) $(PDF) canvas *.png *.tiff *.g o/*.png
+	$(RM) $(HTML) $(PDF) canvas *.png *.tiff *.g *.txt o/*.png

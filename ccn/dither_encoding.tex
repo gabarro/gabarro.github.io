@@ -1,0 +1,332 @@
+\title{How to hide data in dithering patterns}
+
+In this note we describe a simple method for encoding arbitrary data in
+dithered binary images.
+The density is about 0.25 bits per pixel in non-saturated
+regions, and zero bits in saturated regions.
+Unless the encoded data has some pattern, the encoding is not visible.
+
+\section{Description of the method}
+
+Sometimes you want to represent gray-scale data by black and white dots.  The
+naive technique is to throw a random binary pixel with the probability of
+being white given by the gray level.  This is called random dithering, and is
+trivial to implement, but it loses a lot of resolution.  A better technique
+is~\emph{error diffusion}, where you traverse the pixels in order and select
+the black or white value that minimizes the ongoing average error.  Notice
+that this depends on the order of traversal.  For uniform regions it tends to
+produce visible patterns, and this can be avoided by traversing the pixels in
+a more or less random way (for example, a hilbert curve is often used).
+
+
+\begin{tabular}{ccc}
+	\includegraphics{i/psimone.png} &
+	\href{z-psimone-random.png}{\includegraphics{psimone-random.png}} &
+	\href{z-psimone-errdif.png}{\includegraphics{psimone-errdif.png}} \\
+	gray-scale &
+	random &
+	error diffusion
+\end{tabular}
+%SCRIPT plambda i/psimone.png 'randu 255 * > 255 *' -o psimone-random.png
+%SCRIPT dither i/psimone.png psimone-errdif.png
+
+%By preprocessing the image before dithering (gamma correction or retinex), we
+%can control a bit the final aspect.
+
+Since there is a lot of choice when dithering an image, we can encode a lot
+of information in these choices.  Assuming that we will be able to recover
+the binary image exactly, the simplest way to encode the data is to have a
+{\bf table of patterns} such as this:
+
+\begin{tabular}{lcccccccccccccccc}
+	pattern &
+	\includegraphics{pat_0.png} &
+	\includegraphics{pat_1.png} &
+	\includegraphics{pat_2.png} &
+	\includegraphics{pat_3.png} &
+	\includegraphics{pat_4.png} &
+	\includegraphics{pat_5.png} &
+	\includegraphics{pat_6.png} &
+	\includegraphics{pat_7.png} &
+	\includegraphics{pat_8.png} &
+	\includegraphics{pat_9.png} &
+	\includegraphics{pat_10.png} &
+	\includegraphics{pat_11.png} &
+	\includegraphics{pat_12.png} &
+	\includegraphics{pat_13.png} &
+	\includegraphics{pat_14.png} &
+	\includegraphics{pat_15.png} \\
+	index &
+	0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
+	intensity &
+	0 & 1 & 1 & 2 & 1 & 2 & 2 & 3 & 1 & 2 &  2 &  3 &  2 &  3 &  3 &  4 \\
+	group &
+	$-$ & $a_0$ & $a_1$ & $-$ & $b_0$ & $c_0$ & $c_1$ & $d_0$ &
+	$b_1$ & $e_0$ & $e_1$ & $d_1$ & $-$ & $f_0$ & $f_1$ & $-$ \\
+\end{tabular}
+
+
+%SCRIPT printf 'P2\n2 2\n1\n0 0 0 0\n'|plambda '200 *'|ntiply 16 - pat_0.png
+%SCRIPT printf 'P2\n2 2\n1\n0 0 0 1\n'|plambda '200 *'|ntiply 16 - pat_1.png
+%SCRIPT printf 'P2\n2 2\n1\n0 0 1 0\n'|plambda '200 *'|ntiply 16 - pat_2.png
+%SCRIPT printf 'P2\n2 2\n1\n0 0 1 1\n'|plambda '200 *'|ntiply 16 - pat_3.png
+%SCRIPT printf 'P2\n2 2\n1\n0 1 0 0\n'|plambda '200 *'|ntiply 16 - pat_4.png
+%SCRIPT printf 'P2\n2 2\n1\n0 1 0 1\n'|plambda '200 *'|ntiply 16 - pat_5.png
+%SCRIPT printf 'P2\n2 2\n1\n0 1 1 0\n'|plambda '200 *'|ntiply 16 - pat_6.png
+%SCRIPT printf 'P2\n2 2\n1\n0 1 1 1\n'|plambda '200 *'|ntiply 16 - pat_7.png
+%SCRIPT printf 'P2\n2 2\n1\n1 0 0 0\n'|plambda '200 *'|ntiply 16 - pat_8.png
+%SCRIPT printf 'P2\n2 2\n1\n1 0 0 1\n'|plambda '200 *'|ntiply 16 - pat_9.png
+%SCRIPT printf 'P2\n2 2\n1\n1 0 1 0\n'|plambda '200 *'|ntiply 16 - pat_10.png
+%SCRIPT printf 'P2\n2 2\n1\n1 0 1 1\n'|plambda '200 *'|ntiply 16 - pat_11.png
+%SCRIPT printf 'P2\n2 2\n1\n0 0 0 0\n'|plambda '200 *'|ntiply 16 - pat_0.png
+%SCRIPT printf 'P2\n2 2\n1\n1 1 0 0\n'|plambda '200 *'|ntiply 16 - pat_12.png
+%SCRIPT printf 'P2\n2 2\n1\n1 1 0 1\n'|plambda '200 *'|ntiply 16 - pat_13.png
+%SCRIPT printf 'P2\n2 2\n1\n1 1 1 0\n'|plambda '200 *'|ntiply 16 - pat_14.png
+%SCRIPT printf 'P2\n2 2\n1\n1 1 1 1\n'|plambda '200 *'|ntiply 16 - pat_15.png
+
+A binary image is divided in~$2\times2$ cells, and each cell is identified
+with one of the patterns of the table (cells marked with~$-$ are not used).
+Then the pairs of patterns~$x_0$ and~$x_1$, which have always the same
+intensity, are considered equivalent and each of them is used to encode a bit
+of information, losing the original pattern.
+
+The~\emph{potential bit content} of a binary image is defined as the number
+of~$2\times2$ cells that match a valid pattern in this table.
+Notice that saturated regions (either black or white) can not encode any
+information, so that it is better to avoid them as much as possible.
+They can be avoided, for example, by applying a retinex-like transform in the
+input image, before dithering.
+
+\begin{tabular}{l|cccc}
+	&
+	original &
+	$\gamma=0.5$ &
+	$\gamma=2$ &
+	retinex \\
+	\hline
+	gray &
+	\includegraphics{i/psimone.png} &
+	\includegraphics{psimone-gam.png} &
+	\includegraphics{psimone-ugam.png} &
+	\includegraphics{psimone-ret.png} \\
+	binary &
+	\href{z-psimone-errdif.png}{\includegraphics{psimone-errdif.png}}  &
+	\href{z-psimone-gamdit.png}{\includegraphics{psimone-gamdit.png}}  &
+	\href{z-psimone-ugamdit.png}{\includegraphics{psimone-ugamdit.png}} &
+	\href{z-psimone-retdit.png}{\includegraphics{psimone-retdit.png}}  \\
+	bytes &
+	\input{berrdit.txt} &
+	\input{bgamdit.txt} &
+	\input{bugamdit.txt} &
+	\input{bretdit.txt} \\
+\end{tabular}
+%SCRIPT qeasy 0 160 i/psimone.png psimone-sat.png
+%SCRIPT plambda i/psimone.png '160 / 2 ^ 255 *' -o psimone-gam.png
+%SCRIPT plambda i/psimone.png '160 / 0.5 ^ 255 *' -o psimone-ugam.png
+%SCRIPT plambda i/psimone.png 'x,l -1 *'|blur z 0.2|qauto - psimone-ret.png
+%SCRIPT dither psimone-sat.png psimone-satdit.png
+%SCRIPT dither psimone-gam.png psimone-gamdit.png
+%SCRIPT dither psimone-ugam.png psimone-ugamdit.png
+%SCRIPT dither psimone-ret.png psimone-retdit.png
+%SCRIPT mdither count psimone-errdif.png  | cut -d' ' -f 3 > berrdit.txt
+%SCRIPT mdither count psimone-gamdit.png  | cut -d' ' -f 3 > bgamdit.txt
+%SCRIPT mdither count psimone-ugamdit.png | cut -d' ' -f 3 > bugamdit.txt
+%SCRIPT mdither count psimone-retdit.png  | cut -d' ' -f 3 > bretdit.txt
+
+The following figure shows the effect of the actual encoding.  We encode a
+stream of random bits, and a stream of zero bits.  Notice that the stream of
+zeros introduces a visible pattern in the image.  To avoid these patterns,
+the data to be encoded must have a uniform distribution (for example, by
+compressing it).
+
+\begin{tabular}{ccc}
+	\href{z-psimone-retdit.png}{\includegraphics{psimone-retdit.png}}&
+	\href{z-psimone-retditR.png}{\includegraphics{psimone-retditR.png}}&
+	\href{z-psimone-retditZ.png}{\includegraphics{psimone-retditZ.png}}\\
+	input & random & zeros
+\end{tabular}
+%SCRIPT mdither encode psimone-retdit.png psimone-retditR.png < /dev/urandom
+%SCRIPT mdither encode psimone-retdit.png psimone-retditZ.png < /dev/zero
+%SCRIPT for i in psimone*png; do ntiply 3 $i z-$i ; done
+(click on each image to see it bigger)
+
+\section{Implementation}
+
+A C implementation of this technique is available in
+\href{https://github.com/mnhrdt/imscript/blob/master/src/mdither.c}{imscript},
+as the program~\verb+mdither+.  All the experiments described in this page
+have been created automatically by extracting the comments in the source (see
+the HTML source to view them).
+
+
+\subsection{Floyd-Sternberg dithering}
+
+To binarize a gray-scale image by Floyd-Sternberg dithering you can use the
+program ``\verb+dither+''
+
+%RUN_VERBATIMS sh
+\begin{verbatim}
+dither i/weil.png weil-dit.png
+\end{verbatim}
+\begin{tabular}{cc}
+	\includegraphics{i/weil.png} &
+	\includegraphics{weil-dit.png} \\
+	\verb+weil.png+ &
+	\verb+weil-dit.png+
+\end{tabular}
+
+\subsection{Counting the carrying capacity of an image}
+
+The program ``\verb+mdither count+'' prints the number of bits, bytes, kilobites
+and megabytes that can be potentially encoded on a given image
+
+\begin{verbatim}
+mdither count weil-dit.png > weil-capacity.txt
+\end{verbatim}
+\VerbatimInput{weil-capacity.txt}
+
+\subsection{Encoding bits into a carrier image}
+
+The program ``\verb+mdither encode+'' encodes a stream of bytes into a
+carrier image.  In the following example we encode a random stream of bits
+and a stream of zeros in the same carrier image.
+
+\begin{verbatim}
+mdither encode weil-dit.png weil-random.png < /dev/urandom
+mdither encode weil-dit.png weil-zeros.png  < /dev/zero
+\end{verbatim}
+\begin{tabular}{cc}
+	\includegraphics{weil-random.png} &
+	\includegraphics{weil-zeros.png} \\
+	\verb+weil-random.png+ &
+	\verb+weil-zeros.png+
+\end{tabular}
+
+\subsection{Decoding bits from an image}
+
+And this information can be extracted by the program ``\verb+mdither decode+'':
+\begin{verbatim}
+mdither decode weil-random.png | hexdump -vn 128 > weil-random.txt
+mdither decode weil-zeros.png  | hexdump -vn 128 > weil-zeros.txt
+\end{verbatim}
+
+Contents of file \verb+weil-random.txt+:
+\VerbatimInput{weil-random.txt}
+
+Contents of file \verb+weil-zeros.txt+:
+\VerbatimInput{weil-zeros.txt}
+
+
+\section{Examples}
+
+Here we show examples of random bits encoded into the example images of this
+project, using different resolutions.
+En each case, we show the binary image along the number of bytes of encoded
+information it contains.
+
+In all cases, the images were pre-processed by a linear retinex filter and a
+contrast change that forces the background to be a light-gray (in order to
+maximize the available space for encoding the information).
+
+%SCRIPT qauto j/i1.png | plambda 'x,l -1 *'|blur -z z 0.1|qauto - photo1.png
+%SCRIPT qauto j/i2.png | plambda 'x,l -1 *'|blur -z z 0.1|qauto - photo2.png
+%SCRIPT qeasy 10 120 j/i3.png | plambda 'x,l -1 *'|blur -z z 0.1|qauto - photo3.png
+%SCRIPT qeasy 30 70 j/i4.png | plambda 'x,l -1 *'|blur -z z 0.1|qauto - photo4.png
+%SCRIPT qeasy 40 170 j/i5.png | plambda 'x,l -1 *'|blur -z z 0.1|qauto - photo5.png
+
+%SCRIPT for i in 1 2 3 4 5; do for j in 1 2 3 4 5 6 7; do downsa v $j photo$i.png |qauto| dither - diphoto-${i}-${j}.png ; done ; done
+
+%SCRIPT for i in diphoto*png; do mdither count $i | cut -d' ' -f3 > bytes-$i ; done
+%SCRIPT for i in diphoto*png; do mdither encode $i E$i < /dev/urandom ; done
+
+\subsection{Test image ``photo 1''}
+\begin{tabular}{lllllll}
+	\includegraphics{Ediphoto-1-1.png} &
+	\includegraphics{Ediphoto-1-2.png} &
+	\includegraphics{Ediphoto-1-3.png} &
+	\includegraphics{Ediphoto-1-4.png} &
+	\includegraphics{Ediphoto-1-5.png} &
+	\includegraphics{Ediphoto-1-6.png} &
+	\includegraphics{Ediphoto-1-7.png} \\
+	\input{bytes-diphoto-1-1.png} &
+	\input{bytes-diphoto-1-2.png} &
+	\input{bytes-diphoto-1-3.png} &
+	\input{bytes-diphoto-1-4.png} &
+	\input{bytes-diphoto-1-5.png} &
+	\input{bytes-diphoto-1-6.png} &
+	\input{bytes-diphoto-1-7.png} \\
+\end{tabular}
+
+\subsection{Test image ``photo 2''}
+\begin{tabular}{lllllll}
+	\includegraphics{Ediphoto-2-1.png} &
+	\includegraphics{Ediphoto-2-2.png} &
+	\includegraphics{Ediphoto-2-3.png} &
+	\includegraphics{Ediphoto-2-4.png} &
+	\includegraphics{Ediphoto-2-5.png} &
+	\includegraphics{Ediphoto-2-6.png} &
+	\includegraphics{Ediphoto-2-7.png} \\
+	\input{bytes-diphoto-2-1.png} &
+	\input{bytes-diphoto-2-2.png} &
+	\input{bytes-diphoto-2-3.png} &
+	\input{bytes-diphoto-2-4.png} &
+	\input{bytes-diphoto-2-5.png} &
+	\input{bytes-diphoto-2-6.png} &
+	\input{bytes-diphoto-2-7.png} \\
+\end{tabular}
+
+\subsection{Test image ``photo 3''}
+\begin{tabular}{lllllll}
+	\includegraphics{Ediphoto-3-1.png} &
+	\includegraphics{Ediphoto-3-2.png} &
+	\includegraphics{Ediphoto-3-3.png} &
+	\includegraphics{Ediphoto-3-4.png} &
+	\includegraphics{Ediphoto-3-5.png} &
+	\includegraphics{Ediphoto-3-6.png} &
+	\includegraphics{Ediphoto-3-7.png} \\
+	\input{bytes-diphoto-3-1.png} &
+	\input{bytes-diphoto-3-2.png} &
+	\input{bytes-diphoto-3-3.png} &
+	\input{bytes-diphoto-3-4.png} &
+	\input{bytes-diphoto-3-5.png} &
+	\input{bytes-diphoto-3-6.png} &
+	\input{bytes-diphoto-3-7.png} \\
+\end{tabular}
+
+\subsection{Test image ``photo 4''}
+\begin{tabular}{lllllll}
+	\includegraphics{Ediphoto-4-1.png} &
+	\includegraphics{Ediphoto-4-2.png} &
+	\includegraphics{Ediphoto-4-3.png} &
+	\includegraphics{Ediphoto-4-4.png} &
+	\includegraphics{Ediphoto-4-5.png} &
+	\includegraphics{Ediphoto-4-6.png} &
+	\includegraphics{Ediphoto-4-7.png} \\
+	\input{bytes-diphoto-4-1.png} &
+	\input{bytes-diphoto-4-2.png} &
+	\input{bytes-diphoto-4-3.png} &
+	\input{bytes-diphoto-4-4.png} &
+	\input{bytes-diphoto-4-5.png} &
+	\input{bytes-diphoto-4-6.png} &
+	\input{bytes-diphoto-4-7.png} \\
+\end{tabular}
+
+\subsection{Test image ``photo 5''}
+\begin{tabular}{lllllll}
+	\includegraphics{Ediphoto-5-1.png} &
+	\includegraphics{Ediphoto-5-2.png} &
+	\includegraphics{Ediphoto-5-3.png} &
+	\includegraphics{Ediphoto-5-4.png} &
+	\includegraphics{Ediphoto-5-5.png} &
+	\includegraphics{Ediphoto-5-6.png} &
+	\includegraphics{Ediphoto-5-7.png} \\
+	\input{bytes-diphoto-5-1.png} &
+	\input{bytes-diphoto-5-2.png} &
+	\input{bytes-diphoto-5-3.png} &
+	\input{bytes-diphoto-5-4.png} &
+	\input{bytes-diphoto-5-5.png} &
+	\input{bytes-diphoto-5-6.png} &
+	\input{bytes-diphoto-5-7.png} \\
+\end{tabular}
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

@@ -39,6 +39,9 @@ global_substitutions = {
 	{"{\\bf%s(.-)}", "<b>%1</b>"},
 	{"{\\tt%s(.-)}", "<code>%1</code>"},
 
+	-- change \includegraphics{...} to <img src="...">
+	{"\\includegraphics{(.-)}", '<img src="%1" alt="image">'},
+
 	-- change \href{link}{text} to <a href="link">text</a>
 	{"\\href{(.-)}{(.-)}", "<a href=\"%1\">%2</a>"},
 	{"\\url{(.-)}", "<a href=\"%1\">%1</a>"},
@@ -55,8 +58,6 @@ global_substitutions = {
 	{"\\mbox{(.-)}", '<span>%1</span>'},
 	{"\\fbox{(.-)}", '<span style="border:1px solid">%1</span>'},
 
-	-- change \includegraphics{...} to <img src="...">
-	{"\\includegraphics{(.-)}", '<img src="%1" alt="image">'},
 
 	-- change \sections to <headers>
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
@@ -88,31 +89,11 @@ global_substitutions = {
 	{"\\end{gallery}", "</ul></div>"},
 	{"\\galleryline{(.-)}", '<li><a href="%1">%1<span><img src="%1" alt=""></span></a>\n'},
 
---	-- theorem environments (TODO: different class for each type)
---	-- note, this is ugly due to the [] name option, but there's nothing
---	-- fancy going on
---	{"\\begin{proposition}%[(.-)%]",
---		'<p>\n<div class="thm"><b>Proposition .</b>(%1)<em>'},
---	{"\\begin{definition}%[(.-)%]",
---		'<p>\n<div class="thm"><b>Definition .</b>(%1)<em>'},
---	{"\\begin{lemma}%[(.-)%]",
---		'<p>\n<div class="thm"><b>Lemma .</b>(%1)<em>'},
---	{"\\begin{theorem}%[(.-)%]",
---		'<p>\n<div class="thm"><b>Theorem .</b>(%1)<em>'},
---	{"\\begin{remark}%[(.-)%]",
---		'<p>\n<div class="thm"><b>Remark .</b>(%1)<em>'},
---	{"\\begin{definition}", '<p>\n<div class="thm"><b>Definition.</b><em>'},
---	{"\\begin{proposition}",'<p>\n<div class="thm"><b>Proposition.</b><em>'},
---	{"\\begin{lemma}",      '<p>\n<div class="thm"><b>Lemma.</b><em>'},
---	{"\\begin{theorem}",    '<p>\n<div class="thm"><b>Theorem.</b><em>'},
---	{"\\begin{remark}",     '<p>\n<div class="thm"><b>Remark.</b><em>'},
---	{"\\end{definition}",   "</em></div>"},
---	{"\\end{proposition}",  "</em></div>"},
---	{"\\end{lemma}",        "</em></div>"},
---	{"\\end{theorem}",      "</em></div>"},
---	{"\\end{remark}",       "</em></div>"},
+	-- theorem environments (TODO: different class for each type)
 	{"\\begin{proof}",      "<p>\n<i>Proof.</i>"},
 	{"\\end{proof}",        "<span style=\"float:right\">&#8718;</span>"},
+	-- to avoid repetitive code, the other environments are added in a loop
+	-- below
 
 	-- abstract environement (wherever it appears)
 	{"\\begin{abstract}(.-)\\end{abstract}",
@@ -172,11 +153,17 @@ for i=1,#list_of_galleries do
 	whole_file = whole_file:gsub(p, q)
 end
 
+-- process \input{file} and \VerbatimInput{file}
+putfile = function(l) return io.open(l, "r"):read("*all") end
+putfile_verb = function(l) return "<pre>\n"..io.open(l, "r"):read("*all").."</pre>\n" end
+whole_file = whole_file:gsub("\\input{(.-)}", putfile)
+whole_file = whole_file:gsub("\\VerbatimInput{(.-)}", putfile_verb)
+
 
 output_template = [[
 <!doctype html>
 <meta charset="utf-8" />
-<title>TITLE</title>
+<title>Coco notes -- TITLE</title>
 CSSCODE
 JAXCODE
 LITCODE
@@ -241,6 +228,8 @@ end
 
 boilerplate_mathjax = boilerplate_mathjax:gsub("JAXURL", JAXURL)
 boilerplate_mathjax = boilerplate_mathjax:gsub("JAXOPT", JAXOPT)
+
+if not metadata_title then metadata_title = "" end
 
 boilerplate_css = "<style>\n"..boilerplate_css.."\n</style>"
 output_template = output_template:gsub("TITLE", metadata_title)

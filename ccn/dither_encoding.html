@@ -39,15 +39,16 @@ Unless the encoded data has some pattern, the encoding is not visible.
 <h2>1. Description of the method</h2>
 
 <p>
-Sometimes you want to represent gray-scale data by black and white dots.  The
-naive technique is to throw a random binary pixel with the probability of
-being white given by the gray level.  This is called random dithering, and is
-trivial to implement, but it loses a lot of resolution.  A better technique
-is <i>error diffusion</i>, where you traverse the pixels in order and select
-the black or white value that minimizes the ongoing average error.  Notice
-that this depends on the order of traversal.  For uniform regions it tends to
-produce visible patterns, and this can be avoided by traversing the pixels in
-a more or less random way (for example, a hilbert curve is often used).
+Sometimes you need to represent gray-scale data by black and white pixels.
+The simplest technique is <i>random dithering</i>, where you throw a random
+binary pixel with the probability of being white determined by the gray
+level.  Random dithering is trivial to implement, but it loses a lot of
+resolution.  A better technique is <i>error diffusion</i>, where you traverse
+the pixels in a certain order order and select the black or white value that
+minimizes the ongoing average error.  Notice that this depends on the order
+of traversal.  For uniform regions it tends to produce visible patterns, and
+this can be avoided by traversing the pixels in a more or less irregular way
+(for example, a Hilbert curve is often used).
 
 <table>
 <tr><td>
@@ -120,14 +121,14 @@ the binary image exactly, the simplest way to encode the data is to have a
 -->
 
 <p>
-A binary image is divided in $2\times2$ cells, and each cell is identified
-with one of the patterns of the table (cells marked with $-$ are not used).
+A binary image is thus divided in $2\times2$ cells, and each cell is identified
+with one of the patterns of the table (cells marked with ``$-$'' are not used).
 Then the pairs of patterns $x_0$ and $x_1$, which have always the same
 intensity, are considered equivalent and each of them is used to encode a bit
 of information, losing the original pattern.
 
 <p>
-The <i>potential bit content</i> of a binary image is defined as the number
+The <i>carrying bit content</i> of a binary image is defined as the number
 of $2\times2$ cells that match a valid pattern in this table.
 Notice that saturated regions (either black or white) can not encode any
 information, so that it is better to avoid them as much as possible.
@@ -272,14 +273,14 @@ mdither decode weil-zeros.png  | hexdump -vn 128 &gt; weil-zeros.txt
 <p>
 Contents of file <code>weil-random.txt</code>:
 <pre>
-0000000 50af e554 6422 abe3 36e2 fe6d 975b 08f4
-0000010 8bbf 3a8d 0942 169f 9f8c eeaa 95e6 ed52
-0000020 8380 f072 da5f be96 0148 6507 b5e0 f4b1
-0000030 b800 c305 e2f0 4246 c31e cd6b 83ed 7376
-0000040 1ef4 0a11 8153 cce2 9f23 7103 5a32 f1a6
-0000050 0a26 9e9b 309e 53ec fc37 c0f0 bb9b e6b1
-0000060 b64f 5687 efce 4ff5 db2f 7b0b 9e3e db44
-0000070 05bd f78e 4160 a69c 095d c39f 6902 8c0c
+0000000 b91e 61c6 31b3 a802 0c14 b3fa 2bb3 5388
+0000010 ce24 35c8 131a bbd7 4670 4a06 b72d 5b28
+0000020 f981 8c55 8936 b8a5 7465 cf99 d7aa 1649
+0000030 0253 1fac 0324 11dc 91b6 8f75 866e 6588
+0000040 b3af aceb b254 f20e 354f 5184 9a3e 30c6
+0000050 b34b 6b03 12ed 1c58 6905 a494 6df7 0327
+0000060 8e3c 41df 6602 c68f deef d8c2 1576 a15c
+0000070 bf60 fa8d 3970 9594 d62b 5a5e 214b 0369
 0000080
 </pre>
 
@@ -466,6 +467,81 @@ maximize the available space for encoding the information).
 	142.375
 
 </table>
+
+<h2>4. Conclusion and ongoing work</h2>
+
+<p>
+This note shows that a simple criterion suffices to encode a <i>linear
+amount of bits</i> into dithered binary images <i>without noticeable loss in
+visual quality</i>.  The method achieves an average $25\%$ efficiency (1/4 bits
+per pixel) for images without saturated regions.
+
+<p>
+Most of the improvements can be obtained by changing the table of patterns.
+
+<p>
+Here are some possible improvements:
+
+<ol>
+	<li>Improve the efficiency to $50\%$.  This is a very low-hanging
+		fruit.  It suffices to change slightly the table of patterns
+		so that the three groups of patterns of the same intensity
+		belong to the same group, then we can encode 2 bits on each,
+		effectively duplicating the available information content.
+	<li>Improve the efficiency to near $100\%$.  Of course
+		full-efficiency is impossible because all the information
+		would be used for the encoding and none would be available
+		for the carrier image.  But we can easily have a much higher
+		rate by using a table of patterns with larger cells.  For
+		example, by using cells of size $3\times3$, there are $512$
+		possible cells, and their intensities, between 0 and 9, are
+		arranged in groups according to the 9th line of pascal
+		triangle
+		$$
+		1\ 9\ 36\ 79\ 102\ 102\ 79\ 36\ 9\ 1
+		$$
+		Now, by conflating the three central intensities, we have
+		more than $2^8$ possible cells, and we can encode 8 bits of
+		information on their choice, thus reaching an information
+		content of $8/9=88.9\%$ on these cells, and about $75\%$ on
+		average (assuming a uniform distribution of the possible
+		cells).  By using larger cells it is clear than we can
+		get a theoretical efficiency as high as we want (at the
+		price of final image resolution).
+	<li>So far we have assumed that cells of the same average intensity
+		can be interchanged with negligible information loss.
+		However, this is a gross simplification.  For example, in the
+		following table
+		<table>
+<tr><td>
+
+			<img src="pat4_a.png" alt="image"> <td>
+			<img src="pat4_b.png" alt="image"> <td>
+			<img src="pat4_c.png" alt="image"> <td>
+			<img src="pat4_d.png" alt="image"> <tr><td>
+			A <td> B <td> C <td> D
+		</table>
+		the $4\times4$ cells A and B can be probably identified
+		without loss of visual information, but changing between C
+		and D will have a greater visual impact.  This means that
+		cells of the same intensity are not necessarily equivalent,
+		and by carefully building the table of patterns we may obtain
+		much better results for a given carrying capacity.
+	<li>In the light of the previous observation, it might be
+		interesting to build the table of patterns as the optimum of
+		a variational criterion that minimizes visual loss while
+		achieving an optimum carrying capacity.  Notice that this
+		algorithm can be very expensive to run, but only upon the
+		creation of the table.  Once the table is decided, encoding
+		and decoding are fast, real-time operations.  This will
+		surely produce better tables than hand-crafted ones.
+</ol>
+<!--
+%SCRIPT printf 'P2\n4 4\n1\n0 1 0 1\n1 0 1 0\n0 1 0 1\n1 0 1 0\n'|plambda '200 *'|ntiply 16 - pat4_a.png
+%SCRIPT printf 'P2\n4 4\n1\n1 0 1 0\n0 1 0 1\n1 0 1 0\n0 1 0 1\n'|plambda '200 *'|ntiply 16 - pat4_b.png
+%SCRIPT printf 'P2\n4 4\n1\n1 1 1 1\n1 1 1 1\n0 0 0 0\n0 0 0 0\n'|plambda '200 *'|ntiply 16 - pat4_c.png
+%SCRIPT printf 'P2\n4 4\n1\n1 1 0 0\n1 1 0 0\n1 1 0 0\n1 1 0 0\n'|plambda '200 *'|ntiply 16 - pat4_d.png
+-->
 
 
 <hr>

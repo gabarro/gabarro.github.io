@@ -8,15 +8,16 @@ Unless the encoded data has some pattern, the encoding is not visible.
 
 \section{Description of the method}
 
-Sometimes you want to represent gray-scale data by black and white dots.  The
-naive technique is to throw a random binary pixel with the probability of
-being white given by the gray level.  This is called random dithering, and is
-trivial to implement, but it loses a lot of resolution.  A better technique
-is~\emph{error diffusion}, where you traverse the pixels in order and select
-the black or white value that minimizes the ongoing average error.  Notice
-that this depends on the order of traversal.  For uniform regions it tends to
-produce visible patterns, and this can be avoided by traversing the pixels in
-a more or less random way (for example, a hilbert curve is often used).
+Sometimes you need to represent gray-scale data by black and white pixels.
+The simplest technique is~\emph{random dithering}, where you throw a random
+binary pixel with the probability of being white determined by the gray
+level.  Random dithering is trivial to implement, but it loses a lot of
+resolution.  A better technique is~\emph{error diffusion}, where you traverse
+the pixels in a certain order order and select the black or white value that
+minimizes the ongoing average error.  Notice that this depends on the order
+of traversal.  For uniform regions it tends to produce visible patterns, and
+this can be avoided by traversing the pixels in a more or less irregular way
+(for example, a Hilbert curve is often used).
 
 
 \begin{tabular}{ccc}
@@ -84,13 +85,13 @@ the binary image exactly, the simplest way to encode the data is to have a
 %SCRIPT printf 'P2\n2 2\n1\n1 1 1 0\n'|plambda '200 *'|ntiply 16 - pat_14.png
 %SCRIPT printf 'P2\n2 2\n1\n1 1 1 1\n'|plambda '200 *'|ntiply 16 - pat_15.png
 
-A binary image is divided in~$2\times2$ cells, and each cell is identified
-with one of the patterns of the table (cells marked with~$-$ are not used).
+A binary image is thus divided in~$2\times2$ cells, and each cell is identified
+with one of the patterns of the table (cells marked with~``$-$'' are not used).
 Then the pairs of patterns~$x_0$ and~$x_1$, which have always the same
 intensity, are considered equivalent and each of them is used to encode a bit
 of information, losing the original pattern.
 
-The~\emph{potential bit content} of a binary image is defined as the number
+The~\emph{carrying bit content} of a binary image is defined as the number
 of~$2\times2$ cells that match a valid pattern in this table.
 Notice that saturated regions (either black or white) can not encode any
 information, so that it is better to avoid them as much as possible.
@@ -328,5 +329,74 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-5-6.png} &
 	\input{bytes-diphoto-5-7.png} \\
 \end{tabular}
+
+
+\section{Conclusion and ongoing work}
+
+This note shows that a simple criterion suffices to encode a \emph{linear
+amount of bits} into dithered binary images \emph{without noticeable loss in
+visual quality}.  The method achieves an average~$25\%$ efficiency (1/4 bits
+per pixel) for images without saturated regions.
+
+Most of the improvements can be obtained by changing the table of patterns.
+
+Here are some possible improvements:
+
+\begin{enumerate}
+	\item Improve the efficiency to~$50\%$.  This is a very low-hanging
+		fruit.  It suffices to change slightly the table of patterns
+		so that the three groups of patterns of the same intensity
+		belong to the same group, then we can encode 2 bits on each,
+		effectively duplicating the available information content.
+	\item Improve the efficiency to near~$100\%$.  Of course
+		full-efficiency is impossible because all the information
+		would be used for the encoding and none would be available
+		for the carrier image.  But we can easily have a much higher
+		rate by using a table of patterns with larger cells.  For
+		example, by using cells of size~$3\times3$, there are~$512$
+		possible cells, and their intensities, between 0 and 9, are
+		arranged in groups according to the 9th line of pascal
+		triangle
+		$$
+		1\ 9\ 36\ 79\ 102\ 102\ 79\ 36\ 9\ 1
+		$$
+		Now, by conflating the three central intensities, we have
+		more than $2^8$ possible cells, and we can encode 8 bits of
+		information on their choice, thus reaching an information
+		content of~$8/9=88.9\%$ on these cells, and about~$75\%$ on
+		average (assuming a uniform distribution of the possible
+		cells).  By using larger cells it is clear than we can
+		get a theoretical efficiency as high as we want (at the
+		price of final image resolution).
+	\item So far we have assumed that cells of the same average intensity
+		can be interchanged with negligible information loss.
+		However, this is a gross simplification.  For example, in the
+		following table
+		\begin{tabular}{llll}
+			\includegraphics{pat4_a.png} &
+			\includegraphics{pat4_b.png} &
+			\includegraphics{pat4_c.png} &
+			\includegraphics{pat4_d.png} \\
+			A & B & C & D
+		\end{tabular}
+		the $4\times4$ cells A and B can be probably identified
+		without loss of visual information, but changing between C
+		and D will have a greater visual impact.  This means that
+		cells of the same intensity are not necessarily equivalent,
+		and by carefully building the table of patterns we may obtain
+		much better results for a given carrying capacity.
+	\item In the light of the previous observation, it might be
+		interesting to build the table of patterns as the optimum of
+		a variational criterion that minimizes visual loss while
+		achieving an optimum carrying capacity.  Notice that this
+		algorithm can be very expensive to run, but only upon the
+		creation of the table.  Once the table is decided, encoding
+		and decoding are fast, real-time operations.  This will
+		surely produce better tables than hand-crafted ones.
+\end{enumerate}
+%SCRIPT printf 'P2\n4 4\n1\n0 1 0 1\n1 0 1 0\n0 1 0 1\n1 0 1 0\n'|plambda '200 *'|ntiply 16 - pat4_a.png
+%SCRIPT printf 'P2\n4 4\n1\n1 0 1 0\n0 1 0 1\n1 0 1 0\n0 1 0 1\n'|plambda '200 *'|ntiply 16 - pat4_b.png
+%SCRIPT printf 'P2\n4 4\n1\n1 1 1 1\n1 1 1 1\n0 0 0 0\n0 0 0 0\n'|plambda '200 *'|ntiply 16 - pat4_c.png
+%SCRIPT printf 'P2\n4 4\n1\n1 1 0 0\n1 1 0 0\n1 1 0 0\n1 1 0 0\n'|plambda '200 *'|ntiply 16 - pat4_d.png
 
 % vim:set tw=77 filetype=tex spell spelllang=en:

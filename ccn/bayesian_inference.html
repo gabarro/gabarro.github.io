@@ -1,0 +1,350 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- Bayesian Inference</title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}
+</style>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
+
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
+
+<h1>Bayesian Inference</h1>
+
+(This is just a recall of my notes on bayesian inference, because I always
+forget Bayes rule.)
+
+<h2>1. Philosophical comment</h2>
+
+<p>
+Consider the following sentence
+
+<blockquote>
+<i>The probability that tossing the coin $X$ you get heads is $51\%$</i>
+</blockquote>
+
+<p>
+What does it mean, exactly?
+
+<p>
+This is an important and difficult question.  There is not a scientific
+consensus about the meaning of this sentence.  There are two, very different,
+answers: the so-called <i>frequentist</i> and <i>bayesian</i> interpretations
+of probability.
+
+<p>
+The <b>frequentist</b> interpretation is that this sentence gives a precise
+information about the coin $X$.  It says that the coin is somewhat biased
+towards heads and against tails, and that if you repeat this experiment a
+huge amount of times, it is very likely that you'll get more heads than
+tails.  Precisely, the ratio of heads to tails will <i>converge</i>
+towards $51/49$ as the number of tosses tends to infinity.
+
+<p>
+The <b>bayesian</b> interpretation is that this sentence gives a precise
+information <i>about you</i>, not about the coin $X$.  It says that your
+current state of knowledge leads you to believe that it is more likely that
+on the next toss, you will get heads rather than tails.  More precisely, that
+if you were to place a bet on that coin toss, you would bet $51$ against $49$
+that the result is heads.
+
+<p>
+The frequentist interpretation is a statement about the physical world, thus
+it can be either true or false.  If it is true, then the sentence that the
+probability of heads is $52\%$ must be false because they are incompatible.
+Also the sentence that the probability of heads is $51.00000000001\%$, must
+be false.  However, notice that it would be very, very difficult to check
+which one of these sentences is true and which one is false, just by doing
+experiments.  Consider that instead of tossing a coin you toss an omelette,
+and that it gets destroyed after the first toss.  Can this sentence still
+have a meaning?  Will you be able to ever check whether it is true or false?
+I find the frequentist interpretation very difficult to understand.  Please,
+somebody explain it to me more clearly.  I cannot honestly write about it
+without my text looking like a straw man argument.
+
+<p>
+The bayesian interpretation is a statement about your personal beliefs, so it
+does not really make sense to say that it is true or false.  Notice, in
+particular, that the bayesian interpretation does not talk about the physical
+world itself, only about your knowledge of this world.  The physical world
+itself is deterministic.  The coin will land head or tails according to its
+initial position and speed, following the deterministic laws of nature.  It
+is only because you do not know with enough precision the position, speed,
+and all the necessary physical details that you cannot be sure whether it
+will land head or tails.
+
+<p>
+What can you do, then, with a sentence about your personal beliefs?  Can you
+do science with it?  Yes, you can.  The only thing that you can do is run
+experiments and update your beliefs, after looking at the results of the
+experiments.  This is what bayesian inference is all about: you have some
+prior beliefs and you update them using the basic laws of probability theory.
+
+<h2>2. Bayes Formula</h2>
+
+<p>
+The definition of conditional probability is
+$$
+P(A|B)=\frac{P(A\cap B)}{P(B)}
+$$
+then, by simple algebraic manipulation, and using different letters, you
+obtain Bayes formula:
+$$
+P(\theta|D)=\frac{P(D|\theta)P(\theta)}{P(D)}
+$$
+
+<p>
+You can interpret this formula in the following way
+
+<ul>
+	<li style='list-style-type:none'>$D$ the observed data
+	<li style='list-style-type:none'>$\theta$ the parameters
+	<li style='list-style-type:none'>$P(\theta)$ your <i>prior</i> knowledge about the parameters
+	<li style='list-style-type:none'>$P(\theta|D)$ your knowledge about the parameters after having
+		observed the data (the <i>posterior</i>)
+	<li style='list-style-type:none'>$P(D|\theta)$ the ``generative model'': given a value of the
+		parameters, what is the distribution distribution of the data?
+	<li style='list-style-type:none'>$P(D)$ a normalization factor equal to $\int\theta
+		P(D|\theta)P(\theta)\mathrm{d}\theta$.
+</ul>
+
+<p>
+This formula tells you how to update your prior knowledge $P(\theta)$ about
+the parameters $\theta$ after having observed the data $D$.  For that, you
+need to take into account the ``data generation model'', that describes how
+likely is each datum for a given value of the parameters.
+
+<h2>3. Examples of inference</h2>
+
+<p>
+The only way to understand inference is doing some simple examples.
+
+<h3>3.1. Inference for quiche-eaters</h3>
+
+<p>
+Let us start with the easiest possible inference problem.
+
+<p>
+Let us suppose that an experiment produces independent samples of a normally
+distributed random variable of mean $\mu$ and standard deviation $\sigma$.
+We have observed $N$ samples of values $x_1,\ldots,x_N$.  What can we say
+about $\mu$ and $\sigma$?
+
+<p>
+If you have had some exposure to <i>estimation theory</i>, you would
+automatically say, we define <i>estimators</i> for the unknown parameters,
+such as
+$$
+\hat\mu :=\frac{1}{N}\sum_{n=1}^N x_n
+$$
+
+<p>
+and
+
+$$
+\hat\sigma_1 :=\sqrt{\frac{1}{N}\sum_{n=1}^N (x_n-\hat\mu)^2}
+$$
+
+<p>
+or maybe
+
+$$
+\hat\sigma_2 :=\sqrt{\frac{1}{N-1}\sum_{n=1}^N (x_n-\bar\mu)^2}
+$$
+
+<p>
+or even, god forbid,
+
+$$
+\hat\sigma_3 :=\sqrt{\frac{1}{N-1.5}\ \sum_{n=1}^N (x_n-\bar\mu)^2}
+$$
+
+<p>
+or, if you are really fancy, you can use an <i>unbiased</i> estimator
+for $\sigma$
+
+$$
+\hat\sigma_4
+:=\frac{\Gamma\left(\frac{n-1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)\sqrt{2}}\ \sqrt{\sum_{n=1}^N (x_n-\bar\mu)^2}
+$$
+
+<p>
+There are more unbiased estimators for $\sigma$, this one is just an example.
+Where do these fantastic formulas come from?  From rules of thumb, you invent
+them, and then you prove some properties about them: such as being unbiased,
+or having minimal variance, and whatnot.  This is some serious bullshit that
+you should avoid as much as possible.
+
+<h3>3.2. How real men do inference</h3>
+
+<p>
+Let us start again with the easiest possible inference possible: to
+estimate $\mu$ and $\sigma$ from independent observations $x_1,\ldots,x_N$ of
+a normal random variable.  What can we do?  We can state what we do know:
+
+(1) We know that the values $x_1,\ldots,x_N$ are independent samples of a
+random variable of type $\mathcal{N}(\mu,\sigma)$.
+
+(2) We do not know anything about $\mu$
+
+(3) We do not know anything about $\sigma$
+
+<p>
+Well, if that is really the case, I have bad news: there's nothing to do in
+that case.
+
+<blockquote>
+	<i>You can't do inference---or data compression---without
+	making assumptions.</i><br>
+	--David J. C. MacKay
+</blockquote>
+
+<p>
+And that's it.  Bayesian inference does not simply allow you to infer
+anything from raw data.  If you want to do inference, you have to begin with
+some <i>prior knowledge</i> (that may be as imprecise as you want), and then,
+after having observed the data, you use Bayes rule to <i>update</i> your
+knowledge according to the observations.
+
+<p>
+Since your knowledge, or lack thereof, is always modelled by probability
+distributions, you have to specify a prior probability
+distribution for your unknown parameters $\mu$ and $\sigma$.  For example,
+you can suppose, that $|\mu|\le10^6$ and
+that $0\le\sigma\le10^6$.  More precisely, we assume that $\mu$ and $\sigma$
+are independent and that they have uniform distributions in the indicated
+intervals.  This is then the prior density distribution of the parameters, that
+models our knowledge before observing any data:
+$$
+P(\mu,\sigma)=P(\mu)\cdot P(\sigma)=
+\frac{1}{2\cdot10^6}\mathbf{1}_{\left[-10^6,10^6\right]}(\mu)
+\cdot
+\frac{1}{10^6}\mathbf{1}_{\left[0,10^6\right]}(\sigma)
+$$
+This is our model for the prior: a constant function on a huge rectangle of
+the plane.
+
+<p>
+More interesting is the data generation model:
+$$
+P(x_1,\ldots,x_N|\mu,\sigma)=
+\prod_{n=1}^N \frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(x_n-\mu)^2}{2\sigma^2}}
+$$
+this formula is the exact translation of the sentence ``the $x_n$ are
+independent, identically distributed samples of $\mathcal{N}(\mu,\sigma)$''.
+By simple manipulation, the formula above is written as
+$$
+P(x_1,\ldots,x_N|\mu,\sigma)=
+(2\pi\sigma)^{-N/2}\exp\left(-\sum_{n=1}^N\frac{(x_n-\mu)^2}{2\sigma^2}\right)
+$$
+
+<p>
+Now, Bayes rule says
+$$
+P(\mu,\sigma|x_1,\ldots,x_N)\propto
+P(x_1,\ldots,x_N|\mu,\sigma)\cdot P(\mu,\sigma)
+$$
+
+<p>
+<img src="bayes1.png" alt="image">
+<!--
+%SCRIPT gnuplot <<END >bayes1.png
+%SCRIPT set term pngcairo
+%SCRIPT f(x,y)=exp(-((40-x)**2+(40-x)**2+(70-x)**2)/(2*y**2))/(y**(1.5))
+%SCRIPT set xrange [-100:100]
+%SCRIPT set yrange [0:100]
+%SCRIPT set isosample 400,400
+%SCRIPT set samples 200
+%SCRIPT set table 'caca.dat'
+%SCRIPT splot f(x,y)
+%SCRIPT unset table
+%SCRIPT set title "P(μ,σ|30,30,80)"
+%SCRIPT set xlabel "μ"
+%SCRIPT set ylabel "σ"
+%SCRIPT set palette rgb 30,31,32 negative
+%SCRIPT plot 'caca.dat' with image
+%SCRIPT END
+-->
+<img src="bayes2.png" alt="image">
+<!--
+%SCRIPT gnuplot <<END >bayes2.png
+%SCRIPT set term pngcairo
+%SCRIPT f(x,y)=exp(-((48-x)**2+(48-x)**2+(54-x)**2)/(2*y**2))/(y**(1.5))
+%SCRIPT set xrange [-100:100]
+%SCRIPT set yrange [0:100]
+%SCRIPT set isosample 400,400
+%SCRIPT set samples 200
+%SCRIPT set table 'caca.dat'
+%SCRIPT splot f(x,y)
+%SCRIPT unset table
+%SCRIPT set title "P(μ,σ|48,48,54)"
+%SCRIPT set xlabel "μ"
+%SCRIPT set ylabel "σ"
+%SCRIPT set palette rgb 30,31,32 negative
+%SCRIPT plot 'caca.dat' with image
+%SCRIPT END
+-->
+<img src="bayes3.png" alt="image">
+<!--
+%SCRIPT gnuplot <<END >bayes3.png
+%SCRIPT set term pngcairo
+%SCRIPT f(x,y)=exp(-((30-x)**2+(30-x)**2+(-60-x)**2)/(2*y**2))/(y**(1.5))
+%SCRIPT set xrange [-100:100]
+%SCRIPT set yrange [0:100]
+%SCRIPT set isosample 400,400
+%SCRIPT set samples 200
+%SCRIPT set table 'caca.dat'
+%SCRIPT splot f(x,y)
+%SCRIPT unset table
+%SCRIPT set title "P(μ,σ|30,30,-60)"
+%SCRIPT set xlabel "μ"
+%SCRIPT set ylabel "σ"
+%SCRIPT set palette rgb 30,31,32 negative
+%SCRIPT plot 'caca.dat' with image
+%SCRIPT END
+-->
+<img src="bayes4.png" alt="image">
+<!--
+%SCRIPT gnuplot <<END >bayes4.png
+%SCRIPT set term pngcairo
+%SCRIPT f(x,y)=exp(-((0-x)**2+(80-x)**2+(-80-x)**2)/(2*y**2))/(y**(1.5))
+%SCRIPT set xrange [-100:100]
+%SCRIPT set yrange [0:100]
+%SCRIPT set isosample 400,400
+%SCRIPT set samples 200
+%SCRIPT set table 'caca.dat'
+%SCRIPT splot f(x,y)
+%SCRIPT unset table
+%SCRIPT set title "P(μ,σ|0,-90,90)"
+%SCRIPT set xlabel "μ"
+%SCRIPT set ylabel "σ"
+%SCRIPT set palette rgb 30,31,32 negative
+%SCRIPT plot 'caca.dat' with image
+%SCRIPT END
+-->
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Bayesian_Inference" width="1" height="1" alt="">
+

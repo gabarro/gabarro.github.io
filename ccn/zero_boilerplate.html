@@ -114,11 +114,11 @@ and a LaTeX file in french and with some fancy math,
 
 <pre>
 \documentclass{article}
-\documentclass[a4paper,11pt]{article}  
-\usepackage[utf8]{inputenc}            
-\usepackage[T1]{fontenc}               
-\usepackage[frenchb]{babel}            
-\usepackage{amsmath}                   
+\documentclass[a4paper,11pt]{article}  % classe article standard
+\usepackage[utf8]{inputenc}            % pour écrire les accents directement
+\usepackage[T1]{fontenc}               % pour faire des vrais guillemets
+\usepackage[frenchb]{babel}            % conventions typographiques françaises
+\usepackage{amsmath}                   % mathématiques avancées
 
 \begin{document}
 Voici le théorème de Stokes:
@@ -162,7 +162,7 @@ int main(int c, char *v[])
 {
         // extract input arguments
         if (c != 3)
-                return fprintf(stderr, "usage:\n
+                return fprintf(stderr, "usage:\n%s gamma in out\n", *v);
         double g      = atof(v[1]);
         char *filename_in  = v[2];
         char *filename_out = v[3];

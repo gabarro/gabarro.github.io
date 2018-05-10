@@ -26,9 +26,11 @@ global_substitutions = {
 	{"\n%%(SCRIPT[^\n]+)", "\n<!--\n&#37;%1\n-->"},
 	{"\n%-%->\n<!%-%-", ""},
 
-	-- remove comments (FIXME: do not remove comments inside verbatim! )
-	{"\\%%", "\\&#37;"},
-	{"%%[^\n]*\n", "\n"},
+	-- do not remove comments, just escape % to &#37;
+	{"%%", "&#37;"},
+	---- remove comments (FIXME: do not remove comments inside verbatim! )
+	--{"\\%%", "\\&#37;"},
+	--{"%%[^\n]*\n", "\n"},
 
 	-- change \emph{...} to <i>...</i> (and similar inline stuff)
 	{"\\emph{(.-)}", "<i>%1</i>"},
@@ -103,7 +105,7 @@ global_substitutions = {
 	-- tabular (TODO: recover vertical bars)
 	-- XXX: the order of these pattern replacements is important
 	{"%s*\\\\(%s*\\end{tabular})", "%1"},
-	{"\\begin{tabular}{.-}", "<table>\n<tr><td>\n"},
+	{"\\begin{tabular}{.-}", "<table><tr><td>"},
 	{"\\end{tabular}", "</table>"},
 
 	-- surround \newcommands by math so that mathjax sees it
@@ -220,7 +222,7 @@ if whole_file:match("%$") then  -- TODO: perform a more intelligent check here
 end
 if not metadata_maths then boilerplate_mathjax = "" end
 
-if not whole_file:match("&#37;SCRIPT") then boilerplate_lit = "" end
+if not whole_file:match("\n&#37;SCRIPT") then boilerplate_lit = "" end
 
 if whole_file:match("<div class=\"gallery\"") then
 	boilerplate_css = boilerplate_css .. css_gallery
@@ -305,10 +307,17 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	if u:match("</pre>") then toggle_pre = false end
 
 	-- post-processing replacements
-	u = u:gsub("&#37;", "%%") --percent entity
-	if u:match("^%%SCRIPT ") then --replace <> in SCRIPT
-		u = u:gsub("&lt;", "<")
-		u = u:gsub("&gt;", ">")
+	if toggle_pre then                -- if inside <pre> :
+		u = u:gsub("&#37;", "%%") -- un-escape html entity for %
+	end
+	if u:match("^&#37;%SCRIPT ") then -- if inside valid ^%SCRIPT line :
+		u = u:gsub("&lt;", "<")   -- un-escape html entity for <
+		u = u:gsub("&gt;", ">")   -- un-escape html entity for >
+		u = u:gsub("&#37;", "%%") -- un-escape html entity for %
+	elseif not toggle_pre then        -- deal with comments
+		u = u:gsub("^&#37[^\n]*\n", "") -- remove whole line comment
+		u = u:gsub("([^\\])&#37[^\n]*\n", "%1\n") -- midline comment
+		u = u:gsub("\\&#37;", "\\%%") -- escaped % symbols
 	end
 
 	if o ~= "\n" or u ~= "\n" then -- uniq-ify blank lines

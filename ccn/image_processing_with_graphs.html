@@ -212,6 +212,7 @@ ordering for the edges.
 <p>
 The following octave functions allow to convert between each representation:
 
+
 <pre>
 function A = graph_adjacency_from_list(Z)
         n = max(Z(:));                        # number of vertices
@@ -258,9 +259,7 @@ C = abs(B)/2;
 <p>
 The following table summarizes the language that we will use everywhere.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	$n$ <td> number of vertices in the graph <tr><td>
 	$m$ <td> number of edges in the graph <tr><td>
 	$u\in\R^n$ <td> scalar field $u$ <tr><td>
@@ -396,9 +395,7 @@ defined for functions over graphs, as the maximum and minimum value of
 neighboring vertices.  The other morphological operations are all defined in
 terms of dilation and erosion:
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	$u$ <td> function defined on the vertices of the graph <tr><td>
 	$d(u)$ <td> dilation (max value among neighboring vertices) <tr><td>
 	$e(u)$ <td> erosion (min value among neighboring vertices) <tr><td>

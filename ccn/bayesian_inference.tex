@@ -208,74 +208,44 @@ P(\mu,\sigma|x_1,\ldots,x_N)\propto
 P(x_1,\ldots,x_N|\mu,\sigma)\cdot P(\mu,\sigma)
 $$
 
-\includegraphics{bayes1.png}
-%SCRIPT gnuplot <<END >bayes1.png
-%SCRIPT set term pngcairo
-%SCRIPT f(x,y)=exp(-((40-x)**2+(40-x)**2+(70-x)**2)/(2*y**2))/(y**(1.5))
-%SCRIPT set xrange [-100:100]
-%SCRIPT set yrange [0:100]
-%SCRIPT set isosample 400,400
+\begin{tabular}{ll}
+	\includegraphics{bayes1.png}&
+	\includegraphics{bayes2.png}\\
+	\includegraphics{bayes3.png}&
+	\includegraphics{bayes4.png}\\
+	\includegraphics{bayes5.png}&
+	\includegraphics{bayes6.png}\\
+\end{tabular}
+%SCRIPT cat <<END >gmap.g
+%SCRIPT set term pngcairo font "Junicode,20"
+%SCRIPT set isosample 100,100
 %SCRIPT set samples 200
+%SCRIPT f(m,s)=exp(-(sum [i=1:|a|] (a[i]-m)**2)/(2*s**2))/sqrt(s)**|a|
+%SCRIPT set xrange [-4:10]
+%SCRIPT set yrange [0:8]
+%SCRIPT set xtics 1 font ",14"
+%SCRIPT set ytics 1 font ",14"
+%SCRIPT unset key
+%SCRIPT set grid front xtics ytics lw 1 lt -1 lc rgb 'gray'
 %SCRIPT set table 'caca.dat'
 %SCRIPT splot f(x,y)
 %SCRIPT unset table
-%SCRIPT set title "P(μ,σ|30,30,80)"
+%SCRIPT set title sprintf("P( μ,σ | %s )     N=%d",t,|a|)
 %SCRIPT set xlabel "μ"
-%SCRIPT set ylabel "σ"
-%SCRIPT set palette rgb 30,31,32 negative
+%SCRIPT set ylabel "σ" rotate by 0
+%SCRIPT unset cbtics
+%SCRIPT set palette rgbformulae 8,6,16 negative
 %SCRIPT plot 'caca.dat' with image
 %SCRIPT END
-\includegraphics{bayes2.png}
-%SCRIPT gnuplot <<END >bayes2.png
-%SCRIPT set term pngcairo
-%SCRIPT f(x,y)=exp(-((48-x)**2+(48-x)**2+(54-x)**2)/(2*y**2))/(y**(1.5))
-%SCRIPT set xrange [-100:100]
-%SCRIPT set yrange [0:100]
-%SCRIPT set isosample 400,400
-%SCRIPT set samples 200
-%SCRIPT set table 'caca.dat'
-%SCRIPT splot f(x,y)
-%SCRIPT unset table
-%SCRIPT set title "P(μ,σ|48,48,54)"
-%SCRIPT set xlabel "μ"
-%SCRIPT set ylabel "σ"
-%SCRIPT set palette rgb 30,31,32 negative
-%SCRIPT plot 'caca.dat' with image
-%SCRIPT END
-\includegraphics{bayes3.png}
-%SCRIPT gnuplot <<END >bayes3.png
-%SCRIPT set term pngcairo
-%SCRIPT f(x,y)=exp(-((30-x)**2+(30-x)**2+(-60-x)**2)/(2*y**2))/(y**(1.5))
-%SCRIPT set xrange [-100:100]
-%SCRIPT set yrange [0:100]
-%SCRIPT set isosample 400,400
-%SCRIPT set samples 200
-%SCRIPT set table 'caca.dat'
-%SCRIPT splot f(x,y)
-%SCRIPT unset table
-%SCRIPT set title "P(μ,σ|30,30,-60)"
-%SCRIPT set xlabel "μ"
-%SCRIPT set ylabel "σ"
-%SCRIPT set palette rgb 30,31,32 negative
-%SCRIPT plot 'caca.dat' with image
-%SCRIPT END
-\includegraphics{bayes4.png}
-%SCRIPT gnuplot <<END >bayes4.png
-%SCRIPT set term pngcairo
-%SCRIPT f(x,y)=exp(-((0-x)**2+(80-x)**2+(-80-x)**2)/(2*y**2))/(y**(1.5))
-%SCRIPT set xrange [-100:100]
-%SCRIPT set yrange [0:100]
-%SCRIPT set isosample 400,400
-%SCRIPT set samples 200
-%SCRIPT set table 'caca.dat'
-%SCRIPT splot f(x,y)
-%SCRIPT unset table
-%SCRIPT set title "P(μ,σ|0,-90,90)"
-%SCRIPT set xlabel "μ"
-%SCRIPT set ylabel "σ"
-%SCRIPT set palette rgb 30,31,32 negative
-%SCRIPT plot 'caca.dat' with image
-%SCRIPT END
+
+%SCRIPT X="5"           ;gnuplot -e "array a[1]=[$X];t='$X'" gmap.g >bayes1.png
+%SCRIPT X="5,5"         ;gnuplot -e "array a[2]=[$X];t='$X'" gmap.g >bayes2.png
+%SCRIPT X="4,4,7"       ;gnuplot -e "array a[3]=[$X];t='$X'" gmap.g >bayes3.png
+%SCRIPT X="2,2,11"       ;gnuplot -e "array a[3]=[$X];t='$X'" gmap.g >bayes4.png
+%SCRIPT X="2,2,11,5,5,5,5,5,5,5,5,5"
+%SCRIPT gnuplot -e "array a[12]=[$X];t='$X'" gmap.g >bayes5.png
+%SCRIPT X="2,2,2,2,2,2,2,2,11,11,11,11"
+%SCRIPT gnuplot -e "array a[12]=[$X];t='$X'" gmap.g >bayes6.png
 
 
 

@@ -39,6 +39,7 @@
 
 <h1>Linear Dithering</h1>
 
+
 <p>
 Consider the problem of converting a gray-scale image into a binary image,
 while keeping as much as possible of the visual information.
@@ -54,9 +55,7 @@ points on a multidimensional continuum of binarization methods, that we call
 %SCRIPT dither weiro.png weiro-dit.png
 %SCRIPT plambda weiro.png x,l|blur -z z 0.1|plambda - '0 < 255 *' -o weiro-lin.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="i/weiro.png" alt="image"> <td>
 	<img src="weiro-bin.png" alt="image"> <td>
 	<img src="weiro-dit.png" alt="image"> <td>
@@ -108,6 +107,11 @@ dither bongos.jpg bongos-dit.png
 plambda bongos.jpg x,l | blur z 0.25 | plambda - '0 &lt; 255 *' -o bongos-lin.png
 </pre>
 
+
+
+
+
+
 <h2>2. Dithering with pre-processing</h2>
 
 <p>
@@ -153,9 +157,7 @@ contrast change, and the second row the dithering of each image.
 %SCRIPT cat weiro.png | ditanh 7   | dither - weiro-ditanh7.png
 %SCRIPT cat weiro.png | ditanh 900 | dither - weiro-ditanhi.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	$\lambda=0$ <td>
 	$\lambda=3$ <td>
 	$\lambda=7$ <td>
@@ -191,9 +193,7 @@ space.
 %SCRIPT cat weiro.png | riesz 2.0 | qauto | dither - weiro-diriesz20.png &amp;
 %SCRIPT wait
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	$\mu=0.1$ <td>
 	$\mu=0.5$ <td>
 	$\mu=1$ <td>
@@ -231,9 +231,7 @@ threshold the result at 0.
 Let us see how changing shape of the kernel produces
 different effects.  We use the following radial kernels (we omit the
 normalization factors in this table):
-<table>
-<tr><td>
-
+<table><tr><td>
 	name <td> formula <tr><td>
 	Gauss <td> $G_\sigma(r) =\delta-\exp\frac{-r^2}{2\sigma^2}$ <tr><td>
 	Laplace <td> $L_\sigma(r) =\delta-\exp\frac{-r}{\sigma}$ <tr><td>
@@ -249,14 +247,13 @@ images.  For this application we apply them to the Laplacian of the input
 image (or, equivalently, we filter the image by the Laplacian of these
 kernels).
 
+
 <!--
 %SCRIPT plambda x,l<weiro.png|blur -z g 0.5|plambda - '0 < 255 *' -o weiro-ga.png
 %SCRIPT plambda x,l<weiro.png|blur -z g 1|plambda - '0 < 255 *' -o weiro-gb.png
 %SCRIPT plambda x,l<weiro.png|blur -z g 3|plambda - '0 < 255 *' -o weiro-gc.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-ga.png" alt="image"> <td>
 	<img src="weiro-gb.png" alt="image"> <td>
 	<img src="weiro-gc.png" alt="image"> <tr><td>
@@ -270,9 +267,7 @@ kernels).
 %SCRIPT plambda x,l<weiro.png|blur -z l 1|plambda - '0 < 255 *' -o weiro-lb.png
 %SCRIPT plambda x,l<weiro.png|blur -z l 3|plambda - '0 < 255 *' -o weiro-lc.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-la.png" alt="image"> <td>
 	<img src="weiro-lb.png" alt="image"> <td>
 	<img src="weiro-lc.png" alt="image"> <tr><td>
@@ -286,9 +281,7 @@ kernels).
 %SCRIPT plambda x,l<weiro.png|blur -z c 1|plambda - '0 < 255 *' -o weiro-cb.png
 %SCRIPT plambda x,l<weiro.png|blur -z c 3|plambda - '0 < 255 *' -o weiro-cc.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-ca.png" alt="image"> <td>
 	<img src="weiro-cb.png" alt="image"> <td>
 	<img src="weiro-cc.png" alt="image"> <tr><td>
@@ -303,9 +296,7 @@ kernels).
 %SCRIPT plambda weiro.png x,l|blur -z z 0.20|plambda - '0 < 255 *' -o weiro-z20.png
 %SCRIPT plambda weiro.png x,l|blur -z z 0.50|plambda - '0 < 255 *' -o weiro-z50.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-z01.png" alt="image"> <td>
 	<img src="weiro-z10.png" alt="image"> <td>
 	<img src="weiro-z20.png" alt="image"> <td>
@@ -322,9 +313,7 @@ kernels).
 %SCRIPT plambda weiro.png x,l|blur -z i 0.20|plambda - '0 < 255 *' -o weiro-i20.png
 %SCRIPT plambda weiro.png x,l|blur -z i 0.50|plambda - '0 < 255 *' -o weiro-i50.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-i01.png" alt="image"> <td>
 	<img src="weiro-i10.png" alt="image"> <td>
 	<img src="weiro-i20.png" alt="image"> <td>
@@ -341,9 +330,7 @@ kernels).
 %SCRIPT plambda weiro.png x,l|blur -z q 0.20|plambda - '0 < 255 *' -o weiro-q20.png
 %SCRIPT plambda weiro.png x,l|blur -z q 0.50|plambda - '0 < 255 *' -o weiro-q50.png
 -->
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weiro-q01.png" alt="image"> <td>
 	<img src="weiro-q10.png" alt="image"> <td>
 	<img src="weiro-q20.png" alt="image"> <td>
@@ -378,7 +365,7 @@ blue eyes in this color image:
 <pre>
 dither barb.png barb-dit.png
 plambda barb.png x,l | blur z 0.15 | plambda - '0 &lt; 255 *' -o barb-lin.png
-plambda barb.png 'x x
+plambda barb.png 'x x%O50 &gt; 255 *' -o barb-bin.png
 </pre>
 <div class="gallery" style="min-height:572px;height:8em"><ul class="index">
 
@@ -397,6 +384,7 @@ plambda barb.png 'x x
 PS: all the experiments on this note are generated from comments extracted
 of the original .tex source file.
 </i>
+
 
 
 <hr>

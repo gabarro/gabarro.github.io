@@ -50,9 +50,7 @@ of traversal.  For uniform regions it tends to produce visible patterns, and
 this can be avoided by traversing the pixels in a more or less irregular way
 (for example, a Hilbert curve is often used).
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="i/psimone.png" alt="image"> <td>
 	<a href="z-psimone-random.png"><img src="psimone-random.png" alt="image"></a> <td>
 	<a href="z-psimone-errdif.png"><img src="psimone-errdif.png" alt="image"></a> <tr><td>
@@ -65,15 +63,14 @@ this can be avoided by traversing the pixels in a more or less irregular way
 %SCRIPT dither psimone.png psimone-errdif.png
 -->
 
+
 <p>
 Since there is a lot of choice when dithering an image, we can encode a lot
 of information in these choices.  Assuming that we will be able to recover
 the binary image exactly, the simplest way to encode the data is to have a
 <b>table of patterns</b> such as this:
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	pattern <td>
 	<img src="pat_0.png" alt="image"> <td>
 	<img src="pat_1.png" alt="image"> <td>
@@ -135,9 +132,7 @@ information, so that it is better to avoid them as much as possible.
 They can be avoided, for example, by applying a retinex-like transform in the
 input image, before dithering.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<td>
 	original <td>
 	$\gamma=0.5$ <td>
@@ -186,9 +181,7 @@ zeros introduces a visible pattern in the image.  To avoid these patterns,
 the data to be encoded must have a uniform distribution (for example, by
 compressing it).
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<a href="z-psimone-retdit.png"><img src="psimone-retdit.png" alt="image"></a><td>
 	<a href="z-psimone-retditR.png"><img src="psimone-retditR.png" alt="image"></a><td>
 	<a href="z-psimone-retditZ.png"><img src="psimone-retditZ.png" alt="image"></a><tr><td>
@@ -219,9 +212,7 @@ program ``<code>dither</code>''
 <pre>
 dither weil.png weil-dit.png
 </pre>
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="i/weil.png" alt="image"> <td>
 	<img src="weil-dit.png" alt="image"> <tr><td>
 	<code>weil.png</code> <td>
@@ -252,9 +243,7 @@ and a stream of zeros in the same carrier image.
 mdither encode weil-dit.png weil-random.png &lt; /dev/urandom
 mdither encode weil-dit.png weil-zeros.png  &lt; /dev/zero
 </pre>
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="weil-random.png" alt="image"> <td>
 	<img src="weil-zeros.png" alt="image"> <tr><td>
 	<code>weil-random.png</code> <td>
@@ -273,14 +262,14 @@ mdither decode weil-zeros.png  | hexdump -vn 128 &gt; weil-zeros.txt
 <p>
 Contents of file <code>weil-random.txt</code>:
 <pre>
-0000000 b91e 61c6 31b3 a802 0c14 b3fa 2bb3 5388
-0000010 ce24 35c8 131a bbd7 4670 4a06 b72d 5b28
-0000020 f981 8c55 8936 b8a5 7465 cf99 d7aa 1649
-0000030 0253 1fac 0324 11dc 91b6 8f75 866e 6588
-0000040 b3af aceb b254 f20e 354f 5184 9a3e 30c6
-0000050 b34b 6b03 12ed 1c58 6905 a494 6df7 0327
-0000060 8e3c 41df 6602 c68f deef d8c2 1576 a15c
-0000070 bf60 fa8d 3970 9594 d62b 5a5e 214b 0369
+0000000 62e7 b7b9 b9ea bce2 9f67 e0cf dbb1 1786
+0000010 a49c 60ad 2f1c ccfb afc1 2055 a99b fbc1
+0000020 1869 3500 a2aa 6eff f265 285c 1350 50e9
+0000030 d712 ee2a 55b9 1a95 d040 f0aa 48c1 0f39
+0000040 38f6 4224 45ac 9a78 c895 f169 b21d 0408
+0000050 db2f 1c45 c7ff b232 a744 259c 053e b9a3
+0000060 35d7 f183 3bc7 127c a32e 41ec a761 77eb
+0000070 961d 3b0c d00c 711c 3c7e acaf 2b69 1257
 0000080
 </pre>
 
@@ -330,9 +319,7 @@ maximize the available space for encoding the information).
 
 <h3>3.5. Test image ``photo 1''</h3>
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="Ediphoto-1-1.png" alt="image"> <td>
 	<img src="Ediphoto-1-2.png" alt="image"> <td>
 	<img src="Ediphoto-1-3.png" alt="image"> <td>
@@ -358,9 +345,7 @@ maximize the available space for encoding the information).
 
 <h3>3.6. Test image ``photo 2''</h3>
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="Ediphoto-2-1.png" alt="image"> <td>
 	<img src="Ediphoto-2-2.png" alt="image"> <td>
 	<img src="Ediphoto-2-3.png" alt="image"> <td>
@@ -386,9 +371,7 @@ maximize the available space for encoding the information).
 
 <h3>3.7. Test image ``photo 3''</h3>
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="Ediphoto-3-1.png" alt="image"> <td>
 	<img src="Ediphoto-3-2.png" alt="image"> <td>
 	<img src="Ediphoto-3-3.png" alt="image"> <td>
@@ -414,9 +397,7 @@ maximize the available space for encoding the information).
 
 <h3>3.8. Test image ``photo 4''</h3>
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="Ediphoto-4-1.png" alt="image"> <td>
 	<img src="Ediphoto-4-2.png" alt="image"> <td>
 	<img src="Ediphoto-4-3.png" alt="image"> <td>
@@ -442,9 +423,7 @@ maximize the available space for encoding the information).
 
 <h3>3.9. Test image ``photo 5''</h3>
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="Ediphoto-5-1.png" alt="image"> <td>
 	<img src="Ediphoto-5-2.png" alt="image"> <td>
 	<img src="Ediphoto-5-3.png" alt="image"> <td>
@@ -512,9 +491,7 @@ Here are some possible improvements:
 		can be interchanged with negligible information loss.
 		However, this is a gross simplification.  For example, in the
 		following table
-		<table>
-<tr><td>
-
+		<table><tr><td>
 			<img src="pat4_a.png" alt="image"> <td>
 			<img src="pat4_b.png" alt="image"> <td>
 			<img src="pat4_c.png" alt="image"> <td>

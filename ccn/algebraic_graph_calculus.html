@@ -68,7 +68,6 @@ by
 \[
 \nabla u = \left(
 u_x\ ,\ u_y\ ,\ u_z
-
 \right)
 \]
 
@@ -112,7 +111,6 @@ Notice that it is the last component of the 3D curl.
 The curl is also defined in dimension 7.
 Let $\mathbf{u}=(u^1,\ldots,u^7)$ be a vector field in $\R^7$, then
 \[
-
 \def\curlco#1#2#3#4#5#6{
 {u^{#1}}_{#2}-{u^{#2}}_{#1}+
 {u^{#3}}_{#4}-{u^{#4}}_{#3}+
@@ -431,15 +429,11 @@ reminder above have a direct correspondence in the case of graphs.
 <p>
 The correspondence between vector calculus and graph theory is laid out in
 the following table.
-
-<p>
 The main idea is that scalar fields correspond to
 functions defined on vertices, and vector fields correspond to functions
 defined on edges.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	
 		Vector calculus<td>
 		Graph theory<tr><td>
@@ -527,9 +521,11 @@ defined on edges.
 		unsigned incidence matrix $C\in\mathcal{M}_{m,n}(\R)$
 </table>
 
+
 <p>
 The $\mathrm{curl}$ operator cannot be defined on general graphs, but it
 can be defined on <i>planar</i> graphs, and it satisfies similar identities.
+
 
 <h3>3.11. The graph Laplacian</h3>
 
@@ -553,14 +549,10 @@ of $u$ is denoted by $\Delta u$ and is defined as the scalar field $\Delta u:V\t
 \[
 \Delta u(a) := \sum_{(a,b)\in E} u(b)-u(a)
 \]
-
-<p>
 Notice that the sum is performed for a fixed vertex $a$, and $b$ varies
 through all the neighbors of $a$ in the graph.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="graph3.png" alt="image"> <td>
 	<img src="graph4.png" alt="image"> <tr><td>
 	The scalar field $u$ <td>
@@ -637,9 +629,7 @@ defined on vertices into a function defined on edges.  There is a very
 natural way of doing that: the value at each edge is obtained as the
 difference between the values at each side of the edge.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<img src="graph5.png" alt="image"> <td>
 	<img src="graph6.png" alt="image"> <tr><td>
 	The scalar field $u$ <td>
@@ -941,8 +931,6 @@ or, in matrix notation,
 =
 (B\1_\Omega)\cdot\mathbf{v}
 \]
-
-<p>
 which is exactly the same thing, written differently.
 
 

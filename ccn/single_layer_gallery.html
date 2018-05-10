@@ -38,8 +38,6 @@ the basic construction depends on three functions:
 	<li>$g\in L^1_{loc}(\mathbf{R^2})$ a convolution kernel on the plane
 	<li>$h:\mathbf{R}\to[0,255]$ a monotonic tone mapping
 </ol>
-
-<p>
 To generate a random texture $I$, run the following algorithm
 <ol>
 	<li>Build a white noise image $n$ of distribution $f$.
@@ -72,7 +70,7 @@ this page are indeed single-layer.
 <p>
 <img src="binary.png" alt="image">
 <pre>
-plambda canvas randc | blur c 0.5 | plambda - 'x x
+plambda canvas randc | blur c 0.5 | plambda - 'x x%m &gt; 255 *' -o binary.png
 </pre>
 Comment: this is Cauchy white noise blurred with a Cauchy kernel, binarized
 at the median value.
@@ -104,7 +102,7 @@ a simplest color balance that saturates $1\%$ of the pixels.
 <pre>
 SIGMOID='2 * tanh 1 + 2 /'
 RED='dup 1 rot - rot 1 1 1 join3 * 0.7 0.1 0.1 join3 * + 255 *'
-plambda canvas randp|blur c 1|plambda - "x x
+plambda canvas randp|blur c 1|plambda - "x x%O80 - $SIGMOID $RED" -o blood.png
 </pre>
 Comment: this is exactly the same image as <code>starfield.png</code>, but with a
 red palette.
@@ -114,7 +112,7 @@ red palette.
 <p>
 <img src="islands.png" alt="image">
 <pre>
-plambda canvas randu | blur -s z .4 | plambda - 'x x
+plambda canvas randu | blur -s z .4 | plambda - 'x x%O80 &gt; 255 *' -o islands.png
 </pre>
 Comment: uniform white noise, blurred by a kernel of the form $1/\log(r)$,
 binarized to the 80th quantile.
@@ -126,7 +124,7 @@ binarized to the 80th quantile.
 <pre>
 SIGMOID='4e4 * tanh 1 + 2 /'
 BLUE='dup 1 - -1 * 0 .5 1 join3 * + 255 *'
-plambda canvas randg|blur o 0.1|plambda - "x x
+plambda canvas randg|blur o 0.1|plambda - "x x%m - $SIGMOID $BLUE" -o clouds.png
 </pre>
 Comment: white Gaussian noise, blurred by a kernel of the form $\log(r)$, plus a $\tanh$ contrast change centered around the median value.  Finally, a blue palette is applied.
 
@@ -242,6 +240,7 @@ plambda canvas 'randu randu randu randu randu nstack njoin' | blur g 20 |\
 </pre>
 Comment: this is the max of four Perlin noises.
 
+
 <h2>17. Combined</h2>
 
 <p>
@@ -274,6 +273,7 @@ plambda dandelions.png starfield.png + | qauto -i -p 0.3 - combined4.png
 </pre>
 For unrelated images, the effect is less striking.
 
+
 <h2>18. Appendix: Technical details</h2>
 
 <p>
@@ -291,7 +291,7 @@ Qauto quantizes an image into [0,255].
 The image is trasformed by an affine contrast change I -&gt; a*I + b
 and then the colors are saturated and quantized into [0,255].
 The parameters (a,b) of the contrast change are computed to statisfy
-certain conditions. By default, they are chosen so that 5
+certain conditions. By default, they are chosen so that 5% of the pixels
 are saturated.
 
 Usage: qauto in.tiff out.png
@@ -299,7 +299,7 @@ Usage: qauto in.tiff out.png
    or: cat in.tiff | qauto &gt; out.pnm
 
 Options:
- -p X      use a percentile of X
+ -p X      use a percentile of X% (default X=5)
  -f        do not quantize the output, only rescale the values
  -i        treat each pixel dimension independently
  -h        display short help message
@@ -443,22 +443,22 @@ Stack operators (allow direct manipulation of the stack):
  nstack	current number of elements in the stack (useful with njoin)
 
 Magic variable modifiers (global data associated to each input image):
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
- x
+ x%i	value of the smallest sample of image x
+ x%a	value of the largest sample
+ x%v	average sample value
+ x%m	median sample value
+ x%s	sum of all samples
+ x%I	value of the smallest pixel (in euclidean norm)
+ x%A	value of the largest pixel
+ x%V	average pixel value
+ x%S	sum of all pixels
+ x%Y	component-wise minimum of all pixels
+ x%E	component-wise maximum of all pixels
+ x%qn	nth sample percentile
+ x%On	component-wise nth percentile
+ x%Wn	component-wise nth millionth part
+ x%0n	component-wise nth order statistic
+ x%9n	component-wise nth order statistic (from the right)
 
 Random numbers (seeded by the SRAND environment variable):
  randu	push a random number with distribution Uniform(0,1)

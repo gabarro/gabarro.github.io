@@ -36,6 +36,8 @@ equations.
 $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\Z}{\mathbf{Z}}$
 
+
+
 <h2>1. The Laplace-Beltrami spectrum</h2>
 
 <p>
@@ -67,9 +69,7 @@ $$f_n=\int_Mf\varphi_n.$$  Some particular cases are the habitual Fourier and
 sine bases (but not the cosine basis), bessel functions for the disk, and
 spherical harmonics for the surface of a sphere.
 
-<table>
-<tr><td>
-
+<table><tr><td>
 	<td>$M$ <td> $\varphi_n$ <td> $-\lambda_n$ <tr><td>
 	
 	interval <td> $[0,2\pi]$ <td> $\sin\left(\frac{nx}{2}\right)$ <td> $n^2/4$ <tr><td>
@@ -344,7 +344,7 @@ L = A+A' - diag(sum(A+A'));                # graph laplacian
 %SCRIPT L = A+A' - diag(sum(A+A'));
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
-%SCRIPT         n = sprintf("o/chladni_
+%SCRIPT         n = sprintf("o/chladni_%03d.png", i);
 %SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
 %SCRIPT         imwrite(x, n);
 %SCRIPT endfor
@@ -453,7 +453,7 @@ L = A + A';                                 # graph laplacian
 %SCRIPT L = A + A';
 %SCRIPT [f,l] = eigs(-L'*L, 64, "sm");
 %SCRIPT for i=1:64
-%SCRIPT         n = sprintf("o/dchladni_
+%SCRIPT         n = sprintf("o/dchladni_%03d.png", i);
 %SCRIPT         x = uint8(reshape(200*double(0<f(:,i)),w,w));
 %SCRIPT         imwrite(x, n);
 %SCRIPT endfor
@@ -544,7 +544,7 @@ L = A + A';                                 # graph laplacian
 For completenes, this is the octave code that saves the figures above
 <pre>
 for i=1:64
-        n = sprintf("o/chladni_
+        n = sprintf("o/chladni_%03d.png", i);
         x = reshape(200*double(0&lt;f(:,i)),w,w);
         iio_write(n, x);
 endfor

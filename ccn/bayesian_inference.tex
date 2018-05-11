@@ -83,7 +83,7 @@ You can interpret this formula in the following way
 		observed the data (the \emph{posterior})
 	\item[$P(D|\theta)$] the ``generative model'': given a value of the
 		parameters, what is the distribution distribution of the data?
-	\item[$P(D)$] a normalization factor equal to~$\int\theta
+	\item[$P(D)$] a normalization factor equal to~$\int
 		P(D|\theta)P(\theta)\mathrm{d}\theta$.
 \end{itemize}
 
@@ -315,7 +315,7 @@ $$
 Thus, the MAP estimator in this case coincides with the ``traditional''
 estimator of the mean.  Everything is alright.
 
-Now let us see what happens with~$\sigma$:
+Now let us perform the corresponding computation for~$\sigma$:
 $$
 f_\sigma(\mu,\sigma)
 =
@@ -341,7 +341,182 @@ than~$\bar\sigma_{N}$: the distribution is heavily skewed in the vertical
 direction: the $\sigma$-position of the maximum is lower than the average
 value.
 
-For some reason, the 
+\bigskip
+
+The result of our inference is a probability
+distribution~$f(\mu,\sigma)=P(\mu,\sigma|x_1,\ldots,x_N)$.  The
+function~$f(\mu,\sigma)$ can be interpreted and used in many ways.  The
+following constructions extract a single value~$(\mu,\sigma)$ from
+the posterior distribution:
+
+\begin{enumerate}
+	\item As a \emph{joint posterior  distribution}: the value
+		of~$f(x,y)$ is a measure of our belief that~$\mu=x$
+		and~$\sigma=y$ after having observed the data.
+	\item The mode of~$f(\mu,\sigma)$:
+		$$
+		\arg\max_{(\mu,\sigma)}\ f(\mu,\sigma)
+		$$
+		is the value of~$(\mu,\sigma)$ that is more probable.
+		It is called the~\emph{maximum a-posteriori} (MAP) estimator
+		of~$(\mu,\sigma)$.
+	\item The mean of~$f(\mu,\sigma)$:
+		$$
+		\int (\mu,\sigma)f(\mu,\sigma)
+		\,\mathrm{d}\mu
+		\,\mathrm{d}\sigma
+		$$
+		is called the~\emph{minimum mean square error} (MMSE).
+		It has this name because it minimizes a quadratic error
+		called the ``quared error risk''.
+	\item More generally, you can take a parameter~$p>0$ and define
+		the~$p$-risk which is the~$p$-norm of the error.  The MMSE
+		and the MAP arise as particular cases for~$p=2$ and~$p\to0$,
+		and it yields the~\emph{posterior median estimator}
+		for~$p=1$.
+\end{enumerate}
+
+And the following constructions extract a function of one variable from the
+posterior distribution:
+
+\begin{enumerate}
+	\item Fixing a value of~$\mu$, the function
+		$$
+		g(\sigma)=\frac{f(\mu,\sigma)}{\int_0^\infty
+		f(\mu,y)\,\mathrm{d}y}
+		$$
+		is the \emph{conditional probability} of~$\sigma$ given~$\mu$
+		and the data.  Formally, the function~$g$ is obtained by
+		evaluating~$f$ along vertical lines, with a normalization
+		factor so that the integral is 1.
+		This conditional probability answers the question ``what do
+		we know about~$\sigma$ given that we know~$\mu$?''
+	\item We can also average over all possible values of~$\mu$, to
+		obtain the function
+		$$
+		h(\sigma)=\int_{-\infty}^\infty
+		f(\sigma,\mu)\,\mathrm{d}\mu
+		$$
+		this function has integral 1 so it is a probability
+		distribution, called the~\emph{marginal distribution}
+		of~$\sigma$.  Formally, the function~$h$ is obtained by
+		projecting the whole plot into a vertical line.
+		The marginal probability answers a very different question
+		than the conditional: ``what do we know about~$\sigma$, if we
+		know nothing about~$\mu$?''
+	\item Similarly, we can exchange the roles of~$\mu$ and~$\sigma$ on
+		the previous two functions to obtain the posterior~$\mu$
+		conditional to a value of~$\sigma$
+		$$
+		\mu\mapsto\frac{f(\mu,\sigma)}{\int_{-\infty}^\infty
+		f(x,\sigma)\,\mathrm{d}x}
+		$$
+		and the marginal distribution of~$\mu$
+		$$
+		\mu\mapsto\int_0^\infty
+		f(\mu,\sigma)\,\mathrm{d}\sigma
+		$$
+\end{enumerate}
+
+Finally, we can compute estimators (MAP,MMSE,$\ldots$) of each of these
+one-dimensional distributions.
+For the case of the Gaussian model, all these possibilities are well known
+and tabulated, because the integrals can be computed in closed form.  But you
+can nearly always compute them numerically: modern CPUs are very fast.
+
+The functional notation~$f(\mu,\sigma)$,~$g(\sigma)$ etc. are practical for
+computations on paper but they are rarely used in print, where the following
+notation is preferred (where~$Z$ denotes whatever normalization factor is
+needed so that the integral is 1).
+
+The posterior probability of~$\mu$ given~$\sigma$:
+$$
+P(\mu|x_1,\ldots,x_N,\sigma)=P(x_1,\ldots,x_N|\mu,\sigma)P(\mu)/Z
+$$
+in the case of a Gaussian with non-informative priors this turns out to be a
+normal
+distribution~$P(\mu|\cdots)\sim\mathcal{N}\left(\bar{x},\sigma^2/N\right)$.
+
+The marginal probability of~$\mu$ is
+$$
+P(\mu|x_1,\ldots,x_N)=P(x_1,\ldots,x_N|\mu)P(\mu)/Z
+$$
+which, in the case of a Gaussian with non-informative priors is a Student-$t$
+distribution~$P(\mu|\cdots)\sim\left(N(\mu-\bar
+x)^2+\sigma_{{}_N}^2\right)^{-N/2}$.
+This is a very important and useful formula.  It answers the question~``given
+the samples, what do we know about~$\mu$?''.
+
+Consider now the typical notations in scientific calcutators:
+$$
+\bar x=\frac{\sum_{n=1}^nx_n}{N}
+\qquad
+\sigma_{{}_N}=\sqrt{\frac{1}{N}\sum_{n=1}^n(x_n-\bar x)^2}
+\qquad
+\sigma_{{}_{N-1}}=\sqrt{\frac{1}{N-1}\sum_{n=1}^n(x_n-\bar x)^2}
+$$
+
+We have computed above that~$(\bar
+x,\sigma_{{}_N})=MAP(P(\mu,\sigma|x_1,\ldots,x_n))$.
+How can we get to~$\sigma_{{}_{N-1}}$?  Well, it turns out that
+$
+\sigma_{{}_{N-1}}=MAP(P(\sigma|x_1,\ldots,x_N)).
+$
+(the estimator~$\sigma_{{}_{N-1}}$ is the mode of the posterior marginal
+distribution of~$\sigma$).  Thus, $\sigma_{{}_{N-1}}$ appears naturally in a
+probabilistic setting, as one of the natural quantites that we can extract
+from our inference.
+%Notice, however, that the MAP is not invariant by changes of variable in the
+%domain, so that the same scathing criticism that we did to the definition of
+%``unbiased'' estimator can be applied here as well.
+% ENRIC: clarify, it actually IS invariant! (but you have to measure the
+% density with respect to the radom/nikodym derivative of the measures)
+% thus, by fixing a riemannian structure on the domain, and computing
+% derivatives of measures wrt to it, the MAP and MMSE are indeed invariant.
+% ENRIC2: in any case, the ML estimator *is* always invariant, so using
+% non-informative priors the estimators are actually invariant.
+
+Let us give the details of this computation.  We have, up to a constant, the
+following joint distribution
+$$
+f(\mu,\sigma)=\sigma^{-N}\exp\left(
+-\sigma^{-2}\sum_{n=1}^N\tfrac{1}{2}\left(x_n-\mu\right)^2
+\right)
+$$
+and we want to locate the maximum of the marginal distribution
+$$
+g(\sigma)=\int_{-\infty}^\infty f(\mu,\sigma)\,\mathrm{d}\mu
+$$
+For that, we rewrite the function~$f$ in a more convenient form where the
+parameter~$\mu$ appears only once.  We use the
+well-known expression~$\sigma_{{}_N}^2=\frac{\sum x_n^2}{N}-\bar x^2$,
+and~$f$ is then simplified to
+$$
+f(\mu,\sigma)=\sigma^{-N}\exp\left(
+-\sigma^{-2}\tfrac{N}{2}\left[(\mu-\bar x)^2+\sigma_{{}_N}^2\right]
+\right)
+$$
+and so
+$$
+f(\mu,\sigma)=\sigma^{-N}\exp\left(
+-\tfrac{\left(\mu-\bar x^2\right)}{2\left(\sigma/\sqrt{N}\right)^2}
+\right)
+\exp\left(-\sigma^2\tfrac{N}{2}\sigma_{{}_N}^2
+\right)
+$$
+we have to integrate this last expression with respect to~$\mu$ to obtain the
+function~$g(\sigma)$; only the middle factor depends on~$\mu$, and this facto
+is a gaussian function of~$\mu$ of size~$\sigma/\sqrt{N}$, thus its integral
+equals~$\sqrt{2\pi N}/\sigma$, so that
+$$
+g(\sigma)
+=
+\int_{-\infty}^\infty f(\mu,\sigma)\,\mathrm{d}\mu
+\ \propto\ %
+\sigma^{-N}\sqrt{N}e^{-\sigma^2\frac{N\sigma_N^2}{2}}
+$$
+the maximum will be found at a point~$\sigma$ such that~$g'(\sigma)$
+and this condition simplifies to~$\sigma=\sigma_{N-1}$.
 
 
 

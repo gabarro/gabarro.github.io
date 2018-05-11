@@ -188,10 +188,21 @@ $$
 
 <p>
 There are more unbiased estimators for $\sigma$, this one is just an example.
-Where do these fantastic formulas come from?  From rules of thumb, you invent
-them, and then you prove some properties about them: such as being unbiased,
-or having minimal variance, and whatnot.  This is some serious bullshit that
-you should avoid as much as possible.
+Where do these fantastic formulas come from? From heuristics, mostly.  You
+invent them, and then you prove some properties about them: such as being
+unbiased, or having minimal variance, and whatnot.  This is some serious
+bullshit that you should avoid as much as possible.  This strong language is
+not used lightly.  The notion of ``unbiased estimator'' is
+nonsensical because it does not commute with changes of units.  An estimator
+of fuel consumption can be biased in miles per gallon, but unbiased in liters
+per kilometer, or vice-versa!  Often, you can pick a biased estimator, apply
+an appropriate functional transformation to it and then it becomes unbiased.
+For example, using the notation above, the estimators $\hat\sigma_4$
+and $\hat\sigma_2^2$ are unbiased estimators for $\sigma $ and $\sigma^2$
+respectively; however, $\hat\sigma_2$ and $\hat\sigma_4^2$ are biased
+estimators for $\sigma^2$ and $\sigma^2$.  Thus, the fact of being unbiased
+depends on whether we use linear or quadratic units, not on the computation
+itself!
 
 <h3>3.2. How real men do inference</h3>
 
@@ -246,22 +257,29 @@ the plane.
 More interesting is the data generation model:
 $$
 P(x_1,\ldots,x_N|\mu,\sigma)=
-\prod_{n=1}^N \frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(x_n-\mu)^2}{2\sigma^2}}
+\prod_{n=1}^N \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x_n-\mu)^2}{2\sigma^2}}
 $$
 this formula is the exact translation of the sentence ``the $x_n$ are
 independent, identically distributed samples of $\mathcal{N}(\mu,\sigma)$''.
 By simple manipulation, the formula above is written as
 $$
 P(x_1,\ldots,x_N|\mu,\sigma)=
-(2\pi\sigma)^{-N/2}\exp\left(-\sum_{n=1}^N\frac{(x_n-\mu)^2}{2\sigma^2}\right)
+\sigma^{-N}(2\pi)^{-N/2}\exp\left(-\sum_{n=1}^N\frac{(x_n-\mu)^2}{2\sigma^2}\right)
 $$
 
 <p>
 Now, Bayes rule says
 $$
-P(\mu,\sigma|x_1,\ldots,x_N)\propto
-P(x_1,\ldots,x_N|\mu,\sigma)\cdot P(\mu,\sigma)
+P(\mu,\sigma|x_1,\ldots,x_N)=
+P(x_1,\ldots,x_N|\mu,\sigma)\cdot P(\mu,\sigma)/Z
 $$
+
+<p>
+Where $Z$ is a constant such that the integral of $P$ is $1$.
+For a given set of data points $x_1,\ldots,x_N$, this is a function of two
+variables $(\mu,\sigma)$ that you can evaluate, plot and study.
+You better get used to these plots, because they are the final output of the
+inference.  There's nothing else to do!
 
 <table><tr><td>
 	<img src="bayes1.png" alt="image"><td>
@@ -276,7 +294,7 @@ $$
 %SCRIPT set term pngcairo font "Junicode,20"
 %SCRIPT set isosample 100,100
 %SCRIPT set samples 200
-%SCRIPT f(m,s)=exp(-(sum [i=1:|a|] (a[i]-m)**2)/(2*s**2))/sqrt(s)**|a|
+%SCRIPT f(m,s)=s**(-|a|)*exp(-(sum [i=1:|a|] (a[i]-m)**2)/(2*s**2))
 %SCRIPT set xrange [-4:10]
 %SCRIPT set yrange [0:8]
 %SCRIPT set xtics 1 font ",14"
@@ -305,6 +323,90 @@ $$
 %SCRIPT X="2,2,2,2,2,2,2,2,11,11,11,11"
 %SCRIPT gnuplot -e "array a[12]=[$X];t='$X'" gmap.g >bayes6.png
 -->
+
+<p>
+TODO: write some comments about the interpretation of each plot above.
+
+<p>
+In rare occasions, you may want to summarize the whole posterior
+distribution $P(\mu,\sigma|\ldots)$ by a single representative
+point $(\mu,\sigma)$.  There are several ways to do that.  For example, you
+can pick the mean value of this distribution, or some sort of median, or the
+position of the maximum.  You can also integrate along one variable, and take
+the maximum of this integral with respect to the other.  This is actually
+done and there are whole books about how to compute these integrals (this is
+called <i>marginalization</i>).  These are all examples
+of---gasp---<i>estimators</i>; that is, functions of the
+form $(x_1,\ldots,x_N)\mapsto(\mu,\sigma)$.  Estimators are sometimes useful,
+if you want a fast summary of the posterior distribution.  However, they
+should never be used as an intermediate product in a chain of inferences.
+You should always keep the whole distribution and update it as new data
+arrives!
+
+<p>
+In many cases, the easiest estimator to compute is the position maximum
+value, also called the <i>mode</i> or the maximum a-posteriori (``MAP'').
+This is because we know that the function $P(\mu,\sigma|\ldots)$ is smooth,
+and the extrema of smooth functions can be found by differentiation.
+
+<p>
+For the example of the Gaussian, we want to find the extrema of this
+function:
+$$
+f(\mu,\sigma)
+=
+\sigma^{-N}\exp\left(-\sigma^{-2}\sum_{n=1}^N\tfrac{1}{2}(x_n-\mu)^2\right)
+$$
+which is trivial to optimize by using the conditions $f_\mu=f_\sigma=0$.
+The explicit computation follows:
+$$
+f_\mu(\mu,\sigma)
+=
+\sigma^{-N}\exp\left(-\sigma^{-2}\sum_{n=1}^N\tfrac{1}{2}(x_n-\mu)^2\right)
+\left[
+	-\sigma^{-2}\sum_{n=1}^N(x_n-\mu)
+\right]
+$$
+then $f_\mu=0$ is equivalent to
+$$
+0 = \sum_{n=1}^N(x_n-\mu)
+$$
+which in turn is equivalent to
+$$
+\mu=\frac{1}{N}\sum_{n=1}^Nx_n.
+$$
+Thus, the MAP estimator in this case coincides with the ``traditional''
+estimator of the mean.  Everything is alright.
+
+<p>
+Now let us see what happens with $\sigma$:
+$$
+f_\sigma(\mu,\sigma)
+=
+-N\sigma^{-N-1}\exp\left(...\right)
++\sigma^{-N}\exp\left(...\right)
+\left[
+	2\sigma^{-3}\sum_{n=1}^N\tfrac{1}{2}(x_i-\mu)^2
+\right]
+$$
+so that $f_\sigma=0$ is equivalent to
+$$
+N\sigma^{-N-1}
+=
+\sigma^{-3-N}\sum_{n=1}^N(x_i-\mu)^2
+$$
+and solving for $\sigma$:
+$$
+\sigma=\sqrt{\frac{1}{N}\sum_{n=1}^N(x_i-\mu)^2}
+$$
+which is the estimator usually called $\bar\sigma_{N}$.  Looking at the
+plots above we see why an estimator for $\sigma$ ought to be larger
+than $\bar\sigma_{N}$: the distribution is heavily skewed in the vertical
+direction: the $\sigma$-position of the maximum is lower than the average
+value.
+
+<p>
+For some reason, the 
 
 
 <hr>

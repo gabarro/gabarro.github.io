@@ -28,9 +28,6 @@ global_substitutions = {
 
 	-- do not remove comments, just escape % to &#37;
 	{"%%", "&#37;"},
-	---- remove comments (FIXME: do not remove comments inside verbatim! )
-	--{"\\%%", "\\&#37;"},
-	--{"%%[^\n]*\n", "\n"},
 
 	-- change \emph{...} to <i>...</i> (and similar inline stuff)
 	{"\\emph{(.-)}", "<i>%1</i>"},
@@ -59,7 +56,6 @@ global_substitutions = {
 	{"\\thispagestyle{(.-)}", ""},
 	{"\\mbox{(.-)}", '<span>%1</span>'},
 	{"\\fbox{(.-)}", '<span style="border:1px solid">%1</span>'},
-
 
 	-- change \sections to <headers>
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
@@ -286,6 +282,7 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 	-- section counters (TODO: add attr name="sec-n" for easier navigation)
 	if u:match("^<h2>.*$") then
 		counter_sec = counter_sec + 1
+		counter_ssec = 0
 		u = u:gsub("^<h2>", "<h2>"..counter_sec..". ")
 	end
 
@@ -337,7 +334,5 @@ table.insert(output_lines, tracker)
 
 -- dump output lines
 for _,l in ipairs(output_lines) do
-	--if not l:match("^\n$") then
-		io.stdout:write(l)
-	--end
+	io.stdout:write(l)
 end

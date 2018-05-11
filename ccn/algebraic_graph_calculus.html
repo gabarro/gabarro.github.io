@@ -241,7 +241,7 @@ $\displaystyle\begin{matrix}
 	E   =  \{ \{1,2\},\{1,3\},\{2,4\},\{3,4\},\{4,5\},\{5,6\},\{4,6\} \}
 \end{matrix}$
 
-<h3>2.5. The adjacency list</h3>
+<h3>2.1. The adjacency list</h3>
 
 <p>
 Given a graph of $n$ vertices and $m$ edges,
@@ -286,7 +286,7 @@ However, it is not very interesting from the algebraic point of view.
 We will see in the following three other matrices that have a very rich
 algebraic interpretation.
 
-<h3>2.6. The adjacency matrix $A$</h3>
+<h3>2.2. The adjacency matrix $A$</h3>
 
 <p>
 Given a graph of $n$ vertices and $m$ edges,
@@ -318,7 +318,7 @@ to compute the adjacency matrix from the list, but many $m!$ different ways
 to get the list from the matrix.  We can chose an arbitrary canonical
 ordering of the edges (for example, in lexicographic order).
 
-<h3>2.7. The Laplacian matrix $L$</h3>
+<h3>2.3. The Laplacian matrix $L$</h3>
 
 <p>
 Let $A$ be the adjacency matrix of a graph $G$.
@@ -351,7 +351,7 @@ L =
 $
 <img src="graph2.png" alt="image">
 
-<h3>2.8. The incidence matrix $B$</h3>
+<h3>2.4. The incidence matrix $B$</h3>
 
 <p>
 Given a graph of $n$ vertices and $m$ edges,
@@ -392,7 +392,7 @@ L = -B^TB
 This identity is the discrete analogue of $\Delta=\mathrm{div\ grad}$,
 as we will explain below.
 
-<h3>2.9. The unsigned incidence matrix $C$</h3>
+<h3>2.5. The unsigned incidence matrix $C$</h3>
 
 <p>
 The incidence matrix $B$ defined above is signed, on each row there are two
@@ -424,7 +424,7 @@ degrees of each vertex.
 Most of the constructions that we have described on the vector calculus
 reminder above have a direct correspondence in the case of graphs.
 
-<h3>3.10. Analogies</h3>
+<h3>3.1. Analogies</h3>
 
 <p>
 The correspondence between vector calculus and graph theory is laid out in
@@ -527,7 +527,7 @@ The $\mathrm{curl}$ operator cannot be defined on general graphs, but it
 can be defined on <i>planar</i> graphs, and it satisfies similar identities.
 
 
-<h3>3.11. The graph Laplacian</h3>
+<h3>3.2. The graph Laplacian</h3>
 
 <p>
 The simplest operator of vector calculus is the Laplacian, transforming
@@ -620,7 +620,7 @@ eigenvector of eigenvalue 0.  If the graph has $k$ connected components, then
 we have null vectors that are constant on each connected component, thus the
 matrix $L$ has rank $n-k$.
 
-<h3>3.12. Graph gradient and graph divergence</h3>
+<h3>3.3. Graph gradient and graph divergence</h3>
 
 <p>
 Recall that scalar fields are functions defined on vertices and vector fields
@@ -699,7 +699,7 @@ Notice that the identity $\Delta=\mathrm{div\ grad}$ is trivial from the
 definitions above, since both sides are exactly $\sum_{(a,b)\in E}u(b)-u(a)$.
 Thus, $L=-B^TB$.
 
-<h3>3.13. Graph curl</h3>
+<h3>3.4. Graph curl</h3>
 
 <p>
 We do not need curls for our application, but let us say some words about
@@ -724,7 +724,7 @@ $\mathrm{curl\ grad}=0$ is then the sum of 6 values that cancel pairwise, and
 so on.  See the beautiful papers of Oliver Knill for a comprehensive coverage
 of this.
 
-<h3>3.14. Graph subsets and their boundaries</h3>
+<h3>3.5. Graph subsets and their boundaries</h3>
 
 <p>
 It is often necessary to deal with subset of graphs (for example, when we
@@ -776,7 +776,7 @@ In matrix notation we have
 incidence matrix of the graph.  We can also write
 $\displaystyle\1_{\partial\Omega}=B\1_\Omega$.
 
-<h3>3.15. Equations on graphs</h3>
+<h3>3.6. Equations on graphs</h3>
 
 <p>
 Now that we have described the differential and boundary operators operator
@@ -864,7 +864,7 @@ Notice that $L^{-1}f$ only makes sense when $f$ is not a constant vector.
 Other combinations are possible, and easy to deduce from the simpler cases:
 Poisson and Heat equation on subsets with various boundary conditions, etc.
 
-<h3>3.16. Riemannian graph geometry</h3>
+<h3>3.7. Riemannian graph geometry</h3>
 
 <p>
 The <b>isotropic</b> case of ``anisotropic'' diffusion in image processing is
@@ -882,7 +882,7 @@ graphs, we have a matrix $\tilde D$, which is also diagonal, but now of
 size $m\times m$.  Then these terms become $\mathrm{div}(D\nabla u)$ in the
 discrete model.  Or, in matrix form, $B^TDBu$.
 
-<h3>3.17. Algebraic graph integral calculus</h3>
+<h3>3.8. Algebraic graph integral calculus</h3>
 
 <p>
 Integral calculus can be generalized readily to graphs.  Integrals are

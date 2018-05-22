@@ -1,0 +1,266 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- Dither watermarking round trip</title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}	.gallery{position:relative;width:auto;height:400px}
+	.gallery .index{padding:0;margin:0;width:9em;list-style:none}
+	.gallery .index li{margin:0;padding:0}
+	.gallery .index a{display:block;background-color:#eee;border:1px solid #fff;text-decoration:none;width:11em;padding:5px}
+	.gallery .index a span{display:block;position:absolute;left:-9999px;top:0;padding-left:2em}
+	.gallery .index li:first-child a span{left:10em;z-index:99}
+	.gallery .index a:hover{ border: 1px solid #888888;}
+	.gallery .index a:hover span{left:10em;z-index:100}
+	.gallery .index a span img{ }
+	.gallery .index a span { white-space:nowrap; }
+
+</style>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			processEscapes: true
+		}
+	});
+</script>
+<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+</script>
+
+
+
+<h1>Dither watermarking round trip</h1>
+
+ <pre>
+ Il me semble  qu'il  faudrait  faire  le  simulateur complet. Une fois qu'il
+ est fait, on l'aurait une fois pour toutes et  on  pourrait l'utiliser pour
+ d'autres projets SURYS.
+
+ Input : une image
+ -générer un message texte aléatoire  de la  longueur prescrite
+ -le coder avec une redondance  suffisante (récupérer un code de codage
+ vectoriel standard?)
+ -l'insérer dans  le dithering de l'image
+ -dans l'ordre:  lui ajouter quelques  anomalies destructives (Axel et
+ Thibaud ont  un simulateur d'anomalies locales style  rayures),  la
+ déformer, la rendre floue et  la  bruiter
+ -détecter la  grille et  décoder
+ On  peut  en discuter quand vous  voulez; le sujet me paraît très
+ intéressant,  en fait  pour nous  entraîner  à la  stéganographie.
+ Amitiés,
+ JM
+ </pre>
+
+<h2>1. Encoding data into binary image</h2>
+
+<p>
+For our encoding/decoding experiments we work with the full text of
+Shakespeare sonnets.  We use it as a periodic, infinite stream of bits, of
+period 96Kb or 771024 bits (starting at sonnet CXXX, one of the most famous).
+Notice that the ASCII encoding of text is very inefficient; in practice we
+would use a compressed stream;  this is just for verification.
+
+<p>
+The carrier image is a black and white photo, that we reduce to a small size
+and binarize by a linear retinex filter and Floyd-Sternberg dithering:
+
+<table><tr><td>
+	<img src="i/feynman.png" alt="image"> <td>
+	<img src="a0.png" alt="image"> <td>
+	<img src="a.png" alt="image"> <td>
+	<img src="a_sonnet.png" alt="image"> <tr><td>
+	<code>feynman.png</code> <td>
+	<code>a0.png</code> <td>
+	<code>a.png</code> <td>
+	<code>a_sonnet.png</code>
+</table>
+
+<pre>
+ppsmooth feynman.png|downsa v 3|plambda 'x,l -1 *'|blur q 0.2|qauto - a0.png
+dither a0.png a.png
+mdither encode a.png a_sonnet.png &lt; sonnets.txt
+</pre>
+
+<p>
+This image has enough space to encode one sonnet and the title of
+the next one.  It can be
+recovered with the program <code>mdither decode</code>:
+
+ <pre>
+mdither decode a_sonnet.png
+</pre> 
+
+ <pre>
+ Sonnet CXXX
+
+ My mistress' eyes are nothing like the sun;
+ Coral is far more red than her lips' red;
+ If snow be white, why then her breasts are dun;
+ If hairs be wires, black wires grow on her head.
+ I have seen roses damask'd, red and white,
+ But no such roses see I in her cheeks;
+ And in some perfumes is there more delight
+ Than in the breath that from my mistress reeks.
+ I love to hear her speak, yet well I know
+ That music hath a far more pleasing sound;
+ I grant I never saw a goddess go;
+ My mistress, when she walks, treads on the ground:
+ And yet, by heaven, I think my love as rare
+ As any she belied with false compare.
+
+ Sonnet CXXXI
+
+</pre> 
+
+<h2>2. Printing and acquisition</h2>
+
+<p>
+Now that we can encode and decode data into binary images, we will see if
+this data is recoverable after printing the image into paper and scanning
+it/taking a photo.  For that, we propose the following algorithm that tries
+to simulates a realistic acquisition process with various distortions.
+
+<h3>2.1. Zoom-in the image and reduce its contrast</h3>
+
+<pre>
+export GETPIXEL=255
+ntiply 4 a_sonnet.png|plambda zero:800x800 - "x y(-90,-70) -50 320 qe" -o ga.png
+</pre>
+<img src="ga.png" alt="image"><code>ga.png</code>
+
+<h3>2.2. Apply an homography</h3>
+
+<pre>
+H="1 0 100  0 1 100  0.0002 -0.0001 1"
+homwarp -o 3 -i "$H" 1000 1000 ga.png hga.png
+</pre>
+<img src="hga.png" alt="image"><code>hga.png</code>
+
+<h3>2.3. Apply a small non-rigid deformation</h3>
+
+<pre>
+sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - hga.png dhga.png
+</pre>
+<img src="dhga.png" alt="image"><code>dhga.png</code>
+
+<h3>2.4. Add a textured background</h3>
+
+<pre>
+plambda dhga.png randg | blur q 0.5 | qauto -p 0 - bg.png
+plambda dhga.png "0 &gt;" | morsi cross closing - mask.png
+plambda mask.png dhga.png bg.png if -o mdhga.png
+</pre>
+<img src="mdhga.png" alt="image"><code>mdhga.png</code>
+
+<h3>2.5. Add blur and noise</h3>
+
+<pre>
+blur gauss 2 mdhga.png | plambda - "randg 5 * +" -o dirty.png
+</pre>
+<img src="dirty.png" alt="image"><code>dirty.png</code>
+
+<h3>2.6. Optionally: add some holes</h3>
+
+<pre>
+plambda bg.png 'randp 1.2 ^'                    |\
+        blur q 0.25                             |\
+        plambda - mask.png "y x x%O92 &lt; and"    |\
+        plambda - dhga.png bg.png if            |\
+        blur g 2                                |\
+        plambda - "randg 5 * +" -o dirtier.png
+</pre>
+<img src="dirtier.png" alt="image"><code>dirtier.png</code>
+
+<h2>3. Recovery of the dithered image</h2>
+
+<p>
+Recovery of the image data consists in inverting all the steps of the
+simulation algorithm.  This is easier said than done.  To simplify the
+problem, we start with the easy case of no deformation (so that an homography
+is able to recover the exact position of the grid) and no holes (so that
+there is no missing data).
+
+<p>
+In this ideal case, we need to start with this image (without deformation nor
+holes):
+<img src="easy.png" alt="image"><code>easy.png</code>
+<pre>
+plambda hga.png "0 &gt;"                          |\
+        morsi cross closing                    |\
+        plambda - hga.png bg.png if            |\
+        blur gauss 2                           |\
+        plambda - "randg 5 * +" -o easy.png
+</pre>
+
+<p>
+which, given the correct  homography, can only be recovered as good as this:
+<img src="recov.png" alt="image"><code>recov.png</code>
+<pre>
+homwarp -o 3 "$H" 800 800 easy.png recov.png
+</pre>
+can you find a grid of size 157x163 in here?  Since we now the exact sizes,
+let us see how well can we recover the bits in this case (a retinex of the
+zoomed-image helps to discriminate binary pixels):
+
+<pre>
+plambda zero:628x652 recov.png "x y(90,70)"|downsa v 4|ntiply 4|qauto - rec2.png
+ntiply 4 a_sonnet.png ga_sonnet.png
+unset GETPIXEL
+plambda rec2.png 'x,l -1 *'|blur -z z 0.3|plambda - '0 &gt; 255 *' -o ret-rec2.png
+downsa e 4 ret-rec2.png | plambda '0 &gt; 255 *' |\
+        plambda - a_sonnet.png "= 255 *"|ntiply 4 - sonnet-dif.png
+</pre>
+<div class="gallery" style="min-height:652px;height:8em"><ul class="index">
+
+	<li><a href="rec2.png">rec2.png<span><img src="rec2.png" alt=""></span></a>
+
+	<li><a href="ga_sonnet.png">ga_sonnet.png<span><img src="ga_sonnet.png" alt=""></span></a>
+
+	<li><a href="ret-rec2.png">ret-rec2.png<span><img src="ret-rec2.png" alt=""></span></a>
+
+	<li><a href="sonnet-dif.png">sonnet-dif.png<span><img src="sonnet-dif.png" alt=""></span></a>
+
+</ul></div>
+
+<p>
+As long as a sizeable percentage of the bits coincide, which seems to be the
+case, we can recover the
+encoded information.
+
+<p>
+<b>Note:</b> The experiment shown above maybe uses an exaggerated value for
+the "blur" parameter.  If we set this parameter, and the noise, to zero we
+recover exactly the original image.  A realistic value for this parameter can
+be only estimated by performing real experiments with printers and cameras;
+however, thanks to this simulator, we understand the effect of varying this
+parameter on the quality of the watermarking.
+
+<h2>4. Decoding of the data</h2>
+
+<p>
+The information inside the holes is lost.  Thus, the coding of the data must
+satisfy to properties:
+
+<ol>
+	<li>it is redundant, so that the whole information can be recovered
+		from only a part (as long as the part is large enough)
+	<li>it is self-synchronizing, so that we can decode it even if we
+		do not know where it begins
+</ol>
+
+<p>
+The second property is very important because the beginning of the image may
+be missing.  The standard theory of error-correcting codes solves these two
+problems very well, so that our only task is to be able to recover as many
+bits as possible from the image, and feed these bits to a standard
+error-correcting algorithm.
+
+
+<hr>
+
+
+<!-- yes i know, wanna fight about it ? -->
+<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Dither_watermarking_round_trip" width="1" height="1" alt="">
+

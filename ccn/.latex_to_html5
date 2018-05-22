@@ -107,9 +107,10 @@ global_substitutions = {
 	-- surround \newcommands by math so that mathjax sees it
 	{"\n(\\newcommand[^\n]+)", "$%1$\n"},
 
-	-- hack to remove "i/" from displayed image filenames
+	-- hack to remove "i/" from displayed image and text filenames
 	{'([^"])i/([%a.-]-%.png)', "%1%2"},
 	{'([^"])i/([%a.-]-%.jpg)', "%1%2"},
+	{'([^"])i/([%a.-]-%.txt)', "%1%2"},
 }
 
 -- add theorem-like environments to the list of substitutions

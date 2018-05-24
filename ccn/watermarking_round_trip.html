@@ -70,17 +70,17 @@ and binarize by a linear retinex filter and Floyd-Sternberg dithering:
 	<img src="i/feynman.png" alt="image"> <td>
 	<img src="a0.png" alt="image"> <td>
 	<img src="a.png" alt="image"> <td>
-	<img src="a_sonnet.png" alt="image"> <tr><td>
+	<img src="a-sonnet.png" alt="image"> <tr><td>
 	<code>feynman.png</code> <td>
 	<code>a0.png</code> <td>
 	<code>a.png</code> <td>
-	<code>a_sonnet.png</code>
+	<code>a-sonnet.png</code>
 </table>
 
 <pre>
 ppsmooth feynman.png|downsa v 3|plambda 'x,l -1 *'|blur q 0.2|qauto - a0.png
 dither a0.png a.png
-mdither encode a.png a_sonnet.png &lt; sonnets.txt
+mdither encode a.png a-sonnet.png &lt; sonnets.txt
 </pre>
 
 <p>
@@ -89,7 +89,7 @@ the next one.  It can be
 recovered with the program <code>mdither decode</code>:
 
  <pre>
-mdither decode a_sonnet.png
+mdither decode a-sonnet.png
 </pre> 
 
  <pre>
@@ -126,38 +126,48 @@ to simulates a realistic acquisition process with various distortions.
 
 <pre>
 export GETPIXEL=255
-ntiply 4 a_sonnet.png|plambda zero:800x800 - "x y(-90,-70) -50 320 qe" -o ga.png
+ntiply 4 a-sonnet.png|plambda zero:800x800 - "x y(-90,-70) -50 320 qe" -o a2.png
+plambda a2.png randu | blur l 170 | qauto - biases.png
+plambda a2.png biases.png "x .6 * y .4 * +" -o a3.png
 </pre>
-<img src="ga.png" alt="image"><code>ga.png</code>
+<div class="gallery" style="min-height:800px;height:6em"><ul class="index">
+
+	<li><a href="a3.png">a3.png<span><img src="a3.png" alt=""></span></a>
+
+	<li><a href="a2.png">a2.png<span><img src="a2.png" alt=""></span></a>
+
+	<li><a href="biases.png">biases.png<span><img src="biases.png" alt=""></span></a>
+
+</ul></div>
 
 <h3>2.2. Apply an homography</h3>
 
 <pre>
 H="1 0 100  0 1 100  0.0002 -0.0001 1"
-homwarp -o 3 -i "$H" 1000 1000 ga.png hga.png
+homwarp -o 3 -i "$H" 1000 1000 a3.png a4.png
 </pre>
-<img src="hga.png" alt="image"><code>hga.png</code>
+<img src="a4.png" alt="image"><code>a4.png</code>
 
 <h3>2.3. Apply a small non-rigid deformation</h3>
 
 <pre>
-sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - hga.png dhga.png
+sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - a4.png a5.png
 </pre>
-<img src="dhga.png" alt="image"><code>dhga.png</code>
+<img src="a5.png" alt="image"><code>a5.png</code>
 
 <h3>2.4. Add a textured background</h3>
 
 <pre>
-plambda dhga.png randg | blur q 0.5 | qauto -p 0 - bg.png
-plambda dhga.png "0 &gt;" | morsi cross closing - mask.png
-plambda mask.png dhga.png bg.png if -o mdhga.png
+plambda a5.png randg | blur q 0.5 | qauto -p 0 - bg.png
+plambda a5.png "0 &gt;" | morsi cross closing - mask.png
+plambda mask.png a5.png bg.png if -o a6.png
 </pre>
-<img src="mdhga.png" alt="image"><code>mdhga.png</code>
+<img src="a6.png" alt="image"><code>a6.png</code>
 
 <h3>2.5. Add blur and noise</h3>
 
 <pre>
-blur gauss 2 mdhga.png | plambda - "randg 5 * +" -o dirty.png
+blur gauss 1.5 a6.png | plambda - "randg 5 * +" -o dirty.png
 </pre>
 <img src="dirty.png" alt="image"><code>dirty.png</code>
 
@@ -167,8 +177,8 @@ blur gauss 2 mdhga.png | plambda - "randg 5 * +" -o dirty.png
 plambda bg.png 'randp 1.2 ^'                    |\
         blur q 0.25                             |\
         plambda - mask.png "y x x%O92 &lt; and"    |\
-        plambda - dhga.png bg.png if            |\
-        blur g 2                                |\
+        plambda - a6.png bg.png if            |\
+        blur g 1.5                              |\
         plambda - "randg 5 * +" -o dirtier.png
 </pre>
 <img src="dirtier.png" alt="image"><code>dirtier.png</code>
@@ -187,10 +197,10 @@ In this ideal case, we need to start with this image (without deformation nor
 holes):
 <img src="easy.png" alt="image"><code>easy.png</code>
 <pre>
-plambda hga.png "0 &gt;"                          |\
+plambda a4.png "0 &gt;"                           |\
         morsi cross closing                    |\
-        plambda - hga.png bg.png if            |\
-        blur gauss 2                           |\
+        plambda - a4.png bg.png if             |\
+        blur gauss 1.5                         |\
         plambda - "randg 5 * +" -o easy.png
 </pre>
 
@@ -204,23 +214,26 @@ can you find a grid of size 157x163 in here?  Since we now the exact sizes,
 let us see how well can we recover the bits in this case (a retinex of the
 zoomed-image helps to discriminate binary pixels):
 
+
 <pre>
-plambda zero:628x652 recov.png "x y(90,70)"|downsa v 4|ntiply 4|qauto - rec2.png
-ntiply 4 a_sonnet.png ga_sonnet.png
+plambda zero:628x652 recov.png "x y(90,70)" -o clip.png
+ntiply 4 a-sonnet.png ga-sonnet.png
 unset GETPIXEL
-plambda rec2.png 'x,l -1 *'|blur -z z 0.3|plambda - '0 &gt; 255 *' -o ret-rec2.png
-downsa e 4 ret-rec2.png | plambda '0 &gt; 255 *' |\
-        plambda - a_sonnet.png "= 255 *"|ntiply 4 - sonnet-dif.png
+plambda clip.png 'x,l -1 *'|blur -z q 0.3|plambda - '0 &gt; 255 *' -o ret-clip.png
+downsa e 4 ret-clip.png | plambda '0 &gt; 255 *' | ntiply 4 - dec-clip.png
+plambda dec-clip.png ga-sonnet.png "= 255 *" -o clip-dif.png
 </pre>
-<div class="gallery" style="min-height:652px;height:8em"><ul class="index">
+<div class="gallery" style="min-height:652px;height:10em"><ul class="index">
 
-	<li><a href="rec2.png">rec2.png<span><img src="rec2.png" alt=""></span></a>
+	<li><a href="clip.png">clip.png<span><img src="clip.png" alt=""></span></a>
 
-	<li><a href="ga_sonnet.png">ga_sonnet.png<span><img src="ga_sonnet.png" alt=""></span></a>
+	<li><a href="ret-clip.png">ret-clip.png<span><img src="ret-clip.png" alt=""></span></a>
 
-	<li><a href="ret-rec2.png">ret-rec2.png<span><img src="ret-rec2.png" alt=""></span></a>
+	<li><a href="dec-clip.png">dec-clip.png<span><img src="dec-clip.png" alt=""></span></a>
 
-	<li><a href="sonnet-dif.png">sonnet-dif.png<span><img src="sonnet-dif.png" alt=""></span></a>
+	<li><a href="ga-sonnet.png">ga-sonnet.png<span><img src="ga-sonnet.png" alt=""></span></a>
+
+	<li><a href="clip-dif.png">clip-dif.png<span><img src="clip-dif.png" alt=""></span></a>
 
 </ul></div>
 

@@ -36,18 +36,18 @@ and binarize by a linear retinex filter and Floyd-Sternberg dithering:
 	\includegraphics{i/feynman.png} &
 	\includegraphics{a0.png} &
 	\includegraphics{a.png} &
-	\includegraphics{a_sonnet.png} \\
+	\includegraphics{a-sonnet.png} \\
 	\verb+feynman.png+ &
 	\verb+a0.png+ &
 	\verb+a.png+ &
-	\verb+a_sonnet.png+
+	\verb+a-sonnet.png+
 \end{tabular}
 
 %RUN_VERBATIMS sh
 \begin{verbatim}
 ppsmooth i/feynman.png|downsa v 3|plambda 'x,l -1 *'|blur q 0.2|qauto - a0.png
 dither a0.png a.png
-mdither encode a.png a_sonnet.png < i/sonnets.txt
+mdither encode a.png a-sonnet.png < i/sonnets.txt
 \end{verbatim}
 
 This image has enough space to encode one sonnet and the title of
@@ -55,7 +55,7 @@ the next one.  It can be
 recovered with the program \verb+mdither decode+:
 
  \begin{verbatim}
-mdither decode a_sonnet.png
+mdither decode a-sonnet.png
 \end{verbatim} %
 
  \begin{verbatim}
@@ -92,34 +92,41 @@ to simulates a realistic acquisition process with various distortions.
 
 \begin{verbatim}
 export GETPIXEL=255
-ntiply 4 a_sonnet.png|plambda zero:800x800 - "x y(-90,-70) -50 320 qe" -o ga.png
+ntiply 4 a-sonnet.png|plambda zero:800x800 - "x y(-90,-70) -50 320 qe" -o a2.png
+plambda a2.png randu | blur l 170 | qauto - biases.png
+plambda a2.png biases.png "x .6 * y .4 * +" -o a3.png
 \end{verbatim}
-\includegraphics{ga.png}\verb+ga.png+
+\begin{gallery}
+	\galleryline{a3.png}
+	\galleryline{a2.png}
+	\galleryline{biases.png}
+\end{gallery}
+%\includegraphics{a3.png}\verb+a3.png+
 
 \subsection{Apply an homography}
 \begin{verbatim}
 H="1 0 100  0 1 100  0.0002 -0.0001 1"
-homwarp -o 3 -i "$H" 1000 1000 ga.png hga.png
+homwarp -o 3 -i "$H" 1000 1000 a3.png a4.png
 \end{verbatim}
-\includegraphics{hga.png}\verb+hga.png+
+\includegraphics{a4.png}\verb+a4.png+
 
 \subsection{Apply a small non-rigid deformation}
 \begin{verbatim}
-sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - hga.png dhga.png
+sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - a4.png a5.png
 \end{verbatim}
-\includegraphics{dhga.png}\verb+dhga.png+
+\includegraphics{a5.png}\verb+a5.png+
 
 \subsection{Add a textured background}
 \begin{verbatim}
-plambda dhga.png randg | blur q 0.5 | qauto -p 0 - bg.png
-plambda dhga.png "0 >" | morsi cross closing - mask.png
-plambda mask.png dhga.png bg.png if -o mdhga.png
+plambda a5.png randg | blur q 0.5 | qauto -p 0 - bg.png
+plambda a5.png "0 >" | morsi cross closing - mask.png
+plambda mask.png a5.png bg.png if -o a6.png
 \end{verbatim}
-\includegraphics{mdhga.png}\verb+mdhga.png+
+\includegraphics{a6.png}\verb+a6.png+
 
 \subsection{Add blur and noise}
 \begin{verbatim}
-blur gauss 2 mdhga.png | plambda - "randg 5 * +" -o dirty.png
+blur gauss 1.5 a6.png | plambda - "randg 5 * +" -o dirty.png
 \end{verbatim}
 \includegraphics{dirty.png}\verb+dirty.png+
 
@@ -128,8 +135,8 @@ blur gauss 2 mdhga.png | plambda - "randg 5 * +" -o dirty.png
 plambda bg.png 'randp 1.2 ^'                    |\
         blur q 0.25                             |\
         plambda - mask.png "y x x%O92 < and"    |\
-        plambda - dhga.png bg.png if            |\
-        blur g 2                                |\
+        plambda - a6.png bg.png if            |\
+        blur g 1.5                              |\
         plambda - "randg 5 * +" -o dirtier.png
 \end{verbatim}
 \includegraphics{dirtier.png}\verb+dirtier.png+
@@ -146,10 +153,10 @@ In this ideal case, we need to start with this image (without deformation nor
 holes):
 \includegraphics{easy.png}\verb+easy.png+
 \begin{verbatim}
-plambda hga.png "0 >"                          |\
+plambda a4.png "0 >"                           |\
         morsi cross closing                    |\
-        plambda - hga.png bg.png if            |\
-        blur gauss 2                           |\
+        plambda - a4.png bg.png if             |\
+        blur gauss 1.5                         |\
         plambda - "randg 5 * +" -o easy.png
 \end{verbatim}
 
@@ -162,19 +169,24 @@ can you find a grid of size 157x163 in here?  Since we now the exact sizes,
 let us see how well can we recover the bits in this case (a retinex of the
 zoomed-image helps to discriminate binary pixels):
 
+
+%cat clip.png | downsa v 4 | ntiply 4 | qauto -p 0 - rec2.png
+%plambda rec2.png 'x,l -1 *'|blur -z z 0.3|plambda - '0 > 255 *' -o ret-rec2.png
+
 \begin{verbatim}
-plambda zero:628x652 recov.png "x y(90,70)"|downsa v 4|ntiply 4|qauto - rec2.png
-ntiply 4 a_sonnet.png ga_sonnet.png
+plambda zero:628x652 recov.png "x y(90,70)" -o clip.png
+ntiply 4 a-sonnet.png ga-sonnet.png
 unset GETPIXEL
-plambda rec2.png 'x,l -1 *'|blur -z z 0.3|plambda - '0 > 255 *' -o ret-rec2.png
-downsa e 4 ret-rec2.png | plambda '0 > 255 *' |\
-        plambda - a_sonnet.png "= 255 *"|ntiply 4 - sonnet-dif.png
+plambda clip.png 'x,l -1 *'|blur -z q 0.3|plambda - '0 > 255 *' -o ret-clip.png
+downsa e 4 ret-clip.png | plambda '0 > 255 *' | ntiply 4 - dec-clip.png
+plambda dec-clip.png ga-sonnet.png "= 255 *" -o clip-dif.png
 \end{verbatim}
 \begin{gallery}
-	\galleryline{rec2.png}
-	\galleryline{ga_sonnet.png}
-	\galleryline{ret-rec2.png}
-	\galleryline{sonnet-dif.png}
+	\galleryline{clip.png}
+	\galleryline{ret-clip.png}
+	\galleryline{dec-clip.png}
+	\galleryline{ga-sonnet.png}
+	\galleryline{clip-dif.png}
 \end{gallery}
 
 As long as a sizeable percentage of the bits coincide, which seems to be the

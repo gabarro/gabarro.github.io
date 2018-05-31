@@ -330,12 +330,10 @@ adjacency matrix of a product graph is the Kronecker sum of their matrices.
 You can also build the incidence matrix directly, by a similar process
 
 <pre>
-function B = grid_incidence(w, h)
-	x = sparse(1:w-1, 2:w, 1, w, w) - speye(w);  # path of length W
-	y = sparse(1:h-1, 2:h, 1, h, h) - speye(h);  # path of length H
-	P = kron(speye(h), x);                       # H horizontal W-paths
-	Q = kron(y, speye(w));                       # W horizontal H-paths
-	B = [ P ; Q ]                                # union of all paths
+function B = grid_incidence(w, h)                     # grid graph WxH
+	x = sparse(1:w-1, 2:w, 1, w, w) - speye(w);   # path of length W
+	y = sparse(1:h-1, 2:h, 1, h, h) - speye(h);   # path of length H
+	B = [ kron(speye(h),x) ; kron(y,speye(w)) ];  # kronecker union
 end
 </pre>
 

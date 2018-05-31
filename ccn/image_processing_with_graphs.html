@@ -314,17 +314,30 @@ vertices and $m=(w-1)h+(h-1)w$ edges.  The matrix $A$ of such a graph is
 build by the following octave code
 
 <pre>
-function A = grid_graph(w, h)                       # build a grid graph WxH
-        px = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length W
-        py = sparse(1:h-1, 2:h, 1, h, h);           # path graph of length H
-        U = kron(py,speye(w)) + kron(speye(h),px);  # kronecker sum
-        A = U + U';                                 # symmetrization
+function A = grid_adjacency(w, h)                  # build a grid graph WxH
+        x = sparse(1:w-1, 2:w, 1, w, w);           # path graph of length W
+        y = sparse(1:h-1, 2:h, 1, h, h);           # path graph of length H
+        U = kron(y,speye(w)) + kron(speye(h),x);   # kronecker sum
+        A = U + U';                                # symmetrization
 end
 </pre>
 
 <p>
 This works because the grid graph is the product graph of two paths, and the
 adjacency matrix of a product graph is the Kronecker sum of their matrices.
+
+<p>
+You can also build the incidence matrix directly, by a similar process
+
+<pre>
+function B = grid_incidence(w, h)
+	x = sparse(1:w-1, 2:w, 1, w, w) - speye(w);  # path of length W
+	y = sparse(1:h-1, 2:h, 1, h, h) - speye(h);  # path of length H
+	P = kron(speye(h), x);                       # H horizontal W-paths
+	Q = kron(y, speye(w));                       # W horizontal H-paths
+	B = [ P ; Q ]                                # union of all paths
+end
+</pre>
 
 <p>
 The graph defines just the <i>domain</i> of an image.  We still need the
@@ -341,10 +354,10 @@ code thus reads an image, applies the laplacian operator, and saves the
 result.
 
 <pre>
-x = imread("i/beckett.png");        # load input image
+x = imread("i/beckett.png");      # load input image
 [w, h] = size(x);                 # extract dimensions
 x = double(x(:));                 # flatten image data into a vector
-A = grid_graph(w,h);              # build graph adjacency matrix
+A = grid_adjacency(w,h);          # build graph adjacency matrix
 L = A - diag(sum(A));             # Laplacian matrix
 y = L * x;                        # Laplacian of the original image
 z = uint8(reshape(127-2*y,w,h));  # contrast change and reshape
@@ -473,7 +486,7 @@ x = imread("i/beckett.png");                             # load image
 [w,h] = size(x);                                         # extract dimensions
 m = double(x(:) &gt; 66);                                   # flatten and binarize
 
-E = grid_graph(w,h) + speye(w*h);                        # structuring element
+E = grid_adjacency(w,h) + speye(w*h);                    # structuring element
 y = E^6 * m;                                             # apply 6 times
 y1 = y &gt; 0;                                              # extract dilation
 y2 = !(y &lt; max(y));                                      # extract erosion
@@ -558,7 +571,7 @@ The following code tests all these operations:
 x = imread("i/beckett.png");
 [w,h] = size(x);
 x = double(x(:));
-A = grid_graph(w,h);
+A = grid_adjacency(w,h);
 E = A + speye(w*h);            # structuring element
 
 imwrite(uint8(reshape( dilation(E,x)         ,w,h)), "beckett-dil.png");

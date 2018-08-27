@@ -1,8 +1,5 @@
 \title{Fourier from the ground up}
 
-
-\section{The algebra of trigonometric polynomials}
-
 \newcommand{\Z}{\mathbf{Z}}
 \newcommand{\Q}{\mathbf{Q}}
 \newcommand{\R}{\mathbf{R}}
@@ -13,6 +10,63 @@
 \newcommand{\ds}{\displaystyle}
 \newcommand{\DFT}{\mathtt{DFT}}
 \newcommand{\IDFT}{\mathtt{IDFT}}
+
+
+
+\clearpage
+\section{Prerequisites}
+
+We assume basic knowledge of real and complex numbers, calculus, and algebra.
+None of the following formulas should be any surprise to you:
+
+$$e^{a + bi}=e^a\left(\cos b+i\sin b\right)$$
+
+%$$f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}h$$
+
+$$ f(x)=
+\sum_{n\ge0}\frac{1}{n!}f^{(n)}(0)x^n$$
+%f(0) + f'(0)x + \frac{1}{2} f''(0)x^2 + \cdots +
+%\frac{1}{n!}f^{(n)}(0)x^n+\cdots $$
+
+$$ \int_a^b f'(x)\ud x = f(b) - f(a) $$
+
+$$ \frac{\ud}{\ud x}\int_a^x f(t)\ud t = f(x) $$
+
+\vfill
+
+We denote by~$\T$ the quotient of the additive group~$\R$ by the
+subgroup~$2\pi\Z$.  Thus, functions~$f:\R\to\C$ that are~$2\pi$-periodic can
+be understood as functions~$f:\T\to\C$, and their integral over one period is
+denoted indistinctly as
+$$
+\int_\T f
+\quad = \quad
+\int_\T f(\theta)\,\ud\theta
+\quad = \quad
+\int_0^{2\pi} f(\theta)\,\ud\theta
+\quad = \quad
+\int_{-\pi}^{\pi} f(\theta)\,\ud\theta
+$$
+
+Notice that the elements of~$\T$ can bijectively identified by numbers
+in~$[0,2\pi)$, but the topological spaces~$\T$ and~$[0,2\pi)$ are different.
+For example, the function~$\cos\frac\theta2$ is continuous on~$[0,2\pi)$
+but discontinuous on~$\T$, while the function~$\sin\frac\theta2$ is
+continuous on both spaces, bot only differentiable on~$[0,2\pi)$.
+
+\includegraphics{fsincos1.png}
+%SCRIPT cat <<END | gnuplot > fsincos1.png
+%SCRIPT set term pngcairo crop size 720,300
+%SCRIPT set samples 1000
+%SCRIPT set xtics 1
+%SCRIPT fmod(x,y)=x-y*floor(x/y)
+%SCRIPT plot [-3:9] [-2:3] cos(fmod(x,2*pi)/2),sin(fmod(x,2*pi)/2)
+%SCRIPT END
+
+\vfill
+
+\clearpage
+\section{The algebra of trigonometric polynomials}
 
 
 \begin{definition}
@@ -229,8 +283,11 @@ circle traversed~$n$ times, clockwise for~$n<0$, anticlockwise for~$n>0$.
 			$\ds\mathcal{D}_N(0)=2N+1$
 		\item
 			Zero values:
-			$\ds\mathcal{D}_N\left(\frac{2\pi k}{2N+1}\right)=0
-			\qquad k=\pm 1,\ldots,\pm N$
+			$\ds\mathcal{D}_N\left(\theta\right)=0
+			\iff
+			\theta=\frac{2\pi k}{2N+1},
+			\quad
+			k=\pm 1,\ldots,\pm N$
 		\item
 			The limit as~$N\to\infty$ is zero almost everyhere:
 			$\ds 0<|\theta|\le\pi\ \implies\

@@ -61,6 +61,7 @@ global_substitutions = {
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
 	{"\\section{(.-)}", "<h2>%1</h2>\n"},
 	{"\\subsection{(.-)}", "<h3>%1</h3>\n"},
+	{"\\paragraph{(.-)}", "<p>\n<b>%1</b>"},
 
 	-- list environments (TODO: support for \item[] )
 	{"\\item ", "<li>" },

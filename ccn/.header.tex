@@ -21,7 +21,11 @@
 \makeatletter\renewcommand{\verbatim@font}{\ttfamily\footnotesize}\makeatother
 \newenvironment{gallery}{}{}
 \newcommand{\galleryline}[1]{\includegraphics{#1}{\footnotesize\tt #1}\newline}
-\newtheorem{theorem}{Theorem}
+\theoremstyle{note}
+\newtheorem{exercice}{Exercice}
+\swapnumbers
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{definition}[theorem]{Definition}

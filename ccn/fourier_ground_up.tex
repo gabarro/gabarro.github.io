@@ -7,6 +7,7 @@
 \newcommand{\Q}{\mathbf{Q}}
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\C}{\mathbf{C}}
+\newcommand{\T}{\mathbf{T}}
 \newcommand{\PP}{\mathcal{P}}
 \newcommand{\ud}{\mathrm{d}}
 \newcommand{\ds}{\displaystyle}
@@ -17,24 +18,27 @@
 \begin{definition}
 A~\emph{trigonometric polynomial} is an expression of the form
 $$
-	f(\theta)=\sum_{n\in\Z} f_n e^{in\theta}
+	f(\theta)=\sum_{n\in\Z} F_n e^{in\theta}
 $$
-where all the coefficients~$f_n\in\C$ are zero except, maybe, a finite
+where all the coefficients~$F_n\in\C$ are zero except, maybe, a finite
 number of them.  The set of all trigonometric polynomials is denoted
 by~$\PP$.
 \end{definition}
 
 There are two ways to interpret a trigonometric polynomial: as a
-function~$\Z\to\C$ defined by~$n\mapsto f_n$, or as a function~$\R\to\C$
+function~$\Z\to\C$ defined by~$n\mapsto F_n$, or as a function~$\R\to\C$
 defined by~$\theta\mapsto f(\theta)$.
 Most of Fourier analysis deals with
 the duality between these two interpretations.
+There is a third interpretation, as finite Laurent series~$f(z)$ evaluated on
+the unit circle~$z=e^{i\theta}$, but it is of minor interest for the present
+course.
 
 Let us introduce some {\bf common language}.
 A trigonometric polynomial is usually called a~\emph{signal}.  The
-indices~$n$ are called the~\emph{frequencies} and the coefficient~$f_n$
+indices~$n$ are called the~\emph{frequencies} and the coefficient~$F_n$
 is called the~\emph{amplitude of~$f$~at the frequency~$n$}.  The
-mapping~$n\mapsto\left|f_n\right|^2$ is called the~\emph{power
+mapping~$n\mapsto\left|F_n\right|^2$ is called the~\emph{power
 spectrum} of the signal~$f$.  Building the signal from its amplitudes
 is called is called~\emph{synthesis}, and extracting the amplitudes
 from a signal is called~\emph{analysis}.
@@ -43,7 +47,7 @@ The monomial~$e^{in\theta}$ is called a~\emph{pure wave of frequency~$n$}.
 Thus, synthesis consists in creating a signal as a linear combination of pure
 waves, and analysis consists in recovering the coefficients of this linear
 combination.  Using this language, we say that harmonic analysis consists in
-studying the duality between signals~$f(\theta)$ and their spectra~$f_n$; how
+studying the duality between signals~$f(\theta)$ and their spectra~$F_n$; how
 do the operations on signals correspond to operations on their spectra, and
 vice-versa.
 
@@ -57,17 +61,18 @@ vice-versa.
 %monomials~$e^{in\theta}$ is an orthonormal basis of~$\PP$.
 %This vector space is neither finite-dimensional nor complete with this norm.
 
-\begin{proposition}
+
+\begin{proposition}\label{prp:elementary}
 (Elementary properties)
 The following properties hold:
 \begin{enumerate}
 	\item If~$f\in\PP$ then~$f(\theta)$ is a
 		function~$\R\to\C$ which is~$2\pi$-periodic
 		and~$\mathcal{C}^\infty$.
-	\item If~$f\in\PP$ then~$f_n$ is a function~$\Z\to\C$ of finite
+	\item If~$f\in\PP$ then~$F_n$ is a function~$\Z\to\C$ of finite
 		support.
 	\item The set~$\PP$ is a vector space over~$\C$.
-	\item If~$h=\lambda f+\mu g$ then~$h_n=\lambda f_n+\mu g_n$.
+	\item If~$h=\lambda f+\mu g$ then~$H_n=\lambda F_n+\mu G_n$.
 	\item The set~$\PP$ is an algebra (thus, closed by
 		pointwise product~$f(\theta)g(\theta)$)
 \end{enumerate}
@@ -89,6 +94,49 @@ is algebraically trivial, it may be non-intuitive when using the language of
 signal processing: when computing the sum of two signals, their amplitudes at
 each frequency add up separately. \emph{There can be no destructive
 interference between different frequencies.}
+
+\begin{proposition}(Symmetry properties)
+\begin{enumerate}
+	\item $f$ even $\iff$ $F$ even
+	\item $f$ real $\iff$ $F$ hermitian
+	\item $f$ real and even $\iff$ $F$ real and even
+	\item $f$ real and odd $\iff$ $F$ pure imaginary and odd
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}(Examples of trigonometric polynomials)
+	Here we show several examples of trigonometric polynomials.  They are
+	all very important and will be used later.  For each case we specify
+	the values of their non-zero amplitudes.
+\begin{enumerate}
+	\item The pure waves: $e_n(\theta)=e^{in\theta}$
+		$\qquad F_n=1$
+	\item The pure waves with a phase offset:
+		$e_{n,\psi}(\theta)=e^{in(\theta+\psi)}$
+		$\qquad F_n=e^{in\psi}$
+	\item The cosine waves:
+		$\cos(n\theta)=\displaystyle\frac{e^{in\theta}+e^{in\theta}}{2}$
+		$\qquad F_n=F_{-n}=\frac{1}{2}$
+	\item The sine waves:
+		$\sin(n\theta)=\displaystyle\frac{e^{in\theta}-e^{in\theta}}{2i}$
+		$\qquad F_n=-F_{-n}=\frac{1}{2i}$
+	\item The Dirichlet kernel:
+		$\mathcal{D}_N(\theta)=\displaystyle\sum_{n=-N}^Ne^{in\theta}$
+		$\qquad F_n=1\ ,\ |n|\le N$
+	\item The Fejér kernel:
+		$\mathcal{K}_N(\theta)
+		=\displaystyle\frac{1}{N}\sum_{n=0}^{N-1}\mathcal{D}_n(\theta)
+		$%=\sum_{n=-N}^N\frac{N-|n|}{N}e^{in\theta}$
+		$\qquad F_n=\frac{N-|n|}{N}\ ,\ |n|\le N$
+	\item The Gibbs kernel:
+		$\mathcal{G}_N(\theta)
+		=\displaystyle\sum_{n=1}^{N}\frac{\sin n\theta}{n}$
+	\item The odd sampling kernel:
+		$\mathcal{Z}_{2N+1}(\theta)=\frac{1}{2N+1}\mathcal{D}_N(\theta)$
+	\item The even sampling kernel:
+		$\mathcal{Z}_{2N}(\theta)=\frac{\mathcal{D}_N(\theta)+\cos\frac{N\theta}{2}}{2N}$
+\end{enumerate}
+\end{definition}
 
 
 When interpreting a trigonometric polynomial as a~$2\pi$-periodic
@@ -164,6 +212,79 @@ circle traversed~$n$ times, clockwise for~$n<0$, anticlockwise for~$n>0$.
 %SCRIPT wait
 
 
+\begin{exercice}
+	Prove the following properties of the Dirichlet kernel~$\mathcal{D}_N$:
+	\begin{enumerate}
+		%\item $\ds\mathcal{D}_N(\theta)$
+		\item
+			It is a real-valued, even function:
+			$\ds\mathcal{D}_N(\theta)=1+2\sum_{n=1}^{N}\cos n\theta$
+		\item
+			It is a periodic generalization of the sinc function:
+			$\ds\mathcal{D}_N(\theta)=\frac{\sin\left(N+\frac{1}{2}\right)\theta}{\sin\frac\theta2}$
+		\item
+			$\ds\mathcal{D}_N(\theta)=\sin N\theta\cot\frac\theta2+\cos N\theta$
+		\item
+			Value at zero:
+			$\ds\mathcal{D}_N(0)=2N+1$
+		\item
+			Zero values:
+			$\ds\mathcal{D}_N\left(\frac{2\pi k}{2N+1}\right)=0
+			\qquad k=\pm 1,\ldots,\pm N$
+		\item
+			The limit as~$N\to\infty$ is zero almost everyhere:
+			$\ds 0<|\theta|\le\pi\ \implies\
+			\lim_{N\to\infty}\mathcal{D}_N(\theta)=0$
+		\item
+			The integral does not depend on~$N$:
+			$\ds\int_\T\mathcal{D}_N = 2\pi$
+		\item
+			The $L^2$ norm goes to infinity very fast:
+			$\ds\int_\T\left|\mathcal{D}_N\right|^2 =$
+		\item
+			The $L^1$ norm goes to infinity slowly
+			$\ds\int_\T\left|\mathcal{D}_N\right| =c\log N +
+			O(1)\qquad\mathrm{as}\ N\to\infty$
+		\item
+			Convolution by~$\mathcal{D}_N$ gives partial sums:
+			%$\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+			%\sum_{|n|\le N} F_ne^{in\theta}$
+			$\ds f\in\mathcal{P}\implies \mathcal{D}_N*f = \mathcal{S}_N f$
+	\end{enumerate}
+\end{exercice}
+
+\begin{exercice}
+	Prove the following properties of the Féjer kernel~$\mathcal{K}_N$:
+	\begin{enumerate}
+		\item
+			The amplitudes decay linearly until zero:
+			$\ds\mathcal{K}_N(\theta)=\sum_{|n|<N}\frac{N-|n|}{N}e^{in\theta}$
+		\item
+			It generalizes the squared sinc:
+%			$\ds\mathcal{K}_N(\theta)=1+2\sum_{n=1}^{N}\cos n\theta$
+%		\item
+			$\ds\mathcal{K}_N(\theta)=
+			\frac{\sin^2N\frac\theta2}{N\sin^2\frac\theta2}$
+		\item $\ds\mathcal{K}_N(0)=2N+1$
+		\item $\ds\mathcal{K}_N\left(\frac{2\pi k}{2N+1}\right)=0
+			\qquad k=\pm 1,\ldots,\pm N$
+		\item
+			The limit as~$N\to\infty$ is zero almost everyhere:
+			$\ds 0<|\theta|\le\pi\implies\lim_{N\to\infty}\mathcal{K}_N(\theta)=0$
+		\item $\ds\int_\T\mathcal{D}_N = 2\pi$
+		\item $\ds\int_\T\left|\mathcal{D}_N\right|^2 =$
+		\item $\ds\int_\T\left|\mathcal{D}_N\right| =c\log N +
+			O(1)\qquad\mathrm{as}\ N\to\infty$
+		\item $\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+			\sum_{|n|\le N} F_ne^{in\theta}$
+		\item
+			Convolution by~$\mathcal{D}_N$ gives Cesàro sums:
+			%$\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+			%\sum_{|n|\le N} F_ne^{in\theta}$
+			$\ds f\in\mathcal{P}\implies \mathcal{K}_N*f =
+			\frac{\mathcal{S}_0f+\cdots+\mathcal{S}_{N-1}f}{N}$
+	\end{enumerate}
+\end{exercice}
 
 \subsection{Convolution theorems}
 
@@ -173,11 +294,11 @@ pointwise product:
 
 \begin{proposition}[First convolution theorem]
 	Let~$h(\theta)=f(\theta)g(\theta)$, then
-	\(
-		\ds h_n
-		= \sum_{k\in\Z} f_kg_{n-k}.
+	\[
+		\ds H_n
+		= \sum_{k\in\Z} F_kG_{n-k}.
 		%= \sum_{k\in\Z} f_{n-k}g_k
-		\)
+		\]
 \end{proposition}
 
 \begin{proof}
@@ -187,28 +308,28 @@ pointwise product:
 	\[
 		h(\theta)=f(\theta)g(\theta)
 		=
-		\left(\sum_{n\in\Z}f_ne^{in\theta}\right)
-		\left(\sum_{m\in\Z}f_me^{in\theta}\right)
+		\left(\sum_{n\in\Z}F_ne^{in\theta}\right)
+		\left(\sum_{m\in\Z}G_me^{in\theta}\right)
 	\]
 	expanding the product:
 	\[
 		=
-		\sum_{n\in\Z}\sum_{m\in\Z} f_n g_m e^{i(n+m)\theta}
+		\sum_{n\in\Z}\sum_{m\in\Z} F_n G_m e^{i(n+m)\theta}
 	\]
-	change of variable~$m=k-n$
+	change of variable~$m=k-n$ (keeping~$n$ constant)
 	\[
-		=\sum_{n\in\Z}\sum_{k\in\Z} f_n g_{k-n} e^{ik\theta}
+		=\sum_{n\in\Z}\sum_{k\in\Z} F_n G_{k-n} e^{ik\theta}
 	\]
 	reordering
 	\[
-		=\sum_{k\in\Z}\left(\sum_{n\in\Z} f_n g_{k-n}\right)e^{ik\theta}
+		=\sum_{k\in\Z}\left(\sum_{n\in\Z} F_n G_{k-n}\right)e^{ik\theta}
 	\]
 	thus, identifying the coefficients we have
-	that~$\ds h_k=\sum_{n\in\Z} f_n g_{k-n}$.
+	that~$\ds h_k=\sum_{n\in\Z} F_n G_{k-n}$.
 \end{proof}
 
-The sequence~$h_n=\sum_{k\in\Z} f_k g_{n-k}$ is called the~\emph{discrete
-convolution} of the sequences~$f_n$ and~$g_n$.  Thus, the first convolution
+The sequence~$h_n=\sum_{k\in\Z} F_k G_{n-k}$ is called the~\emph{discrete
+convolution} of the sequences~$F_n$ and~$G_n$.  Thus, the first convolution
 theorem says that the spectrum of a pointwise product is the convolution of the
 spectra.
 
@@ -407,4 +528,4 @@ We still have~$F(\theta_k)=\IDFT(alias(f)_m)$, where
 \]
 
 
-% vim:set tw=77 filetype=tex spell spelllang=en:
+% vim:set tw=77 filetype=tex spell spelllang=en sw=2 ts=2:

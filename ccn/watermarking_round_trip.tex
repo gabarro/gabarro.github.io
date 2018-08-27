@@ -88,6 +88,7 @@ this data is recoverable after printing the image into paper and scanning
 it/taking a photo.  For that, we propose the following algorithm that tries
 to simulates a realistic acquisition process with various distortions.
 
+\clearpage
 \subsection{Zoom-in the image and reduce its contrast}
 
 \begin{verbatim}
@@ -103,6 +104,7 @@ plambda a2.png biases.png "x .6 * y .4 * +" -o a3.png
 \end{gallery}
 %\includegraphics{a3.png}\verb+a3.png+
 
+\clearpage
 \subsection{Apply an homography}
 \begin{verbatim}
 H="1 0 100  0 1 100  0.0002 -0.0001 1"
@@ -110,12 +112,14 @@ homwarp -o 3 -i "$H" 1000 1000 a3.png a4.png
 \end{verbatim}
 \includegraphics{a4.png}\verb+a4.png+
 
+\clearpage
 \subsection{Apply a small non-rigid deformation}
 \begin{verbatim}
 sepranfield.sh 1000 1000 2 g 200 g 14 1 | backflow - a4.png a5.png
 \end{verbatim}
 \includegraphics{a5.png}\verb+a5.png+
 
+\clearpage
 \subsection{Add a textured background}
 \begin{verbatim}
 plambda a5.png randg | blur q 0.5 | qauto -p 0 - bg.png
@@ -124,12 +128,14 @@ plambda mask.png a5.png bg.png if -o a6.png
 \end{verbatim}
 \includegraphics{a6.png}\verb+a6.png+
 
+\clearpage
 \subsection{Add blur and noise}
 \begin{verbatim}
 blur gauss 1.5 a6.png | plambda - "randg 5 * +" -o dirty.png
 \end{verbatim}
 \includegraphics{dirty.png}\verb+dirty.png+
 
+\clearpage
 \subsection{Optionally: add some holes}
 \begin{verbatim}
 plambda bg.png 'randp 1.2 ^'                    |\

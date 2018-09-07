@@ -1,0 +1,39 @@
+\title{Polynômes de Bernstein}
+
+{\bf Définition:}
+Soient~$n\le N$ entiers positifs.  On définit les polynômes de Bernstein:
+\[
+b_{N,n}(X) := {N\choose n}X^n(1-X)^{N-n}
+\]
+Si~$N$ peut être sous-entendu, on écrit simplement~$b_n$ au lieu de~$b_{N,n}$.
+Pour~$N$ grande, les graphes de ces polynômes dans l'intervalle~$[0,1]$ ont la
+forme d'une Gaussienne:
+
+\includegraphics[width=\linewidth]{bernstein.pdf}
+%SCRIPT gnuplot <<END > bernstein.pdf
+%SCRIPT set term pdfcairo
+%SCRIPT lfac(n)=lgamma(n+1)
+%SCRIPT lbin(n,k)=lfac(n)-lfac(k)-lfac(n-k)
+%SCRIPT lb(N,n,x)=lbin(N,n)+n*log(x)+(N-n)*log(1-x)
+%SCRIPT b(N,n,x)=exp(lb(N,n,x))
+%SCRIPT set samples 10000
+%SCRIPT plot [0:1] b(100,2,x),b(100,10,x),b(100,11,x),b(100,50,x),b(500,250,x)
+%SCRIPT END
+
+{\bf Propriétés élémentaires:}
+
+\begin{tabular}{rl}
+	\it (degré) & La fonction $b_{N,n}(X)$ est un polynôme de degré~$N$.\\
+	\it (signe) & Si $x\in[0,1]$ alors $\ds b_{N,n}(x)\ge 0$.\\
+	\it (racines) & $0$ avec multiplicité~$n$ et~$1$ avec multiplicité~$N-n$.\\
+	\it (uns)& $\ds b_{N,0}(0)=1$ et ~$b_{N,N}(1)=1$.\\
+	\it (dérivée)& $\ds {b_{N,n}}'=N\left(b_{N-1,n-1}-b_{N-1,n}\right)$.\\
+	\it (extremum)& Pour~$0<x<1$ et~$0<n<N$, on a
+	$\ds\ b_{N,n}(x)'=0\ \iff\ x=\frac{n}{N}$.\\
+	\it (partition)& $\ds\sum_{n=0}^Nb_n(x)=1$.\\
+	\it (aire)& $\ds\int_0^1b_n=\frac{1}{N}$.\\
+\end{tabular}
+
+
+
+% vim:set tw=79 filetype=tex spell spelllang=fr:

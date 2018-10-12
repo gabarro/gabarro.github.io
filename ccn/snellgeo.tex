@@ -43,17 +43,18 @@ $$
 	\sum_{j=1}^n
 	g_{ij}\left(q^1(t),\ldots,q^n(t)\right)
 	\,
-	q^i(t)
-	q^j(t)
+	\dot q^i(t)
+	\dot q^j(t)
 %\right)^\frac{1}{2}
 }
 \ \mathrm{d} t
 $$
-Now, it is easy to see that the length is invariant to reparametrizations
-$\mathrm{length}(q)=\mathrm{length}(q\circ h)$.  The curves that are local
-minima of the length functional are called~\emph{geodesics}.  Now, the length
-functional is a bit cumbersome to minimize directly due to the square root.
-We work instead with the energy functional:
+Due to the homogeneity of this expression, the length of a curve is invariant
+to reparametrizations $\mathrm{length}(q)=\mathrm{length}(q\circ h)$.  The
+curves that are local minima of the length functional are
+called~\emph{geodesics}.  Now, the length functional is a bit cumbersome to
+minimize directly due to the square root.  We work instead with the energy
+functional:
 $$
 \mathrm{energy}(q) := \frac{1}{2}\int_0^1 \|\dot q(t)\|^2_g\mathrm{d} t
 $$
@@ -216,12 +217,12 @@ $$
 \begin{cases}
 	E\ddot x+F\ddot y &=
 	\left(-\tfrac{1}{2}E_x\right)\dot x^2
-	+E_y\dot x\dot y
+	+\left(-E_y\right)\dot x\dot y
 	+\left(\tfrac{1}{2}G_x-F_y\right)\dot y^2
 	\\
 	F\ddot x+G\ddot y &=
 	\left(\tfrac{1}{2}E_y-F_x\right)\dot x^2
-	+G_x\dot x\dot y
+	+\left(-G_x\right)\dot x\dot y
 	+
 	\left(-\tfrac{1}{2}G_y\right)\dot y^2
 \end{cases}

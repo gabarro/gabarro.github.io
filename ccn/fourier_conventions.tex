@@ -1,0 +1,62 @@
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\R}{\mathbf{R}}
+
+\title{Fourier normalization conventions}
+
+{\bf TLDR: } we argue that the best normalization convention for the Fourier
+transform is~$\widehat{f}(y)=\tfrac{1}{\sqrt{2\pi}}\int f(x)e^{-ixy}\ud x$
+because it is unitary and it does not require~$2\pi$ factors in the
+derivative formulas.
+
+\section{Definition and basic properties}
+
+Let us fix three positive constants~$\alpha,\alpha',\beta$.  We define the
+Fourier direct and inverse transforms as
+
+$$
+\widehat{f}\left(y\right)=\alpha\int f(x) e^{-i\beta xy}\ud x
+$$
+$$
+\check{f}\left(y\right)=\alpha'\int f(x) e^{i\beta xy}\ud x
+$$
+
+The typical conventions are:
+
+\begin{enumerate}
+	\item The unitary convention~$\beta=1,\
+		\alpha=\alpha'=\frac{1}{\sqrt{2\pi}}$
+	\item The mathematical convention~$\beta=\alpha=1,\
+		\alpha'=\frac{1}{2\pi}$
+	\item The engineering convention~$\beta=2\pi,\ \alpha=\alpha'=1$.
+\end{enumerate}
+
+In the following list of properties we abuse a bit the notation and we
+write~$f(x)$ to mean the function~$x\mapsto f(x)$.  Thus, for example,
+instead of~$\widehat{f}(y)$ we write~$\widehat{f(x)}(y)$ and so on.
+
+\begin{enumerate}
+	\item Shift: $\widehat{f(x-a)}(y)=e^{-i\beta ay}\widehat{f}(y)$
+	\item Zoom: $\widehat{f(x/a)}(y)=a\widehat{f}(ay)$
+	\item Derivative inside: $\widehat{f'\,}(y)=\beta i y\,\widehat{f}(y)$
+	\item Derivative outside: $\widehat{f}(y)'=-\beta i
+		y\,\widehat{xf(x)}(y)$
+	\item Convolution:
+		$\widehat{f*g}=\frac{1}{\alpha}\widehat{f}\,\widehat{g}$
+	\item Product:
+		$\widehat{fg}=\widehat{f}*\widehat{g}$
+	\item Plancherel:
+		%$\int f\overline{g}=\int\widehat{f}\overline{\widehat{g}}$
+		$\left<f,g\right>=\mu(\alpha)\left<\widehat{f},\widehat{g}\right>$
+	\item Parseval:
+		$\left\|f\right\|_{L^2(\R)}=\mu(\alpha)\left\|\widehat
+		f\right\|_{L^2(\R)}$
+		%$\int f\overline{g}=\int\widehat{f}\overline{\widehat{g}}$
+	\item Gaussian:
+		$\widehat{e^{-x^2}}(y)=\alpha\sqrt{\pi}e^{-\beta y^2/4}$\\
+	\item Gaussian:
+		$\widehat{e^{-x^2/2\sigma^2}}(y)=\sigma\alpha\sqrt{2\pi}e^{-\beta
+		\sigma^2y^2/4}$\\
+\end{enumerate}
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

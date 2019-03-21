@@ -330,10 +330,10 @@ adjacency matrix of a product graph is the Kronecker sum of their matrices.
 You can also build the incidence matrix directly, by a similar process
 
 <pre>
-function B = grid_incidence(w, h)                     # grid graph WxH
-	x = sparse(1:w-1, 2:w, 1, w, w) - speye(w);   # path of length W
-	y = sparse(1:h-1, 2:h, 1, h, h) - speye(h);   # path of length H
-	B = [ kron(speye(h),x) ; kron(y,speye(w)) ];  # kronecker union
+function B = grid_incidence(w, h)                          # grid graph WxH
+	x = sparse(1:w-1, 2:w, 1, w-1, w) - speye(w-1,w);  # path of length W
+	y = sparse(1:h-1, 2:h, 1, h-1, h) - speye(h-1,h);  # path of length H
+	B = [ kron(speye(h),x) ; kron(y,speye(w)) ];       # kronecker union
 end
 </pre>
 
@@ -414,9 +414,10 @@ terms of dilation and erosion:
 	$e(d(u))$ <td> closing <tr><td>
 	$d(u) - u$ <td> inner morphological gradient <tr><td>
 	$u - e(u)$ <td> outer morphological gradient <tr><td>
-	$\frac{1}{2}(d(u) - e(u))$ <td> centered morphological gradient <tr><td>
-	$d(u) + e(u) - 2u$ <td> morphological laplacian <tr><td>
-	$u - d(u) - e(u)$ <td> morphological sharpening (image minus laplacian) <tr><td>
+	$\frac12(d(u) - e(u))$ <td> centered morphological gradient <tr><td>
+	$\frac12(d(u) + e(u)) - u)$ <td> morphological laplacian <tr><td>
+	$3u - d(u) - e(u)$ <td> morphological sharpening (image minus laplacian) <tr><td>
+	$\frac12(d(u) + e(u))$ <td> morphological blur (image plus laplacian) <tr><td>
 	$u - d(e(u))$ <td> top hat (image minus opening) <tr><td>
 	$e(d(u)) -u$ <td> bottom hat (closing minus image)
 </table>
@@ -555,9 +556,10 @@ function y = opening(E,x)      y = dilation(E,erosion(E,x));              end
 function y = closing(E,x)      y = erosion(E,dilation(E,x));              end
 function y = egradient(E,x)    y = x - erosion(E,x);                      end
 function y = igradient(E,x)    y = dilation(E,x) - x;                     end
-function y = cgradient(E,x)    y = (dilation(E,x) - erosion(E,x)) / 2;    end
-function y = mlaplacian(E,x)   y = dilation(E,x) + erosion(E,x) - 2*x;    end
+function y = cgradient(E,x)    y = (igradient(E,x) + egradient(E,x)) / 2; end
+function y = mlaplacian(E,x)   y = (igradient(E,x) - egradient(E,x)) / 2; end
 function y = msharpen(E,x)     y = x - mlaplacian(E,x);                   end
+function y = mblur(E,x)        y = x + mlaplacian(E,x);                   end
 function y = tophat(E,x)       y = x - opening(E,x);                      end
 function y = bothat(E,x)       y = closing(E,x) - x;                      end
 </pre>
@@ -579,13 +581,14 @@ imwrite(uint8(reshape( closing(E,x)          ,w,h)), "beckett-clo.png");
 imwrite(uint8(reshape( 2*igradient(E,x)      ,w,h)), "beckett-igrad.png");
 imwrite(uint8(reshape( 2*egradient(E,x)      ,w,h)), "beckett-egrad.png");
 imwrite(uint8(reshape( 2*cgradient(E,x)      ,w,h)), "beckett-cgrad.png");
-imwrite(uint8(reshape( 127-2*mlaplacian(E,x) ,w,h)), "beckett-mlap.png");
+imwrite(uint8(reshape( 127-4*mlaplacian(E,x) ,w,h)), "beckett-mlap.png");
 imwrite(uint8(reshape( msharpen(E,x)         ,w,h)), "beckett-msharp.png");
+imwrite(uint8(reshape( mblur(E,x)            ,w,h)), "beckett-mblur.png");
 imwrite(uint8(reshape( 6*tophat(E,x)         ,w,h)), "beckett-top.png");
 imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett-bot.png");
 </pre>
 
-<div class="gallery" style="min-height:308px;height:22em"><ul class="index">
+<div class="gallery" style="min-height:308px;height:24em"><ul class="index">
 
 	<li><a href="beckett-dil.png">beckett-dil.png<span><img src="beckett-dil.png" alt=""></span></a>
 
@@ -604,6 +607,8 @@ imwrite(uint8(reshape( 255-6*bothat(E,x)     ,w,h)), "beckett-bot.png");
 	<li><a href="beckett-mlap.png">beckett-mlap.png<span><img src="beckett-mlap.png" alt=""></span></a>
 
 	<li><a href="beckett-msharp.png">beckett-msharp.png<span><img src="beckett-msharp.png" alt=""></span></a>
+
+	<li><a href="beckett-mblur.png">beckett-mblur.png<span><img src="beckett-mblur.png" alt=""></span></a>
 
 	<li><a href="beckett-top.png">beckett-top.png<span><img src="beckett-top.png" alt=""></span></a>
 

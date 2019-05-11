@@ -157,6 +157,15 @@ input image, before dithering.
 	343.5
  <td>
 	881.875
+ <tr><td>
+	bytes(2) <td>
+	2430
+ <td>
+	2430
+ <td>
+	2430
+ <td>
+	2430
 
 </table>
 <!--
@@ -172,6 +181,10 @@ input image, before dithering.
 %SCRIPT mdither count psimone-gamdit.png  | cut -d' ' -f 3 > bgamdit.txt
 %SCRIPT mdither count psimone-ugamdit.png | cut -d' ' -f 3 > bugamdit.txt
 %SCRIPT mdither count psimone-retdit.png  | cut -d' ' -f 3 > bretdit.txt
+%SCRIPT mdither2 count psimone-errdif.png  | cut -d' ' -f 3 > b2errdit.txt
+%SCRIPT mdither2 count psimone-gamdit.png  | cut -d' ' -f 3 > b2gamdit.txt
+%SCRIPT mdither2 count psimone-ugamdit.png | cut -d' ' -f 3 > b2ugamdit.txt
+%SCRIPT mdither2 count psimone-retdit.png  | cut -d' ' -f 3 > b2retdit.txt
 -->
 
 <p>
@@ -188,11 +201,19 @@ compressing it).
 	input <td> random <td> zeros
 </table>
 <!--
-%SCRIPT mdither encode psimone-retdit.png psimone-retditR.png < /dev/urandom
-%SCRIPT mdither encode psimone-retdit.png psimone-retditZ.png < /dev/zero
+%SCRIPT mdither encode psimone-retdit.png psimone-retditR.png /dev/urandom
+%SCRIPT mdither encode psimone-retdit.png psimone-retditZ.png /dev/zero
+%SCRIPT mdither2 encode psimone-retdit.png psimone-retditR2.png /dev/urandom
+%SCRIPT mdither2 encode psimone-retdit.png psimone-retditZ2.png /dev/zero
 %SCRIPT for i in psimone*png; do ntiply 3 $i z-$i ; done
 -->
 (click on each image to see it bigger)
+<table><tr><td>
+	<a href="z-psimone-retdit.png"><img src="psimone-retdit.png" alt="image"></a><td>
+	<a href="z-psimone-retditR2.png"><img src="psimone-retditR2.png" alt="image"></a><td>
+	<a href="z-psimone-retditZ2.png"><img src="psimone-retditZ2.png" alt="image"></a><tr><td>
+	input <td> random <td> zeros
+</table>
 
 <h2>2. Implementation</h2>
 
@@ -240,8 +261,8 @@ carrier image.  In the following example we encode a random stream of bits
 and a stream of zeros in the same carrier image.
 
 <pre>
-mdither encode weil-dit.png weil-random.png &lt; /dev/urandom
-mdither encode weil-dit.png weil-zeros.png  &lt; /dev/zero
+mdither encode weil-dit.png weil-random.png /dev/urandom
+mdither encode weil-dit.png weil-zeros.png  /dev/zero
 </pre>
 <table><tr><td>
 	<img src="weil-random.png" alt="image"> <td>
@@ -262,14 +283,14 @@ mdither decode weil-zeros.png  | hexdump -vn 128 &gt; weil-zeros.txt
 <p>
 Contents of file <code>weil-random.txt</code>:
 <pre>
-0000000 644b 4fee 0d5f 16b7 c046 b0dd 0f8d 6619
-0000010 5ec5 9dc0 889c e7da 23fe 0dbb 39ec 82f6
-0000020 6cb1 f168 2429 e87a 7389 ce8d d3b4 d20f
-0000030 875a 74d9 4937 7110 e4e8 0c00 547b 26b9
-0000040 67e0 ecb8 f68e ce90 fb33 1075 94c2 eb0c
-0000050 19d3 b8d8 4d33 2efb a70e ad36 9f9e cec6
-0000060 cbf5 475a 190e c4fc 32b1 9a5d 663a 20f7
-0000070 bf9a 3f3a c100 19d2 7f85 04da 8f78 4a09
+0000000 cf84 8671 a54d a3af a702 b521 6651 d8ff
+0000010 4998 3268 e7b0 fe70 e346 d09c e47f 4b8d
+0000020 1ab0 24f3 a9fa 6201 5b9f 5966 de1f 707e
+0000030 2686 c573 d500 df08 ac62 2b14 d7d6 894e
+0000040 147a c996 c65d feb5 510a 31f0 78ba aeba
+0000050 9cd3 ec5b 0cec c1c1 2eb6 832f 115e 0a5e
+0000060 8bdd 433c 3c20 d51d 6e6d 4704 2581 f3a6
+0000070 b1db eeff 11a3 c591 7560 e3e1 85fe 950a
 0000080
 </pre>
 
@@ -314,7 +335,9 @@ maximize the available space for encoding the information).
 
 <!--
 %SCRIPT for i in diphoto*png; do mdither count $i | cut -d' ' -f3 > bytes-$i ; done
-%SCRIPT for i in diphoto*png; do mdither encode $i E$i < /dev/urandom ; done
+%SCRIPT for i in diphoto*png; do mdither2 count $i | cut -d' ' -f3 > bytes2-$i ; done
+%SCRIPT for i in diphoto*png; do mdither encode $i E$i /dev/urandom ; done
+%SCRIPT for i in diphoto*png; do mdither2 encode $i E2$i /dev/urandom ; done
 -->
 
 <h3>3.1. Test image ``photo 1''</h3>
@@ -340,6 +363,29 @@ maximize the available space for encoding the information).
 	170
  <td>
 	124.5
+
+</table>
+<table><tr><td>
+	<img src="E2diphoto-1-1.png" alt="image"> <td>
+	<img src="E2diphoto-1-2.png" alt="image"> <td>
+	<img src="E2diphoto-1-3.png" alt="image"> <td>
+	<img src="E2diphoto-1-4.png" alt="image"> <td>
+	<img src="E2diphoto-1-5.png" alt="image"> <td>
+	<img src="E2diphoto-1-6.png" alt="image"> <td>
+	<img src="E2diphoto-1-7.png" alt="image"> <tr><td>
+	21376
+ <td>
+	5344
+ <td>
+	2358.75
+ <td>
+	1328
+ <td>
+	841.5
+ <td>
+	577.5
+ <td>
+	423
 
 </table>
 
@@ -368,6 +414,29 @@ maximize the available space for encoding the information).
 	142.25
 
 </table>
+<table><tr><td>
+	<img src="E2diphoto-2-1.png" alt="image"> <td>
+	<img src="E2diphoto-2-2.png" alt="image"> <td>
+	<img src="E2diphoto-2-3.png" alt="image"> <td>
+	<img src="E2diphoto-2-4.png" alt="image"> <td>
+	<img src="E2diphoto-2-5.png" alt="image"> <td>
+	<img src="E2diphoto-2-6.png" alt="image"> <td>
+	<img src="E2diphoto-2-7.png" alt="image"> <tr><td>
+	21376
+ <td>
+	5344
+ <td>
+	2358.75
+ <td>
+	1328
+ <td>
+	841.5
+ <td>
+	577.5
+ <td>
+	423
+
+</table>
 
 <h3>3.3. Test image ``photo 3''</h3>
 
@@ -392,6 +461,29 @@ maximize the available space for encoding the information).
 	175.625
  <td>
 	127.75
+
+</table>
+<table><tr><td>
+	<img src="E2diphoto-3-1.png" alt="image"> <td>
+	<img src="E2diphoto-3-2.png" alt="image"> <td>
+	<img src="E2diphoto-3-3.png" alt="image"> <td>
+	<img src="E2diphoto-3-4.png" alt="image"> <td>
+	<img src="E2diphoto-3-5.png" alt="image"> <td>
+	<img src="E2diphoto-3-6.png" alt="image"> <td>
+	<img src="E2diphoto-3-7.png" alt="image"> <tr><td>
+	21376
+ <td>
+	5344
+ <td>
+	2358.75
+ <td>
+	1328
+ <td>
+	841.5
+ <td>
+	577.5
+ <td>
+	423
 
 </table>
 
@@ -420,6 +512,29 @@ maximize the available space for encoding the information).
 	147.125
 
 </table>
+<table><tr><td>
+	<img src="E2diphoto-4-1.png" alt="image"> <td>
+	<img src="E2diphoto-4-2.png" alt="image"> <td>
+	<img src="E2diphoto-4-3.png" alt="image"> <td>
+	<img src="E2diphoto-4-4.png" alt="image"> <td>
+	<img src="E2diphoto-4-5.png" alt="image"> <td>
+	<img src="E2diphoto-4-6.png" alt="image"> <td>
+	<img src="E2diphoto-4-7.png" alt="image"> <tr><td>
+	21376
+ <td>
+	5344
+ <td>
+	2358.75
+ <td>
+	1328
+ <td>
+	841.5
+ <td>
+	577.5
+ <td>
+	423
+
+</table>
 
 <h3>3.5. Test image ``photo 5''</h3>
 
@@ -444,6 +559,29 @@ maximize the available space for encoding the information).
 	194.625
  <td>
 	142.375
+
+</table>
+<table><tr><td>
+	<img src="E2diphoto-5-1.png" alt="image"> <td>
+	<img src="E2diphoto-5-2.png" alt="image"> <td>
+	<img src="E2diphoto-5-3.png" alt="image"> <td>
+	<img src="E2diphoto-5-4.png" alt="image"> <td>
+	<img src="E2diphoto-5-5.png" alt="image"> <td>
+	<img src="E2diphoto-5-6.png" alt="image"> <td>
+	<img src="E2diphoto-5-7.png" alt="image"> <tr><td>
+	21376
+ <td>
+	5344
+ <td>
+	2358.75
+ <td>
+	1328
+ <td>
+	841.5
+ <td>
+	577.5
+ <td>
+	423
 
 </table>
 
@@ -523,7 +661,5 @@ Here are some possible improvements:
 
 <hr>
 
-
-<!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=How_to_hide_data_in_dithering_patterns" width="1" height="1" alt="">
+<!-- enric meinhardt-llopis, 2019 -->
 

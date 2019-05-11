@@ -326,13 +326,13 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 end
 
 table.insert(output_lines, "\n<hr>\n\n")
-table.insert(output_lines, '\n<!-- yes i know, wanna fight about it ? -->\n')
-tracker = string.format('<img src="%s?a=%s" width="1" height="1" alt="">\n\n',
-	"http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png",
-	metadata_title:gsub("%s", "_")
-	)
-table.insert(output_lines, tracker)
---table.insert(output_lines, "<!-- enric meinhardt-llopis, 2018 -->\n\n")
+--table.insert(output_lines, '\n<!-- yes i know, wanna fight about it ? -->\n')
+--tracker = string.format('<img src="%s?a=%s" width="1" height="1" alt="">\n\n',
+--	"http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png",
+--	metadata_title:gsub("%s", "_")
+--	)
+--table.insert(output_lines, tracker)
+table.insert(output_lines, "<!-- enric meinhardt-llopis, 2019 -->\n\n")
 
 -- dump output lines
 for _,l in ipairs(output_lines) do

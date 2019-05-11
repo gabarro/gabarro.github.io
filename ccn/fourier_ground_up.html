@@ -29,42 +29,104 @@
 
 <h1>Fourier from the ground up</h1>
 
-<h2>1. The algebra of trigonometric polynomials</h2>
-
 $\newcommand{\Z}{\mathbf{Z}}$
 $\newcommand{\Q}{\mathbf{Q}}$
 $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\C}{\mathbf{C}}$
+$\newcommand{\T}{\mathbf{T}}$
 $\newcommand{\PP}{\mathcal{P}}$
 $\newcommand{\ud}{\mathrm{d}}$
 $\newcommand{\ds}{\displaystyle}$
 $\newcommand{\DFT}{\mathtt{DFT}}$
 $\newcommand{\IDFT}{\mathtt{IDFT}}$
 
+\setcounter{section}{-1}
+
+<h2>1. Prerequisites</h2>
+
+<p>
+We assume basic knowledge of real and complex numbers, calculus, and algebra.
+None of the following formulas should be any surprise to you:
+
+$$e^{a + bi}=e^a\left(\cos b+i\sin b\right)$$
+
+$$i^i = e^{-\pi/2}$$
+
+
+$$ f(x)=
+\sum_{n\ge0}\frac{1}{n!}f^{(n)}(0)x^n$$
+
+$$ \int_a^b f'(x)\ud x = f(b) - f(a) $$
+
+$$ \frac{\ud}{\ud x}\int_a^x f(t)\ud t = f(x) $$
+
+\vfill
+
+<p>
+We denote by $\T$ the quotient of the additive group $\R$ by the
+subgroup $2\pi\Z$.  Thus, functions $f:\R\to\C$ that are $2\pi$-periodic can
+be understood as functions $f:\T\to\C$, and their integral over one period is
+denoted indistinctly as
+$$
+\int_\T f
+\quad = \quad
+\int_\T f(\theta)\,\ud\theta
+\quad = \quad
+\int_0^{2\pi} f(\theta)\,\ud\theta
+\quad = \quad
+\int_{-\pi}^{\pi} f(\theta)\,\ud\theta
+$$
+
+<p>
+Notice that the elements of $\T$ can bijectively identified by numbers
+in $[0,2\pi)$, but the topological spaces $\T$ and $[0,2\pi)$ are different.
+For example, the function $\cos\frac\theta2$ is continuous on $[0,2\pi)$
+but discontinuous on $\T$, while the function $\sin\frac\theta2$ is
+continuous on both spaces, bot only differentiable on $[0,2\pi)$.
+
+<p>
+<img src="fsincos1.png" alt="image">
+<!--
+%SCRIPT cat <<END | gnuplot > fsincos1.png
+%SCRIPT set term pngcairo crop size 720,300
+%SCRIPT set samples 1000
+%SCRIPT set xtics 1
+%SCRIPT fmod(x,y)=x-y*floor(x/y)
+%SCRIPT plot [-3:9] [-2:3] cos(fmod(x,2*pi)/2),sin(fmod(x,2*pi)/2)
+%SCRIPT END
+-->
+
+\vfill
+
+<h2>2. The algebra of trigonometric polynomials</h2>
+
 <p>
 <div class="thm"><b>Definition 1</b>. <em>
 A <i>trigonometric polynomial</i> is an expression of the form
 $$
-	f(\theta)=\sum_{n\in\Z} f_n e^{in\theta}
+	f(\theta)=\sum_{n\in\Z} F_n e^{in\theta}
 $$
-where all the coefficients $f_n\in\C$ are zero except, maybe, a finite
+where all the coefficients $F_n\in\C$ are zero except, maybe, a finite
 number of them.  The set of all trigonometric polynomials is denoted
 by $\PP$.
 </em></div>
 
 <p>
 There are two ways to interpret a trigonometric polynomial: as a
-function $\Z\to\C$ defined by $n\mapsto f_n$, or as a function $\R\to\C$
+function $\Z\to\C$ defined by $n\mapsto F_n$, or as a function $\R\to\C$
 defined by $\theta\mapsto f(\theta)$.
 Most of Fourier analysis deals with
 the duality between these two interpretations.
+There is a third interpretation, as finite Laurent series $f(z)$ evaluated on
+the unit circle $z=e^{i\theta}$, but it is of minor interest for the present
+course.
 
 <p>
 Let us introduce some <b>common language</b>.
 A trigonometric polynomial is usually called a <i>signal</i>.  The
-indices $n$ are called the <i>frequencies</i> and the coefficient $f_n$
+indices $n$ are called the <i>frequencies</i> and the coefficient $F_n$
 is called the <i>amplitude of $f$ at the frequency $n$</i>.  The
-mapping $n\mapsto\left|f_n\right|^2$ is called the <i>power
+mapping $n\mapsto\left|F_n\right|^2$ is called the <i>power
 spectrum</i> of the signal $f$.  Building the signal from its amplitudes
 is called is called <i>synthesis</i>, and extracting the amplitudes
 from a signal is called <i>analysis</i>.
@@ -74,23 +136,22 @@ The monomial $e^{in\theta}$ is called a <i>pure wave of frequency $n$</i>.
 Thus, synthesis consists in creating a signal as a linear combination of pure
 waves, and analysis consists in recovering the coefficients of this linear
 combination.  Using this language, we say that harmonic analysis consists in
-studying the duality between signals $f(\theta)$ and their spectra $f_n$; how
+studying the duality between signals $f(\theta)$ and their spectra $F_n$; how
 do the operations on signals correspond to operations on their spectra, and
 vice-versa.
 
 
 <p>
-<div class="thm"><b>Proposition 2</b>. <em>
-(Elementary properties)
+<div class="thm"><b>Proposition 2</b> (Elementary properties). <em>\label{prp:elementary}
 The following properties hold:
 <ol>
 	<li>If $f\in\PP$ then $f(\theta)$ is a
 		function $\R\to\C$ which is $2\pi$-periodic
 		and $\mathcal{C}^\infty$.
-	<li>If $f\in\PP$ then $f_n$ is a function $\Z\to\C$ of finite
+	<li>If $f\in\PP$ then $F_n$ is a function $\Z\to\C$ of finite
 		support.
 	<li>The set $\PP$ is a vector space over $\C$.
-	<li>If $h=\lambda f+\mu g$ then $h_n=\lambda f_n+\mu g_n$.
+	<li>If $h=\lambda f+\mu g$ then $H_n=\lambda F_n+\mu G_n$.
 	<li>The set $\PP$ is an algebra (thus, closed by
 		pointwise product $f(\theta)g(\theta)$)
 </ol>
@@ -114,6 +175,133 @@ is algebraically trivial, it may be non-intuitive when using the language of
 signal processing: when computing the sum of two signals, their amplitudes at
 each frequency add up separately. <i>There can be no destructive
 interference between different frequencies.</i>
+
+<p>
+The following two lemmas are very simple results that appear in most
+developments.  We will not refer to them explicitly when we use them.
+
+<p>
+<div class="thm"><b>Lemma 3</b> (Barycenter of a regular polygon). <em>
+	Let $N$ be a positive integer, then
+	$$
+	\sum_{k=0}^{N-1} e^\frac{2\pi ik}{N} =
+	\begin{cases}
+		1 &amp; N=1 \\
+		0 &amp; N&gt;1
+	\end{cases}
+	$$
+</em></div>
+
+<p>
+<i>Proof.</i>
+	
+	For $N&gt;1$ this is
+	a geometric sum of base $e^\frac{2\pi i}{N}$:
+	$$S=\sum_{k=0}^{N-1}\left(e^\frac{2\pi i}{N}\right)^k$$
+	$$S =\frac{\left(e^\frac{2\pi i}{N}\right)^N - 1}{e^\frac{2\pi i}{N}-1}=0$$
+	For $N=1$ the sum has only one term $e^0=1$.
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Lemma 4</b> (Oscillating integral). <em>
+	Let $n\in\Z$ then
+	$$\int_0^{2\pi}e^{in\theta}\ud\theta=
+	\begin{cases}
+		2\pi &amp; n=0 \\
+		0 &amp; n\neq0
+	\end{cases}
+	$$
+</em></div>
+
+<p>
+<i>Proof.</i>
+	For $n\neq 0$
+	$$\int_0^{2\pi}e^{in\theta}\ud\theta=
+	\left[
+		\frac{e^{in\theta}}{ in}
+		\right]_0^{2\pi}=\frac{e^{2\pi i}-e^0}{in}
+	=0.
+	$$
+	For $n=0$ we have $\int_0^{2\pi}1\,\ud\theta=2\pi.$
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Proposition 5</b> (Analysis of a trigonometric polynomial). <em>
+	Let $f\in\PP$ be $f(\theta)=\sum_nF_ne^{in\theta}$.
+	Then
+	$$F_n=\frac{1}{2\pi}e^{-in\theta}\,\ud\theta.$$
+</em></div>
+
+<p>
+<i>Proof.</i>
+	We integrate $f$ against $e^{-ik\theta}$:
+	$$ \int_0^{2\pi}f(\theta)e^{-ik\theta}\ud\theta
+	=
+	\int_0^{2\pi}\left(\sum_nF_ne^{in\theta}\right)e^{-ik\theta}\ud\theta
+	$$
+	$$=\sum_nF_n\int_0^{2\pi}e^{i(n-k)\theta}\ud\theta$$
+	$$2\pi F_k.$$
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Proposition 6</b> (Spectral effect of some operations). <em>
+	Let $F_n$ be the spectrum of <span>$f\in\PP$</span>.  Then
+	<ol>
+		<li>$f'(\theta)\in\PP$ and its spectrum is $\ inF_n$
+		<li>$f''(\theta)\in\PP$ and its spectrum is $\ -n^2F_n$
+		<li>$P\left(\frac{\ud}{\ud\theta}\right)f\,(\theta)\in\PP$ and its
+		spectrum is $\ P(in)F_n$
+		<li>$f(\theta-a)\in\PP$ and its spectrum is $\ e^{ina}F_n$
+		<li>$f(-\theta)\in\PP$ and its spectrum is $\ \overline{F_n}$
+		<li>$\overline{f(\theta)}\in\PP$ and its spectrum is $F_{-n}$
+	</ol>
+</em></div>
+
+<p>
+<div class="thm"><b>Proposition 7</b>. <em>
+The following symmetry properties hold:
+<ol>
+	<li>$f$ even $\iff$ $F$ even
+	<li>$f$ real $\iff$ $F$ hermitian
+	<li>$f$ real and even $\iff$ $F$ real and even
+	<li>$f$ real and odd $\iff$ $F$ pure imaginary and odd
+</ol>
+</em></div>
+
+<p>
+<div class="thm"><b>Definition 8</b> (Examples of trigonometric polynomials). <em>
+	Here we show several examples of trigonometric polynomials.  They are
+	all very important and will be used later.  For each case we specify
+	the values of their non-zero amplitudes.
+<ol>
+	<li>The pure waves: $e_n(\theta)=e^{in\theta}$
+		$\qquad F_n=1$
+	<li>The pure waves with a phase offset:
+		$e_{n,\psi}(\theta)=e^{in(\theta+\psi)}$
+		$\qquad F_n=e^{in\psi}$
+	<li>The cosine waves:
+		$\cos(n\theta)=\displaystyle\frac{e^{in\theta}+e^{in\theta}}{2}$
+		$\qquad F_n=F_{-n}=\frac{1}{2}$
+	<li>The sine waves:
+		$\sin(n\theta)=\displaystyle\frac{e^{in\theta}-e^{in\theta}}{2i}$
+		$\qquad F_n=-F_{-n}=\frac{1}{2i}$
+	<li>The Dirichlet kernel:
+		$\mathcal{D}_N(\theta)=\displaystyle\sum_{n=-N}^Ne^{in\theta}$
+		$\qquad F_n=1\ ,\ |n|\le N$
+	<li>The Fejér kernel:
+		$\mathcal{K}_N(\theta)
+		=\displaystyle\frac{1}{N}\sum_{n=0}^{N-1}\mathcal{D}_n(\theta)
+		$
+		$\qquad F_n=\frac{N-|n|}{N}\ ,\ |n|\le N$
+	<li>The Gibbs kernel:
+		$\mathcal{G}_N(\theta)
+		=\displaystyle\sum_{n=1}^{N}\frac{\sin n\theta}{n}$
+	<li>The odd sampling kernel:
+		$\mathcal{Z}_{2N+1}(\theta)=\frac{1}{2N+1}\mathcal{D}_N(\theta)$
+	<li>The even sampling kernel:
+		$\mathcal{Z}_{2N}(\theta)=\frac{\mathcal{D}_N(\theta)+\cos\frac{N\theta}{2}}{2N}$
+</ol>
+</em></div>
 
 <p>
 When interpreting a trigonometric polynomial as a $2\pi$-periodic
@@ -192,7 +380,82 @@ circle traversed $n$ times, clockwise for $n&lt;0$, anticlockwise for $n&gt;0
 %SCRIPT wait
 -->
 
-<h3>1.1. Convolution theorems</h3>
+\begin{exercice}
+	Prove the following properties of the Dirichlet kernel $\mathcal{D}_N$:
+	<ol>
+		
+		\item
+			It is a real-valued, even function:
+			$\ds\mathcal{D}_N(\theta)=1+2\sum_{n=1}^{N}\cos n\theta$
+		\item
+			It is a periodic generalization of the sinc function:
+			$\ds\mathcal{D}_N(\theta)=\frac{\sin\left(N+\frac{1}{2}\right)\theta}{\sin\frac\theta2}$
+		\item
+			$\ds\mathcal{D}_N(\theta)=\sin N\theta\cot\frac\theta2+\cos N\theta$
+		\item
+			Value at zero:
+			$\ds\mathcal{D}_N(0)=2N+1$
+		\item
+			Zero values:
+			$\ds\mathcal{D}_N\left(\theta\right)=0
+			\iff
+			\theta=\frac{2\pi k}{2N+1},
+			\quad
+			k=\pm 1,\ldots,\pm N$
+		\item
+			The limit as $N\to\infty$ is zero almost everyhere:
+			$\ds 0&lt;|\theta|\le\pi\ \implies\
+			\lim_{N\to\infty}\mathcal{D}_N(\theta)=0$
+		\item
+			The integral does not depend on $N$:
+			$\ds\int_\T\mathcal{D}_N = 2\pi$
+		\item
+			The $L^2$ norm goes to infinity very fast:
+			$\ds\int_\T\left|\mathcal{D}_N\right|^2 =$
+		\item
+			The $L^1$ norm goes to infinity slowly
+			$\ds\int_\T\left|\mathcal{D}_N\right| =c\log N +
+			O(1)\qquad\mathrm{as}\ N\to\infty$
+		\item
+			Convolution by $\mathcal{D}_N$ gives partial sums:
+			
+			
+			$\ds f\in\PP\implies \mathcal{D}_N*f = \mathcal{S}_N f$
+	</ol>
+\end{exercice}
+
+\begin{exercice}
+	Prove the following properties of the Féjer kernel $\mathcal{K}_N$:
+	<ol>
+		\item
+			The amplitudes decay linearly until zero:
+			$\ds\mathcal{K}_N(\theta)=\sum_{|n|&lt;N}\frac{N-|n|}{N}e^{in\theta}$
+		\item
+			It generalizes the squared sinc:
+			$\ds\mathcal{K}_N(\theta)=
+			\frac{\sin^2N\frac\theta2}{N\sin^2\frac\theta2}$
+		<li>$\ds\mathcal{K}_N(0)=2N+1$
+		<li>$\ds\mathcal{K}_N\left(\frac{2\pi k}{2N+1}\right)=0
+			\qquad k=\pm 1,\ldots,\pm N$
+		\item
+			The limit as $N\to\infty$ is zero almost everyhere:
+			$\ds 0&lt;|\theta|\le\pi\implies\lim_{N\to\infty}\mathcal{K}_N(\theta)=0$
+		<li>$\ds\int_\T\mathcal{D}_N = 2\pi$
+		<li>$\ds\int_\T\left|\mathcal{D}_N\right|^2 =$
+		<li>$\ds\int_\T\left|\mathcal{D}_N\right| =c\log N +
+			O(1)\qquad\mathrm{as}\ N\to\infty$
+		<li>$\ds f\in\PP\implies (\mathcal{D}_N*f)(\theta) =
+			\sum_{|n|\le N} F_ne^{in\theta}$
+		\item
+			Convolution by $\mathcal{D}_N$ gives Cesàro sums:
+			
+			
+			$\ds f\in\PP\implies \mathcal{K}_N*f =
+			\frac{\mathcal{S}_0f+\cdots+\mathcal{S}_{N-1}f}{N}$
+	</ol>
+\end{exercice}
+
+<h3>2.1. Convolution theorems</h3>
 
 <p>
 Proposition \ref{prp:elementary}(3) explains how to analyze the pointwise sum
@@ -200,13 +463,13 @@ of two signals.  The convolution theorem explains how to analyze their
 pointwise product:
 
 <p>
-<div class="thm"><b>Proposition 3</b> (First convolution theorem). <em>
+<div class="thm"><b>Proposition 9</b> (First convolution theorem). <em>
 	Let $h(\theta)=f(\theta)g(\theta)$, then
-	\(
-		\ds h_n
-		= \sum_{k\in\Z} f_kg_{n-k}.
+	\[
+		\ds H_n
+		= \sum_{k\in\Z} F_kG_{n-k}.
 		
-		\)
+		\]
 </em></div>
 
 <p>
@@ -217,29 +480,29 @@ pointwise product:
 	\[
 		h(\theta)=f(\theta)g(\theta)
 		=
-		\left(\sum_{n\in\Z}f_ne^{in\theta}\right)
-		\left(\sum_{m\in\Z}f_me^{in\theta}\right)
+		\left(\sum_{n\in\Z}F_ne^{in\theta}\right)
+		\left(\sum_{m\in\Z}G_me^{in\theta}\right)
 	\]
 	expanding the product:
 	\[
 		=
-		\sum_{n\in\Z}\sum_{m\in\Z} f_n g_m e^{i(n+m)\theta}
+		\sum_{n\in\Z}\sum_{m\in\Z} F_n G_m e^{i(n+m)\theta}
 	\]
-	change of variable $m=k-n$
+	change of variable $m=k-n$ (keeping $n$ constant)
 	\[
-		=\sum_{n\in\Z}\sum_{k\in\Z} f_n g_{k-n} e^{ik\theta}
+		=\sum_{n\in\Z}\sum_{k\in\Z} F_n G_{k-n} e^{ik\theta}
 	\]
 	reordering
 	\[
-		=\sum_{k\in\Z}\left(\sum_{n\in\Z} f_n g_{k-n}\right)e^{ik\theta}
+		=\sum_{k\in\Z}\left(\sum_{n\in\Z} F_n G_{k-n}\right)e^{ik\theta}
 	\]
 	thus, identifying the coefficients we have
-	that $\ds h_k=\sum_{n\in\Z} f_n g_{k-n}$.
+	that $\ds h_k=\sum_{n\in\Z} F_n G_{k-n}$.
 <span style="float:right">&#8718;</span>
 
 <p>
-The sequence $h_n=\sum_{k\in\Z} f_k g_{n-k}$ is called the <i>discrete
-convolution</i> of the sequences $f_n$ and $g_n$.  Thus, the first convolution
+The sequence $H_n=\sum_{k\in\Z} F_k G_{n-k}$ is called the <i>discrete
+convolution</i> of the sequences $F_n$ and $G_n$.  Thus, the first convolution
 theorem says that the spectrum of a pointwise product is the convolution of the
 spectra.
 
@@ -249,7 +512,7 @@ pointwise product of spectra is the spectrum of the convolution.  For that, we
 need to define the convolution of two signals:
 
 <p>
-<div class="thm"><b>Definition 4</b> (Convolution of two trigonometric polynomials). <em>
+<div class="thm"><b>Definition 10</b> (Convolution of two trigonometric polynomials). <em>
 	Let $f,g\in\PP$.  We define the <i>periodic convolution</i> of $f$
 	and $g$ as
 	\[
@@ -258,9 +521,9 @@ need to define the convolution of two signals:
 </em></div>
 
 <p>
-<div class="thm"><b>Proposition 5</b>. <em>
+<div class="thm"><b>Proposition 11</b> (Second convolution theorem). <em>
 	The function $h=f*g$ is well-defined and it belongs to $\PP$.
-	Moreover, $h_n=2\pi f_n g_n$.
+	Moreover, $H_n=2\pi F_n G_n$.
 </em></div>
 
 <p>
@@ -269,21 +532,163 @@ need to define the convolution of two signals:
 	a $C^\infty$ function on a compact domain, so it gives a finite,
 	well-defined number.  We can check that $f*g\in\PP$ by computing the
 	integral explicitly:
-	\[
-		(f*g)(\theta)=\int_0^{2\pi}f(t)g(\theta-t)\ud t
-		=
-	\]
+	$$ (f*g)(\theta)=\int_0^{2\pi}f(t)g(\theta-t)\ud t $$
+	$$ = \int_0^{2\pi}
+	\left(\sum_nF_ne^{int}\right)
+	\left(\sum_mG_me^{im(\theta-t)}\right)
+	\,\ud t
+	$$
+	$$ = \sum_n\sum_mF_nG_me^{im\theta}\int_0^{2\pi}e^{i(n-m)t}
+	\,\ud t
+	$$
+	$$ = \sum_n\left(2\pi F_nG_n\right)e^{in\theta}
+	$$
+	thus $H_n=2\pi F_nG_n$.
 <span style="float:right">&#8718;</span>
 
-<h3>1.2. Norm, product and energy conservation</h3>
+<p>
+With the notation $f\leftrightarrow F$ the convolution theorems are a bit
+cumbersome to write.  Using the operator
+notation $f\leftrightarrow\widehat{f}$ so that
+$$f(\theta)=\sum_n{\widehat{f}}_{\ n}\,e^{in\theta}$$
+the first and second convolution theorems become
+$$\widehat{fg}=\widehat{f}*\widehat{g}$$
+$$\widehat{f*g}=\widehat{f}\ \widehat{g}$$
+Notice that the $*$ operator has a different meaning in these two equations:
+first it means the discrete convolution of two suites, then it means the
+periodic convolution of two trigonometric polynomials.
 
-<h3>1.3. Degree</h3>
+<h3>2.2. Norms, products and energy conservation</h3>
 
-<h3>1.4. Sampling and the DFT</h3>
+<p>
+<div class="thm"><b>Definition 12</b> (Norms). <em>
+	Given a trigonometric polynomial $f(\theta)=\sum_nF_ne^{in\theta}$,
+	we define its spatial and spectral norms as follows:
+	$$\left\|f\right\|^2:=\int_0^{2\pi}\left|f(\theta)\right|^2\,\ud\theta$$
+	$$\left\|F\right\|^2:=\sum_n\left|F_n\right|^2$$
+</em></div>
 
-<h3>1.5. Zero-padding and aliasing</h3>
+<p>
+<div class="thm"><b>Proposition 13</b>. <em>
+	The spatial and spectral norms are norms on the vector
+	space $\PP$.
+</em></div>
 
-<h3>1.6. Analytic properties</h3>
+<p>
+<div class="thm"><b>Proposition 14</b> (Energy conservation). <em>
+	The energy of a signal coincides with the energy of its spectrum
+	$$ \left\|f\right\|^2 = 2\pi\left\|F\right\|^2 $$
+</em></div>
+<p>
+<i>Proof.</i>
+	The proof follows from the more general Plancherel theorem below.
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Definition 15</b> (Inner products). <em>
+	Given two trigonometric polynomial $f,g\in\PP$,
+	we define its spatial and spectral inner products as follows:
+	$$\left&lt;f,g\right&gt;=\int_0^{2\pi}f(\theta)\overline{g(\theta)}\,\ud\theta$$
+	$$\left&lt;F,G\right&gt;=\sum_nF_n\overline{G_n}$$
+</em></div>
+
+<p>
+<div class="thm"><b>Proposition 16</b> (Plancherel's theorem). <em>
+	If $f,g\in\PP$ then $\left&lt;f,g\right&gt;=2\pi\left&lt;F,G\right&gt;$.
+</em></div>
+
+<p>
+<i>Proof.</i>
+	$$\left&lt;f,g\right&gt;=\int_0^{2\pi}
+	\left(\sum_nF_ne^{in\theta}\right)
+	\left(\sum_mG_me^{-im\theta}\right)
+	\,\ud\theta
+	$$
+	$$=\sum_nF_n\left(\sum_m\overline{G_m}\int_0^{2\pi}e^{i(n-m)\theta}
+	\,\ud\theta
+	\right)
+	$$
+	$$=\sum_nF_n\left(2\pi\overline{G_n}\right)$$
+	$$=2\pi\left&lt;F,G\right&gt;$$
+<span style="float:right">&#8718;</span>
+
+<p>
+A consequence of energy conservation is the uniqueness of the spectrum: if
+two trigonometric polynomials are equal (as functions of $\theta$) then they
+have the same spectrum.
+
+<h3>2.3. Degree</h3>
+
+<p>
+We do not define the degree of a trigonometric polynomial.  This is because,
+depending in the context, we would like to say that each of these polynomials
+$$\sum_{0\le n&lt;N}
+F_ne^{in\theta}
+\qquad
+\qquad
+\sum
+_{-\left\lfloor\frac{N}{2}\right\rfloor\le n&lt;\left\lfloor\frac{N}{2}\right\rfloor}
+F_ne^{in\theta}
+$$
+is ``of degree $N$''.  But these two definitions are obviously incompatible.
+
+<p>
+Instead, we prefer to talk about the <i>number of coefficients</i> of
+a trigonometric polynomial.  For that, we define a notation for the
+frequencies where these coefficients are.
+
+<p>
+<div class="thm"><b>Definition 17</b> (Residue systems modulo $N$). <em>
+	A system of residues is a family $\{I_N\}_{}$ of intervals of $\Z$ with
+	the following properties:
+	$$
+	0\in I_N
+	\qquad
+	\qquad
+	I_N\subseteq I_{N+1}
+	\qquad
+	\qquad
+	|I_N|=N
+	$$
+	Given a system of residues, we have the associated euclidean division:
+	each $p\in\Z$ is uniquely represented as $p=qN+r$ where $r\in I_N$.  We
+	write $r=p\%N$, where $I_N$ can be understood from the context.
+</em></div>
+
+<p>
+<div class="thm"><b>Definition 18</b> (Polynomial subspaces). <em>
+	We denote by $\PP_N$ the space of trigonometric polynomials whose spectral
+	support is included in $I_N$.  Thus, elements $f\in\PP_N$ are of the form
+	$$f(\theta)=\sum_{n\in I_N}F_ne^{in\theta}$$
+	Notice that the set $\PP_N$ is a vector subspace of $\PP$ of dimension $N$.
+</em></div>
+
+<p>
+<div class="thm"><b>Proposition 19</b> (Stability of the spectral support). <em>
+	Let $N&lt;M$ and $f\in\PP_N$ and $g\in\PP_M$.  Then
+	$$f+g\in\PP_M
+	\qquad\qquad
+	f*g\in\PP_N
+	\qquad\qquad
+	fg\in\PP_{N+M}
+	$$
+</em></div>
+
+<p>
+<i>Proof.</i>
+The first property is a consequence of $\PP_N\subseteq\PP_M$, and the other
+two are immediate consequences of the convolution theorems.
+<span style="float:right">&#8718;</span>
+
+<p>
+The above proposition can be phrased in terms of signal processing:
+we say that a small spectral support is ``smooth'', thus 
+
+<h3>2.4. Sampling and the DFT</h3>
+
+<h3>2.5. Zero-padding and aliasing</h3>
+
+<h3>2.6. Analytic properties</h3>
 
 <p>
 The set $\PP$ of trigonometric polynomials $\PP$ is like the set $\Q$ of rational
@@ -300,7 +705,7 @@ stricter norms (involving the derivatives of $f$) we obtain completions that
 are smaller spaces (Sobolev spaces).  And we can even obtain larger completions
 (periodic distributions) by using topologies that do not come from any norm.
 
-<h3>1.7. Higher dimensions</h3>
+<h3>2.7. Higher dimensions</h3>
 
 <p>
 A trigonometric polynomial of $N$ coefficients is an expression of the form
@@ -443,7 +848,5 @@ We still have $F(\theta_k)=\IDFT(alias(f)_m)$, where
 
 <hr>
 
-
-<!-- yes i know, wanna fight about it ? -->
-<img src="http://boucantrin.ovh.hw.ipol.im:7743/white_pixel.png?a=Fourier_from_the_ground_up" width="1" height="1" alt="">
+<!-- enric meinhardt-llopis, 2019 -->
 

@@ -120,6 +120,11 @@ input image, before dithering.
 	\input{bgamdit.txt} &
 	\input{bugamdit.txt} &
 	\input{bretdit.txt} \\
+	bytes(2) &
+	\input{b2errdit.txt} &
+	\input{b2gamdit.txt} &
+	\input{b2ugamdit.txt} &
+	\input{b2retdit.txt} \\
 \end{tabular}
 %SCRIPT qeasy 0 160 i/psimone.png psimone-sat.png
 %SCRIPT plambda i/psimone.png '160 / 2 ^ 255 *' -o psimone-gam.png
@@ -133,6 +138,10 @@ input image, before dithering.
 %SCRIPT mdither count psimone-gamdit.png  | cut -d' ' -f 3 > bgamdit.txt
 %SCRIPT mdither count psimone-ugamdit.png | cut -d' ' -f 3 > bugamdit.txt
 %SCRIPT mdither count psimone-retdit.png  | cut -d' ' -f 3 > bretdit.txt
+%SCRIPT mdither2 count psimone-errdif.png  | cut -d' ' -f 3 > b2errdit.txt
+%SCRIPT mdither2 count psimone-gamdit.png  | cut -d' ' -f 3 > b2gamdit.txt
+%SCRIPT mdither2 count psimone-ugamdit.png | cut -d' ' -f 3 > b2ugamdit.txt
+%SCRIPT mdither2 count psimone-retdit.png  | cut -d' ' -f 3 > b2retdit.txt
 
 The following figure shows the effect of the actual encoding.  We encode a
 stream of random bits, and a stream of zero bits.  Notice that the stream of
@@ -146,10 +155,18 @@ compressing it).
 	\href{z-psimone-retditZ.png}{\includegraphics{psimone-retditZ.png}}\\
 	input & random & zeros
 \end{tabular}
-%SCRIPT mdither encode psimone-retdit.png psimone-retditR.png < /dev/urandom
-%SCRIPT mdither encode psimone-retdit.png psimone-retditZ.png < /dev/zero
+%SCRIPT mdither encode psimone-retdit.png psimone-retditR.png /dev/urandom
+%SCRIPT mdither encode psimone-retdit.png psimone-retditZ.png /dev/zero
+%SCRIPT mdither2 encode psimone-retdit.png psimone-retditR2.png /dev/urandom
+%SCRIPT mdither2 encode psimone-retdit.png psimone-retditZ2.png /dev/zero
 %SCRIPT for i in psimone*png; do ntiply 3 $i z-$i ; done
 (click on each image to see it bigger)
+\begin{tabular}{ccc}
+	\href{z-psimone-retdit.png}{\includegraphics{psimone-retdit.png}}&
+	\href{z-psimone-retditR2.png}{\includegraphics{psimone-retditR2.png}}&
+	\href{z-psimone-retditZ2.png}{\includegraphics{psimone-retditZ2.png}}\\
+	input & random & zeros
+\end{tabular}
 
 \section{Implementation}
 
@@ -193,8 +210,8 @@ carrier image.  In the following example we encode a random stream of bits
 and a stream of zeros in the same carrier image.
 
 \begin{verbatim}
-mdither encode weil-dit.png weil-random.png < /dev/urandom
-mdither encode weil-dit.png weil-zeros.png  < /dev/zero
+mdither encode weil-dit.png weil-random.png /dev/urandom
+mdither encode weil-dit.png weil-zeros.png  /dev/zero
 \end{verbatim}
 \begin{tabular}{cc}
 	\includegraphics{weil-random.png} &
@@ -238,7 +255,9 @@ maximize the available space for encoding the information).
 %SCRIPT for i in 1 2 3 4 5; do for j in 1 2 3 4 5 6 7; do downsa v $j photo$i.png |qauto| dither - diphoto-${i}-${j}.png ; done ; done
 
 %SCRIPT for i in diphoto*png; do mdither count $i | cut -d' ' -f3 > bytes-$i ; done
-%SCRIPT for i in diphoto*png; do mdither encode $i E$i < /dev/urandom ; done
+%SCRIPT for i in diphoto*png; do mdither2 count $i | cut -d' ' -f3 > bytes2-$i ; done
+%SCRIPT for i in diphoto*png; do mdither encode $i E$i /dev/urandom ; done
+%SCRIPT for i in diphoto*png; do mdither2 encode $i E2$i /dev/urandom ; done
 
 \subsection{Test image ``photo 1''}
 \begin{tabular}{lllllll}
@@ -256,6 +275,22 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-1-5.png} &
 	\input{bytes-diphoto-1-6.png} &
 	\input{bytes-diphoto-1-7.png} \\
+\end{tabular}
+\begin{tabular}{lllllll}
+	\includegraphics{E2diphoto-1-1.png} &
+	\includegraphics{E2diphoto-1-2.png} &
+	\includegraphics{E2diphoto-1-3.png} &
+	\includegraphics{E2diphoto-1-4.png} &
+	\includegraphics{E2diphoto-1-5.png} &
+	\includegraphics{E2diphoto-1-6.png} &
+	\includegraphics{E2diphoto-1-7.png} \\
+	\input{bytes2-diphoto-1-1.png} &
+	\input{bytes2-diphoto-1-2.png} &
+	\input{bytes2-diphoto-1-3.png} &
+	\input{bytes2-diphoto-1-4.png} &
+	\input{bytes2-diphoto-1-5.png} &
+	\input{bytes2-diphoto-1-6.png} &
+	\input{bytes2-diphoto-1-7.png} \\
 \end{tabular}
 
 \subsection{Test image ``photo 2''}
@@ -275,6 +310,23 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-2-6.png} &
 	\input{bytes-diphoto-2-7.png} \\
 \end{tabular}
+\begin{tabular}{lllllll}
+	\includegraphics{E2diphoto-2-1.png} &
+	\includegraphics{E2diphoto-2-2.png} &
+	\includegraphics{E2diphoto-2-3.png} &
+	\includegraphics{E2diphoto-2-4.png} &
+	\includegraphics{E2diphoto-2-5.png} &
+	\includegraphics{E2diphoto-2-6.png} &
+	\includegraphics{E2diphoto-2-7.png} \\
+	\input{bytes2-diphoto-2-1.png} &
+	\input{bytes2-diphoto-2-2.png} &
+	\input{bytes2-diphoto-2-3.png} &
+	\input{bytes2-diphoto-2-4.png} &
+	\input{bytes2-diphoto-2-5.png} &
+	\input{bytes2-diphoto-2-6.png} &
+	\input{bytes2-diphoto-2-7.png} \\
+\end{tabular}
+
 
 \subsection{Test image ``photo 3''}
 \begin{tabular}{lllllll}
@@ -292,6 +344,22 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-3-5.png} &
 	\input{bytes-diphoto-3-6.png} &
 	\input{bytes-diphoto-3-7.png} \\
+\end{tabular}
+\begin{tabular}{lllllll}
+	\includegraphics{E2diphoto-3-1.png} &
+	\includegraphics{E2diphoto-3-2.png} &
+	\includegraphics{E2diphoto-3-3.png} &
+	\includegraphics{E2diphoto-3-4.png} &
+	\includegraphics{E2diphoto-3-5.png} &
+	\includegraphics{E2diphoto-3-6.png} &
+	\includegraphics{E2diphoto-3-7.png} \\
+	\input{bytes2-diphoto-3-1.png} &
+	\input{bytes2-diphoto-3-2.png} &
+	\input{bytes2-diphoto-3-3.png} &
+	\input{bytes2-diphoto-3-4.png} &
+	\input{bytes2-diphoto-3-5.png} &
+	\input{bytes2-diphoto-3-6.png} &
+	\input{bytes2-diphoto-3-7.png} \\
 \end{tabular}
 
 \subsection{Test image ``photo 4''}
@@ -311,6 +379,22 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-4-6.png} &
 	\input{bytes-diphoto-4-7.png} \\
 \end{tabular}
+\begin{tabular}{lllllll}
+	\includegraphics{E2diphoto-4-1.png} &
+	\includegraphics{E2diphoto-4-2.png} &
+	\includegraphics{E2diphoto-4-3.png} &
+	\includegraphics{E2diphoto-4-4.png} &
+	\includegraphics{E2diphoto-4-5.png} &
+	\includegraphics{E2diphoto-4-6.png} &
+	\includegraphics{E2diphoto-4-7.png} \\
+	\input{bytes2-diphoto-4-1.png} &
+	\input{bytes2-diphoto-4-2.png} &
+	\input{bytes2-diphoto-4-3.png} &
+	\input{bytes2-diphoto-4-4.png} &
+	\input{bytes2-diphoto-4-5.png} &
+	\input{bytes2-diphoto-4-6.png} &
+	\input{bytes2-diphoto-4-7.png} \\
+\end{tabular}
 
 \subsection{Test image ``photo 5''}
 \begin{tabular}{lllllll}
@@ -328,6 +412,22 @@ maximize the available space for encoding the information).
 	\input{bytes-diphoto-5-5.png} &
 	\input{bytes-diphoto-5-6.png} &
 	\input{bytes-diphoto-5-7.png} \\
+\end{tabular}
+\begin{tabular}{lllllll}
+	\includegraphics{E2diphoto-5-1.png} &
+	\includegraphics{E2diphoto-5-2.png} &
+	\includegraphics{E2diphoto-5-3.png} &
+	\includegraphics{E2diphoto-5-4.png} &
+	\includegraphics{E2diphoto-5-5.png} &
+	\includegraphics{E2diphoto-5-6.png} &
+	\includegraphics{E2diphoto-5-7.png} \\
+	\input{bytes2-diphoto-5-1.png} &
+	\input{bytes2-diphoto-5-2.png} &
+	\input{bytes2-diphoto-5-3.png} &
+	\input{bytes2-diphoto-5-4.png} &
+	\input{bytes2-diphoto-5-5.png} &
+	\input{bytes2-diphoto-5-6.png} &
+	\input{bytes2-diphoto-5-7.png} \\
 \end{tabular}
 
 

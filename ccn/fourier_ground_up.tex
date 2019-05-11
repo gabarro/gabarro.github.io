@@ -11,6 +11,7 @@
 \newcommand{\DFT}{\mathtt{DFT}}
 \newcommand{\IDFT}{\mathtt{IDFT}}
 
+\setcounter{section}{-1}
 
 
 \clearpage
@@ -20,6 +21,8 @@ We assume basic knowledge of real and complex numbers, calculus, and algebra.
 None of the following formulas should be any surprise to you:
 
 $$e^{a + bi}=e^a\left(\cos b+i\sin b\right)$$
+
+$$i^i = e^{-\pi/2}$$
 
 %$$f'(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}h$$
 
@@ -116,8 +119,7 @@ vice-versa.
 %This vector space is neither finite-dimensional nor complete with this norm.
 
 
-\begin{proposition}\label{prp:elementary}
-(Elementary properties)
+\begin{proposition}[Elementary properties]\label{prp:elementary}
 The following properties hold:
 \begin{enumerate}
 	\item If~$f\in\PP$ then~$f(\theta)$ is a
@@ -149,7 +151,82 @@ signal processing: when computing the sum of two signals, their amplitudes at
 each frequency add up separately. \emph{There can be no destructive
 interference between different frequencies.}
 
-\begin{proposition}(Symmetry properties)
+The following two lemmas are very simple results that appear in most
+developments.  We will not refer to them explicitly when we use them.
+
+\begin{lemma}[Barycenter of a regular polygon]
+	Let~$N$ be a positive integer, then
+	$$
+	\sum_{k=0}^{N-1} e^\frac{2\pi ik}{N} =
+	\begin{cases}
+		1 & N=1 \\
+		0 & N>1
+	\end{cases}
+	$$
+\end{lemma}
+
+\begin{proof}
+	%For~$N=1$ the sum has only one term~$e^0=1$.
+	For~$N>1$ this is
+	a geometric sum of base~$e^\frac{2\pi i}{N}$:
+	$$S=\sum_{k=0}^{N-1}\left(e^\frac{2\pi i}{N}\right)^k$$
+%	$$e^\frac{2\pi i}{N}S=\sum_{k=1}^{N}\left(e^\frac{2\pi i}{N}\right)^k$$
+	$$S =\frac{\left(e^\frac{2\pi i}{N}\right)^N - 1}{e^\frac{2\pi i}{N}-1}=0$$
+	For~$N=1$ the sum has only one term~$e^0=1$.
+\end{proof}
+
+\begin{lemma}[Oscillating integral]
+	Let~$n\in\Z$ then
+	$$\int_0^{2\pi}e^{in\theta}\ud\theta=
+	\begin{cases}
+		2\pi & n=0 \\
+		0 & n\neq0
+	\end{cases}
+	$$
+\end{lemma}
+
+\begin{proof}
+	For~$n\neq 0$
+	$$\int_0^{2\pi}e^{in\theta}\ud\theta=
+	\left[
+		\frac{e^{in\theta}}{ in}
+		\right]_0^{2\pi}=\frac{e^{2\pi i}-e^0}{in}
+	=0.
+	$$
+	For~$n=0$ we have~$\int_0^{2\pi}1\,\ud\theta=2\pi.$
+\end{proof}
+
+\begin{proposition}[Analysis of a trigonometric polynomial]
+	Let~$f\in\PP$ be~$f(\theta)=\sum_nF_ne^{in\theta}$.
+	Then
+	$$F_n=\frac{1}{2\pi}e^{-in\theta}\,\ud\theta.$$
+\end{proposition}
+
+\begin{proof}
+	We integrate~$f$ against~$e^{-ik\theta}$:
+	$$ \int_0^{2\pi}f(\theta)e^{-ik\theta}\ud\theta
+	=
+	\int_0^{2\pi}\left(\sum_nF_ne^{in\theta}\right)e^{-ik\theta}\ud\theta
+	$$
+	$$=\sum_nF_n\int_0^{2\pi}e^{i(n-k)\theta}\ud\theta$$
+	$$2\pi F_k.$$
+\end{proof}
+
+\begin{proposition}[Spectral effect of some operations]
+	Let~$F_n$ be the spectrum of~\mbox{$f\in\PP$}.  Then
+	\begin{enumerate}
+		\item $f'(\theta)\in\PP$ and its spectrum is~$\ inF_n$
+		\item $f''(\theta)\in\PP$ and its spectrum is~$\ -n^2F_n$
+		\item $P\left(\frac{\ud}{\ud\theta}\right)f\,(\theta)\in\PP$ and its
+		spectrum is~$\ P(in)F_n$
+		\item $f(\theta-a)\in\PP$ and its spectrum is~$\ e^{ina}F_n$
+		\item $f(-\theta)\in\PP$ and its spectrum is~$\ \overline{F_n}$
+		\item $\overline{f(\theta)}\in\PP$ and its spectrum is~$F_{-n}$
+	\end{enumerate}
+\end{proposition}
+
+\begin{proposition}%[Symmetry properties]
+The following symmetry properties hold:
 \begin{enumerate}
 	\item $f$ even $\iff$ $F$ even
 	\item $f$ real $\iff$ $F$ hermitian
@@ -158,7 +235,8 @@ interference between different frequencies.}
 \end{enumerate}
 \end{proposition}
 
-\begin{definition}(Examples of trigonometric polynomials)
+
+\begin{definition}[Examples of trigonometric polynomials]
 	Here we show several examples of trigonometric polynomials.  They are
 	all very important and will be used later.  For each case we specify
 	the values of their non-zero amplitudes.
@@ -304,9 +382,9 @@ circle traversed~$n$ times, clockwise for~$n<0$, anticlockwise for~$n>0$.
 			O(1)\qquad\mathrm{as}\ N\to\infty$
 		\item
 			Convolution by~$\mathcal{D}_N$ gives partial sums:
-			%$\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+			%$\ds f\in\PP\implies (\mathcal{D}_N*f)(\theta) =
 			%\sum_{|n|\le N} F_ne^{in\theta}$
-			$\ds f\in\mathcal{P}\implies \mathcal{D}_N*f = \mathcal{S}_N f$
+			$\ds f\in\PP\implies \mathcal{D}_N*f = \mathcal{S}_N f$
 	\end{enumerate}
 \end{exercice}
 
@@ -332,13 +410,13 @@ circle traversed~$n$ times, clockwise for~$n<0$, anticlockwise for~$n>0$.
 		\item $\ds\int_\T\left|\mathcal{D}_N\right|^2 =$
 		\item $\ds\int_\T\left|\mathcal{D}_N\right| =c\log N +
 			O(1)\qquad\mathrm{as}\ N\to\infty$
-		\item $\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+		\item $\ds f\in\PP\implies (\mathcal{D}_N*f)(\theta) =
 			\sum_{|n|\le N} F_ne^{in\theta}$
 		\item
 			Convolution by~$\mathcal{D}_N$ gives Cesàro sums:
-			%$\ds f\in\mathcal{P}\implies (\mathcal{D}_N*f)(\theta) =
+			%$\ds f\in\PP\implies (\mathcal{D}_N*f)(\theta) =
 			%\sum_{|n|\le N} F_ne^{in\theta}$
-			$\ds f\in\mathcal{P}\implies \mathcal{K}_N*f =
+			$\ds f\in\PP\implies \mathcal{K}_N*f =
 			\frac{\mathcal{S}_0f+\cdots+\mathcal{S}_{N-1}f}{N}$
 	\end{enumerate}
 \end{exercice}
@@ -385,7 +463,7 @@ pointwise product:
 	that~$\ds h_k=\sum_{n\in\Z} F_n G_{k-n}$.
 \end{proof}
 
-The sequence~$h_n=\sum_{k\in\Z} F_k G_{n-k}$ is called the~\emph{discrete
+The sequence~$H_n=\sum_{k\in\Z} F_k G_{n-k}$ is called the~\emph{discrete
 convolution} of the sequences~$F_n$ and~$G_n$.  Thus, the first convolution
 theorem says that the spectrum of a pointwise product is the convolution of the
 spectra.
@@ -402,9 +480,9 @@ need to define the convolution of two signals:
 	\]
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}[Second convolution theorem]
 	The function~$h=f*g$ is well-defined and it belongs to~$\PP$.
-	Moreover,~$h_n=2\pi f_n g_n$.
+	Moreover,~$H_n=2\pi F_n G_n$.
 \end{proposition}
 
 \begin{proof}
@@ -412,17 +490,143 @@ need to define the convolution of two signals:
 	a~$C^\infty$ function on a compact domain, so it gives a finite,
 	well-defined number.  We can check that~$f*g\in\PP$ by computing the
 	integral explicitly:
-	\[
-		(f*g)(\theta)=\int_0^{2\pi}f(t)g(\theta-t)\ud t
-		=
-	\]
+	$$ (f*g)(\theta)=\int_0^{2\pi}f(t)g(\theta-t)\ud t $$
+	$$ = \int_0^{2\pi}
+	\left(\sum_nF_ne^{int}\right)
+	\left(\sum_mG_me^{im(\theta-t)}\right)
+	\,\ud t
+	$$
+	$$ = \sum_n\sum_mF_nG_me^{im\theta}\int_0^{2\pi}e^{i(n-m)t}
+	\,\ud t
+	$$
+	$$ = \sum_n\left(2\pi F_nG_n\right)e^{in\theta}
+	$$
+	thus~$H_n=2\pi F_nG_n$.
 \end{proof}
 
+With the notation~$f\leftrightarrow F$ the convolution theorems are a bit
+cumbersome to write.  Using the operator
+notation~$f\leftrightarrow\widehat{f}$ so that
+$$f(\theta)=\sum_n{\widehat{f}}_{\ n}\,e^{in\theta}$$
+the first and second convolution theorems become
+$$\widehat{fg}=\widehat{f}*\widehat{g}$$
+$$\widehat{f*g}=\widehat{f}\ \widehat{g}$$
+Notice that the~$*$ operator has a different meaning in these two equations:
+first it means the discrete convolution of two suites, then it means the
+periodic convolution of two trigonometric polynomials.
 
-\subsection{Norm, product and energy conservation}
+
+\subsection{Norms, products and energy conservation}
+
+\begin{definition}[Norms]
+	Given a trigonometric polynomial~$f(\theta)=\sum_nF_ne^{in\theta}$,
+	we define its spatial and spectral norms as follows:
+	$$\left\|f\right\|^2:=\int_0^{2\pi}\left|f(\theta)\right|^2\,\ud\theta$$
+	$$\left\|F\right\|^2:=\sum_n\left|F_n\right|^2$$
+\end{definition}
+
+\begin{proposition}
+	The spatial and spectral norms are norms on the vector
+	space~$\PP$.
+\end{proposition}
+
+\begin{proposition}[Energy conservation]
+	The energy of a signal coincides with the energy of its spectrum
+	$$ \left\|f\right\|^2 = 2\pi\left\|F\right\|^2 $$
+\end{proposition}
+\begin{proof}
+	The proof follows from the more general Plancherel theorem below.
+\end{proof}
+
+\begin{definition}[Inner products]
+	Given two trigonometric polynomial~$f,g\in\PP$,
+	we define its spatial and spectral inner products as follows:
+	$$\left<f,g\right>=\int_0^{2\pi}f(\theta)\overline{g(\theta)}\,\ud\theta$$
+	$$\left<F,G\right>=\sum_nF_n\overline{G_n}$$
+\end{definition}
+
+\begin{proposition}[Plancherel's theorem]
+	If~$f,g\in\PP$ then~$\left<f,g\right>=2\pi\left<F,G\right>$.
+\end{proposition}
+
+\begin{proof}
+	$$\left<f,g\right>=\int_0^{2\pi}
+	\left(\sum_nF_ne^{in\theta}\right)
+	\left(\sum_mG_me^{-im\theta}\right)
+	\,\ud\theta
+	$$
+	$$=\sum_nF_n\left(\sum_m\overline{G_m}\int_0^{2\pi}e^{i(n-m)\theta}
+	\,\ud\theta
+	\right)
+	$$
+	$$=\sum_nF_n\left(2\pi\overline{G_n}\right)$$
+	$$=2\pi\left<F,G\right>$$
+\end{proof}
+
+A consequence of energy conservation is the uniqueness of the spectrum: if
+two trigonometric polynomials are equal (as functions of~$\theta$) then they
+have the same spectrum.
 
 
 \subsection{Degree}
+
+We do not define the degree of a trigonometric polynomial.  This is because,
+depending in the context, we would like to say that each of these polynomials
+$$\sum_{0\le n<N}
+F_ne^{in\theta}
+\qquad
+\qquad
+\sum
+_{-\left\lfloor\frac{N}{2}\right\rfloor\le n<\left\lfloor\frac{N}{2}\right\rfloor}
+F_ne^{in\theta}
+$$
+is ``of degree~$N$''.  But these two definitions are obviously incompatible.
+
+Instead, we prefer to talk about the~\emph{number of coefficients} of
+a trigonometric polynomial.  For that, we define a notation for the
+frequencies where these coefficients are.
+
+\begin{definition}[Residue systems modulo~$N$]
+	A system of residues is a family~$\{I_N\}_{}$ of intervals of~$\Z$ with
+	the following properties:
+	$$
+	0\in I_N
+	\qquad
+	\qquad
+	I_N\subseteq I_{N+1}
+	\qquad
+	\qquad
+	|I_N|=N
+	$$
+	Given a system of residues, we have the associated euclidean division:
+	each~$p\in\Z$ is uniquely represented as~$p=qN+r$ where~$r\in I_N$.  We
+	write~$r=p\%N$, where~$I_N$ can be understood from the context.
+\end{definition}
+
+\begin{definition}[Polynomial subspaces]
+	We denote by~$\PP_N$ the space of trigonometric polynomials whose spectral
+	support is included in~$I_N$.  Thus, elements~$f\in\PP_N$ are of the form
+	$$f(\theta)=\sum_{n\in I_N}F_ne^{in\theta}$$
+	Notice that the set~$\PP_N$ is a vector subspace of~$\PP$ of dimension~$N$.
+\end{definition}
+
+\begin{proposition}[Stability of the spectral support]
+	Let~$N<M$ and $f\in\PP_N$ and~$g\in\PP_M$.  Then
+	$$f+g\in\PP_M
+	\qquad\qquad
+	f*g\in\PP_N
+	\qquad\qquad
+	fg\in\PP_{N+M}
+	$$
+\end{proposition}
+
+\begin{proof}
+The first property is a consequence of~$\PP_N\subseteq\PP_M$, and the other
+two are immediate consequences of the convolution theorems.
+\end{proof}
+
+The above proposition can be phrased in terms of signal processing:
+we say that a small spectral support is ``smooth'', thus 
 
 
 \subsection{Sampling and the DFT}

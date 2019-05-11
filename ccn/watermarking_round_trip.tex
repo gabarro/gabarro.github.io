@@ -47,7 +47,7 @@ and binarize by a linear retinex filter and Floyd-Sternberg dithering:
 \begin{verbatim}
 ppsmooth i/feynman.png|downsa v 3|plambda 'x,l -1 *'|blur q 0.2|qauto - a0.png
 dither a0.png a.png
-mdither encode a.png a-sonnet.png < i/sonnets.txt
+mdither encode a.png a-sonnet.png i/sonnets.txt
 \end{verbatim}
 
 This image has enough space to encode one sonnet and the title of

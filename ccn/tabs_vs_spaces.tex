@@ -1,0 +1,49 @@
+\title{Tabs vs Spaces}
+
+Tabs vs spaces is my favorite holy war.  I have managed to hold a set of
+convictions that is maximally contradictory with the two major lines of
+thought.
+
+These are the rules for indenting source code of programs:
+
+\begin{enumerate}
+	\item In most programming languages, you can use either tabs or
+		spaces for indentation.
+	\item If you use spaces, it must be 8 spaces per indentation level.
+	\item Do not mix tabs and spaces for indentation on the same file.
+	\item In python, you can only use tabs.
+\end{enumerate}
+
+Rationale (1):
+
+I do not care what happens when I press the TAB key on my text editor, as I
+never do that.  Any modern text editor supports auto-indentation, where
+blocks of code are automatically indented according to the language
+semantics.  For example, if you have the following text in python (X
+indicates the position of the cursor)
+
+\begin{verbatim}
+        if (a > 0):X
+\end{verbatim}
+
+and you press ENTER, then you see this:
+
+\begin{verbatim}
+        if (a > 0):
+                X
+\end{verbatim}
+
+Then you write the code of your block, which may have several lines, and when
+you are done you press BACKSPACE for exiting the block.
+Ultimately, the file you are editing is stored with either tabs or spaces,
+and you do not really care about that.
+
+
+\bigskip
+
+Rationale (2):
+
+
+
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

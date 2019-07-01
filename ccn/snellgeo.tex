@@ -239,16 +239,110 @@ proofs of it.
 Snell's law describes the fastest path that a sexy lifeguard has to take to
 save me when I'm drowning.  Notice that the fastest path is not necessarily the shortest path.
 
-\subsection{Proof of Snell's law based on a minimiazation problem}
+\subsection{Proof of Snell's law based on a minimization problem}
 
-\subsection{Proof of Snell's law based translational symmetry}
+Express the total time as the weighted sum of two straight paths, minimize it
+with respect to the position of the unknown point to obtain the law of sines.
 
-\subsection{Proof of Snell's law for waves}
+\subsection{Proof of Snell's law for circular waves}
+
+A single point emitting produces wavefronts that are concentric circular
+waves.  The spacing between the crests of the waves is inversely proportional
+to their speed.  Draw the geometric situation and deduce the law of sines.
+
+\subsection{Proof of Snell's law for straight waves}
+
+This is just a local redrawing of the previous construction around the
+trajectory of the optimal path, where the circular waves look parallel.
+The reasoning is somewhat simpler, but feels less immediate.
+
+\subsection{Proof of Snell's law based on translational symmetry}
+
+This is just a rewording of the previous computation, but instead of a stack
+of parallel wavefronts we use two parallel rays (which are perpendicular to
+the wavefronts).  By translational symmetry, the behavior must be the same
+for both rays, leading to the law of sines.
+
+\subsection{Proof of Snell's law using Huygens principle}
+
+Each point of a wavefront acts as a point emitter.  The rest of the wavefront
+can be understood as the collective interference pattern
+
 
 \subsection{Proof of Snell's law using Feynman integrals}
 
+This is the corpuscular version of Huygens principle.  Light takes all the
+possible paths, and the interference is destructive except for the locally
+extremal path.
+
+
 
 \section{Continuously varying Snell's law}
+
+First notice what happens when you have several parallel regions of different
+index
+$$
+\frac{\sin\theta_1}{c_1}
+=
+\frac{\sin\theta_2}{c_2}
+=
+\frac{\sin\theta_3}{c_3}
+=
+\cdots
+= K
+$$
+where~$K$ is a constant associated globally to the trajectory.  The
+case~$K=0$ this corresponds to traversing all the regions perpendicularly.
+
+%FIG%
+
+In the limiting case when the width of all these regions goes to zero, we
+have the relationship
+\[
+	K = \frac{\sin\theta(x)}{c(x)}
+\]
+where~$c(x)$ and~$\theta(x)$ are respectively the speed and the angle of the
+trajectory at position~$x$.
+
+%By differentiating with respect to~$x$:
+%\[
+%	\theta' = \frac{c'}{c\tan\theta}
+%\]
+%this is an first order ODE that determines the whole
+%trajectory given an initial condition for the angle~$\theta$; or equivalently
+%the value of the constant~$K$.  This equation is not very practical since it
+%is not clear to recover the trajectory from the function~$x\mapsto\theta(x)$.
+
+By denoting the trajectory as a function~$x\mapsto y(x)$, we have
+that~$y'=\tan\theta$, and using the identity~$\sin\arctan z=z/\sqrt{1+z^2}$
+the equation above becomes
+\[
+	K=\frac{y'}{c\sqrt{1+y'^2}}
+\]
+and assuming that~$K>0$ we can isolate~$y'$:
+\[
+	y'=\frac{cK}{\sqrt{1-c^2K^2}}
+\]
+Notice that for this equation to make sense it is needed that~$c(x)<1/K$.  We
+will see later this condition assures that there is no reflection, only
+refraction.  For now, we will assume that this condition holds.
+
+The equation above admits the following solution
+\[
+	y(x)=\int_a^x\frac{c(t)K}{\sqrt{1-c(t)^2K^2}}\ \mathrm{d} t
+\]
+This defines explicitly a two parameter family of solutions for the
+trajectories on a this continuously varying medium.  The parameters~$(a,K)$
+determine respectively the starting position and slope of the trajectory.
+
+Let us study a few particular solutions of this equation.  The simplest case
+is a constant medium~$c(t)=c_0$.  In that case, the solutions are straight
+lines
+\[
+	y(x)=\frac{c_0K}{\sqrt{1-c_0^2K^2}}\left(x-a\right)
+\]
+
+
 
 \section{Anisotropic Snell's law}
 

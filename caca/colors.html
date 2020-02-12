@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Random Colors</title>
+    <style>
+      #divinput {
+          position:absolute;
+          height: 10%;
+          top: 45%;
+          margin:auto;
+          right: 0;
+          left: 0;
+          width: 50vh;
+          background-color:yellow;
+      }
+      #input {
+          font-size: 10vh;
+          width: 100%;
+      }
+      #colorblock {
+          position: absolute;
+          width:50vw;
+          height:80vh;
+      }
+      #divleft {
+          position:absolute;
+          width:50vw;
+          height:100vh;
+          left:0;
+      }
+      #divright {
+          position:absolute;
+          width:50vw;
+          height:100vh;
+          right:0;
+      }
+    </style>
+  </head>
+  <body>
+    <button id=newcolor>New color</button>
+    <button id=solution>Solution</button>
+    <div id=divleft></div>
+    <div id=divright></div>
+    <div id=divinput>
+      <input id=input></input>
+    </div>
+    <script>
+      leftcolor = '#F0F0F0';
+      rightcolor = '#E0E0E0';
+      divleft = document.getElementById('divleft');
+      divright = document.getElementById('divright');
+
+      function paint() {
+          divleft.style.backgroundColor=leftcolor;
+          divright.style.backgroundColor=rightcolor;
+      }
+      document.getElementById("solution").onclick = ()=>{
+          alert(leftcolor);
+      };
+      document.getElementById("newcolor").onclick = ()=>{
+          leftcolor = "#" +
+              Math.floor(256*Math.random()).toString(16) +
+              Math.floor(256*Math.random()).toString(16) +
+              Math.floor(256*Math.random()).toString(16);
+          paint();
+      };
+      document.getElementById("input").onchange = ()=>{
+          rightcolor = document.getElementById("input").value;
+          paint();
+      }
+      paint();
+    </script>
+  </body>
+</html>

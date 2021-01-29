@@ -1,0 +1,318 @@
+\title{Àlgebra multilineal}
+
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\U}{\mathbf{U}}
+\newcommand{\ud}{\mathrm{d}}
+
+
+Vet aquí unes quantes construccions habituals que es fan servir
+en geometria diferencial.  Primer fem totes les construccions
+generals (espais tensorials) i després les que necessiten una
+mètrica.  Ho escric tot en estil telegrama i sense demostracions
+perquè quedi el més condensat possible.  Aquesta no és la manera
+d'escriure matemàtiques, però això d'aquí no serveix per aprendre ni
+per gaudir sino com a esquema per ús personal.  Si voleu la història
+sencera llegiu l'Spivak.
+
+%Contingut
+%
+%    1 Tensors
+%    2 Àlgebra exterior
+%    3 Notació de Penrose
+%    4 Producte intern
+%    5 Mètrica a l'espai dual
+%    6 Elevació de la mètrica a totes les capes tensorials
+%    7 Cas dels determinants
+
+\section{Vectors i covectors}
+
+Sigui~$V$ un espai vectorial sobre un cos~$F$.  L'espai dual~$V^*$ de~$V$ és
+l'espai vectorial de les aplicacions lineals~$V\to F$.  Si~$f:V\to W$ és
+una aplicació lineal entre espais vectorials, es defineix l'aplicació
+dual~$f^*:W^*\to V^*$ per
+\[
+	f^*(λ)(v) = λ(f(v)).
+\]
+
+Si~$V$ és de dimensió finita llavors el seu dual té la mateixa
+dimensió.  En efecte, si~$v_1,\dots,v_n$ és una base de~$V$ llavors els
+elements~$v^*_i\in V^*$ definits per
+\[
+    v^*_i(v_j)=\delta^i_j
+\]
+són una base de~$V^*$, que s'anomena base dual. La funció
+lineal~$v_i^*$ depèn de tot el conjunt~$v_1,\dots,v_n$ i no només del
+$v_i$, i l'isomorfisme entre~$V$ i~$V^*$ definit per~$v_i\mapsto
+v^*_i$ no és independent de la tria de base (penseu què passa si es
+canvia~$v_1$ per~$2v_1$).  D'altra banda, sí que hi ha un isomorfisme
+canònic entre un espai i el seu bidual.  Si~$v\in V$ llavors podem
+definir~$v^{**}\in V^{**}$ com
+\[
+	v^{**} (λ) = λ(v)
+\]
+i aquesta definició és canònica, en el sentit que no depèn de cap base.
+
+% TODO:
+% interpretació vectors fila/columna
+% interpretació gràfica (geomètrica)
+% interpretació en notació d'Einstein
+% interpretació en notació de Penrose
+
+
+
+\section{Tensors}
+
+Si~$V_1\times\cdots\times V_m,W$ són espais vectorials sobre un
+mateix cos $F$, una funció
+\[
+	T:V_1\times\cdots\times V_m\to W
+\]
+és multilineal quan és una funció lineal en cada argument, per
+qualsevol tria fixa dels altres arguments.  El conjunt de totes les
+funcions mutilineals~$T$ és un espai vectorial.  Si~$V_1=\cdots=V_m=V i W
+= F$ llavors aquest espai es denota~$\mathcal{T}^m(V)$ i els seus
+elements s'anomenen~\emph{tensors covariants} d'ordre~$m$.
+Si~$V_1=\cdots=V_m=V^*$ llavors aquest espai es
+denota~$\mathcal{T}_m(V)$ i els seus elements
+s'anomenen~\emph{tensors contravariants} d'ordre~$m$.  Noti's que, en
+dimensió finita,~$\mathcal{T}^1(V)=V^*$ i que~$\mathcal{T}_1(V)=V$.
+Similarment, es defineixen els espais de tensors
+mixtes~$\mathcal{T}^r_s(V)$.  Si~$T\in\mathcal{T}^k(V)$
+i~$S\in\mathcal{T}^l(V)$ són dos tensors covariants, llavors el seu
+producte tensorial és el tensor~$T\otimes S\in\mathcal{T}^{k+l}(V)$
+definit per
+\[
+	T\otimes S(v_1,\dots,v_k,v_{k+1},\dots,v_{k+l}) := T(v_1,\dots,v_k)\cdot S(v_{k+1},\dots,v_{k+l}).
+\]
+I es defineix similarment pels tensors qualssevol (contravariants i
+mixtes).  El producte tensorial és una operació associativa i no
+commutativa.  També es comporta bé amb la suma de tensors del mateix
+ordre i el producte de tensors per escalars.  Gràcies a això es poden
+trobar fàcilment bases dels espais~$T\in\mathcal{T}^k(V)$ a partir
+d'una base de~$V$. Concretament, si~$v_1,\dots,v_n$ és una base de~$V$
+i~$v_1^*,\dots,v_n^*$ és la base dual (que és una base
+de~$\mathcal{T}^1(V)$), es té que els elements
+\[
+    v^*_{i_1}\otimes\cdots\otimes v^*_{i_k}\qquad 1\le i_1,\dots,i_k\le n 
+\]
+són una base de~$\mathcal{T}^k(V)$, que per tant té dimensió~$nk$.
+Similarment, l'espai~$\mathcal{T}^k_l(V)$ té dimensió~$nk + l$.
+Fixada la base de~$V$, un tensor~$T\in\mathcal{T}^k_l(V)$ es pot
+escriure així
+\[
+    T= \sum T^{i_1,\dots,i_k}_{j_1,\dots,j_l}\  v^*_{i_1}\otimes\cdots\otimes v^*_{i_k}\otimes v_{j_1}\otimes\cdots\otimes v_{j_l}
+\]
+per uns certs escalars~$T^{i_1,\dots,i_k}_{j_1,\dots,j_l}$.
+
+Tot just hem definit el producte tensorial de tensors.  El producte
+tensorial d'espais tensorials es defineix fent el producte punt a
+punt de tots els seus elements.  Així, podem escriure coses com
+ara~$\mathcal{T}^r_s(V)\otimes\mathcal{T}^k_l(V)
+\approx\mathcal{T}^{r+k}_{s+l}(V)$ o bé
+\[
+	\mathcal{T}^r_s(V) \approx V^*\otimes\cdots\otimes V^*\otimes
+	V\otimes\cdots\otimes V
+\]
+etc. En general, els elements de~$\mathcal{T}^r_s(V)$ es poden entendre com
+formes multilineals
+\[
+    T:V^r\times(V^*)^s\to F
+\]
+o bé com a aplicacions multilineals
+\[
+    T:V^r\to V^s
+\]
+i la identificació és canònica.
+
+Fent servir aquestes visions, es diu que un tensor és simètric quan
+la forma multilineal no depèn de l'ordre dels seus arguments. Es diu
+que un tensor és alternant quan la forma multilineal s'anul·la en
+tenir arguments repetits. Es diu que un tensor és anti-simètric quan
+la forma multilineal canvia de signe en transposar dos arguments. En
+cossos~$F$ de característica diferent de~$2$, que considerarem a partir
+d'ara, la condició d'alternant és equivalent a l'anti-simetria.
+
+Una operació important dels tensors mixtes són les contraccions
+(TODO:definir-les en general, i fent servir una base). En una base
+s'expressen així (...). Aquesta notació, com es veu, és espantosa. En
+la notació de Penrose explicada més avall les contraccions són
+trivials d'entendre :p només s'ajunta un palet de dalt amb un palet
+d'abaix.
+
+Un problema més profund en expressar les contraccions mitjançant
+bases és el següent: no es veu de manera evident que les contraccions
+són independents de la base. Per exemple, una aplicació
+lineal~$A:V\to V$ es pot veure com un tensor de tipus~$1,1$ de la
+forma~$A:V\times V^*\to F$. Si aquest tensor s'expressa en una base
+com~$a^i_j$, llavors la traça de~$A$ és l'escalar (tensor de
+tipus~$0,0$)~$\sum_ia^i_i$, que no es veu immediatament que sigui
+independent de la base.
+
+
+\section{Àlgebra exterior}
+
+L'espai dels tensors alternants covariants d'ordre~$p$ es denota
+\[
+	Ω^p(V) \, .
+\]
+\end{document}
+
+També posem~$Ω^0(V) = F$.  Així doncs, la dimensió de~$Ω^0(V)$ és~$1$
+i és fàcil veure que~$Ω^1(V)$ té dimensió~$n$ (perquè és
+exactament~$V^*$). Hi ha una operació natural entre aquests espais
+que s'anomena producte exterior, però abans de definir-la calen unes
+quantes cosetes...
+
+Sigui Sp el grup de totes les permutacions de p elements. (Matricialment, els elements d'aquest grup són matrius de p files i p columnes on a cada fila i a cada columna hi ha exactament un 1.) Aquest grup actua sobre \mathcal{T}^p(V) permutant els arguments de les formes multilineals. Si \sigma\in S_p i T\in\mathcal{T}^p(V) llavors es defineix \sigma T\in\mathcal{T}^p(V) com \sigma T=T\circ\sigma, és a dir, com
+
+    (\sigma T)(v_1,\dots,v_p)= T(v_{\sigma(1)},\dots,v_{\sigma(p)}) 
+
+però aquesta última notació és una mica confusa quan els arguments inicials no estan indexats consecutivament.
+
+Per definició, Ωp(V) és un subespai de \mathcal{T}^p(V). Definim una aplicació \mathrm{Alt}:\mathcal{T}^p(V)\to\mathcal{T}^p(V) com
+
+    \mathrm{Alt}(T)=\frac{1}{p!}\sum_{\sigma\in S_p} \sgn\sigma\cdot T\circ\sigma 
+
+que compleix les tres propietats següents:
+
+    Si T\in\mathcal{T}^k(V) llavors \mathrm{Alt}(T)\in\Omega^k(V)
+    Si \omega\in\Omega^k(V) llavors Alt(ω) = ω
+    \mathrm{Alt}\circ\mathrm{Alt}=\mathrm{Alt} 
+
+I finalment es defineix el producte exterior: donades \omega\in\Omega^k(V) i \eta\in\Omega^l(V) es defineix \omega\wedge\eta\in\Omega^{k+l}(V) com
+
+    \omega\wedge\eta = \frac{(k+l)!}{k!l!}\mathrm{Alt}(\omega\otimes\eta). 
+
+que té les propietats següents
+
+    és bilineal:
+        (\omega_1+\omega_2)\wedge\eta = \omega_1\wedge\eta+\omega_2\wedge\eta
+        \omega\wedge(\eta_1+\eta_2) = \omega\wedge\eta_1+\omega\wedge\eta_2
+        a\omega\wedge\eta=\omega\wedge a\eta=a(\omega\wedge\eta) 
+    és associatiu: \omega\wedge(\eta\wedge\theta) = (\omega\wedge\eta)\wedge\theta
+    és "anti-commutatiu": \omega\wedge\eta=(-1)^{kl}\eta\wedge\omega 
+
+per fer càlculs no cal conèixer gairebé mai la definició de \wedge sino només aquestes tres propietats. De fet, es deuen poder prendre prendre aquestes propietats com a definició del producte exterior, i després de comprovar que el determinen completament?
+
+\end{document}
+
+
+\section{Notació de Penrose}
+
+Formalisme de Penrose: els tensors són insectes i els índexos són les seves potes.
+
+Un escalar és qualsevol cosa que no té palets sortint. Un vector (o tensor contravariant d'ordre 1) és qualsevol cosa de la qual surt un palet cap amunt. Un covector (forma lineal, o tensor covariant d'ordre 1) és qualsevol cosa de la qual surt un palet cap avall. En general, un tensor de tipus (r,s) és qualsevol cosa de la qual surten r palets cap amunt i s palets cap avall. Les contraccions es fan ajuntant palets. Els productes tensorials es fan per juxtaposició. D'aquí surt tot, només cal anar-ho dibuixant.
+
+http://phys.files.wordpress.com/2006/07/penrose.png
+
+\section{Producte intern}
+
+Sigui V un espai vectorial sobre un cos F.
+
+Un producte intern sobre V és una aplicació bilineal de V\times V sobre F denotada (v,w)\mapsto\left\langle v,w\right\rangle que és simètrica
+
+    \left\langle v,w\right\rangle=\left\langle w,v\right\rangle 
+
+i no-degenerada: si v\neq0 llavors hi ha algun w\neq0 tal que
+
+    \left\langle v,w\right\rangle\neq0. 
+
+D'ara endavant suposarem que F=\Reals. En aquest context, una aplicació bilineal simètrica \left\langle\ ,\ \right\rangle és definida positiva quan
+
+    \left\langle v,v\right\rangle>0\qquad\ per tot v\neq0. 
+
+Es comprova fàcilment que una funció bilineal definida positiva és no-degenerada, i per tant és un producte intern.
+
+En el llenguatge de la secció anterior, tenim que un producte intern \left\langle\ ,\ \right\rangle és un element de \mathcal{T}^2(V). Per tant, si f:W\to V és una aplicació lineal entre espais vectorials llavors f^*\left\langle\ ,\ \right\rangle és una forma bilineal simètrica en W. Aquesta forma bilineal simètrica pot ser degenerada fins i tot si f és injectiva. Ara bé, si f és bijectiva llavors f^*\left\langle\ ,\ \right\rangle és definida positiva si i només si \left\langle\ ,\ \right\rangle ho és.
+
+Per qualsevol base v_1,\dots,v_n de V, amb base dual v^*_1,\dots,v^*_n podem escriure
+
+    \left\langle\ ,\ \right\rangle=\sum_{i,j}g_{ij}v^*_i\otimes v^*_j, 
+
+on els gij són els nombres
+
+    g_{ij}=\left\langle v_i,v_j\right\rangle, 
+
+i la simetria de \left\langle\ ,\ \right\rangle implica que la matriu (gij) és simètrica.
+
+La matriu (gij) també es pot interpretar com la matriu de l'aplicació lineal de V en V * definida per
+
+    v\mapsto\left\langle v,\ \right\rangle. 
+
+El fet que \left\langle\ ,\ \right\rangle sigui no-degenerada implica que aquesta aplicació és un isomorfisme d'espais vectorials. El fet que \left\langle\ ,\ \right\rangle sigui definida positiva implica que podem definir una norma \|\ \| en V com
+
+    \|v\|=\sqrt{\left\langle v,v\right\rangle} 
+
+que té les propietats usuals. TODO: homogènia, desigualtat de Schwarz, desigualtat triangular, identitat de polarització...
+
+\section{Mètrica a l'espai dual}
+
+Suposem que tenim un producte intern \left\langle\ ,\ \right\rangle en V com a la secció anterior. Anem a extendre'l a un producte intern \left\langle\ ,\ \right\rangle^* en l'espail dual V * . Recordem que gràcies al producte intern tenim un isomorfisme \alpha:V\to V^* definit per
+
+    \alpha(v)(w)=\left\langle v, w\right\rangle 
+
+i a més tenim l'isomorsme natural i:V\to V^{**} definit per
+
+    i(v)(\lambda)=\lambda(v)\qquad\forall\lambda\in V^*. 
+
+Per composició d'aquests dos obtenim un isomorfisme \beta=i\circ\alpha^{-1}:V^*\to V^{**} que podem fer servir per definir el producte en l'espai dual
+
+    \left\langle\lambda,\mu\right\rangle^* =\beta(\lambda)(\mu)=i\alpha^{-1}(\lambda)(\mu) =\mu(\alpha^{-1}(\lambda)) 
+
+i es comprova fàcilment que és simètric. També es comprova que si \left\langle\ ,\ \right\rangle és definit positiu llavors \left\langle\ ,\ \right\rangle^* també ho és.
+
+Aquesta construcció natural pot semblar una mica confusa però segons com es miri és una xorrada. En coordenades, per exemple, la matriu de \left\langle\ ,\ \right\rangle^* en la base dual és la inversa de la matriu de \left\langle\ ,\ \right\rangle en la base "primal". En efecte, sigui v_1,\dots,v_n una base de V, sigui v_1^*,\dots,v^*_n la base dual de V * i sigui
+
+    \left\langle\ ,\ \right\rangle=\sum_{ij}g_{ij}v_i^*\otimes v_j^*. 
+
+Llavors
+
+    (gij) és la matriu de \alpha:V\to V^* en les bases {vi} i \{v_i^*\}. 
+    (gij) − 1 és la matriu de \alpha^{-1}:V^*\to V en les bases \{v_i^*\} i {vi}. 
+    (gij) − 1 és la matriu de \beta:V^*\to V^{**} en les bases {vi} i \{v_i^{**}\}. 
+
+Per tant, si denotem per gij les entrades de la matriu inversa (g^{ij})=(g_{ij}^{-1}) tenim
+
+    \left\langle\ ,\ \right\rangle^*=\sum_{ij}g^{ij}v_i\otimes v_j si considerem que v_i\in V^{**}. 
+
+\section{Elevació de la mètrica a totes les capes tensorials}
+
+A la secció anterior hem vist que es pot definir el producte intern a l'espai dual de dues maneres diferents
+
+    de manera invariant, fent servir els noms de les aplicacions
+    fent servir una base 
+
+i es pot comprovar que les definicions són equivalents. L'extensió del producte intern a totes les capes tensorials també es pot fer d'aquestes dues maneres.
+
+\section{Cas dels determinants}
+
+Com a cas particular de la secció anterior, considerem el producte intern a l'espai Ωn(V). Aquest espai té dimensió 1. Un producte intern en un espai de dimensió 1 és molt fàcil de determinar: només cal dir quins dos elements ω i − ω tenen norma 1. Vet aquí com.
+
+Siguin v_1,\dots,v_n i w_1,\dots,w_n dues bases qualssevols de V, ortogonals respecte \left\langle\ ,\ \right\rangle. Si escrivim
+
+wi = 	∑	αjivj
+	j	
+
+llavors
+
+    \delta_{ij}=\left\langle w_i,w_j\right\rangle =\cdots=\sum_k\alpha_{ki}\alpha_{kj}. 
+
+És a dir, que la transposada At de la matriu A = (αij) satisfà AAt = I, cosa que implica que \det A=\pm1.
+
+¿Què vol dir això? Bé, els elements de Ωn(V) agafen n vectors i tornen un número. Si els vectors estan expressats en una base, es pot interpretar com que un element de Ωn(V) agafa matrius quadrades i torna números. A la primera secció hem vist que aquest espai té dimensió 1. A la secció anterior hem vist com dotar aquest espai d'una mètrica. Pel raonament del paràgraf anterior, el determinant (i menys el determinant) són els dos elements d'aquest espai que tenen norma 1.
+
+
+Aquesta "definició" del determinant, tota ella algebraica, em sembla horrible. Una definició més intuitiva i raonbale és que el determinant de n vectors de \mathbf{R}^N és el volum del paral·lelepípede que defineixen. A partir d'aquí, les propietats algebraiques es poden demostrar fàcilment.
+
+%Obtingut de "http://gabarro.org/wiki/%C3%80lgebra_multilineal"
+
+
+
+
+
+
+% vim:set ts=3 sw=3 tw=69 filetype=tex spell spelllang=ca:

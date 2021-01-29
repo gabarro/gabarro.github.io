@@ -529,7 +529,8 @@ diagram:
 \includegraphics{i/hfpcube.png}
 
 %\subsection{Folding}
-Let us describe the {\bf folding} operation.
+\clearpage
+Let us define the {\bf folding} operation.
 Suppose that~$\varphi$ is a rapidly decreasing smooth function.
 We take a period~$P>0$ and define the function
 $$
@@ -537,7 +538,7 @@ $$
 $$
 Since~$\varphi$ is rapidly decreasing, this series converges
 pointwise, and~$\varphi_P$ is a smooth and~$P$-periodic
-function.  This folding operation transforms defined on~$\R$ to
+function.  This folding operation transforms functions defined on~$\R$ to
 functions defined on~$\R/2\pi\Z$
 
 Since~$\varphi$ is rapidly decreasing, we can compute it Fourier
@@ -601,6 +602,7 @@ $$
 which can be evaluated at~$x=0$ to give the Poisson summation formula
 $$
 \sum_{k\in\Z}\varphi(kP)
+=
 \frac{\sqrt{2\pi}}{P}
 \sum_{n\in\Z}
 \widehat\varphi\left(
@@ -905,13 +907,15 @@ which are also sums of Diracs:
 And, as we would say in Catalan, \emph{the mother of the
 eggs}\footnote{``La mare dels ous'', or in french ``où il gît le
 lièvre''.  I do not know a similarly colorful expression in english}: the
-Fourier transform of a Dirac comb is another Dirac comb.  I don not
+Fourier transform of a Dirac comb is another Dirac comb.
+Now I don't see
 know how to prove this by combining the identities above, but it has
 a simple proof by expressing the Dirac comb as the derivative of a
-sawtooth function and applying it to a test function.
-$$
-\textrm{(typeset the computation)}
-$$
+sawtooth function and applying it to a test function, as done on the
+previous section.
+%$$
+%\textrm{(typeset the computation)}
+%$$
 
 \section{Spectral geometry}
 

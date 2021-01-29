@@ -4,9 +4,10 @@
 \paragraph{Calculus of One Variable.}
 Definition of real numbers, limit of a sequence, sum of a series, limit of a
 function, continuous function, theorem of Bolzano, derivative, mean value
-theorem, taylor theorem, riemann integral, fundamental theorem of calculus.
+theorem, Taylor theorem, Riemann integral, fundamental theorem of calculus.
 Methods of computation of primitives.
 [Spivak's Calculus; Arnold's Analysis (the small)]
+{}
 
 %^ LA
 \paragraph{Linear Algebra.}
@@ -14,6 +15,7 @@ Vector spaces.  Basis of a vector space.  Linear maps between spaces.  Matrix
 of a linear map.  Linear endomorphism.  Determinant.  Cayley-Hamilton
 theorem.  Factorization of maps/matrices.  Jordan theorem.  Eigensystems.
 [Strang]
+{}
 
 %^ BMA
 \paragraph{Bilinear and Multilinear Algebra}
@@ -23,6 +25,8 @@ Gram-Schmidt.
 Singular values.  Further factorizations.
 Multilinear algebra: vectors, covectors, bivectors, tensors, symmetric
 tensors, anti-symmetric tensors.  Contractions.
+Extension of a metric to all tensorial layers.
+{LA->BMA}
 
 %^ CSV
 \paragraph{Calculus of Several Variables.}
@@ -39,6 +43,7 @@ Implicit function theorem.
 Integration.  Measure zero and content zero.
 Fubini theorem.  Change of variable theorem.
 [Spivak's Calculus on Manifolds, first 74 pages]
+{C1V->CSV}
 
 
 %^ VC
@@ -55,6 +60,7 @@ Surfaces in space (principal directions, fundamental forms, curvatures).
 Gauss-Bonnet theorem.
 Abstract surfaces.
 [do Carmo]
+{CSV->VC, LA->VC}
 
 %^ DG
 \paragraph{Differential Geometry}
@@ -70,6 +76,7 @@ Connections, parallel transport, volume form.
 Local isometries.  Lie groups.
 Other structures: semi-riemannian, subriemannian, symplectic, kahler, complex.
 [Spivak's treatise; Berger's panoramic overview]
+{GET->DG, VC->DG, BMA->DG}
 
 %^ DT
 \paragraph{Differential Topology}
@@ -82,6 +89,7 @@ Poincaré-Hopf theorem on vector fields.
 Cobordism, framing, Pontryagin construction, Hopf theorem.
 Classification of curves and surfaces.
 [Milnor]
+{CSV->DT}
 
 %^ SG
 \paragraph{Spectral geometry}
@@ -95,20 +103,31 @@ Cheeger sets and cuts.
 %^ CO
 \paragraph{Convex Optimization}
 Basic optimization methods in dimension 1.
-Optimization in finite dimensions, kkt.
+Optimization in finite dimensions, KKT.
 Farkas lemma.
 Legendre-Fenchel Duality.
 Discrete optimization: simplex method, interior point methods.
 Optimization with constraints.
 Optimization vs. solution of equations.
 [Rockafellar]
+{VC->CO, BMA->CO}
 
 %^ NO
 \paragraph{Nonconvex Optimization}
 Multi-scale, relaxation, linearization.
 Derivative-free optimization methods.
 Contrast-invariant optimization methods.
+{VC->NO, BMA->NO}
 
+%^ MT
+\paragraph{Measure and integration}
+Axiomatics of measure spaces.
+Measure and cardinal.
+Measure and category.
+Lebesgue Integration.
+Lebesgue-Stieltjes integration.
+Riesz-Nagy integration axiomatics.
+{CSV->MT}
 
 %^ RA
 \paragraph{Real analysis}
@@ -120,6 +139,13 @@ Punctual convergence of Fourier series.
 Arzela-Ascoli.  Baire.  Cantor functions.
 Decomposition f = absolutely continuous + jumps + cantor
 [Rudin]
+{CSV->RA}
+
+%^ VC
+\paragraph{Variational calculus}
+The direct method in all combinations of dimensions.
+Examples.
+
 
 
 %^ FA
@@ -154,12 +180,13 @@ singular points.
 Theorem of existence, uniqueness and regularity.
 Sturm-Liouville problems.
 [Coddington-Levinson]
+{VC->ODE}
 
 %^ PDE
 \paragraph{Partial Differential Equations}
 Examples of linear PDE: transport, Laplace, Poisson, Heat, Wave, Schrodinger.
 Examples of nonlinear PDE: eikonal, hamilton-jacobi.
-Example of PDE with no solutions / solutions with limited domain.
+Example of PDE with no solutions / solutions with limited domain / shocks.
 Solution of first-order PDE by the method of characteristics.
 Classification of second-order PDE.  Examples of explicit solutions on easy
 domains.
@@ -168,25 +195,28 @@ Variational PDE.
 Weak solutions using weak derivatives.
 Weak solutions in the viscosity sense.
 [Evans]
+{ODE->PDE}
 
 %^ DS
 \paragraph{Dynamical Systems}
 Feigenbaum, Lorentz, Julia, Mandelbrot.
 Poincaré maps.  Structural stability.
 [Strogatz]
+{ODE->DS}
 
 %^ HA
 \paragraph{Harmonic Analysis}
-(0) Recall of basic constructions in fourier series and transforms.
+(0) Recall of basic constructions in Fourier series and transforms.
 (1) Sampling theory in euclidean space, distribution theory, Dirac combs and
 Poisson duality
 (2) Commutative harmonic analysis: localy compact abelian groups, haar
 measure, Pontryagin duality, Schwartz spaces
-(3) Compact non-commutative harmonic analysis: paley wiener theorem,
+(3) Compact non-commutative harmonic analysis: Paley-Wiener theorem,
 representation on semisimple, solvable, groups.
 (4) Harmonic analysis on homogeneous spaces, spherical harmonics.
 (5) Harmonic analysis on compact manifolds, with and without boundary.
 [Pontryagin, Helgason, Terras, Colin de Verdière]
+
 
 %^ RT
 \paragraph{Representation theory}
@@ -200,9 +230,11 @@ Constructive real analysis.
 %^ F
 \paragraph{Formalization}
 Zero, first and second order logic.
+Naive set theory.
 Zermelo-Fraenkel set theory.
 Axiom of choice and equivalents.
 Inductivism and constructivism.
+Intuitionistic logic.
 Category theory.
 Toposes and Topoi.
 Bayesianism.
@@ -216,6 +248,7 @@ Renaissance.  Modern times, separation of math from philosophy.
 The eighteenth.  The explosion of the nineteenths.
 Separation of math and physics.
 Twentieth century.  Attempts at formalization of physics.
+Maths and computer science.  Neural networks.
 
 %^ A
 \paragraph{Arithmetic}
@@ -266,13 +299,17 @@ Zeta functions.
 
 %^ CNT
 \paragraph{Computational Number Theory}
+Seminumerical algorithms.  Floating point, integers, rationals, polynomials.
+Finite fields.
+Elliptic curves.
+Hyperelliptic curves and function fields.
 [Cohen]
 
 %^ C
 \paragraph{Combinatorics}
 Enumerative combinatorics.
 Generatingfunctionology.
-Statistical combinatorics.
+Statistical combinatorics.  Ramsey.
 
 
 %^ P
@@ -283,6 +320,7 @@ Compute area of arbitrary triangle.
 Sorting algorithms.  String processing.
 Implicit data structures: heap, disjoint set forest.
 [Kernighan-Ritchie]
+{}
 
 %^ KNU
 \paragraph{Algorithms}
@@ -290,7 +328,9 @@ Semirandom numbers.  Generation and statistic evaluation.
 Basic overview of complexity notations.
 Fundamental algorithms and data structures: sorting, searching, trees, hash
 tables, maps, dictionaries, etc.
+Dual numbers, automatic differentiation.
 [Knuth, Sedgewick]
+{P->KNU}
 
 %^ CT
 \paragraph{Computation theory}
@@ -298,12 +338,14 @@ Finite automata. Nondeterministic automata. Regular expressions.
 Turing machines.  Lambda calculus.  Futamura projections and combinators.
 Computability.  Gödel theorem.
 Computational complexity.
+{KNU->CT}
 
 %^ G
 \paragraph{Graphics}
 Rendering of simple polyhedral figures.  Light models.
 3D geometry, change of bases.  Projective geometry.
 Exercices with modern opengl.
+{P->G}
 
 %^ NM
 \paragraph{Numerical Methods}
@@ -315,6 +357,7 @@ Order of an integration method.
 Practical integration in higher dimensions.
 Numerical solution of equations.
 Iterative techniques for local optimization.
+{P->NM, CSV->NM}
 
 %^ NLA
 \paragraph{Numerical Linear Algebra}
@@ -327,6 +370,7 @@ Eigen and Singular decompositions: power method, inverse power method, QR,
 SVD
 Applications: quadratic minimization, linear regression, discrete linear ODE
 and PDE, splines, polynomial factorization, oscillation modes
+{P->NLA, BMA->NLA}
 
 %^ NOE
 \paragraph{Numerical ODE}
@@ -340,10 +384,19 @@ multiple-scale analysis, kalman filtering
 Many examples of PDE discretization via sparse matrices.
 Stability, Consistency and Convergence.
 Graph-discretization of geometric PDE.
+Finite elements.
+Finite volumes.
 Discretization of variational problems.
 Primal-dual methods for variational problems.
 Fast-marching methods for first-order problems: transport, burgers, etc.
 Fourier, multiscale, multigrid for elliptic problems.
+Free discontinuity problems.
+
+%^ NUO
+\paragraph{Numerical Optimization}
+Automatic differentiation (forward and backward).
+Levenberg-Marcquardt, Newton and semi-newton methods.
+Gradient descent, Randomized gradient descent.
 
 %^ GRT
 \paragraph{Graph Theory}
@@ -372,6 +425,7 @@ Conics and Quadrics.
 Discrete symmetry groups.
 Polyhedra and polytopes.
 [Coxeter]
+{}
 
 %^ GET
 \paragraph{General Topology}
@@ -379,6 +433,7 @@ Metric spaces: balls, open sets, continuous functions
 Topological spaces.  Continuous functions.
 Connectedness.  Compactness.  Separation.
 Homotopy of continuous functions.
+{CSV->GET}
 
 %^ AT
 \paragraph{Algebraic Topology}
@@ -438,6 +493,13 @@ Uninformative priors, invariant priors, conjugate priors.
 
 %^ IT
 \paragraph{Information Theory}
+
+%^ SIP
+\paragraph {Signal Processing}
+Analog one-dimensional signal processing.
+Digital signal processing.
+Modulation.
+Radar focusing.
 
 %^ SP
 \paragraph{Stochastic processes}
@@ -515,7 +577,7 @@ sparsity.  Dust crystallography.
 \paragraph{Celestial mechanics}
 The two-body problem, basic orbit determination.  The n-body problem, general
 theorems.  Restricted three-body problems, some periodic orbits, some
-particular points.
+particular points.  Piecewise elliptic approximation.  Halo orbits.
 The orbit of a satellite in practice.
 
 %^ O

@@ -1,0 +1,73 @@
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+
+%\title{Fourier-Poisson-Nyquist-Whittaker-Shannon}
+{\large Fourier-Poisson-Nyquist-Whittaker-Shannon}
+
+\bigskip
+
+{\bf Conventions for Fourier transforms.}
+\[
+	\widehat{u}(y)=\int_\R u(x)e^{-ixy}\ud x
+	\qquad\qquad
+	\check{u}(y)=\frac{1}{2\pi}\int_\R u(x)e^{ixy}\ud x
+\]
+
+{\bf Conventions for Fourier series.}
+If~$f$ is~$T$-periodic:
+\[
+	f(x)=\sum_{n\in\Z}F_n e^{\frac{2\pi i nx}{T}}
+	\qquad\qquad
+	F_n=\frac1T\int_0^T f(x)e^{\frac{-2\pi i nx}{T}}\ud x
+\]
+
+{\bf Theorem (Shannon-Nyquist)}\\
+If~$\mathrm{supp}(\widehat{u})\subseteq[-B,B]$ then~$u$ is determined by its
+samples at~$\frac{2\pi}{2B}\Z$.
+
+{\it Proof.}
+Represent~$\widehat{u}$ by a Fourier series on~$[-B,B]$:
+\[
+	\widehat{u}(y)=\sum_{n\in Z} c_n e^{\frac{i\pi n}{B}}
+	\qquad\qquad
+	c_n=\frac1{2B}\int_{-B}^B \widehat{u}(y)e^{\frac{-i\pi ny}{B}}\ud y
+\]
+Now, since~$\widehat{u}$ vanishes outside~$[-B,B]$
+\[
+	c_n = \frac1{2B}\int_{-\infty}^\infty
+	\widehat{u}(y)e^{i\left(\frac{-\pi n}B\right)y}
+	\ud y
+\]
+and by the Fourier inversion theorem~$c_n=\frac{2\pi}{2B}u\left(\frac{-\pi n}B\right)$.
+Thus
+\[
+	\widehat{u}(y)=\sum_{n\in\Z}\frac\pi Bu\left(\frac{\pi n}B\right)
+		e^{\frac{-i\pi n}B}
+\]
+so the samples~$u\left(\frac{\pi n}B\right)$ determine~$\widehat{u}$,
+and hence also~$u$.
+\hfill\qedsymbol
+
+
+{\bf Theorem (Shannon-Whittaker)}\\
+If~$\mathrm{supp}(\widehat{u})\subseteq[-B,B]$
+then~$\displaystyle u(x)=\sum_{n\in\Z}u\left(\frac{\pi
+n}B\right)\mathrm{sinc}\left(Bx-\pi n\right)$
+
+{\it Proof.}
+We walk backards the proof above, starting from the inversion
+theorem:
+\begin{align*}
+	u(x) &= \frac1{2\pi}\int_{-\infty}^{\infty}\widehat{u}(y)e^{ixy}\ud y \\
+	&= \frac1{2\pi}\int_{-B}^B\widehat{u}(y)e^{ixy}\ud y \\
+	&= \frac1{2\pi}\int_{-B}^B\left(\sum_{n\in \Z}\frac\pi Bu\left(\frac{\pi n}B\right)e^{\frac{-i\pi n y}B}\right)e^{ixy}\ud y \\
+	&= \frac1{2B}\sum_{n\in\Z}u\left(\frac{\pi n}B\right)\int_{-B}^Be^{i\left(x-\frac{\pi n}B\right)y}\ud y\\
+	&= \sum_{n\in\Z}u\left(\frac{\pi n}B\right)\mathrm{sinc}\left(Bx-\pi
+	n\right)
+\end{align*}
+\hfill\qedsymbol
+
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

@@ -1,0 +1,92 @@
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\R}{\mathbf{R}}
+
+\title{The method of characteristics}
+
+I often forget about the following computations, and I have to spend a few hours
+reconstructing them.
+So here they are, in a notation that suits me.
+
+\section{The method of characteristics in two dimensions}
+
+
+%\paragraph{Statement of the problem.}
+Let~$\Omega\subseteq\R^2$ be an open domain of the plane.
+We want to find a function~$u:\Omega\to\R$
+that satisfies the following first-order~PDE:
+\begin{equation}\label{eq:pde}
+		F\left(x,y,u(x,y),u_x(x,y),u_y(x,y)\right)=0
+\end{equation}
+where~$F(x,y,u,p,q)$ is a function~$\Omega\times\R\times\R^2\to\R$.
+The equation is subject to boundary conditions
+$u=f$ on~$\partial\Omega$
+that will be treated later.
+
+Deriving equation~\ref{eq:pde} with respect to~$x$ and~$y$ we obtain
+\begin{equation}\label{eq:gradpde}
+	\begin{cases}
+		F_x + u_xF_u + u_{xx}F_p + u_{xy}F_q = 0\\
+		F_y + u_yF_u + u_{xy}F_p + u_{yy}F_q = 0\\
+	\end{cases}
+\end{equation}
+We will try to rewrite this by getting rid of the second derivatives.  Let us
+consider a five-dimensional curve that ``traces'' a solution~$u$ in the
+tangent space; i.e., a function
+\begin{equation*}
+	t\mapsto\left(
+		x(t),y(t),z(t),p(t),q(t)
+	\right)
+\end{equation*}
+such that
+\begin{equation}
+	z(t)=u\left(x(t),y(t)\right)
+\end{equation}
+\begin{equation}
+	p(t)=u_x\left(x(t),y(t)\right)
+\end{equation}
+\begin{equation}
+	q(t)=u_y\left(x(t),y(t)\right)
+\end{equation}
+
+Now, differentiating with respect to~$t$:
+\begin{equation}\label{eq:dotz}
+	\dot z=u_x\dot x + u_y\dot y
+\end{equation}
+\begin{equation}\label{eq:dotp}
+	\dot p=u_{xx}\dot x + u_{xy}\dot y
+\end{equation}
+\begin{equation}\label{eq:dotq}
+	\dot q=u_{yx}\dot x + u_{yy}\dot y
+\end{equation}
+Notice that equation~\ref{eq:dotz} can be rewritten as
+\begin{equation}\label{eq:dotz2}\dot z=p\dot x+q\dot y\end{equation}
+
+Equations~\label{eq:dotz2}, \ref{eq:dotp} and~\ref{eq:dotq} hold for an
+arbitrary curve that traces the solution.  We will now impose further
+conditions on the curve to get rid of~$u$ on equations~\ref{eq:dotp}
+and~\ref{eq:dotq}.  The ``magic'' conditions are the following
+\begin{equation}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+	\end{cases}
+\end{equation}
+by combining these magic conditions with equation~\ref{eq:gradpde}, we obtain
+\begin{equation}\label{eq:ode}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+		\dot z = pF_p + qF_q \\
+		\dot p = -F_x - pF_u \\
+		\dot q = -F_y - qF_u \\
+	\end{cases}
+\end{equation}
+Now~\ref{eq:ode} is an ODE in~$\R^5$.  The~$\left(x(t),y(t)\right)$ solutions
+of this ODE are called the~\emph{characteristic curves} of the
+PDE~\ref{eq:pde}.
+
+
+
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

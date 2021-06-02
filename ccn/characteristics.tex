@@ -191,6 +191,62 @@ thus the characteristic equations are
 
 
 \clearpage
+\section{Boundary conditions}
+
+Assume first that the domain~$\Omega$ is the upper-half plane~$y\ge 0$ and we
+on the boundary~$\partial\Omega$ we have~$u(x,0)=f(x)$.
+As explained in Evans, we can always reduce locally  to this case because the
+characteristic equations are invariant by composition with a smooth map.
+
+To find a solution of the characteristic equations
+\begin{equation*}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+		\dot z = pF_p + qF_q \\
+		\dot p = -F_x - pF_z \\
+		\dot q = -F_y - qF_z \\
+	\end{cases}
+\end{equation*}
+we need to give values to the five involved functions at~$t=0$.
+If we start at a point~$(x_0,0)$ on~$\partial\Omega$ it is clear that
+we have to set
+\begin{equation*}
+	\begin{cases}
+		x(0) = x_0 \\
+		y(0) = 0 \\
+		z(0) = f(x_0) \\
+	\end{cases}
+\end{equation*}
+what about~$p(0)$ and~$q(0)$ ?
+Well,~$p(0)$ is easy since it has to be
+\[
+	p(0) = \frac{\partial}{\partial x}u(x_0,0) = f'(x_0)
+\]
+It remains to find~$q(0)$.  If we want that the curve traces the solution in
+tangent space, this value of~$q$ needs to satisfy the condition
+\begin{equation}\label{eq:condboundary}
+	F(x_0, 0, f(x_0), f'(x_0), q(0)) = 0
+\end{equation}
+Now, equation~\ref{eq:condboundary} is an equation that we can~\emph{solve}
+for~$q(0)$ !
+This equation will have a unique solution, for example, when~$\frac{\partial
+F}{\partial q}>0$.  In many typical cases (Eikonal, Hamilton-Jacobi,
+shape-from-shading) it will be possible to solve
+equation~\label{eq:condboundary} directly due to its simple form.
+
+{\bf Boundary conditions in shape from shading:}\\
+For~$F=\alpha p + \beta q + c - J\,\sqrt{1+p^2+q^2}$
+we have
+\[
+	\alpha f'(x_0) + \beta q_0 + c
+	-J(x_0,0)\, \sqrt{1+f'(x_0)^2+q_0^2} = 0
+\]
+which is a quadratic equation in the variable~$q_0$.
+
+
+
+\clearpage
 \section{The method of characteristics in $d$ dimensions}
 
 The computation is completely analogous to that of the plane.  The notation

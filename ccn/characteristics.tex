@@ -233,16 +233,32 @@ for~$q(0)$ !
 This equation will have a unique solution, for example, when~$\frac{\partial
 F}{\partial q}>0$.  In many typical cases (Eikonal, Hamilton-Jacobi,
 shape-from-shading) it will be possible to solve
-equation~\label{eq:condboundary} directly due to its simple form.
+equation~\ref{eq:condboundary} directly due to its simple form.
 
 {\bf Boundary conditions in shape from shading:}\\
 For~$F=\alpha p + \beta q + c - J\,\sqrt{1+p^2+q^2}$
-we have
+equation~\ref{eq:condboundary} becomes
 \[
 	\alpha f'(x_0) + \beta q_0 + c
 	-J(x_0,0)\, \sqrt{1+f'(x_0)^2+q_0^2} = 0
 \]
-which is a quadratic equation in the variable~$q_0$.
+which is a quadratic equation in the variable~$q_0$.  Here~$f(x)$ is the
+Dirichlet boundary condition known on~$\partial\Omega=\{(x,0):x\in\R\}$.
+This equation has a particularly simple form when the boundary condition is
+constant~($f'=0$), becoming:
+\[
+	\left(\beta^2-J^2\right)q_0^2+2\beta cq_0+c^2-J^2=0
+\]
+a necessary condition for this equation to have a positive solution for~$q_0$
+(which will allow to propagate the characteristic curve inside the
+domain~$\Omega$) is~$\beta^2+c^2>J^2(x_0,0)$.  If that is the case, the
+vector~$(f'(x_0),q_0)$ gives the starting slope for the characteristic curve
+that begins at~$(x_0,0)$.  If, by a further simplification, we assume
+that~$J$ is piecewise constant, then the characteristic curve is a straight
+line segment, until it touches the next constant portion.  Thus, a piecewise
+constant image~$J$ is reconstructed into a piecewise affine terrain~$u$.
+(TODO: finish the actual computation, it looks like Snell's law of
+refraction).
 
 
 

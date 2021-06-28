@@ -1,0 +1,179 @@
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\R}{\mathbf{R}}
+
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\p}{\mathbf{p}}
+
+\newcommand{\1}{\textbf{1}}
+
+% \def\R{\mathbf{R}}
+% \def\C{\mathbf{C}}
+% \def\N{\mathbf{N}}
+% \def\T{\mathbf{T}}
+% \def\x{\mathbf{x}}
+% \def\a{\mathbf{a}}
+% \def\y{\mathbf{y}}
+% \def\m{\mathbf{m}}
+% \def\b{\mathbf{b}}
+% \def\u{\mathbf{u}}
+% \def\Z{\mathbf{Z}}
+ \def\R{\textbf{R}}
+ \def\C{\textbf{C}}
+ \def\N{\textbf{N}}
+ \def\T{\textbf{T}}
+ \def\x{\textbf{x}}
+ \def\a{\textbf{a}}
+ \def\y{\textbf{y}}
+ \def\m{\textbf{m}}
+ \def\b{\textbf{b}}
+ \def\u{\textbf{u}}
+ \def\Z{\textbf{Z}}
+
+\def\F{\mathcal{F}}
+\def\d{\mathrm{d}}
+%\DeclareMathOperator*{\argmin}{arg\,min}
+%\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\med}[0]{\mathrm{med}}
+\newcommand{\reference}[1] {{\scriptsize \color{gray}{#1}}}
+\newcommand{\referenceq}[1] {{\tiny \color{gray}[{#1}]}}
+\newcommand{\referencep}[1] {{\tiny \color{gray}  #1 }}
+\newcommand{\unit}[1] {{\tiny \color{gray}  #1 }}
+
+% \parens{x}      ->  (x)
+% \pairing{x}{y}  ->  <x,y>
+\newcommand{\parens}[1]{\left(#1\right)} % (x)
+\newcommand{\pairing}[2]{\left\langle #1,\,#2\right\rangle} % <x,y>
+
+% \abs{x}         ->    |x|
+% \Abs{x}         ->   ||x||
+% \ABS{x}         ->  |||x|||
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\Abs}[1]{\left\|#1\right\|}
+\newcommand{\ABS}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+
+
+\title{Algorithms for the geometric median}
+
+
+\section{The geometric median}
+
+\begin{definition}[Geometric median]
+Let
+\(
+	\left\{\a_1,\ldots,\a_n\right\}\subseteq\R^d
+\)
+be~$n$ points in~$\R^d$.
+A~\emph{geometric median} of these points is any point~$\x\in\R^d$ minimizing
+the sum of distances:
+\begin{equation}\label{eq:objective}
+	%\med(\a_1,\ldots,\a_n) = \arg
+	\min_{\x\in\R^d} f(\x)
+	\qquad
+	\qquad
+	\textrm{where}
+	\qquad
+	\qquad
+		%\displaystyle
+	f(\x) = \sum_{i=1}^n \left\|\x-\a_i\right\|
+\end{equation}
+\end{definition}
+
+\begin{proposition}
+	Any finite non-empty set of points has at least one geometrical
+	median.
+\end{proposition}
+
+\begin{proof}
+	The function~$f(\x)$ in~\ref{eq:objective} is continuous, convex and
+	has compact level sets.
+\end{proof}
+
+\begin{proposition}\label{eq:uniq}
+If the points
+\(
+	\left\{\a_1,\ldots,\a_n\right\}\subseteq\R^d
+\)
+are not aligned then their geometrical median is unique.
+\end{proposition}
+
+Before proving proposition~\ref{eq:uniq} let us recall some simple cases.
+
+\begin{proposition}[median in dimension 1]
+Let~\( \left\{a_1,\ldots,a_n\right\}\subseteq\R \)
+and let~$a_{(1)}\le a_{(2)}\le\cdots\le a_{(n)}$
+be the same numbers in
+ascending order.  In the odd case~$n=2k-1$ the median is~$a_{(k)}$.  In the
+even case~$n=2k$ the median is any number in the
+interval~$\left[a_{(k)},a_{(k+1)}\right]$.
+\end{proposition}
+
+\begin{proof}
+	The function~$f(x)=\sum \abs{x-a_i}$ is piecewise affine with
+	%odd or even
+	integer slopes.
+\end{proof}
+
+\begin{proposition}[median of~$3$ points in~$\R^2$]
+	Let~$\a_1,\a_2,\a_3$ be three non-aligned points in~$\R^2$, forming a
+	triangle.  If the triangle has an angle larger or equal
+	than~$120^\circ$, then the median is the vertex of this angle.
+	Otherwise, %the three angles are smaller than~$120^\circ$ and
+	the median is the Fermat point of the triangle, that sees the three
+	successive points in egual angles of~$120^\circ$.
+\end{proposition}
+
+\begin{proposition}[median of~$4$ points in~$\R^2$]
+	Let~$\a_1,\a_2,\a_3,\a_4$ be four non-aligned points in~$\R^2$.  If the
+	convex hull of the four points is a triangle, the median is the point
+	which is not a vertex.  Otherwise, the convex hull is a quadrilateral
+	and the median is the point where its diagonals cross.
+\end{proposition}
+
+median of 5 points (bajaj theorem)
+
+gradient and hessian of the objective function
+
+strict positive definiteness of the hessian
+
+\section{Weiszfeld algorithm}
+
+three views of weiszfeld algorithm
+
+as an iteratively reweighted least squares
+
+as fixed point iterations
+
+as a gradient descent
+
+first problem: not well-defined
+
+second problem: slow convergence
+
+
+\section{Other algorithms}
+
+brute force minimization on the~$a_i$, hoping that it will be close to the
+optimim
+
+gradient descent with larger steps
+
+newton method on the region of convergence
+
+newton-armijo
+
+bfgs
+
+low-dimensional hessians
+
+stochastic gradient descent
+
+sampling-based methods
+
+coresets
+
+
+
+

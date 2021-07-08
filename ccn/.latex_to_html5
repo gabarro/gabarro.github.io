@@ -200,20 +200,20 @@ css_gallery = [[
 ]]
 
 boilerplate_mathjax = [[
-<script type="text/x-mathjax-config">
-	MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-			processEscapes: true
-		}
-	});
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
 </script>
-<script async src="JAXURL?JAXOPT">
+<script async src="JAXURL">
 </script>
 ]]
 
-JAXURL = "https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"
-JAXOPT = "config=TeX-AMS_CHTML-full"
+JAXURL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
 
 if whole_file:match("%$") then  -- TODO: perform a more intelligent check here
 	metadata_maths = true
@@ -227,7 +227,6 @@ if whole_file:match("<div class=\"gallery\"") then
 end
 
 boilerplate_mathjax = boilerplate_mathjax:gsub("JAXURL", JAXURL)
-boilerplate_mathjax = boilerplate_mathjax:gsub("JAXOPT", JAXOPT)
 
 if not metadata_title then metadata_title = "" end
 
@@ -332,7 +331,7 @@ table.insert(output_lines, "\n<hr>\n\n")
 --	metadata_title:gsub("%s", "_")
 --	)
 --table.insert(output_lines, tracker)
-table.insert(output_lines, "<!-- enric meinhardt-llopis, 2019 -->\n\n")
+table.insert(output_lines, "<!-- enric meinhardt-llopis, 2021 -->\n\n")
 
 -- dump output lines
 for _,l in ipairs(output_lines) do

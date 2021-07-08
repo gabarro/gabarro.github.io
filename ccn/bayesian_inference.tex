@@ -54,6 +54,7 @@ initial position and speed, following the deterministic laws of nature.  It
 is only because you do not know with enough precision the position, speed,
 and all the necessary physical details that you cannot be sure whether it
 will land head or tails.
+%But that is your problem.
 
 What can you do, then, with a sentence about your personal beliefs?  Can you
 do science with it?  Yes, you can.  The only thing that you can do is run
@@ -121,13 +122,13 @@ $$
 or maybe
 
 $$
-\hat\sigma_2 :=\sqrt{\frac{1}{N-1}\sum_{n=1}^N (x_n-\bar\mu)^2}
+\hat\sigma_2 :=\sqrt{\frac{1}{N-1}\sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 or even, god forbid,
 
 $$
-\hat\sigma_3 :=\sqrt{\frac{1}{N-1.5}\ \sum_{n=1}^N (x_n-\bar\mu)^2}
+\hat\sigma_3 :=\sqrt{\frac{1}{N-1.5}\ \sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 or, if you are really fancy, you can use an~\emph{unbiased} estimator
@@ -135,7 +136,7 @@ for~$\sigma$
 
 $$
 \hat\sigma_4
-:=\frac{\Gamma\left(\frac{n-1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)\sqrt{2}}\ \sqrt{\sum_{n=1}^N (x_n-\bar\mu)^2}
+:=\frac{\Gamma\left(\frac{n-1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)\sqrt{2}}\ \sqrt{\sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 There are more unbiased estimators for~$\sigma$, this one is just an example.
@@ -151,7 +152,7 @@ an appropriate functional transformation to it and then it becomes unbiased.
 For example, using the notation above, the estimators~$\hat\sigma_4$
 and~$\hat\sigma_2^2$ are unbiased estimators for~$\sigma~$ and~$\sigma^2$
 respectively; however,~$\hat\sigma_2$ and~$\hat\sigma_4^2$ are biased
-estimators for~$\sigma^2$ and~$\sigma^2$.  Thus, the fact of being unbiased
+estimators for~$\sigma$ and~$\sigma^2$.  Thus, the fact of being unbiased
 depends on whether we use linear or quadratic units, not on the computation
 itself!
 
@@ -368,7 +369,7 @@ the posterior distribution:
 		$$
 		is called the~\emph{minimum mean square error} (MMSE).
 		It has this name because it minimizes a quadratic error
-		called the ``quared error risk''.
+		called the ``squared error risk''.
 	\item More generally, you can take a parameter~$p>0$ and define
 		the~$p$-risk which is the~$p$-norm of the error.  The MMSE
 		and the MAP arise as particular cases for~$p=2$ and~$p\to0$,

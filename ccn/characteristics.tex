@@ -28,7 +28,7 @@ $u=f$ on~$\partial\Omega$
 that will be treated later.
 
 \subsection{Derivation of the characteristic ODE}
-Deriving equation~\ref{eq:pde} with respect to~$x$ and~$y$ we obtain
+Deriving equation~\eqref{eq:pde} with respect to~$x$ and~$y$ we obtain
 \begin{equation}\label{eq:gradpde}
 	\begin{cases}
 		F_x + u_xF_z + u_{xx}F_p + u_{xy}F_q = 0\\
@@ -64,20 +64,20 @@ Now, differentiating with respect to~$t$:
 \begin{equation}\label{eq:dotq}
 	\dot q=u_{yx}\dot x + u_{yy}\dot y
 \end{equation}
-Notice that equation~\ref{eq:dotz} can be rewritten as
+Notice that equation~\eqref{eq:dotz} can be rewritten as
 \begin{equation}\label{eq:dotz2}\dot z=p\dot x+q\dot y\end{equation}
 
-Equations~\label{eq:dotz2}, \ref{eq:dotp} and~\ref{eq:dotq} hold for an
+Equations~\label{eq:dotz2}, \eqref{eq:dotp} and~\eqref{eq:dotq} hold for an
 arbitrary curve that traces the solution.  We will now impose two further
-conditions on the curve to get rid of~$u$ on equations~\ref{eq:dotp}
-and~\ref{eq:dotq}.  The ``magic'' conditions are the following
+conditions on the curve to get rid of~$u$ on equations~\eqref{eq:dotp}
+and~\eqref{eq:dotq}.  The ``magic'' conditions are the following
 \begin{equation}
 	\begin{cases}
 		\dot x = F_p \\
 		\dot y = F_q \\
 	\end{cases}
 \end{equation}
-by combining these magic conditions with equation~\ref{eq:gradpde}, we obtain
+by combining these magic conditions with equation~\eqref{eq:gradpde}, we obtain
 \begin{equation}\label{eq:ode}
 	\begin{cases}
 		\dot x = F_p \\
@@ -87,9 +87,9 @@ by combining these magic conditions with equation~\ref{eq:gradpde}, we obtain
 		\dot q = -F_y - qF_z \\
 	\end{cases}
 \end{equation}
-Now~\ref{eq:ode} is an ODE in~$\R^5$.  The~$\left(x(t),y(t)\right)$ solutions
+Now~\eqref{eq:ode} is an ODE in~$\R^5$.  The~$\left(x(t),y(t)\right)$ solutions
 of this ODE are called the~\emph{characteristic curves} of the
-PDE~\ref{eq:pde}.
+PDE~\eqref{eq:pde}.
 
 \subsection{Examples of characteristic equations}
 %Now let us see some examples.
@@ -234,16 +234,16 @@ tangent space, this value of~$q$ needs to satisfy the condition
 \begin{equation}\label{eq:condboundary}
 	F(x_0, 0, f(x_0), f'(x_0), q(0)) = 0
 \end{equation}
-Now, equation~\ref{eq:condboundary} is an equation that we can~\emph{solve}
+Now, equation~\eqref{eq:condboundary} is an equation that we can~\emph{solve}
 for~$q(0)$ !
 This equation will have a unique solution, for example, when~$\frac{\partial
 F}{\partial q}>0$.  In many typical cases (Eikonal, Hamilton-Jacobi,
 shape-from-shading) it will be possible to solve
-equation~\ref{eq:condboundary} directly due to its simple form.
+equation~\eqref{eq:condboundary} directly due to its simple form.
 
 {\bf Boundary conditions in shape from shading:}\\
 For~$F=\alpha p + \beta q + c - J\,\sqrt{1+p^2+q^2}$
-equation~\ref{eq:condboundary} becomes
+equation~\eqref{eq:condboundary} becomes
 \[
 	\alpha f'(x_0) + \beta q_0 + c
 	-J(x_0,0)\, \sqrt{1+f'(x_0)^2+q_0^2} = 0
@@ -307,17 +307,17 @@ Now, differentiating with respect to~$t$:
 \begin{equation}\label{eq:dotpdd}
 	\dot\p=D^2_{\x}u\  \dot\x
 \end{equation}
-Notice that equation~\ref{eq:dotzdd} can be rewritten as
+Notice that equation~\eqref{eq:dotzdd} can be rewritten as
 \begin{equation}\label{eq:dotz2dd}\dot z=\p\cdot\dot\x\end{equation}
 
-Equations~\ref{eq:dotz2dd} and~\ref{eq:dotpdd} hold for any
+Equations~\eqref{eq:dotz2dd} and~\eqref{eq:dotpdd} hold for any
 curve that traces the solution.  We will now impose~$d$ further
-conditions on that curve to get rid of~$u$ on equation~\ref{eq:dotpdd}.
+conditions on that curve to get rid of~$u$ on equation~\eqref{eq:dotpdd}.
 The ``magic'' conditions are the following
 \begin{equation}
 	\dot\x = D_{\p}F
 \end{equation}
-by combining these conditions with equation~\ref{eq:gradpdedd}, we obtain
+by combining these conditions with equation~\eqref{eq:gradpdedd}, we obtain
 \begin{equation}\label{eq:odedd}
 	\begin{cases}
 		\dot\x = D_{\p}F \\
@@ -325,10 +325,10 @@ by combining these conditions with equation~\ref{eq:gradpdedd}, we obtain
 		\dot\p = -D_{\x}F - \p F_z \\
 	\end{cases}
 \end{equation}
-Now~\ref{eq:odedd} is an ODE in~$\R^{2d+1}$.
+Now~\eqref{eq:odedd} is an ODE in~$\R^{2d+1}$.
 The solutions $\x(t)$ solutions
 of this ODE are called the~\emph{characteristic curves} of the
-PDE~\ref{eq:pdedd}.
+PDE~\eqref{eq:pdedd}.
 
 
 % vim:set tw=77 filetype=tex spell spelllang=en:

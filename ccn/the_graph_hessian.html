@@ -1,54 +1,92 @@
-\title{The Graph Hessian}
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- The Graph Hessian</title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}
+</style>
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
 
+<!--
+	This file is a literate program.
+	The experiments are run by applying the following filter:
+
+		grep ^%SCRIPT | sed 's/&amp;/\&/g' | cut -c9- | sh
+-->
+
+
+<h1>The Graph Hessian</h1>
+
+<p>
 Everybody knows about the graph Laplacian, but can we define the Hessian
 operator on a graph?  Let us see.
 
-\section{Recall of algebraic graph calculus}
+<h2>1. Recall of algebraic graph calculus</h2>
 
-Consider a directed graph~$G=(V,E)$ with~$n$ vertices and~$m$ edges.
+<p>
+Consider a directed graph $G=(V,E)$ with $n$ vertices and $m$ edges.
+$\newcommand{\R}{\mathbf{R}}$
+$\newcommand{\Z}{\mathbf{Z}}$
 
-\newcommand{\R}{\mathbf{R}}
-\newcommand{\Z}{\mathbf{Z}}
+<p>
+Functions $f:V\to\R$ are called <i>scalar fields</i>
+and they are elements of $\R^n$.
 
-Functions~$f:V\to\R$ are called~\emph{scalar fields}
-and they are elements of~$\R^n$.
+<p>
+Functions $X:E\to\R$ are called <i>vector fields</i> and they are elements
+of $\R^m$.  For an intuition, you may think that the values of $X$ on the
+edges around a vertex $p\in V$ are the components of the vector $X_p$.
 
-Functions~$X:E\to\R$ are called~\emph{vector fields} and they are elements
-of~$\R^m$.  For an intuition, you may think that the values of~$X$ on the
-edges around a vertex~$p\in V$ are the components of the vector~$X_p$.
+<p>
+The <i>signed incidence matrix</i> $B$ has $m$ rows and $n$ columns, encoding
+the directed edges with $\pm 1$.  More precisely, if $e=(i,j)\in E$ this
+means that $B_{ei}=-1$, $B_{ej}=1$ and zero elsewhere.  The linear
+operator $B:\R^n\to\R^m$ transforms scalar fields into vector fields and is
+called the <i>gradient</i>.  Given a scalar field $f:V\to\R$, its gradient is
+a vector field that at each edge $e=(i,j)\in E$ takes the value $f(j)-f(i)$.
 
-
-The~\emph{signed incidence matrix}~$B$ has~$m$ rows and~$n$ columns, encoding
-the directed edges with~$\pm 1$.  More precisely, if~$e=(i,j)\in E$ this
-means that~$B_{ei}=-1$, $B_{ej}=1$ and zero elsewhere.  The linear
-operator~$B:\R^n\to\R^m$ transforms scalar fields into vector fields and is
-called the~\emph{gradient}.  Given a scalar field~$f:V\to\R$, its gradient is
-a vector field that at each edge~$e=(i,j)\in E$ takes the value~$f(j)-f(i)$.
-
-The linear operator~$-B^\top:\R^m\to\R^n$ transforms vector fields into
-scalar fields and is called the~\emph{divergence}.  Given a vector
-field~$X:E\to\R$ its divergence is a scalar field that represents the
+<p>
+The linear operator $-B^\top:\R^m\to\R^n$ transforms vector fields into
+scalar fields and is called the <i>divergence</i>.  Given a vector
+field $X:E\to\R$ its divergence is a scalar field that represents the
 difference between the inflow and outflow at each vertex.
 
-The~\emph{laplacian} is the divergence of the gradient~$L=-B^\top B$.  As
-an~$n\times n$ matrix, it is symmetric and negative semidefinite.  As a
+<p>
+The <i>laplacian</i> is the divergence of the gradient $L=-B^\top B$.  As
+an $n\times n$ matrix, it is symmetric and negative semidefinite.  As a
 linear operator, it transforms scalar fields into scalar fields.  The
-condition~$Lf=0$ for a scalar field~$f$ is an equilibrium condition:
-the value of~$f$ at one vertex is equal to the average value on all its
+condition $Lf=0$ for a scalar field $f$ is an equilibrium condition:
+the value of $f$ at one vertex is equal to the average value on all its
 neighbours.
 
+<p>
 These definitions are analogous to the corresponding constructions of vector
-calculus in~$\R^2$ and~$\R^3$.  However, not all operations that we can do in
+calculus in $\R^2$ and $\R^3$.  However, not all operations that we can do in
 vector calculus are possible here.  For example, the pointwise product of a
 scalar and a vector field is not well defined in the discrete case.  For that
-we'll need to introduce a specific~\emph{centering
-operator} defined by~$C=\frac12\left|B\right|$.
+we'll need to introduce a specific <i>centering
+operator</i> defined by $C=\frac12\left|B\right|$.
 
-The centering operator~$C:\R^n\to\R^m$ transforms scalar fields into vector
+<p>
+The centering operator $C:\R^n\to\R^m$ transforms scalar fields into vector
 fields, just like the gradient; but it takes the average instead of the
-difference at each edge. Similarly, the operator~$C^\top$ takes vector fields
+difference at each edge. Similarly, the operator $C^\top$ takes vector fields
 into scalar fields.
 
+<p>
 Thanks to the centering operator we can prove the discrete analogs of the
 traditional product rules from vector calculus
 \begin{equation}\label{eq:vectorcalculus}
@@ -59,15 +97,16 @@ traditional product rules from vector calculus
 	=f\mathrm{div}X+X\cdot\nabla f
 \end{equation}
 
+<p>
 In the discrete case, to avoid algebraic confusion,
-we will denote pointwise products in~$\R^d$
-by~$\odot_d$.  Thus the pointwise product of two scalar fields~$f$ and~$g$ is
-the scalar field~$f\odot_n g$.  We also define the product of a scalar
-field~$f$ with a vector field~$X$ as the vector field~$Cf\odot_m X$, and the
-dot product of two vector fields~$X$ and~$Y$ as the scalar
-field~$C^\top\left(X\odot_m Y\right)$.
+we will denote pointwise products in $\R^d$
+by $\odot_d$.  Thus the pointwise product of two scalar fields $f$ and $g$ is
+the scalar field $f\odot_n g$.  We also define the product of a scalar
+field $f$ with a vector field $X$ as the vector field $Cf\odot_m X$, and the
+dot product of two vector fields $X$ and $Y$ as the scalar
+field $C^\top\left(X\odot_m Y\right)$.
 
-
+<p>
 We readily check the product rule for the discrete gradient:
 \begin{equation}\label{eq:gradprod}
 	B\left(f\odot_n g\right)=
@@ -80,27 +119,27 @@ and, with some more work, the product rule for the divergence
 	f\odot_n\left(-B^\top X\right)
 	+C^\top\left(X\odot_m Bf\right)
 \end{equation}
-Notice that formulas~\eqref{eq:gradprod} and~\eqref{eq:divprod} may appear
+Notice that formulas \eqref{eq:gradprod} and \eqref{eq:divprod} may appear
 complicated at first sight, but they are the exact translation of the
-traditional product rules~\eqref{eq:vectorcalculus}.  You don't need to
+traditional product rules \eqref{eq:vectorcalculus}.  You don't need to
 remember these complicated formulas: you deduce them every time you need, by
 writing the traditional product rule and adding centering operators until the
 dimensions fit.
 
 {\color{gray}
-An interesting particular case of these computations is when~$G$ is the
-one-dimensional path graph.  For example let~$V=\Z$ with edges joining
-consecutive integers from low to high.  Now, if~$f:\Z\to\R$ is a discrete
-function, the gradient~$Bf$ is the discrete derivative computed by forward
+An interesting particular case of these computations is when $G$ is the
+one-dimensional path graph.  For example let $V=\Z$ with edges joining
+consecutive integers from low to high.  Now, if $f:\Z\to\R$ is a discrete
+function, the gradient $Bf$ is the discrete derivative computed by forward
 differences (which is defined at half-positions, that is, on the edges!).
-The operator~$-B^\top$ is backwards finite differences, and composing both we
-obtain the second derivative~$L f$ by the traditional three-point scheme:
+The operator $-B^\top$ is backwards finite differences, and composing both we
+obtain the second derivative $L f$ by the traditional three-point scheme:
 \[
 	Lf (i) = f(i-1) -2f(i)+f(i+1)
 \]
 Using the traditional (but confusing) notation for finite
-differences~$\Delta_1 f(i)=f(i+1)-f(i)$, we can rewrite the
-formula~\eqref{eq:gradprod} as
+differences $\Delta_1 f(i)=f(i+1)-f(i)$, we can rewrite the
+formula \eqref{eq:gradprod} as
 \[
 	\Delta_1(fg)(i) =
 	\tfrac{f(i)+f(i+1)}2\Delta_1 g(i) +
@@ -112,8 +151,9 @@ are often found in numerical analysis books).  Here we see that the centering
 operator is necessary, but it arises in a natural way.
 }
 
+<p>
 Finally, as a sanity check, we can verify the
-product rule for the Laplacian:~$\Delta\left(fg\right)=f\Delta g+g\Delta
+product rule for the Laplacian: $\Delta\left(fg\right)=f\Delta g+g\Delta
 f+2\nabla f\cdot\nabla g$:
 \[
 	L\left(fg\right)=
@@ -122,41 +162,42 @@ f+2\nabla f\cdot\nabla g$:
 	g\odot_n Lf
 	+2C^\top\left(Bf\odot_m Bg\right)
 \]
-This follows directly by applying equations~\eqref{eq:gradprod}
-and~\eqref{eq:divprod} one after the other.
+This follows directly by applying equations \eqref{eq:gradprod}
+and \eqref{eq:divprod} one after the other.
 
-By analogy with the continuous case, we define the \emph{directional
-derivative} of a function~$f$ with respect to a vector field~$X$
-as~$\partial_Xf:=C^\top\left(X\odot_m Bf\right)$.  Notice that this is just a
-linear operator (depending on~$X$) applied to~$f$.  Indeed, if we denote
-by~$d(X)$ the~$m\times m$ matrix with the elements of~$X$ at the diagonal, we
-see that~$X\odot_m Y=d(X)Y$, thus the matrix of the operator~$\partial_X$
-is~$C^\top d(X)B$.  Furthermore, the map~$X\mapsto\partial_Xf$ is also linear
-on~$X$, and its matrix is~$C^\top d\left(Bf\right)$.  These observations will
+<p>
+By analogy with the continuous case, we define the <i>directional
+derivative</i> of a function $f$ with respect to a vector field $X$
+as $\partial_Xf:=C^\top\left(X\odot_m Bf\right)$.  Notice that this is just a
+linear operator (depending on $X$) applied to $f$.  Indeed, if we denote
+by $d(X)$ the $m\times m$ matrix with the elements of $X$ at the diagonal, we
+see that $X\odot_m Y=d(X)Y$, thus the matrix of the operator $\partial_X$
+is $C^\top d(X)B$.  Furthermore, the map $X\mapsto\partial_Xf$ is also linear
+on $X$, and its matrix is $C^\top d\left(Bf\right)$.  These observations will
 be crucial when we try to define the Hessian as a bilinear operator.
 
+<h2>2. Numerical verification</h2>
 
-\clearpage
-\section{Numerical verification}
-
+<p>
 None of this would be any good if it wasn't easy to verify numerically.  Let
 us check whether all these derivatives make sense for a 2D image.  I do these
 experiments because the formulas that we'll find later for the Hessian will
 be so scary that we'll need to verify them...
 
-Let us consider a~$128\times128$ image with a Gaussian profile, together with
+<p>
+Let us consider a $128\times128$ image with a Gaussian profile, together with
 some of its derivatives
 
-
-\begin{tabular}{cccccc}
-\includegraphics{fgauss.png} &
-\includegraphics{fgaussx.png} &
-\includegraphics{fgaussy.png} &
-\includegraphics{fgaussxx.png} &
-\includegraphics{fgaussxy.png} &
-\includegraphics{fgaussyy.png} \\
-$u$ & $u_x$ & $u_y$ & $u_{xx}$ & $u_{xy}$ & $u_{yy}$
-\end{tabular}
+<table><tr><td>
+<img src="fgauss.png" alt="image"> <td>
+<img src="fgaussx.png" alt="image"> <td>
+<img src="fgaussy.png" alt="image"> <td>
+<img src="fgaussxx.png" alt="image"> <td>
+<img src="fgaussxy.png" alt="image"> <td>
+<img src="fgaussyy.png" alt="image"> <tr><td>
+$u$ <td> $u_x$ <td> $u_y$ <td> $u_{xx}$ <td> $u_{xy}$ <td> $u_{yy}$
+</table>
+<!--
 %SCRIPT plambda zero:128x128 ":r 2 ^ -0.1 / exp" -o fgauss.npy
 %SCRIPT palette {-,}1 nice fgauss.npy fgauss.png
 %SCRIPT plambda fgauss.npy "u,x"|palette {-,}0.05 nice - fgaussx.png
@@ -170,28 +211,29 @@ $u$ & $u_x$ & $u_y$ & $u_{xx}$ & $u_{xy}$ & $u_{yy}$
 %SCRIPT plambda fgauss.npy "u,xx u,yy * u,xy 2 ^ -"|palette {-,}0.00004 nice - fgaussd.png
 %SCRIPT plambda fgauss.npy "u,xx u,x 2 ^ * u,yy u,y 2 ^ * u,xy u,x u,y * * -2 * + +"|palette {-,}0.000005 nice - fgaussc.png
 %SCRIPT plambda fgauss.npy "u,g dup vnorm /"|plambda "u,d -1 *"|palette {-,}1 nice - fgaussk.png
+-->
 
-\bigskip
+<p>
 
-\begin{tabular}{cccccc}
-\includegraphics{fgaussgn.png} &
-\includegraphics{fgaussg.png} &
-\includegraphics{fgaussl.png} &
-\includegraphics{fgaussd.png} &
-\includegraphics{fgaussc.png} &
-\includegraphics{fgaussk.png} \\
-$\left\|\nabla u\right\|$ &
-$\mathrm{vec}\left(\nabla u\right)$ &
-$\Delta u$ &
-$\mathrm{det}H u$ &
-$\mathrm{canny}(u)$ &
+<table><tr><td>
+<img src="fgaussgn.png" alt="image"> <td>
+<img src="fgaussg.png" alt="image"> <td>
+<img src="fgaussl.png" alt="image"> <td>
+<img src="fgaussd.png" alt="image"> <td>
+<img src="fgaussc.png" alt="image"> <td>
+<img src="fgaussk.png" alt="image"> <tr><td>
+$\left\|\nabla u\right\|$ <td>
+$\mathrm{vec}\left(\nabla u\right)$ <td>
+$\Delta u$ <td>
+$\mathrm{det}H u$ <td>
+$\mathrm{canny}(u)$ <td>
 $\mathrm{curv}(u)$
-\end{tabular}
+</table>
 
+<p>
 For reference, these images have been produced using the following shell
 script
-% do not remove the space before verbatim
- \begin{verbatim}
+ <pre>
 plambda zero:128x128 ":r 2 ^ -0.1 / exp" -o fgauss.npy
 palette {-,}1 nice fgauss.npy fgauss.png
 plambda fgauss.npy "u,x"  | palette {-,}0.05  nice - fgaussx.png
@@ -199,49 +241,53 @@ plambda fgauss.npy "u,y"  | palette {-,}0.05  nice - fgaussy.png
 plambda fgauss.npy "u,xx" | palette {-,}0.005 nice - fgaussxx.png
 plambda fgauss.npy "u,xy" | palette {-,}0.005 nice - fgaussxy.png
 plambda fgauss.npy "u,yy" | palette {-,}0.005 nice - fgaussyy.png
-\end{verbatim}% do not remove this comment
+</pre>
 
-
+<p>
 All these computations have been performed using classical finite difference
 schemes.  Now, let us verify that the computations using the graph
 formalism give the same results.  The rest of the code shown is written in
 Octave.
 
-%RUN_VERBATIMS octavescript
 
+<p>
 First, we define the only ``structural'' function that we will need, to
 compute the signed incidence matrix of a rectangular grid:
 
-\begin{verbatim}
+<pre>
 function B = grid_incidence(w, h)                          # grid graph WxH
         x = sparse(1:w-1, 2:w, 1, w-1, w) - speye(w-1,w);  # path of length W
         y = sparse(1:h-1, 2:h, 1, h-1, h) - speye(h-1,h);  # path of length H
         B = [ kron(speye(h),x) ; kron(y,speye(w)) ];       # kronecker union
 end
-\end{verbatim}
+</pre>
 
+<p>
 Now we are good to go.  Let us start by loading the image data and defining
 all the appropriate matrices:
 
-\begin{verbatim}
+<pre>
 u = iio_read("fgauss.npy");   # load input image
 [w,h] = size(u);              # extract dimensions
 u = double(u(:));             # flatten image data into vector
 B = grid_incidence(w,h);      # build incidence matrix
 C = abs(B)/2;                 # centering matrix
 L = -B'*B;                    # laplacian matrix
-\end{verbatim}
+</pre>
 
+<p>
 As a first test, we will compute and visualize the laplacian of this image:
-\begin{verbatim}
+<pre>
 v = L*u;                                     # compute the laplacian
 z = 127 + 127*v/max(abs(v));                 # normalize values into [0,255]
 iio_write("fgauss_Lu.png", reshape(z,w,h));  # save the result
-\end{verbatim}
+</pre>
 
-\includegraphics{fgauss_Lu.png}\verb+ fgauss_Lu.png+
+<p>
+<img src="fgauss_Lu.png" alt="image"><code> fgauss_Lu.png</code>
 
-So far, it looks good.  Since at this point we only have one function~$u$,
+<p>
+So far, it looks good.  Since at this point we only have one function $u$,
 and we can only visualize scalar fields, maybe the easiest numerical check
 will be to verify the formula
 \[
@@ -256,7 +302,7 @@ or, in the discrete case
 	+C^\top\left(Bf\odot_mBf\right)
 \]
 and, in code
-\begin{verbatim}
+<pre>
 a = -B' * ( (C*u) .* (B*u) );   # f = div(u*grad(u))
 b = u .* (-B'*B*u);             # g = u*lap(u)
 c = C' * ( (B*u) .* (B*u) );    # h = |grad(u)|^2
@@ -275,27 +321,28 @@ iio_write("fgauss_c.png", reshape(nc,w,h));
 iio_write("fgauss_bpc.png", reshape(nbpc,w,h));
 iio_write("fgauss_err.png", reshape(nerr,w,h));
 iio_write("fgauss_err.npy", reshape(err,w,h));
-\end{verbatim}
+</pre>
 
-\begin{tabular}{ccccc}
-	\includegraphics{fgauss_a.png} &
-	\includegraphics{fgauss_b.png} &
-	\includegraphics{fgauss_c.png} &
-	\includegraphics{fgauss_bpc.png} &
-	\includegraphics{fgauss_err.png}\\
-	$a$ &
-	$b$ &
-	$c$ &
-	$b+c$ &
+<table><tr><td>
+	<img src="fgauss_a.png" alt="image"> <td>
+	<img src="fgauss_b.png" alt="image"> <td>
+	<img src="fgauss_c.png" alt="image"> <td>
+	<img src="fgauss_bpc.png" alt="image"> <td>
+	<img src="fgauss_err.png" alt="image"><tr><td>
+	$a$ <td>
+	$b$ <td>
+	$c$ <td>
+	$b+c$ <td>
 	$a-(b+c)$
-\end{tabular}
+</table>
 
+<p>
 The product rule is uncannily precise!
 
-
+<p>
 Now let us compute some directional derivatives.
 
-\begin{verbatim}
+<pre>
 [x,y] = meshgrid(linspace(1,w,w),linspace(1,h,h));
 Dx = B*x(:);
 Dy = B*y(:);
@@ -305,10 +352,16 @@ nux = 127 + 127*ux/max(abs(ux));
 nuy = 127 + 127*uy/max(abs(uy));
 iio_write("fgauss_ux.png", reshape(nux,w,h));
 iio_write("fgauss_uy.png", reshape(nuy,w,h));
-\end{verbatim}
+</pre>
 
-\includegraphics{fgauss_ux.png}\verb+ fgauss_ux.png+
+<p>
+<img src="fgauss_ux.png" alt="image"><code> fgauss_ux.png</code>
 
-\includegraphics{fgauss_uy.png}\verb+ fgauss_uy.png+
+<p>
+<img src="fgauss_uy.png" alt="image"><code> fgauss_uy.png</code>
 
-% vim:set tw=77 filetype=tex spell spelllang=en:
+
+<hr>
+
+<!-- enric meinhardt-llopis, 2021 -->
+

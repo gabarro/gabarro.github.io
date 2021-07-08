@@ -1,0 +1,370 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- </title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}
+</style>
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+
+$\newcommand{\ud}{\mathrm{d}}$
+$\newcommand{\R}{\mathbf{R}}$
+
+$\newcommand{\x}{\mathbf{x}}$
+$\newcommand{\y}{\mathbf{y}}$
+$\newcommand{\p}{\mathbf{p}}$
+
+<h1>The method of characteristics</h1>
+
+<p>
+I often forget about the following computations, and I have to spend a few hours
+reconstructing them.
+So here they are, in a notation that suits me.
+
+<h2>1. The method of characteristics in two dimensions</h2>
+
+<b>Statement of the problem.</b>
+Let $\Omega\subseteq\R^2$ be an open domain of the plane.
+We want to find a function $u:\Omega\to\R$
+that satisfies the following first-order PDE:
+\begin{equation}\label{eq:pde}
+		F\left(x, y, u(x,y), u_x(x,y), u_y(x,y)\right)=0
+\end{equation}
+where $F(x,y,z,p,q)$ is a function $\Omega\times\R\times\R^2\to\R$.
+The equation is subject to Dirichlet boundary conditions
+$u=f$ on $\partial\Omega$
+that will be treated later.
+
+<h3>1.1. Derivation of the characteristic ODE</h3>
+
+<p>
+Deriving equation \eqref{eq:pde} with respect to $x$ and $y$ we obtain
+\begin{equation}\label{eq:gradpde}
+	\begin{cases}
+		F_x + u_xF_z + u_{xx}F_p + u_{xy}F_q = 0\\
+		F_y + u_yF_z + u_{xy}F_p + u_{yy}F_q = 0\\
+	\end{cases}
+\end{equation}
+We will try to rewrite this by getting rid of the second derivatives.  Let us
+consider a five-dimensional curve that ``traces'' a solution $u$ in the
+tangent space; i.e., a function
+\begin{equation*}
+	t\mapsto\left(
+		x(t),y(t),z(t),p(t),q(t)
+	\right)
+\end{equation*}
+such that
+\begin{equation}
+	z(t)=u\left(x(t),y(t)\right)
+\end{equation}
+\begin{equation}
+	p(t)=u_x\left(x(t),y(t)\right)
+\end{equation}
+\begin{equation}
+	q(t)=u_y\left(x(t),y(t)\right)
+\end{equation}
+
+<p>
+Now, differentiating with respect to $t$:
+\begin{equation}\label{eq:dotz}
+	\dot z=u_x\dot x + u_y\dot y
+\end{equation}
+\begin{equation}\label{eq:dotp}
+	\dot p=u_{xx}\dot x + u_{xy}\dot y
+\end{equation}
+\begin{equation}\label{eq:dotq}
+	\dot q=u_{yx}\dot x + u_{yy}\dot y
+\end{equation}
+Notice that equation \eqref{eq:dotz} can be rewritten as
+\begin{equation}\label{eq:dotz2}\dot z=p\dot x+q\dot y\end{equation}
+
+<p>
+Equations \label{eq:dotz2}, \eqref{eq:dotp} and \eqref{eq:dotq} hold for an
+arbitrary curve that traces the solution.  We will now impose two further
+conditions on the curve to get rid of $u$ on equations \eqref{eq:dotp}
+and \eqref{eq:dotq}.  The ``magic'' conditions are the following
+\begin{equation}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+	\end{cases}
+\end{equation}
+by combining these magic conditions with equation \eqref{eq:gradpde}, we obtain
+\begin{equation}\label{eq:ode}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+		\dot z = pF_p + qF_q \\
+		\dot p = -F_x - pF_z \\
+		\dot q = -F_y - qF_z \\
+	\end{cases}
+\end{equation}
+Now \eqref{eq:ode} is an ODE in $\R^5$.  The $\left(x(t),y(t)\right)$ solutions
+of this ODE are called the <i>characteristic curves</i> of the
+PDE \eqref{eq:pde}.
+
+<h3>1.2. Examples of characteristic equations</h3>
+
+
+<p>
+<b>Linear first-order equations:</b>
+a b c
+\[
+	\alpha u_x(x,y)+\beta u_y(x,y)+\gamma u(x,y)+\varphi(x,y)=0
+\]
+Here we have $F(x,y,u,p,q)=\alpha p+\beta q+\gamma z+ \varphi$, thus the
+characteristic equations are
+\[
+	\begin{cases}
+		\dot x = \alpha \\
+		\dot y = \beta \\
+		\dot z = \alpha p + \beta q \\
+		\dot p = -\varphi_x - \gamma p \\
+		\dot q = -\varphi_y - \gamma q \\
+	\end{cases}
+\]
+This means that the characteristic curves are straight lines in the
+direction $(\alpha,\beta)$.  In the common particular case when the equation
+does not depend on $u$ explicitly $(\gamma=0)$, we have that $z$ can be
+obtained very easily, by integrating the datum $\varphi$ along the
+characteristic curves.
+
+<p>
+<b>Eikonal equation:</b>
+\[
+	\left\|\nabla u\right\|=1
+\]
+Here we have $F=\sqrt{p^2+q^2}-1$, thus the characteristic equations are
+\[
+	\begin{cases}
+		\dot x = p\\ 
+		\dot y = q\\ 
+		\dot z = 1\\ 
+		\dot p = 0 \\
+		\dot q = 0 \\
+	\end{cases}
+\]
+This can be solved explicitly: the functions $(p,q)$ are constant,
+thus $(x,y)$ follows a straight line at speed one, and the value $z$ of $u$
+increases linearly along these straight lines.
+
+<p>
+<b>One-dimensional Hamilton-Jacobi equation:</b>
+\[
+	u_t=F(x,t,u,u_x)
+\]
+Here we have, (renaming $t$ into $y$):
+\[
+	\begin{cases}
+		\dot x = -F_{u_x} \\
+		\dot y = 1 \\
+		\dot z = -pF_{u_x} \\
+		\dot p = F_x+pF_z \\
+		\dot q = -qF_z \\
+	\end{cases}
+\]
+The second equation says that $y$ advances at speed one (it is just the
+time $t$).  The variable $q$ is unnecessary as it is independent to the
+others.  Thus the characteristic curves are defined by:
+\[
+	\begin{cases}
+		\dot x = -F_{u_x} \\
+		\dot z = -pF_{u_x} \\
+		\dot p = F_x+pF_z \\
+	\end{cases}
+\]
+
+<p>
+<b>Shape-from-shading equation:</b>
+The following equation models the image $I(x,y)$ acquired by nadir affine
+camera, when it observes a Lambertian terrain $u(x,y)$ of albedo $A$, lit by
+a point source of light in the direction $\left(\alpha,\beta,\gamma\right)\in
+S^2$ and ambient light B:
+\[
+	I(x,y)=A\frac{\alpha u_x+\beta u_y+\gamma}{\sqrt{1+u_x^2+u_y^2+1}}+B
+\]
+formally, it is a first-order nonlinear PDE that we can solve for $u$ to
+compute the relief from the image.
+
+<p>
+By setting $ \ J=\dfrac{I-B}A$, we have
+\[
+	F = \alpha p + \beta q + c - J\sqrt{1+p^2+q^2}
+\]
+thus the characteristic equations are
+\[
+	\begin{cases}
+		
+		
+		
+		
+		
+		\dot x = \alpha - p\,J/\sqrt{\cdot} \\
+		\dot y = \beta - q\,J/\sqrt{\cdot} \\
+		\dot z = \alpha p + \beta q - (p^2+q^2)\,J/\sqrt{\cdot}\\
+		\dot p = -J_x\sqrt{\cdot} \\
+		\dot q = -J_y\sqrt{\cdot} \\
+	\end{cases}
+\]
+Inside a region where $J$ is constant, this means that $\dot p=\dot q=0$
+thus $p,q$ are constants, and $x,y,z$ are linear functions of $t$.
+Thus $u$ is affine where $J$ is constant.
+Notice that due to the normalization, $J$ takes values inside the
+interval $[0,1]$.
+
+<h2>2. Boundary conditions</h2>
+
+<p>
+Assume first that the domain $\Omega$ is the upper-half plane $y\ge 0$ and we
+on the boundary $\partial\Omega$ we have $u(x,0)=f(x)$.
+As explained in Evans, we can always reduce locally  to this case because the
+characteristic equations are invariant by composition with a smooth map.
+
+<p>
+To find a solution of the characteristic equations
+\begin{equation*}
+	\begin{cases}
+		\dot x = F_p \\
+		\dot y = F_q \\
+		\dot z = pF_p + qF_q \\
+		\dot p = -F_x - pF_z \\
+		\dot q = -F_y - qF_z \\
+	\end{cases}
+\end{equation*}
+we need to give values to the five involved functions at $t=0$.
+If we start at a point $(x_0,0)$ on $\partial\Omega$ it is clear that
+we have to set
+\begin{equation*}
+	\begin{cases}
+		x(0) = x_0 \\
+		y(0) = 0 \\
+		z(0) = f(x_0) \\
+	\end{cases}
+\end{equation*}
+what about $p(0)$ and $q(0)$ ?
+Well, $p(0)$ is easy since it has to be
+\[
+	p(0) = \frac{\partial}{\partial x}u(x_0,0) = f'(x_0)
+\]
+It remains to find $q(0)$.  If we want that the curve traces the solution in
+tangent space, this value of $q$ needs to satisfy the condition
+\begin{equation}\label{eq:condboundary}
+	F(x_0, 0, f(x_0), f'(x_0), q(0)) = 0
+\end{equation}
+Now, equation \eqref{eq:condboundary} is an equation that we can <i>solve</i>
+for $q(0)$ !
+This equation will have a unique solution, for example, when $\frac{\partial
+F}{\partial q}&gt;0$.  In many typical cases (Eikonal, Hamilton-Jacobi,
+shape-from-shading) it will be possible to solve
+equation \eqref{eq:condboundary} directly due to its simple form.
+
+<p>
+<b>Boundary conditions in shape from shading:</b>\\
+For $F=\alpha p + \beta q + c - J\,\sqrt{1+p^2+q^2}$
+equation \eqref{eq:condboundary} becomes
+\[
+	\alpha f'(x_0) + \beta q_0 + c
+	-J(x_0,0)\, \sqrt{1+f'(x_0)^2+q_0^2} = 0
+\]
+which is a quadratic equation in the variable $q_0$.  Here $f(x)$ is the
+Dirichlet boundary condition known on $\partial\Omega=\{(x,0):x\in\R\}$.
+This equation has a particularly simple form when the boundary condition is
+constant ($f'=0$), becoming:
+\[
+	\left(\beta^2-J^2\right)q_0^2+2\beta cq_0+c^2-J^2=0
+\]
+a necessary condition for this equation to have a positive solution for $q_0$
+(which will allow to propagate the characteristic curve inside the
+domain $\Omega$) is $\beta^2+c^2&gt;J^2(x_0,0)$.  If that is the case, the
+vector $(f'(x_0),q_0)$ gives the starting slope for the characteristic curve
+that begins at $(x_0,0)$.  If, by a further simplification, we assume
+that $J$ is piecewise constant, then the characteristic curve is a straight
+line segment, until it touches the next constant portion.  Thus, a piecewise
+constant image $J$ is reconstructed into a piecewise affine terrain $u$.
+(TODO: finish the actual computation, it looks like Snell's law of
+refraction).
+
+<h2>3. The method of characteristics in $d$ dimensions</h2>
+
+<p>
+The computation is completely analogous to that of the plane.  The notation
+seems simpler, but it requires a bit more of head-scratching to understand.
+Let us consider the general first-order equation in $\R^d$:
+\begin{equation}\label{eq:pdedd}
+	F(\x, u(\x), Du(\x)) = 0
+\end{equation}
+Where $F(\x,u,\p)$ is a function defined
+on $\Omega\times\R\times\R^d\approx\R^{2d+1}$.  Computing the gradient of
+this equation with respect to $\x$ we obtain
+\begin{equation}\label{eq:gradpdedd}
+	D_{\x}F + D_{\x}u\,D_uF + D^2_{\x}u\,D_{\p}F = 0
+\end{equation}
+Notice that this is a $d$-dimensional equality.  We will try to get rid of
+the hessian in this equation.  Let $u$ be a solution and pick
+a $2d+1$-dimensional curve that traces this solution in tangent space; i.e.,
+a function
+\begin{equation*}
+	t\mapsto\left(
+		\x(t),z(t),\p(t)
+	\right)
+\end{equation*}
+such that
+\begin{equation}
+	z(t)=u\left(\x(t)\right)
+\end{equation}
+\begin{equation}
+	\p(t)=D_{\x}u\left(\x(t)\right)
+\end{equation}
+
+<p>
+Now, differentiating with respect to $t$:
+\begin{equation}\label{eq:dotzdd}
+	\dot z=D_{\x}u\,\cdot\,\dot\x
+\end{equation}
+\begin{equation}\label{eq:dotpdd}
+	\dot\p=D^2_{\x}u\  \dot\x
+\end{equation}
+Notice that equation \eqref{eq:dotzdd} can be rewritten as
+\begin{equation}\label{eq:dotz2dd}\dot z=\p\cdot\dot\x\end{equation}
+
+<p>
+Equations \eqref{eq:dotz2dd} and \eqref{eq:dotpdd} hold for any
+curve that traces the solution.  We will now impose $d$ further
+conditions on that curve to get rid of $u$ on equation \eqref{eq:dotpdd}.
+The ``magic'' conditions are the following
+\begin{equation}
+	\dot\x = D_{\p}F
+\end{equation}
+by combining these conditions with equation \eqref{eq:gradpdedd}, we obtain
+\begin{equation}\label{eq:odedd}
+	\begin{cases}
+		\dot\x = D_{\p}F \\
+		\dot z = \p\cdot\dot\x \\
+		\dot\p = -D_{\x}F - \p F_z \\
+	\end{cases}
+\end{equation}
+Now \eqref{eq:odedd} is an ODE in $\R^{2d+1}$.
+The solutions $\x(t)$ solutions
+of this ODE are called the <i>characteristic curves</i> of the
+PDE \eqref{eq:pdedd}.
+
+
+<hr>
+
+<!-- enric meinhardt-llopis, 2021 -->
+

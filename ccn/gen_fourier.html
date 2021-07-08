@@ -8,15 +8,16 @@
 	table td { padding:7px; border-spacing:0px; }
 	.thm em i { font-style: normal;}
 </style>
-<script type="text/x-mathjax-config">
-	MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-			processEscapes: true
-		}
-	});
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
 </script>
-<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
 
 
@@ -39,6 +40,7 @@ $\newcommand{\Z}{\mathbf{Z}}$
 $\newcommand{\Q}{\mathbf{Q}}$
 $\newcommand{\C}{\mathbf{C}}$
 $\newcommand{\U}{\mathbf{U}}$
+$\newcommand{\T}{\mathbf{T}}$
 $\newcommand{\ud}{\mathrm{d}}$
 
 <ul>
@@ -288,7 +290,9 @@ $x$ by $-x$.
 The canonical example of LCAG is $\R^n$ with the usual topology and
 the operation of sum of vectors.  Another example of LCAG is the
 multiplicative group $\U$ of complex numbers of norm 1, which
-topologically coincides with the unit circle $S^1$.  Other examples are any
+topologically coincides with the unit circle $S^1$, and is isomorphic
+to the additive group of real numbers modulo $2\pi$ called the
+one-dimensional torus $\T=\R/2\pi\Z$.  Other examples are any
 finite abelian group with the discrete topology; or $\Z$, the
 additive group of integers with the discrete topology.
 
@@ -574,7 +578,7 @@ diagram:
 
 
 <p>
-Let us describe the <b>folding</b> operation.
+Let us define the <b>folding</b> operation.
 Suppose that $\varphi$ is a rapidly decreasing smooth function.
 We take a period $P&gt;0$ and define the function
 $$
@@ -582,7 +586,7 @@ $$
 $$
 Since $\varphi$ is rapidly decreasing, this series converges
 pointwise, and $\varphi_P$ is a smooth and $P$-periodic
-function.  This folding operation transforms defined on $\R$ to
+function.  This folding operation transforms functions defined on $\R$ to
 functions defined on $\R/2\pi\Z$
 
 <p>
@@ -647,6 +651,7 @@ $$
 which can be evaluated at $x=0$ to give the Poisson summation formula
 $$
 \sum_{k\in\Z}\varphi(kP)
+=
 \frac{\sqrt{2\pi}}{P}
 \sum_{n\in\Z}
 \widehat\varphi\left(
@@ -974,13 +979,12 @@ which are also sums of Diracs:
 And, as we would say in Catalan, <i>the mother of the
 eggs</i>\footnote{``La mare dels ous'', or in french ``où il gît le
 lièvre''.  I do not know a similarly colorful expression in english}: the
-Fourier transform of a Dirac comb is another Dirac comb.  I don not
+Fourier transform of a Dirac comb is another Dirac comb.
+Now I don't see
 know how to prove this by combining the identities above, but it has
 a simple proof by expressing the Dirac comb as the derivative of a
-sawtooth function and applying it to a test function.
-$$
-\textrm{(typeset the computation)}
-$$
+sawtooth function and applying it to a test function, as done on the
+previous section.
 
 <h2>5. Spectral geometry</h2>
 
@@ -1085,5 +1089,5 @@ isospectral manifolds in dimensions two and above.
 
 <hr>
 
-<!-- enric meinhardt-llopis, 2019 -->
+<!-- enric meinhardt-llopis, 2021 -->
 

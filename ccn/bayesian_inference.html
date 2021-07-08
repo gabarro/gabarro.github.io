@@ -8,15 +8,16 @@
 	table td { padding:7px; border-spacing:0px; }
 	.thm em i { font-style: normal;}
 </style>
-<script type="text/x-mathjax-config">
-	MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-			processEscapes: true
-		}
-	});
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
 </script>
-<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
 
 <!--
@@ -167,14 +168,14 @@ $$
 or maybe
 
 $$
-\hat\sigma_2 :=\sqrt{\frac{1}{N-1}\sum_{n=1}^N (x_n-\bar\mu)^2}
+\hat\sigma_2 :=\sqrt{\frac{1}{N-1}\sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 <p>
 or even, god forbid,
 
 $$
-\hat\sigma_3 :=\sqrt{\frac{1}{N-1.5}\ \sum_{n=1}^N (x_n-\bar\mu)^2}
+\hat\sigma_3 :=\sqrt{\frac{1}{N-1.5}\ \sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 <p>
@@ -183,7 +184,7 @@ for $\sigma$
 
 $$
 \hat\sigma_4
-:=\frac{\Gamma\left(\frac{n-1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)\sqrt{2}}\ \sqrt{\sum_{n=1}^N (x_n-\bar\mu)^2}
+:=\frac{\Gamma\left(\frac{n-1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)\sqrt{2}}\ \sqrt{\sum_{n=1}^N (x_n-\hat\mu)^2}
 $$
 
 <p>
@@ -200,7 +201,7 @@ an appropriate functional transformation to it and then it becomes unbiased.
 For example, using the notation above, the estimators $\hat\sigma_4$
 and $\hat\sigma_2^2$ are unbiased estimators for $\sigma $ and $\sigma^2$
 respectively; however, $\hat\sigma_2$ and $\hat\sigma_4^2$ are biased
-estimators for $\sigma^2$ and $\sigma^2$.  Thus, the fact of being unbiased
+estimators for $\sigma$ and $\sigma^2$.  Thus, the fact of being unbiased
 depends on whether we use linear or quadratic units, not on the computation
 itself!
 
@@ -433,7 +434,7 @@ the posterior distribution:
 		$$
 		is called the <i>minimum mean square error</i> (MMSE).
 		It has this name because it minimizes a quadratic error
-		called the ``quared error risk''.
+		called the ``squared error risk''.
 	<li>More generally, you can take a parameter $p&gt;0$ and define
 		the $p$-risk which is the $p$-norm of the error.  The MMSE
 		and the MAP arise as particular cases for $p=2$ and $p\to0$,
@@ -585,5 +586,5 @@ and this condition simplifies to $\sigma=\sigma_{N-1}$.
 
 <hr>
 
-<!-- enric meinhardt-llopis, 2019 -->
+<!-- enric meinhardt-llopis, 2021 -->
 

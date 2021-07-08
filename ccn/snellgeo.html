@@ -1,0 +1,390 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- From Snell's law to Christoffel symbols</title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}
+</style>
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+
+<h1>From Snell's law to Christoffel symbols</h1>
+
+<p>
+The unfulfilled goal of this study is to take Snell's law of refraction
+$$
+\frac{\sin\theta_1}{c_1}=\frac{\sin\theta_2}{c_2}
+$$
+manipulate it somehow, and obtain the geodesic equations on a manifold
+$$
+\ddot q^i = \Gamma^i_{jk}\,\dot q^j\,\dot q^k
+$$
+So far, we have reached this goal only for some particular cases of Riemannian
+metrics in the plane (either conformal, or anisotropic but varying only on the
+horizontal direction).
+
+<p>
+Notice that both Snell's law and the geodesic equations describe the same
+thing: the fastest trajectory on an inhomogeneous medium.  Thus, it is natural
+that they are equivalent.
+
+<h2>1. Geodesic equations</h2>
+
+<p>
+On this section we derive the geodesic equations on a manifold using the
+direct method of the calculus of variations.  Notice that the rest of the
+text is much larger than this section.  This is natural, because this section
+uses advanced tools (variational calculus), while the rest of the text only
+uses elementary tools.
+
+<p>
+On an $n$-dimensional Riemannian manifold $(M,g)$, we define the length of a
+curve $q:[0,1]\to M$ by
+$$
+\mathrm{length}(q) := \int_0^1 \|\dot q(t)\|_g\mathrm{d} t
+$$
+where $\|v\|_g$ denotes the norm of the vector $v$ measured by the local
+metric tensor $g$.  In coordinates, and using Einstein's summation
+convention, we have $\|\dot q\|^2_g=g_{ij}\dot q^i\dot q^j$.  Notice that the
+dependence of $g$ on the position $q$ is not explicit.  Writing the norm
+explicitly in coordinates, we have
+$$
+\mathrm{length}(q) := \int_0^1
+\sqrt{
+	\sum_{i=1}^n
+	\sum_{j=1}^n
+	g_{ij}\left(q^1(t),\ldots,q^n(t)\right)
+	\,
+	\dot q^i(t)
+	\dot q^j(t)
+}
+\ \mathrm{d} t
+$$
+Due to the homogeneity of this expression, the length of a curve is invariant
+to reparametrizations $\mathrm{length}(q)=\mathrm{length}(q\circ h)$.  The
+curves that are local minima of the length functional are
+called <i>geodesics</i>.  Now, the length functional is a bit cumbersome to
+minimize directly due to the square root.  We work instead with the energy
+functional:
+$$
+\mathrm{energy}(q) := \frac{1}{2}\int_0^1 \|\dot q(t)\|^2_g\mathrm{d} t
+$$
+This functional is much easier to minimize (the Euler-Lagrange equations are
+linear).  The curves of minimum energy turn out to be the geodesics
+parametrized at constant speed.  This can be seen by applying the
+Cauchy-Schwarz inequality to the functions $\|\dot q\|$ and $1$:
+$$
+\left(\int_0^1\|\dot q\|\right)^2\le2\int_0^1\|\dot q\|^2
+$$
+with equality if and only if the two functions are proportional $\|\dot
+q\|=c$.  Thus, if a curve $q$ parametrized at constant speed minimzes the
+energy then it also minimizes the length.
+
+<p>
+In general, to minimize an energy of the form $\int L(q(t),\dot
+q(t))\,\mathrm{d} t$ you have to find curves $q$ that satisfy
+the Euler-Lagrange equations
+$$
+\frac{\partial L}{\partial q^k}
+-\frac{\mathrm{d}}{\mathrm{d} t}
+\frac{\partial L}{\partial \dot q^k}
+= 0
+\qquad k=1,\ldots,n
+$$
+In our case, the Lagragian $L$ is (using Einstein notation):
+$$
+L=
+\tfrac{1}{2}
+g_{ij}\dot q^i\dot q^j
+$$
+and we just have to compute each term of the Euler-Lagrange equations.
+The computation follows (using commas to denote partial derivatives):
+$$
+\frac{\partial L}{\partial q^k}
+=
+\tfrac{1}{2}
+g_{ij,k}\dot q^i\dot q^j
+$$
+$$
+\frac{\partial L}{\partial \dot q^k}
+=
+\tfrac{1}{2}\left(g_{ik}+g_{ki}\right)\dot q^i
+$$
+$$
+\frac{\mathrm{d}}{\mathrm{d} t}
+\frac{\partial L}{\partial \dot q^k}
+=
+g_{ik}\ddot q^i
++
+\tfrac{1}{2}\left(g_{ik,j}+g_{kj,i}\right)\dot q^i\dot q^j
+$$
+so the Euler-Lagrange equations are:
+$$
+g_{ik}\ddot q^i
+=
+\tfrac{1}{2}
+\left(
+g_{ij,k}-g_{ik,j}-g_{kj,i}
+\right)
+\dot q^i\dot q^j
+$$
+and using the inverse of the matrix $g_{ij}$, denoted as $g^{ij}$:
+$$
+\ddot q^k
+=
+\tfrac{1}{2}
+g^{ik}
+\left(
+g_{ij,k}-g_{ik,j}-g_{kj,i}
+\right)
+\dot q^i\dot q^j
+$$
+This last equation is a system of second order quasilinear equations whose
+coefficients depend on the metric.  The geodesics are precisely the solutions
+of this system.  It has the form
+$$
+\ddot q^k = \Gamma^k_{ij}\dot q^i\dot q^j
+\qquad k=1,\ldots, n
+$$
+and the coefficients $\Gamma^k_{ij}$ are called the <i>Christoffel symbols</i>:
+$$
+\Gamma^k_{ij} =
+\tfrac{1}{2}
+g^{ik}
+\left(
+g_{ij,k}-g_{ik,j}-g_{kj,i}
+\right)
+$$
+The solutions of this system of equations are the geodesics of the manifold.
+
+<p>
+We can already extract some geometric conclusions from the form of the
+Christoffel symbols.  Notice that they are homogeneous on the derivatives of
+the metric.  This implies that, if the metric is constant (even if it is
+anisotropic), all the Christoffel symbols vanish and the equations of
+geodesics are $\ddot q=0$, whose solutions are straight lines traversed at
+constant speed.
+
+<p>
+The computation given above using index juggling is very concise but a bit
+scary, depending on your mood.  For comparison, we give below the same
+computation for the case of a two-dimensional manifold whose first
+fundamental form
+is $g=\left(\begin{smallmatrix}E &amp; F \\ F &amp; G\end{smallmatrix}\right)$.  The
+Lagrangian of the energy functional is
+$$
+L=
+\tfrac{1}{2}E\dot x^2+F\dot x\dot y+\tfrac{1}{2}G\dot y^2
+$$
+and then
+$$
+\frac{\partial L}{\partial x}
+=
+\tfrac{1}{2}E_x\dot x^2+F_x\dot x\dot y+\tfrac{1}{2}G_x\dot y^2
+$$
+$$
+\frac{\partial L}{\partial y}
+=
+\tfrac{1}{2}E_y\dot x^2+F_y\dot x\dot y+\tfrac{1}{2}G_y\dot y^2
+$$
+$$
+\frac{\partial L}{\partial \dot x}
+=
+E\dot x+F\dot y
+$$
+$$
+\frac{\partial L}{\partial \dot y}
+=
+F\dot x+G\dot y
+$$
+$$
+\frac{\mathrm{d}}{\mathrm{d} t}
+\frac{\partial L}{\partial \dot x}
+=
+E\ddot x
++\left(E_x\dot x+E_y\dot y\right)\dot x
++F\ddot y
++\left(F_x\dot x+F_y\dot y\right)\dot y
+$$
+$$
+\frac{\mathrm{d}}{\mathrm{d} t}
+\frac{\partial L}{\partial \dot y}
+=
+F\ddot x
++\left(F_x\dot x+F_y\dot y\right)\dot x
++G\ddot y
++\left(G_x\dot x+G_y\dot y\right)\dot y
+$$
+which we can replace into the Euler-Lagrange equations to obtain
+$$
+\begin{cases}
+	E\ddot x+F\ddot y &amp;=
+	\left(-\tfrac{1}{2}E_x\right)\dot x^2
+	+\left(-E_y\right)\dot x\dot y
+	+\left(\tfrac{1}{2}G_x-F_y\right)\dot y^2
+	\\
+	F\ddot x+G\ddot y &amp;=
+	\left(\tfrac{1}{2}E_y-F_x\right)\dot x^2
+	+\left(-G_x\right)\dot x\dot y
+	+
+	\left(-\tfrac{1}{2}G_y\right)\dot y^2
+\end{cases}
+$$
+
+<h2>2. Four proofs of Snell's law</h2>
+
+<p>
+On this section we state Snell's law of refraction and give four different
+proofs of it.
+
+<p>
+Snell's law describes the fastest path that a sexy lifeguard has to take to
+save me when I'm drowning.  Notice that the fastest path is not necessarily the shortest path.
+
+<h3>2.1. Proof of Snell's law based on a minimization problem</h3>
+
+<p>
+Express the total time as the weighted sum of two straight paths, minimize it
+with respect to the position of the unknown point to obtain the law of sines.
+
+<h3>2.2. Proof of Snell's law for circular waves</h3>
+
+<p>
+A single point emitting produces wavefronts that are concentric circular
+waves.  The spacing between the crests of the waves is inversely proportional
+to their speed.  Draw the geometric situation and deduce the law of sines.
+
+<h3>2.3. Proof of Snell's law for straight waves</h3>
+
+<p>
+This is just a local redrawing of the previous construction around the
+trajectory of the optimal path, where the circular waves look parallel.
+The reasoning is somewhat simpler, but feels less immediate.
+
+<h3>2.4. Proof of Snell's law based on translational symmetry</h3>
+
+<p>
+This is just a rewording of the previous computation, but instead of a stack
+of parallel wavefronts we use two parallel rays (which are perpendicular to
+the wavefronts).  By translational symmetry, the behavior must be the same
+for both rays, leading to the law of sines.
+
+<h3>2.5. Proof of Snell's law using Huygens principle</h3>
+
+<p>
+Each point of a wavefront acts as a point emitter.  The rest of the wavefront
+can be understood as the collective interference pattern
+
+<h3>2.6. Proof of Snell's law using Feynman integrals</h3>
+
+<p>
+This is the corpuscular version of Huygens principle.  Light takes all the
+possible paths, and the interference is destructive except for the locally
+extremal path.
+
+<h2>3. Continuously varying Snell's law</h2>
+
+<p>
+First notice what happens when you have several parallel regions of different
+index
+$$
+\frac{\sin\theta_1}{c_1}
+=
+\frac{\sin\theta_2}{c_2}
+=
+\frac{\sin\theta_3}{c_3}
+=
+\cdots
+= K
+$$
+where $K$ is a constant associated globally to the trajectory.  The
+case $K=0$ this corresponds to traversing all the regions perpendicularly.
+
+
+<p>
+In the limiting case when the width of all these regions goes to zero, we
+have the relationship
+\[
+	K = \frac{\sin\theta(x)}{c(x)}
+\]
+where $c(x)$ and $\theta(x)$ are respectively the speed and the angle of the
+trajectory at position $x$.
+
+
+<p>
+By denoting the trajectory as a function $x\mapsto y(x)$, we have
+that $y'=\tan\theta$, and using the identity $\sin\arctan z=z/\sqrt{1+z^2}$
+the equation above becomes
+\[
+	K=\frac{y'}{c\sqrt{1+y'^2}}
+\]
+and assuming that $K&gt;0$ we can isolate $y'$:
+\[
+	y'=\frac{cK}{\sqrt{1-c^2K^2}}
+\]
+Notice that for this equation to make sense it is needed that $c(x)&lt;1/K$.  We
+will see later this condition assures that there is no reflection, only
+refraction.  For now, we will assume that this condition holds.
+
+<p>
+The equation above admits the following solution
+\[
+	y(x)=\int_a^x\frac{c(t)K}{\sqrt{1-c(t)^2K^2}}\ \mathrm{d} t
+\]
+This defines explicitly a two parameter family of solutions for the
+trajectories on a this continuously varying medium.  The parameters $(a,K)$
+determine respectively the starting position and slope of the trajectory.
+
+<p>
+Let us study a few particular solutions of this equation.  The simplest case
+is a constant medium $c(t)=c_0$.  In that case, the solutions are straight
+lines
+\[
+	y(x)=\frac{c_0K}{\sqrt{1-c_0^2K^2}}\left(x-a\right)
+\]
+The next simplest case (just because it is trivial to integrate) is a medium
+of slowly increasing velocity $c(x)=x/\sqrt{1+x^2}$.  Then the trajectories are
+parabolas:
+\[
+	y(x)=\int_a^x Kt\ \mathrm{d} t = \frac{K}{2}(x^2-a^2)
+\]
+This has a beautiful interpretation.  If you regard the light rays as
+``geodesics'' of your inhomogeneous medium, you can simulate the effect of
+the near-earth gravitational field as a metric.  You throw a rock, and it
+foll
+
+<h2>4. Anisotropic Snell's law</h2>
+
+<h2>5. Isotropic Snell's law on a conformal surface</h2>
+
+<h2>6. The general case: Snell's law on a Riemannian manifold</h2>
+
+<p>
+This is the missing section.  I do not know how to do it, but it seems to me
+that this should be a combination of the two previous sections.
+
+<h2>7. Computational examples</h2>
+
+<h2>8. Appendix 1: geodesic interpretation of several common ODE</h2>
+
+<h2>9. Appendix 2: Finsler Snell's law</h2>
+
+
+<hr>
+
+<!-- enric meinhardt-llopis, 2021 -->
+

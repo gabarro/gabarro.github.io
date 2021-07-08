@@ -1,0 +1,205 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Coco notes -- </title>
+<style>
+	body { max-width:90ex; }
+	pre { background:lightgray; width:80ch; }
+	table, td { border:1px solid black; border-collapse:collapse; }
+	table td { padding:7px; border-spacing:0px; }
+	.thm em i { font-style: normal;}
+</style>
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+
+$\newcommand{\ud}{\mathrm{d}}$
+$\newcommand{\R}{\mathbf{R}}$
+$\newcommand{\x}{\mathbf{x}}$
+$\newcommand{\y}{\mathbf{y}}$
+$\newcommand{\p}{\mathbf{p}}$
+$\newcommand{\1}{\mathbf{1}}$
+
+$\newcommand{\R}{\mathbf{R}}$
+$\newcommand{\C}{\mathbf{C}}$
+$\newcommand{\N}{\mathbf{N}}$
+$\newcommand{\T}{\mathbf{T}}$
+$\newcommand{\x}{\mathbf{x}}$
+$\newcommand{\a}{\mathbf{a}}$
+$\newcommand{\y}{\mathbf{y}}$
+$\newcommand{\m}{\mathbf{m}}$
+$\newcommand{\b}{\mathbf{b}}$
+$\newcommand{\u}{\mathbf{u}}$
+$\newcommand{\Z}{\mathbf{Z}}$
+$\newcommand{\F}{\mathcal{F}}$
+
+
+$\newcommand{\reference}[1] {{\scriptsize \color{gray}{#1}}}$
+$\newcommand{\referenceq}[1] {{\tiny \color{gray}[{#1}]}}$
+$\newcommand{\referencep}[1] {{\tiny \color{gray}  #1 }}$
+$\newcommand{\unit}[1] {{\tiny \color{gray}  #1 }}$
+
+$\newcommand{\pairing}[2]{\left\langle #1,\,#2\right\rangle} 
+
+$\newcommand{\abs}[1]{\left|#1\right|}$
+$\newcommand{\Abs}[1]{\left\|#1\right\|}$
+$\newcommand{\ABS}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}$
+
+<h1>Algorithms for the geometric median</h1>
+
+<h2>1. The geometric median</h2>
+
+<p>
+<div class="thm"><b>Definition 1</b> (Geometric median). <em>
+Let
+\(
+	\left\{\a_1,\ldots,\a_n\right\}\subseteq\R^d
+\)
+be $n$ points in $\R^d$.
+A <i>geometric median</i> of these points is any point $\x\in\R^d$ minimizing
+the sum of distances:
+\begin{equation}\label{eq:objective}
+	
+	\min_{\x\in\R^d} f(\x)
+	\qquad
+	\qquad
+	\textrm{where}
+	\qquad
+	\qquad
+		
+	f(\x) = \sum_{i=1}^n \left\|\x-\a_i\right\|
+\end{equation}
+</em></div>
+
+<p>
+<div class="thm"><b>Proposition 2</b>. <em>
+	Any finite non-empty set of points has at least one geometrical
+	median.
+</em></div>
+
+<p>
+<i>Proof.</i>
+	The function $f(\x)$ in \ref{eq:objective} is continuous, convex and
+	has compact level sets.
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Proposition 3</b>. <em>\label{eq:uniq}
+If the points
+\(
+	\left\{\a_1,\ldots,\a_n\right\}\subseteq\R^d
+\)
+are not aligned then their geometrical median is unique.
+</em></div>
+
+<p>
+Before proving proposition \ref{eq:uniq} let us recall some simple cases.
+
+<p>
+<div class="thm"><b>Proposition 4</b> (median in dimension 1). <em>
+Let \( \left\{a_1,\ldots,a_n\right\}\subseteq\R \)
+and let $a_{(1)}\le a_{(2)}\le\cdots\le a_{(n)}$
+be the same numbers in
+ascending order.  In the odd case $n=2k-1$ the median is $a_{(k)}$.  In the
+even case $n=2k$ the median is any number in the
+interval $\left[a_{(k)},a_{(k+1)}\right]$.
+</em></div>
+
+<p>
+<i>Proof.</i>
+	The function $f(x)=\sum \abs{x-a_i}$ is piecewise affine with
+	
+	integer slopes.
+<span style="float:right">&#8718;</span>
+
+<p>
+<div class="thm"><b>Proposition 5</b> (median of $3$ points in $\R^2$). <em>
+	Let $\a_1,\a_2,\a_3$ be three non-aligned points in $\R^2$, forming a
+	triangle.  If the triangle has an angle larger or equal
+	than $120^\circ$, then the median is the vertex of this angle.
+	Otherwise, 
+	the median is the Fermat point of the triangle, that sees the three
+	successive points in egual angles of $120^\circ$.
+</em></div>
+
+<p>
+<div class="thm"><b>Proposition 6</b> (median of $4$ points in $\R^2$). <em>
+	Let $\a_1,\a_2,\a_3,\a_4$ be four non-aligned points in $\R^2$.  If the
+	convex hull of the four points is a triangle, the median is the point
+	which is not a vertex.  Otherwise, the convex hull is a quadrilateral
+	and the median is the point where its diagonals cross.
+</em></div>
+
+<p>
+median of 5 points (bajaj theorem)
+
+<p>
+gradient and hessian of the objective function
+
+<p>
+strict positive definiteness of the hessian
+
+<h2>2. Weiszfeld algorithm</h2>
+
+<p>
+three views of weiszfeld algorithm
+
+<p>
+as an iteratively reweighted least squares
+
+<p>
+as fixed point iterations
+
+<p>
+as a gradient descent
+
+<p>
+first problem: not well-defined
+
+<p>
+second problem: slow convergence
+
+<h2>3. Other algorithms</h2>
+
+<p>
+brute force minimization on the $a_i$, hoping that it will be close to the
+optimim
+
+<p>
+gradient descent with larger steps
+
+<p>
+newton method on the region of convergence
+
+<p>
+newton-armijo
+
+<p>
+bfgs
+
+<p>
+low-dimensional hessians
+
+<p>
+stochastic gradient descent
+
+<p>
+sampling-based methods
+
+<p>
+coresets
+
+
+<hr>
+
+<!-- enric meinhardt-llopis, 2021 -->
+

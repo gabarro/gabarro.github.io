@@ -18,15 +18,16 @@
 	.gallery .index a span { white-space:nowrap; }
 
 </style>
-<script type="text/x-mathjax-config">
-	MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-			processEscapes: true
-		}
-	});
+<script>
+MathJax = {
+	tex: {
+		inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+		processEscapes: true,
+		tags: 'ams'
+	}
+};
 </script>
-<script async src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS_CHTML-full">
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
 
 <!--
@@ -306,6 +307,71 @@ Here, for example, you have the grid of a $4\times 3$ image:
 %SCRIPT 12 [pos="150,0"  ]
 %SCRIPT }' | neato -n -Tpng > gridgraph.png
 -->
+
+<p>
+<img src="gridgraph2.png" alt="image">
+<!--
+%SCRIPT echo 'digraph {
+%SCRIPT node [shape=circle width=0.3 fixedsize=true]
+%SCRIPT edge [arrowsize=0.5 fontsize=11]
+-->
+<!--
+%SCRIPT 1->2   [label="1"]
+%SCRIPT 2->3   [label="2"]
+%SCRIPT 3->4   [label="3"]
+%SCRIPT 5->6   [label="4"]
+%SCRIPT 6->7   [label="5"]
+%SCRIPT 7->8   [label="6"]
+%SCRIPT 9->10  [label="7"]
+%SCRIPT 10->11 [label="8"]
+%SCRIPT 11->12 [label="9"]
+%SCRIPT 1->5   [label="10"]
+%SCRIPT 2->6   [label="11"]
+%SCRIPT 3->7   [label="12"]
+%SCRIPT 4->8   [label="13"]
+%SCRIPT 5->9   [label="14"]
+%SCRIPT 6->10  [label="15"]
+%SCRIPT 7->11  [label="16"]
+%SCRIPT 8->12  [label="17"]
+%SCRIPT 1  [pos="0,100"  ]
+%SCRIPT 2  [pos="50,100" ]
+%SCRIPT 3  [pos="100,100"]
+%SCRIPT 4  [pos="150,100"]
+%SCRIPT 5  [pos="0,50"   ]
+%SCRIPT 6  [pos="50,50"  ]
+%SCRIPT 7  [pos="100,50" ]
+%SCRIPT 8  [pos="150,50" ]
+%SCRIPT 9  [pos="0,0"    ]
+%SCRIPT 10 [pos="50,0"   ]
+%SCRIPT 11 [pos="100,0"  ]
+%SCRIPT 12 [pos="150,0"  ]
+%SCRIPT }' | neato -n -Tpng > gridgraph2.png
+-->
+
+
+\[\footnotesize
+	\begin{array}{c|cccccccccccc}
+  &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 &amp; 9 &amp; 10 &amp; 11 &amp; 12\\
+\hline
+ 1 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 2 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 3 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 4 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 5 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 6 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 7 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0 &amp; 0\\
+ 8 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1 &amp; 0\\
+ 9 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 1\\
+ 10 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 11 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 12 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 13 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+ 14 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+ 15 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+ 16 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+ 17 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1
+\end{array}
+\]
 
 <p>
 Here you see that the graph has $n=12$ vertices and $m=17$ edges.
@@ -647,5 +713,5 @@ that must be negated to visualize it correctly.
 
 <hr>
 
-<!-- enric meinhardt-llopis, 2019 -->
+<!-- enric meinhardt-llopis, 2021 -->
 

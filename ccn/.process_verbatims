@@ -17,8 +17,7 @@ case $X in
 		T=`mktemp`
 		echo "1;" > $T
 		cat $FNAME | awk $GETV >> $T
-		octave $T
-		rm $T
+		octave $T && rm $T
 		;;
 	"sh &")
 		(cat $FNAME | awk '/^%VSCR/{print substr($0,9)};'$GETV |\

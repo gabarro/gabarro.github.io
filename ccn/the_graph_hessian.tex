@@ -311,4 +311,176 @@ iio_write("fgauss_uy.png", reshape(nuy,w,h));
 
 \includegraphics{fgauss_uy.png}\verb+ fgauss_uy.png+
 
+
+Let us check whether~$\partial_X$ is a derivation.  In the continuous case
+this property is
+\[
+	\partial_X\left(fg\right)
+	=
+	f\partial_X\left(g\right)
+	+
+	g\partial_X\left(f\right)
+\]
+and for a graph this reads
+\[
+	C^\top d(X)B\left(f\odot_n g\right)
+	f\odot :wqC^\top d(X)
+\]
+
+\clearpage
+%\begin{landscape}
+%\fbox
+{\Huge $\mathfrak{der\ Rosettastein}$}
+
+Objects:\\
+\vspace{-0.5em}\\
+\begin{tabular}{|l|l|}
+	\hline
+	\bf Continuous & \bf Discrete \\
+	\hline
+	manifold $M=\R^2$ or $M=\R^3$ & graph $G=(V,E)$ \\
+	\hline
+	point~$p\in M$ & vertex~$p\in V$ \\
+	\hline
+	tangent vector~$X_p\in T_pM$ & edge~$(p,q)\in E$ \\
+	\hline
+	set of all points~$M$ & $V=\{1,\ldots,n\}$ \\
+	\hline
+	tangent bundle~$TM$ & $E=\{1,\ldots,m\}$ \\
+	\hline
+	function~$f:M\to\R$ & function~$f:V\to\R$ \\
+	& $f\in\R^n$ \\
+	\hline
+	(co)vector field~$X$ & function~$X:E\to\R$ \\
+	& $X\in\R^m$ \\
+	\hline
+	set of all functions~$\mathcal{C}^\infty(M)$ & $\R^n$ \\
+	\hline
+	set of all vector fields~$\mathfrak{X}(M)$ & $\R^m$ \\
+	\hline
+\end{tabular}
+
+\bigskip
+
+
+\newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}
+
+Differential calculus:\\
+\vspace{-0.5em}\\
+\begin{tabular}{|l|l|l}
+	\cline{1-2}
+	\bf Continuous & \bf Discrete &\\
+	\cline{1-2}
+		%gradient~
+	$\nabla:\mathcal{C}^\infty(M)\to\mathfrak{X}(M)$ & signed incidence
+		%matrix~$B\in\mathcal{M}_{m,n}(\R)$ &\\
+	matrix~$B:\R^n\to\R^m$ &\\
+	\cline{1-2}
+	?%\emph{(nothing)}
+	& centering matrix~$C=\tfrac12|B|$ &\\
+	\cline{1-2}
+		%divergence~
+	$\mathrm{div}:\mathfrak{X}(M)\to\mathcal{C}^\infty(M)$
+	& $-B^\top:\R^m\to\R^n$ &\\
+	\cline{1-2}
+	$\Delta:\mathcal{C}^\infty(M)\to\mathcal{C}^\infty(M)$ &
+	$L=-B^\top B : \R^n\to\R^n$ &\\
+	\cline{1-2}
+	$fg$ & $f\odot g\quad$
+	{\small\color{gray}(component-wise product in~$\R^n$)}
+	& \small $(D1)$\\
+	& \color{gray}$\diag{f}g$ & \\
+	& \color{gray}$\diag{g}f$ & \\
+	\cline{1-2}
+	$fX$ & $X\odot Cf\quad$
+	{\small\color{gray}(component-wise product in~$\R^m$)}
+	&\small$(D2)$ \\
+	& \color{gray}$\diag{X}Cf$ & \\
+	& \color{gray}$\diag{Cf}X$ & \\
+	\cline{1-2}
+	$X \boldsymbol{\cdot} Y$ & $C^\top(X\odot Y)$
+	&\small$(D3)$\\
+	& \color{gray}$C^\top\diag{X}Y$ & \\
+	\cline{1-2}
+	$\partial_X f$ & $C^\top\left(X\odot Bf\right)$
+	&\small$(D4)$\\
+	& \color{gray}$C^\top\diag{X}Bf$ & \\
+	& \color{gray}$C^\top\diag{Bf}X$ & \\
+	\cline{1-2}
+	$[X,Y]$ &
+	$\diag{X}BC^\top Y- \diag{Y}BC^\top X$
+	&\small$(D5)$ \\
+	\cline{1-3}
+	$\nabla\left(fg\right)=f\nabla g+g\nabla f$ &
+	$B\left(f\odot g\right)=Cf\odot B g+Cg\odot Bf$
+	&\small$(P1)$\\
+	&
+	$\color{gray}B\diag{f}=\diag{Cf}B+\diag{Bf}C$
+	&\small$(P2)$\\
+	\cline{1-3}
+	$\mathrm{div}\left(fX\right)
+	=f\mathrm{div}\left(g\right)+X\boldsymbol{\cdot}\nabla f$
+	&
+	$-B^\top\left(X\odot Cf\right)
+	=f\odot\left(-B^\top X\right)
+	+C^\top\left(X\odot Bf\right)$
+	&\small$(P3)$\\
+	&
+	$\color{gray}
+	-B^\top\diag{Cf} = -\diag{f}B^\top+C^\top\diag{Bf}
+	$
+	&\small$(P4)$\\
+	&
+	$\color{gray}
+	-B^\top\diag{X}C = -\diag{B^\top X} + C^\top\diag{X}B
+	$
+	&\small$(P5)$\\
+	\cline{1-3}
+	$\partial_X\left(fg\right)=\partial_{fX}g+\partial_{gX}f$
+	&
+	$C^\top\left(X\odot B\left(fg\right)\right)=% ?
+	C^\top\left(Cf\odot X\odot Bg\right)
+	+
+	C^\top\left(Cg\odot X\odot Bf \right)
+	$
+	&\small$(P6)$\\
+	\cline{1-2}
+\end{tabular}
+
+Throughout this table, the notation~$\diag{x}$ for~$x\in\R^k$, means the
+square matrix of size~$k\times k$ having~$x$ as the diagonal.  The
+component-wise product in~$\R^k$ can be thus written as~$x\odot
+y=\diag{x}y=\diag{y}x$.
+
+Definitions~$(D1)$--$(D4)$ seem natural, but you must be careful.
+For example,~$(D2)$ is very delicate, for the scalar-vector product is not
+associative in the discrete case.  In general,~$(fg)X\neq f(gX)$
+because~$C(fg)\neq Cf\odot Cg$.
+Likewise, the
+property~$f\partial_X=\partial_{fX}$ does not hold in
+the discrete case.  Thus the product rule for vector fields~$(P6)$ cannot be
+written in more the usual form~$\partial_X(fg)=f\partial Xg+g\partial_Xf$.
+
+For the proofs of the three
+product rules, you only need to prove~$(P1)$, for
+example by using explicit indices.
+After that, you rewrite this formula as
+a~$n\times m$ linear operator acting on~$g$, as in formula~$(P2)$ and you
+transpose it to obtain the~$m\times n$ matrix identity~$(P4)$, which leads to
+the product rule for the divergence~$(P3)$ by applying it to~$X$.  Now,
+rewrite~$(P3)$ as a~$n\times n$ operator acting on~$f$ to obtain
+formula~$(P5)$.   This is a nice commutation relation:
+\[
+	\diag{B^\top X}=C^\top\diag{X}B+B^\top\diag{X}C
+\]
+in particular, the matrix on the right hand side is diagonal (but each term
+in general is not diagonal).
+
+The product rule for directional derivatives~$(P6)$ follows directly
+from~$(P1)$.  Similarly, the definition~$(D5)$ for the Lie bracket is the
+only possible one if we want
+that~$\partial_{[X,Y]}=\partial_X\partial_Y-\partial_Y\partial_X$.
+
+%\end{landscape}
+
 % vim:set tw=77 filetype=tex spell spelllang=en:

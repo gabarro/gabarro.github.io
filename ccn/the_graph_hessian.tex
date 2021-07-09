@@ -136,6 +136,48 @@ on~$X$, and its matrix is~$C^\top d\left(Bf\right)$.  These observations will
 be crucial when we try to define the Hessian as a bilinear operator.
 
 
+\section{Definition of the Hessian}
+
+In differential geometry, the Hessian is a second-order symmetric tensor that
+is defined on a Riemannian manifold.  The Riemannian structure is either
+given by a metric tensor~$g$ or by a torsion-free connection~$\nabla$.  The
+Hessian of a function~$f$ will thus be a symmetric bilinear form that takes
+two vector fields~$X$, $Y$ and returns a
+function~$\mathrm{Hess}\left(f\right)\left(X,Y\right)$.  See e.g. Jost's book
+\emph{Riemannian Geometry and Geometric Analysis} for a list of equivalent
+definitions.
+
+\[
+	\mathrm{Hess}\left(f\right)\left(X,Y\right)
+	=
+	g\left(\nabla_X\,\mathrm{grad}f,Y\right)
+\]
+\[
+	\mathrm{Hess}\left(f\right)\left(X,Y\right)
+	=
+	X\left(Y\left(f\right)\right)-\left(\nabla_X Y\right)f
+	=
+	X\left(Y\left(f\right)\right)-\mathrm{d}f\left(\nabla_X Y\right)
+\]
+\[
+	\mathrm{Hess}\left(f\right)
+	=
+	\nabla\nabla f
+	=\nabla \mathrm{d} f
+\]
+\[
+	\mathrm{Hess}\left(f\right)
+	=
+	\frac12L_{\nabla f} \left(g\right)
+\]
+
+None of these general definitions is easily adaptable to the discrete
+setting, for we have not defined the discrete connection.  But there is a
+beautiful property: the Hessian at a critical point~$p$ of~$f$ does not depend
+on the metric, but it is a 2-tensor at~$p$ that can be defined
+intrinsically:~$\mathrm{Hess}_p\left(f\right)(X,Y)=
+X_p\left(Y\left(f\right)\right)$
+
 \clearpage
 \section{Numerical verification}
 
@@ -328,15 +370,12 @@ and for a graph this reads
 \]
 
 \clearpage
-%\begin{landscape}
-%\fbox
-{\Huge $\mathfrak{der\ Rosettastein}$}
+\section{$\mathfrak{der\ Rosettastein}$}
 
-Objects:\\
-\vspace{-0.5em}\\
+Objects:\newline
 \begin{tabular}{|l|l|}
 	\hline
-	\bf Continuous & \bf Discrete \\
+	{\bf Continuous} & {\bf Discrete} \\
 	\hline
 	manifold $M=\R^2$ or $M=\R^3$ & graph $G=(V,E)$ \\
 	\hline
@@ -365,11 +404,11 @@ Objects:\\
 
 \newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}
 
-Differential calculus:\\
-\vspace{-0.5em}\\
+
+Differential calculus:\newline
 \begin{tabular}{|l|l|l}
 	\cline{1-2}
-	\bf Continuous & \bf Discrete &\\
+	{\bf Continuous} & {\bf Discrete} &\\
 	\cline{1-2}
 		%gradient~
 	$\nabla:\mathcal{C}^\infty(M)\to\mathfrak{X}(M)$ & signed incidence
@@ -387,36 +426,36 @@ Differential calculus:\\
 	$L=-B^\top B : \R^n\to\R^n$ &\\
 	\cline{1-2}
 	$fg$ & $f\odot g\quad$
-	{\small\color{gray}(component-wise product in~$\R^n$)}
-	& \small $(D1)$\\
-	& \color{gray}$\diag{f}g$ & \\
-	& \color{gray}$\diag{g}f$ & \\
+	%{\small\color{gray}(component-wise product in~$\R^n$)}
+	& {\small $(D1)$}\\
+	& $\color{gray}\diag{f}g$ & \\
+	& $\color{gray}\diag{g}f$ & \\
 	\cline{1-2}
 	$fX$ & $X\odot Cf\quad$
-	{\small\color{gray}(component-wise product in~$\R^m$)}
-	&\small$(D2)$ \\
-	& \color{gray}$\diag{X}Cf$ & \\
-	& \color{gray}$\diag{Cf}X$ & \\
+	%{\small\color{gray}(component-wise product in~$\R^m$)}
+	&{\small $(D2)$} \\
+	& $\color{gray}\diag{X}Cf$ & \\
+	& $\color{gray}\diag{Cf}X$ & \\
 	\cline{1-2}
 	$X \boldsymbol{\cdot} Y$ & $C^\top(X\odot Y)$
-	&\small$(D3)$\\
-	& \color{gray}$C^\top\diag{X}Y$ & \\
+	&{\small $(D3)$}\\
+	& $\color{gray}C^\top\diag{X}Y$ & \\
 	\cline{1-2}
 	$\partial_X f$ & $C^\top\left(X\odot Bf\right)$
-	&\small$(D4)$\\
-	& \color{gray}$C^\top\diag{X}Bf$ & \\
-	& \color{gray}$C^\top\diag{Bf}X$ & \\
+	&{\small $(D4)$}\\
+	& $\color{gray}C^\top\diag{X}Bf$ & \\
+	& $\color{gray}C^\top\diag{Bf}X$ & \\
 	\cline{1-2}
 	$[X,Y]$ &
 	$\diag{X}BC^\top Y- \diag{Y}BC^\top X$
-	&\small$(D5)$ \\
+	&{\small $(D5)$} \\
 	\cline{1-3}
 	$\nabla\left(fg\right)=f\nabla g+g\nabla f$ &
 	$B\left(f\odot g\right)=Cf\odot B g+Cg\odot Bf$
-	&\small$(P1)$\\
+	&{\small $(P1)$}\\
 	&
 	$\color{gray}B\diag{f}=\diag{Cf}B+\diag{Bf}C$
-	&\small$(P2)$\\
+	&{\small $(P2)$}\\
 	\cline{1-3}
 	$\mathrm{div}\left(fX\right)
 	=f\mathrm{div}\left(g\right)+X\boldsymbol{\cdot}\nabla f$
@@ -424,17 +463,17 @@ Differential calculus:\\
 	$-B^\top\left(X\odot Cf\right)
 	=f\odot\left(-B^\top X\right)
 	+C^\top\left(X\odot Bf\right)$
-	&\small$(P3)$\\
+	&{\small $(P3)$}\\
 	&
 	$\color{gray}
 	-B^\top\diag{Cf} = -\diag{f}B^\top+C^\top\diag{Bf}
 	$
-	&\small$(P4)$\\
+	&{\small $(P4)$}\\
 	&
 	$\color{gray}
 	-B^\top\diag{X}C = -\diag{B^\top X} + C^\top\diag{X}B
 	$
-	&\small$(P5)$\\
+	&{\small $(P5)$}\\
 	\cline{1-3}
 	$\partial_X\left(fg\right)=\partial_{fX}g+\partial_{gX}f$
 	&
@@ -443,7 +482,7 @@ Differential calculus:\\
 	+
 	C^\top\left(Cg\odot X\odot Bf \right)
 	$
-	&\small$(P6)$\\
+	&{\small $(P6)$}\\
 	\cline{1-2}
 \end{tabular}
 
@@ -456,9 +495,13 @@ Definitions~$(D1)$--$(D4)$ seem natural, but you must be careful.
 For example,~$(D2)$ is very delicate, for the scalar-vector product is not
 associative in the discrete case.  In general,~$(fg)X\neq f(gX)$
 because~$C(fg)\neq Cf\odot Cg$.
-Likewise, the
-property~$f\partial_X=\partial_{fX}$ does not hold in
-the discrete case.  Thus the product rule for vector fields~$(P6)$ cannot be
+Likewise, for the inner product, we have
+that~$\left(fX\right)\boldsymbol{\cdot}Y\neq f\left(X\boldsymbol{\cdot}
+Y\right)$.  When working with these expressions, one of them will be usually
+wrong, and it requires a bit of care to see which one.
+For example, the
+property~$f\partial_X=\partial_{fX}$ does not hold either in
+the discrete case.  Thus the product rule for vector directional derivatives~$(P6)$ cannot be
 written in more the usual form~$\partial_X(fg)=f\partial Xg+g\partial_Xf$.
 
 For the proofs of the three

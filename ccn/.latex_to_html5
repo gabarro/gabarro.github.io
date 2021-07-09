@@ -37,6 +37,7 @@ global_substitutions = {
 	{"{\\it%s(.-)}", "<i>%1</i>"},
 	{"{\\bf%s(.-)}", "<b>%1</b>"},
 	{"{\\tt%s(.-)}", "<code>%1</code>"},
+	{"{\\small%s(.-)}", "<small>%1</small>"},
 
 	-- change \includegraphics{...} to <img src="...">
 	{"\\includegraphics{(.-)}", '<img src="%1" alt="image">'},
@@ -56,12 +57,15 @@ global_substitutions = {
 	{"\\thispagestyle{(.-)}", ""},
 	{"\\mbox{(.-)}", '<span>%1</span>'},
 	{"\\fbox{(.-)}", '<span style="border:1px solid">%1</span>'},
+	{"\\vspace{(.-)}", ""},
 
 	-- change \sections to <headers>
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
-	{"\\section{(.-)}", "<h2>%1</h2>\n"},
+	{"\\section{([^\n]*)}", "<h2>%1</h2>\n"},
 	{"\\subsection{(.-)}", "<h3>%1</h3>\n"},
 	{"\\paragraph{(.-)}", "<p>\n<b>%1</b>"},
+	{"\\section%*{([^\n]*)}", "<h2 >%1</h2>\n"},
+	{"\\subsection%*{(.-)}", "<h3 >%1</h3>\n"},
 
 	-- list environments (TODO: support for \item[] )
 	{"\\item ", "<li>" },
@@ -278,6 +282,7 @@ for l in string.gmatch(whole_file, "[^\n]-\n") do -- traverse line by line
 		u = u:gsub("&amp;", "<td>")
 		u = u:gsub("\\\\", "<tr><td>")
 		u = u:gsub("\\hline",  "")
+		u = u:gsub("\\cline{(.-)}",  "")
 	end
 
 	-- section counters (TODO: add attr name="sec-n" for easier navigation)

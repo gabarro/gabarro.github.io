@@ -9,6 +9,7 @@ Consider a directed graph~$G=(V,E)$ with~$n$ vertices and~$m$ edges.
 
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\Z}{\mathbf{Z}}
+\newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}
 
 Functions~$f:V\to\R$ are called~\emph{scalar fields}
 and they are elements of~$\R^n$.
@@ -176,7 +177,66 @@ setting, for we have not defined the discrete connection.  But there is a
 beautiful property: the Hessian at a critical point~$p$ of~$f$ does not depend
 on the metric, but it is a 2-tensor at~$p$ that can be defined
 intrinsically:~$\mathrm{Hess}_p\left(f\right)(X,Y)=
-X_p\left(Y\left(f\right)\right)$
+X_p\left(Y\left(f\right)\right)$.  This property does not seem to lead to
+any definition, but we may use it later as a sort of sanity check.
+
+A first attempt at defining a discrete Hessian may look something like this:
+\[
+	\mathrm{Hess}\left(f\right)(X,Y)
+	\quad
+	:=
+	\quad
+	C^\top\left(\left(BC^\top Bf\right)\odot X\odot Y\right)
+\]
+at first sight, it seems to work: it is a scalar field, it is linear
+on~$f$,~$X$ and~$Y$, it is symmetric on~$(X,Y)$, the scalar field is differentiated twice with the direct
+derivative (not the adjoint), neither~$X$ nor~$Y$ are differentiated.
+But this formula cannot be correct.  For example, when the graph is a 2D
+grid, and the fields~$X$,$Y$ are the coordinate axis (or any perpendicular
+fields), this expression gives zero, but it should give something
+related to~$f_{xy}$.
+
+Thinking about this case, we may impose that it works at least for the 2D
+grid, using vector coordinate fields~$X=\frac{\partial}{\partial x}$, etc.
+Thus, it seems that if the fields $X,Y$ commute (e.g., they are equal, or
+orthogonal), we should have
+\[
+	H(f)(X,Y):= \partial_Y(\partial_X(f)) =\partial_Y(C^\top(X\odot Bf))
+	=C^\top(Y\odot B(C^\top(X\odot Bf)))
+\]
+This is actually a good first start; it has all the nice properties except
+symmetry between~$X$ and~$Y$.
+
+We can impose symmetry into this expression by taking the average of both
+cases:
+\begin{equation*}
+	H(f)(X,Y):=
+	\frac{
+		C^\top(Y\odot B(C^\top(X\odot Bf)))
+		+
+		C^\top(X\odot B(C^\top(Y\odot Bf)))
+	}2
+\end{equation*}
+which, after some arrangement becomes
+\begin{equation}\label{eq:badhessian}
+	H(f)(X,Y):=
+	C^\top\left(
+		\frac{
+			\diag{Y}BC^\top\diag{X}
+			+
+			\diag{X}BC^\top\diag{Y}
+		}2
+	\right) Bf
+\end{equation}
+which is a good start.  We will check later how bad this is numerically.
+
+Unfortunately, formula~\eqref{eq:badhessian} cannot be right.  It continuous
+version is a sort of Lie Bracket with a plus sign, which is
+definitely~\emph{not} the Hessian, even in Euclidan space.
+
+A way out is given by the famous Koszul formula, that expresses the covariant
+derivative in terms of the metric, and combine it with the first formula
+above: \emph{(unwyeldy expression follows)}
 
 \clearpage
 \section{Numerical verification}
@@ -402,7 +462,6 @@ Objects:\newline
 \bigskip
 
 
-\newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}
 
 
 Differential calculus:\newline
@@ -506,7 +565,7 @@ written in more the usual form~$\partial_X(fg)=f\partial Xg+g\partial_Xf$.
 
 For the proofs of the three
 product rules, you only need to prove~$(P1)$, for
-example by using explicit indices.
+example by decomposing~$B=S-T$ so that~$S(fg)=SfSg$, etc.
 After that, you rewrite this formula as
 a~$n\times m$ linear operator acting on~$g$, as in formula~$(P2)$ and you
 transpose it to obtain the~$m\times n$ matrix identity~$(P4)$, which leads to
@@ -523,6 +582,22 @@ The product rule for directional derivatives~$(P6)$ follows directly
 from~$(P1)$.  Similarly, the definition~$(D5)$ for the Lie bracket is the
 only possible one if we want
 that~$\partial_{[X,Y]}=\partial_X\partial_Y-\partial_Y\partial_X$.
+
+\section{References}
+
+The oldest reference I found of the centering operator~$C$ appears in the
+1910 edition of the Encyclopedia Britannica article ``Calculus of Finite
+Differences'' by W.F.Sheppard, where it is denoted by~$\mu$, named the ``mean
+operator'' and its main properties are exposed.  It is unlikely that this
+definition was original research, but I haven't found an older source.  The
+1860 treatise by George Boole does not seem to mention the mean operator, at
+least explicitly.  The product rule for finite differences is stated in the
+form with three terms (chap II, art 10, ex 3).  The first explicit statement
+of the product rule--symmetric, with two terms, using the centering
+operator--appears in Charles Jordan 1950 treatise (section 30, formula 3,
+page 95), where it refers to Sheppard's encyclopedia article.
+
+
 
 %\end{landscape}
 

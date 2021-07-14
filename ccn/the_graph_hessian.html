@@ -40,6 +40,7 @@ operator on a graph?  Let us see.
 Consider a directed graph $G=(V,E)$ with $n$ vertices and $m$ edges.
 $\newcommand{\R}{\mathbf{R}}$
 $\newcommand{\Z}{\mathbf{Z}}$
+$\newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}$
 
 <p>
 Functions $f:V\to\R$ are called <i>scalar fields</i>
@@ -176,7 +177,115 @@ is $C^\top d(X)B$.  Furthermore, the map $X\mapsto\partial_Xf$ is also linear
 on $X$, and its matrix is $C^\top d\left(Bf\right)$.  These observations will
 be crucial when we try to define the Hessian as a bilinear operator.
 
-<h2>2. Numerical verification</h2>
+<h2>2. Definition of the Hessian</h2>
+
+<p>
+In differential geometry, the Hessian is a second-order symmetric tensor that
+is defined on a Riemannian manifold.  The Riemannian structure is either
+given by a metric tensor $g$ or by a torsion-free connection $\nabla$.  The
+Hessian of a function $f$ will thus be a symmetric bilinear form that takes
+two vector fields $X$, $Y$ and returns a
+function $\mathrm{Hess}\left(f\right)\left(X,Y\right)$.  See e.g. Jost's book
+<i>Riemannian Geometry and Geometric Analysis</i> for a list of equivalent
+definitions.
+
+\[
+	\mathrm{Hess}\left(f\right)\left(X,Y\right)
+	=
+	g\left(\nabla_X\,\mathrm{grad}f,Y\right)
+\]
+\[
+	\mathrm{Hess}\left(f\right)\left(X,Y\right)
+	=
+	X\left(Y\left(f\right)\right)-\left(\nabla_X Y\right)f
+	=
+	X\left(Y\left(f\right)\right)-\mathrm{d}f\left(\nabla_X Y\right)
+\]
+\[
+	\mathrm{Hess}\left(f\right)
+	=
+	\nabla\nabla f
+	=\nabla \mathrm{d} f
+\]
+\[
+	\mathrm{Hess}\left(f\right)
+	=
+	\frac12L_{\nabla f} \left(g\right)
+\]
+
+<p>
+None of these general definitions is easily adaptable to the discrete
+setting, for we have not defined the discrete connection.  But there is a
+beautiful property: the Hessian at a critical point $p$ of $f$ does not depend
+on the metric, but it is a 2-tensor at $p$ that can be defined
+intrinsically: $\mathrm{Hess}_p\left(f\right)(X,Y)=
+X_p\left(Y\left(f\right)\right)$.  This property does not seem to lead to
+any definition, but we may use it later as a sort of sanity check.
+
+<p>
+A first attempt at defining a discrete Hessian may look something like this:
+\[
+	\mathrm{Hess}\left(f\right)(X,Y)
+	\quad
+	:=
+	\quad
+	C^\top\left(\left(BC^\top Bf\right)\odot X\odot Y\right)
+\]
+at first sight, it seems to work: it is a scalar field, it is linear
+on $f$, $X$ and $Y$, it is symmetric on $(X,Y)$, the scalar field is differentiated twice with the direct
+derivative (not the adjoint), neither $X$ nor $Y$ are differentiated.
+But this formula cannot be correct.  For example, when the graph is a 2D
+grid, and the fields $X$,$Y$ are the coordinate axis (or any perpendicular
+fields), this expression gives zero, but it should give something
+related to $f_{xy}$.
+
+<p>
+Thinking about this case, we may impose that it works at least for the 2D
+grid, using vector coordinate fields $X=\frac{\partial}{\partial x}$, etc.
+Thus, it seems that if the fields $X,Y$ commute (e.g., they are equal, or
+orthogonal), we should have
+\[
+	H(f)(X,Y):= \partial_Y(\partial_X(f)) =\partial_Y(C^\top(X\odot Bf))
+	=C^\top(Y\odot B(C^\top(X\odot Bf)))
+\]
+This is actually a good first start; it has all the nice properties except
+symmetry between $X$ and $Y$.
+
+<p>
+We can impose symmetry into this expression by taking the average of both
+cases:
+\begin{equation*}
+	H(f)(X,Y):=
+	\frac{
+		C^\top(Y\odot B(C^\top(X\odot Bf)))
+		+
+		C^\top(X\odot B(C^\top(Y\odot Bf)))
+	}2
+\end{equation*}
+which, after some arrangement becomes
+\begin{equation}\label{eq:badhessian}
+	H(f)(X,Y):=
+	C^\top\left(
+		\frac{
+			\diag{Y}BC^\top\diag{X}
+			+
+			\diag{X}BC^\top\diag{Y}
+		}2
+	\right) Bf
+\end{equation}
+which is a good start.  We will check later how bad this is numerically.
+
+<p>
+Unfortunately, formula \eqref{eq:badhessian} cannot be right.  It continuous
+version is a sort of Lie Bracket with a plus sign, which is
+definitely <i>not</i> the Hessian, even in Euclidan space.
+
+<p>
+A way out is given by the famous Koszul formula, that expresses the covariant
+derivative in terms of the metric, and combine it with the first formula
+above: <i>(unwyeldy expression follows)</i>
+
+<h2>3. Numerical verification</h2>
 
 <p>
 None of this would be any good if it wasn't easy to verify numerically.  Let
@@ -359,6 +468,194 @@ iio_write("fgauss_uy.png", reshape(nuy,w,h));
 
 <p>
 <img src="fgauss_uy.png" alt="image"><code> fgauss_uy.png</code>
+
+<p>
+Let us check whether $\partial_X$ is a derivation.  In the continuous case
+this property is
+\[
+	\partial_X\left(fg\right)
+	=
+	f\partial_X\left(g\right)
+	+
+	g\partial_X\left(f\right)
+\]
+and for a graph this reads
+\[
+	C^\top d(X)B\left(f\odot_n g\right)
+	f\odot :wqC^\top d(X)
+\]
+
+<h2>4. $\mathfrak{der\ Rosettastein}$</h2>
+
+<p>
+Objects:<br>
+<table><tr><td>
+	
+	<b>Continuous</b> <td> <b>Discrete</b> <tr><td>
+	
+	manifold $M=\R^2$ or $M=\R^3$ <td> graph $G=(V,E)$ <tr><td>
+	
+	point $p\in M$ <td> vertex $p\in V$ <tr><td>
+	
+	tangent vector $X_p\in T_pM$ <td> edge $(p,q)\in E$ <tr><td>
+	
+	set of all points $M$ <td> $V=\{1,\ldots,n\}$ <tr><td>
+	
+	tangent bundle $TM$ <td> $E=\{1,\ldots,m\}$ <tr><td>
+	
+	function $f:M\to\R$ <td> function $f:V\to\R$ <tr><td>
+	<td> $f\in\R^n$ <tr><td>
+	
+	(co)vector field $X$ <td> function $X:E\to\R$ <tr><td>
+	<td> $X\in\R^m$ <tr><td>
+	
+	set of all functions $\mathcal{C}^\infty(M)$ <td> $\R^n$ <tr><td>
+	
+	set of all vector fields $\mathfrak{X}(M)$ <td> $\R^m$ <tr><td>
+	
+</table>
+
+<p>
+
+<p>
+Differential calculus:<br>
+<table><tr><td>
+	
+	<b>Continuous</b> <td> <b>Discrete</b> <td><tr><td>
+	
+		
+	$\nabla:\mathcal{C}^\infty(M)\to\mathfrak{X}(M)$ <td> signed incidence
+		
+	matrix $B:\R^n\to\R^m$ <td><tr><td>
+	
+	?
+	<td> centering matrix $C=\tfrac12|B|$ <td><tr><td>
+	
+		
+	$\mathrm{div}:\mathfrak{X}(M)\to\mathcal{C}^\infty(M)$
+	<td> $-B^\top:\R^m\to\R^n$ <td><tr><td>
+	
+	$\Delta:\mathcal{C}^\infty(M)\to\mathcal{C}^\infty(M)$ <td>
+	$L=-B^\top B : \R^n\to\R^n$ <td><tr><td>
+	
+	$fg$ <td> $f\odot g\quad$
+	
+	<td> <small>$(D1)$</small><tr><td>
+	<td> $\color{gray}\diag{f}g$ <td> <tr><td>
+	<td> $\color{gray}\diag{g}f$ <td> <tr><td>
+	
+	$fX$ <td> $X\odot Cf\quad$
+	
+	<td><small>$(D2)$</small> <tr><td>
+	<td> $\color{gray}\diag{X}Cf$ <td> <tr><td>
+	<td> $\color{gray}\diag{Cf}X$ <td> <tr><td>
+	
+	$X \boldsymbol{\cdot} Y$ <td> $C^\top(X\odot Y)$
+	<td><small>$(D3)$</small><tr><td>
+	<td> $\color{gray}C^\top\diag{X}Y$ <td> <tr><td>
+	
+	$\partial_X f$ <td> $C^\top\left(X\odot Bf\right)$
+	<td><small>$(D4)$</small><tr><td>
+	<td> $\color{gray}C^\top\diag{X}Bf$ <td> <tr><td>
+	<td> $\color{gray}C^\top\diag{Bf}X$ <td> <tr><td>
+	
+	$[X,Y]$ <td>
+	$\diag{X}BC^\top Y- \diag{Y}BC^\top X$
+	<td><small>$(D5)$</small> <tr><td>
+	
+	$\nabla\left(fg\right)=f\nabla g+g\nabla f$ <td>
+	$B\left(f\odot g\right)=Cf\odot B g+Cg\odot Bf$
+	<td><small>$(P1)$</small><tr><td>
+	<td>
+	$\color{gray}B\diag{f}=\diag{Cf}B+\diag{Bf}C$
+	<td><small>$(P2)$</small><tr><td>
+	
+	$\mathrm{div}\left(fX\right)
+	=f\mathrm{div}\left(g\right)+X\boldsymbol{\cdot}\nabla f$
+	<td>
+	$-B^\top\left(X\odot Cf\right)
+	=f\odot\left(-B^\top X\right)
+	+C^\top\left(X\odot Bf\right)$
+	<td><small>$(P3)$</small><tr><td>
+	<td>
+	$\color{gray}
+	-B^\top\diag{Cf} = -\diag{f}B^\top+C^\top\diag{Bf}
+	$
+	<td><small>$(P4)$</small><tr><td>
+	<td>
+	$\color{gray}
+	-B^\top\diag{X}C = -\diag{B^\top X} + C^\top\diag{X}B
+	$
+	<td><small>$(P5)$</small><tr><td>
+	
+	$\partial_X\left(fg\right)=\partial_{fX}g+\partial_{gX}f$
+	<td>
+	$C^\top\left(X\odot B\left(fg\right)\right)=
+	C^\top\left(Cf\odot X\odot Bg\right)
+	+
+	C^\top\left(Cg\odot X\odot Bf \right)
+	$
+	<td><small>$(P6)$</small><tr><td>
+	
+</table>
+
+<p>
+Throughout this table, the notation $\diag{x}$ for $x\in\R^k$, means the
+square matrix of size $k\times k$ having $x$ as the diagonal.  The
+component-wise product in $\R^k$ can be thus written as $x\odot
+y=\diag{x}y=\diag{y}x$.
+
+<p>
+Definitions $(D1)$--$(D4)$ seem natural, but you must be careful.
+For example, $(D2)$ is very delicate, for the scalar-vector product is not
+associative in the discrete case.  In general, $(fg)X\neq f(gX)$
+because $C(fg)\neq Cf\odot Cg$.
+Likewise, for the inner product, we have
+that $\left(fX\right)\boldsymbol{\cdot}Y\neq f\left(X\boldsymbol{\cdot}
+Y\right)$.  When working with these expressions, one of them will be usually
+wrong, and it requires a bit of care to see which one.
+For example, the
+property $f\partial_X=\partial_{fX}$ does not hold either in
+the discrete case.  Thus the product rule for vector directional derivatives $(P6)$ cannot be
+written in more the usual form $\partial_X(fg)=f\partial Xg+g\partial_Xf$.
+
+<p>
+For the proofs of the three
+product rules, you only need to prove $(P1)$, for
+example by decomposing $B=S-T$ so that $S(fg)=SfSg$, etc.
+After that, you rewrite this formula as
+a $n\times m$ linear operator acting on $g$, as in formula $(P2)$ and you
+transpose it to obtain the $m\times n$ matrix identity $(P4)$, which leads to
+the product rule for the divergence $(P3)$ by applying it to $X$.  Now,
+rewrite $(P3)$ as a $n\times n$ operator acting on $f$ to obtain
+formula $(P5)$.   This is a nice commutation relation:
+\[
+	\diag{B^\top X}=C^\top\diag{X}B+B^\top\diag{X}C
+\]
+in particular, the matrix on the right hand side is diagonal (but each term
+in general is not diagonal).
+
+<p>
+The product rule for directional derivatives $(P6)$ follows directly
+from $(P1)$.  Similarly, the definition $(D5)$ for the Lie bracket is the
+only possible one if we want
+that $\partial_{[X,Y]}=\partial_X\partial_Y-\partial_Y\partial_X$.
+
+<h2>5. References</h2>
+
+<p>
+The oldest reference I found of the centering operator $C$ appears in the
+1910 edition of the Encyclopedia Britannica article ``Calculus of Finite
+Differences'' by W.F.Sheppard, where it is denoted by $\mu$, named the ``mean
+operator'' and its main properties are exposed.  It is unlikely that this
+definition was original research, but I haven't found an older source.  The
+1860 treatise by George Boole does not seem to mention the mean operator, at
+least explicitly.  The product rule for finite differences is stated in the
+form with three terms (chap II, art 10, ex 3).  The first explicit statement
+of the product rule--symmetric, with two terms, using the centering
+operator--appears in Charles Jordan 1950 treatise (section 30, formula 3,
+page 95), where it refers to Sheppard's encyclopedia article.
+
 
 
 <hr>

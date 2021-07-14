@@ -279,11 +279,160 @@ which is a good start.  We will check later how bad this is numerically.
 Unfortunately, formula \eqref{eq:badhessian} cannot be right.  It continuous
 version is a sort of Lie Bracket with a plus sign, which is
 definitely <i>not</i> the Hessian, even in Euclidan space.
+Even worse, it is a vector field (defined by the expression inside
+parentheses) acting over the function $f$, which cannot be the Hessian in any
+meaningful way.  In the continuous setting that would mean that for every two
+fields $X,Y$ there exists a field $Z$ such that $H(u)(X,Y)=Z\cdot\nabla u$
 
 <p>
 A way out is given by the famous Koszul formula, that expresses the covariant
-derivative in terms of the metric, and combine it with the first formula
-above: <i>(unwyeldy expression follows)</i>
+derivative in terms of the metric. Koszul formula can then be combined with
+the first formula above to yield a purely intrinsic definition of the Hessian
+that does not depend on the connection, only on the metric.
+
+<p>
+Recall Koszul formula in Riemannian geometry:
+\[
+	\begin{array}{ll}
+		2 g(\nabla_XY, Z) &amp;=
+		X g(Y,Z)
+		+
+		Y g(X,Z)
+		-
+		Z g(X,Y) \\
+		&amp;
+		\quad + g([X,Y],Z) - g([X,Z],Y) - g([Y,Z],X)
+	\end{array}
+\]
+where $g$ denotes the metric, $Xu$ denotes $\partial_X u$ and $\nabla_XY$ is
+the connection.  This formula defines the metric connection in terms of the
+metric, by applying it to arbitrary fields $Z$ we can completely
+recover $\nabla_XY$.  Thus, we can remove the connection from any definition
+in which it appears.  In particular from $H(u)(X,Y)=g(\nabla_X\,\mathrm{grad}
+f,\,Y)$.  Thus we obtain the following expression for the Hessian
+\begin{equation*}
+	\mathrm{Hess}\left(f\right)(X,Y) =
+	\frac12\left(
+		\begin{array}{l}
+		X g\!\left(\mathrm{grad}\!\left(f\right),Y\right)\\
+		+
+		\mathrm{grad}\!\left(f\right) g\!\left(X,Y\right)\\
+		-
+		Y g\!\left(X,\mathrm{grad}\!\left(f\right)\right) \\
+		+
+		g\!\left(\left[X,\,\mathrm{grad}\!\left(f\right)\right],Y\right)\\
+		-
+		g\!\left(\left[X,\,Y\right],\,\mathrm{grad}\!\left(f\right)\right)\\
+		-
+		g\!\left(\left[\mathrm{grad}\!\left(f\right),\,Y\right],X\right)
+		\end{array}
+	\right)
+\end{equation*}
+(sum of the six terms inside the parenthesis).  Now we can use this
+expression as definition of the Hessian in terms of objects that have a
+correspondence in the discrete setting (see the Rosetta stone at the
+end).  The following ``translation'' into the discrete setting is automatic:
+\begin{equation*}
+	\mathrm{Hess}\left(f\right)(X,Y) :=
+	\frac12\left(
+		\begin{array}{l}
+		
+		C^\top\left(X\odot\left(BC^\top\left(Y\odot Bf\right)\right)\right)
+		\\
+		+
+		
+		C^\top\left(\left( Bf \right)\odot C^\top\left(X\odot Y\right)\right)
+		\\
+		-
+		
+		C^\top\left(Y\odot\left(BC^\top\left(X\odot Bf\right)\right)\right)
+		\\
+		+
+		
+		
+		C^\top\left(\left(
+				
+				\diag{X}BC^\top Bf-\diag{Bf}BC^\top X
+		) \right)\odot Y\right)
+		\\
+		-
+		
+		
+		C^\top\left(
+			
+			\left(
+				\diag{X}BC^\top Y-\diag{Y}BC^\top X
+			\right)
+			\odot Bf\right)
+		\\
+		-
+		
+		
+		C^\top\left(
+			\left(
+				
+				\diag{Bf}BC^\top Y-\diag{Y}BC^\top Bf
+			\right)
+		\odot X \right)
+		\end{array}
+	\right)
+\end{equation*}
+We will try to simplify this formidable expression, but first note that it
+has a few desirable properties:  it is linear with respect to $X$, $Y$
+and $f$; the function $f$ is differentiated twice; the role of $X$ and $Y$ is
+symmetrical (as $X$ and $Z$ are in the original Koszul formula); and,
+interestingly, it is not obviously a vector field acting on $f$, although
+four of the six terms are.
+
+<p>
+We can rewrite the terms by trying to put $Bf$ towards the end, as much as
+possible, and developing $F\odot G$ as $\diag{F}G$:
+\begin{equation*}
+	\mathrm{Hess}\left(f\right)(X,Y) :=
+	\frac12C^\top\left(
+		\begin{array}{l}
+			\diag{X}BC^T\diag{Y}Bf\\
+			+{\color{Green4}\diag{C^\top\diag{X}Y}}Bf\\
+			-\diag{Y}BC^\top\diag{X}Bf\\
+			+\diag{Y}\diag{X}BC^\top Bf\\
+			-\diag{Y}{\color{red}\diag{Bf}}BC^\top X\\
+			-{\color{blue}\diag{\diag{X}BC^\top Y}}Bf\\
+			+{\color{blue}\diag{\diag{Y}BC^\top X}}Bf\\
+			-\diag{X}{\color{red}\diag{Bf}}BC^\top Y\\
+			+\diag{X}\diag{Y}BC^\top Bf
+		\end{array}
+	\right)
+\end{equation*}
+and rearranging the terms (not sure this is the most reasonable way):
+\begin{equation*}
+	\begin{array}{lll}
+		\mathrm{Hess}\left(f\right)(X,Y) &amp; :=
+		C^\top\diag{X}\diag{Y}BC^\top Bf &amp;{\color{gray}
+		\small(T1)}\\
+		&amp;\quad +C^\top\frac{\diag{X}BC^T\diag{Y}+\diag{Y}BC^\top\diag{X}}2Bf &amp;{\color{gray}
+		\small(T2)}\\
+		&amp;\quad +C^\top{\color{blue}\diag{\frac{
+			{\diag{Y}BC^\top X}-\diag{X}BC^\top Y}2
+	}}Bf &amp;{\color{gray}
+	\small(T3)}\\
+		&amp;\quad -C^\top\frac{\diag{Y}{\color{red}\diag{Bf}}BC^\top X
+			+\diag{X}{\color{red}\diag{Bf}}BC^\top Y
+		}2 &amp;{\color{gray}
+		\small(T4)}\\
+		&amp;\quad +\frac12 C^\top{\color{Green4}\diag{C^\top\diag{X}Y}}Bf &amp;{\color{gray}
+		\small(T5)}\\
+	\end{array}
+\end{equation*}
+We can sort of interpret each of these five terms.  The first term $(T1)$ is
+the original bad definition we gave of the Hessian as $C^\top(X\odot Y\odot
+BC^\top Bf)$.  Nice to see it appear naturally here.  The second term $(T2)$
+is the second bad definition that we proposed, as a sort of Lie bracket with
+positive sign.  The third term $(T3)$ is simply $\partial_{[X,Y]} f$.  The
+fourth term $(T4)$ is the only term that is not the action by a vector field
+over $f$ (or equivalently, the effect of applying the differential
+form $\mathrm{d}u$ over a vector field).  Finally, we recognize the last
+term $(T5)$ as $\frac12\partial_{X\odot Y}f$, which can be also written in
+many different ways.
 
 <h2>3. Numerical verification</h2>
 

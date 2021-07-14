@@ -294,7 +294,7 @@ end).  The following ``translation'' into the discrete setting is automatic:
 		\\
 		+
 		%\mathrm{grad}\!\left(f\right) g\!\left(X,Y\right)
-		C^\top\left(\left( Bf \right)\odot C^\top\left(X\odot Y\right)\right)
+		C^\top\left(\left( Bf \right)\odot BC^\top\left(X\odot Y\right)\right)
 		\\
 		-
 		%Y g\!\left(X,\mathrm{grad}\!\left(f\right)\right)
@@ -344,7 +344,7 @@ possible, and developing~$F\odot G$ as~$\diag{F}G$:
 	\frac12C^\top\left(
 		\begin{array}{l}
 			\diag{X}BC^T\diag{Y}Bf\\
-			+{\color{Green4}\diag{C^\top\diag{X}Y}}Bf\\
+			+{\color{Green4}\diag{BC^\top\diag{X}Y}}Bf\\
 			-\diag{Y}BC^\top\diag{X}Bf\\
 			+\diag{Y}\diag{X}BC^\top Bf\\
 			-\diag{Y}{\color{red}\diag{Bf}}BC^\top X\\
@@ -371,7 +371,7 @@ and rearranging the terms (not sure this is the most reasonable way):
 			+\diag{X}{\color{red}\diag{Bf}}BC^\top Y
 		}2 &{\color{gray}
 		\small(T4)}\\
-		&\quad +\frac12 C^\top{\color{Green4}\diag{C^\top\diag{X}Y}}Bf &{\color{gray}
+		&\quad +\frac12 C^\top{\color{Green4}\diag{BC^\top\diag{X}Y}}Bf &{\color{gray}
 		\small(T5)}\\
 	\end{array}
 \end{equation*}
@@ -383,8 +383,9 @@ positive sign.  The third term~$(T3)$ is simply~$\partial_{[X,Y]} f$.  The
 fourth term~$(T4)$ is the only term that is not the action by a vector field
 over~$f$ (or equivalently, the effect of applying the differential
 form~$\mathrm{d}u$ over a vector field).  Finally, we recognize the last
-term~$(T5)$ as~$\frac12\partial_{X\odot Y}f$, which can be also written in
-many different ways.
+term~$(T5)$ as~$\frac12\partial_{\mathrm{grad}\left(X\boldsymbol{\cdot}
+Y\right)}f=\frac12\partial_{\mathrm{grad} f}\,\left(X\boldsymbol{\cdot}
+Y\right)$, as it appears in the original Koszul formula.
 
 \clearpage
 \section{Numerical verification}

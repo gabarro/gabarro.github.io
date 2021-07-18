@@ -409,7 +409,7 @@ and rearranging the terms (not sure this is the most reasonable way):
 		\mathrm{Hess}\left(f\right)(X,Y) &amp; :=
 		C^\top\diag{X}\diag{Y}BC^\top Bf &amp;{\color{gray}
 		\small(T1)}\\
-		&amp;\quad +C^\top\frac{\diag{X}BC^T\diag{Y}+\diag{Y}BC^\top\diag{X}}2Bf &amp;{\color{gray}
+		&amp;\quad +C^\top\frac{\diag{X}BC^T\diag{Y}-\diag{Y}BC^\top\diag{X}}2Bf &amp;{\color{gray}
 		\small(T2)}\\
 		&amp;\quad +C^\top{\color{blue}\diag{\frac{
 			{\diag{Y}BC^\top X}-\diag{X}BC^\top Y}2
@@ -425,15 +425,20 @@ and rearranging the terms (not sure this is the most reasonable way):
 \end{equation*}
 We can sort of interpret each of these five terms.  The first term $(T1)$ is
 the original bad definition we gave of the Hessian as $C^\top(X\odot Y\odot
-BC^\top Bf)$.  Nice to see it appear naturally here.  The second term $(T2)$
-is the second bad definition that we proposed, as a sort of Lie bracket with
-positive sign.  The third term $(T3)$ is simply $\partial_{[X,Y]} f$.  The
+BC^\top Bf)$.  Nice to see it appear naturally here.
+The third term $(T3)$ is simply $\partial_{[X,Y]} f$.  The
 fourth term $(T4)$ is the only term that is not the action by a vector field
 over $f$ (or equivalently, the effect of applying the differential
 form $\mathrm{d}u$ over a vector field).  Finally, we recognize the last
 term $(T5)$ as $\frac12\partial_{\mathrm{grad}\left(X\boldsymbol{\cdot}
 Y\right)}f=\frac12\partial_{\mathrm{grad} f}\,\left(X\boldsymbol{\cdot}
 Y\right)$, as it appears in the original Koszul formula.
+It seems as if terms $(T2)$ and $(T3)$ should cancel each other, but I'm not
+sure.
+
+<p>
+In the following section we study the numerical effect of each of these
+terms, and their ``impulse response'' when the graph is a regular grid.
 
 <h2>3. Numerical verification</h2>
 
@@ -790,6 +795,74 @@ The product rule for directional derivatives $(P6)$ follows directly
 from $(P1)$.  Similarly, the definition $(D5)$ for the Lie bracket is the
 only possible one if we want
 that $\partial_{[X,Y]}=\partial_X\partial_Y-\partial_Y\partial_X$.
+
+<p>
+An important observation: contrarily to the continuous case, the action of
+a vector field on functions is <i>not</i> a derivation.  We have defined it
+as $\partial_Xf:=C^\top \diag{X}Bf$.  This definition is somewhat arbitrary,
+and it does not provide a derivation, i.e., a map such
+that $\partial_X\left(f\odot g\right)=f\odot\partial_Xg+g\odot\partial_Xf$,
+but it satisfies the formally similar property $(P6)$.  Couldn't have we
+defined the action of $X$ so that it is a derivation?  The answer is NO, due
+to the following result
+
+<p>
+<div class="thm"><b>Theorem 1</b>. <em>(Singer-Werner 1955)
+	There are no non-zero bounded derivations on a semi-simple algebra.
+</em></div>
+
+<p>
+Since the algebra $(\R^n,\odot)$ is semi-simple (it is a direct product of
+fields, which have no ideals) then it has no derivations.  Notice that this
+result in finite dimension is much easier than Singer's theorem and was
+probably known since longtime.  It is in fact elementary:
+
+<p>
+<div class="thm"><b>Proposition 2</b>. <em>
+	Let $A\in\mathcal{M}_{n,n}(\R)$ such that $\forall x,y\in\R^n$
+	\[
+		A\left(x\odot y\right)=\left(Ax\right)\odot y+x\odot\left(Ay\right)
+	\]
+	then $A=0$.
+</em></div>
+<p>
+<i>Proof.</i>
+	Write the condition in matrix form
+	\[
+		A\diag{x}y=\diag{Ax}y+\diag{x}Ay
+	\]
+	since this is true for all $y$ we must have
+	\[
+		A\diag{x}=\diag{Ax}+\diag{x}A
+	\]
+	for all $x\in\R^n$.  Now setting $x=e_1=(1,0,0,\ldots,0)$ this condition
+	becomes
+	\[
+		\begin{pmatrix}
+			a_{11} &amp; 0 &amp; \cdots &amp; 0 \\
+			\vdots &amp; 0 &amp;  &amp; 0 \\
+			a_{n1} &amp; 0 &amp; \cdots &amp; 0 \\
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			a_{11} &amp; \cdots &amp; 0 \\
+			\vdots &amp; \ddots &amp;  0 \\
+			\vdots &amp; \cdots &amp; a_{nn} \\
+		\end{pmatrix}
+		+
+		\begin{pmatrix}
+			a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\
+			\vdots &amp; 0 &amp;  &amp; 0 \\
+			0 &amp; 0 &amp; \cdots &amp; 0 \\
+		\end{pmatrix}
+	\]
+	implying that the first column and the first row of $A$ are zero.  By
+	applying the condition to all the $e_k$ we get that all the entries of $A$
+	are zero.
+<span style="float:right">&#8718;</span>
+This result is a bit disheartening and a major difference with respect to the
+continuous case.  Fortunately, there are still many useful product rules that
+are not derivations strictu senso.
 
 <h2>5. References</h2>
 

@@ -1,6 +1,6 @@
 \title{Math notes in music theory}
 
-These are some personal notes on the (mathematical) theory of music.
+These are some personal notes on the mathematical theory of music.
 The required knowledge is single-variable calculus and Fourier analysis.
 
 Overview: A musical piece is a single sound wave.  This sound wave can be
@@ -14,34 +14,45 @@ different.  This difference is called~\emph{timbre}.
 %The timbre is the most important aspect in music theory, for it will
 %determine the harmony and the melody.
 Let us give a mathematical formalization of timbre.
+
+\subsection{Definition of timbre}
 A sound wave is a function~$f(t)$ that describes the evolution of air
 pressure along the time~$t$.  To define the timbre of~$f(t)$ we assume first
 that the sound is in a stationary regime: thus we ignore the attack of the note
 and its decay over time; we will review this simplification later.  This means
 that the sound wave can be expressed in the following form
 \begin{equation}\label{eq:soundwave}
-	f(t) = \sum_{n\ge 0} a_n\sin\left(\omega_n t\right)
+	f(t) = \sum_{n\ge 1} a_n\sin\left(\omega_n t\right)
 \end{equation}
-where~$a_n>0$ and~$\omega_n>0$ for~$n=0,1,2,\ldots$.  For all practical
+where~$a_n>0$ and~$\omega_n>0$ for~$n=1,2,3,\ldots$.  For all practical
 purposes we can assume that this sum has a finite number of terms.  The
-number~$\omega_0$ is called the~\emph{fundamental frequency} or
-the~\emph{pitch} of~$f(t)$, and the numbers~$\mu_n=\dfrac{\omega_n}{\omega_0}$
+number~$\omega_1$ is called the~\emph{fundamental frequency} or
+the~\emph{pitch} of~$f(t)$, and the numbers~$\mu_n=\dfrac{\omega_n}{\omega_1}$
 are called the~\emph{overtones} of the sound~$f(t)$.  The numbers~$a_n$ are
-called the~\emph{amplitudes} and the numbers~$\dfrac{a_n}{a_0}$ are
-the~\emph{relative amplitudes} of the sound~$f(t)$.  Either~$a_0$
+called the~\emph{amplitudes} and the numbers~$\dfrac{a_n}{a_1}$ are
+the~\emph{relative amplitudes} of the sound~$f(t)$.  Either~$a_1$
 or~$\sqrt{\sum {a_n}^2}$ is called the~\emph{volume} of the
 sound.  For many typical sounds the sequence of amplitudes is
-non-increasing~$a_n\ge a_{n+1}$ and it can be normalized by setting~$a_0=1$.
+non-increasing~$a_n\ge a_{n+1}$ and it can be normalized by setting~$a_1=1$.
 
-This definition warrants some commentary.  The first commentary is, the fact
+Thus the definition of~\emph{timbre} of a stationary sound~$f(t)$ as in
+formula~(\ref{eq:soundwave}) is the list of its
+overtones~$\mu_n=\frac{\omega_n}{\omega_1}$ and its relative
+amplitudes~$\frac{a_n}{a_1}$.  We can obtain sounds of that same timbre at
+arbitrary pitches and volumes by changing~$\omega_1$ and~$a_1$ and keeping
+the same overtones and relative amplitudes.
+
+
+This definition warrants some commentary.  The first comment is, the fact
 that a sound wave is stationary does not mean that it is periodic.  For
 example, the function~$f(t)=\sin(t)+\sin(\pi t)$ is not periodic but it is
 nonetheless stationary.  Hearing the sound~$f(t)$, one perceives the
 superposition of two pure waves of different frequency.  It is
 indistinguishable from the sound
 wave~$g(t)=\sin(t)+\sin\left(\tfrac{22}7t\right)$ which is periodic.
+Periodicity is a mostly irrelevant characteristic of~$f(t)$.
 
-The second commentary, closely related to the first one, concerns the phases of
+The second comment, closely related to the first one, concerns the phases of
 the sinusoidal waves.  We could have defined a stationary sound wave as
 \begin{equation}\label{eq:soundwave-phases}
 	f(t)=\sum_{n\ge 0}a_n\sin(\omega_nt+\varphi_n)
@@ -52,8 +63,8 @@ or equivalently
 	\sum_{n\ge 0}a_n\sin(\omega_nt)
 	+\sum_{n\ge 1}b_n\cos(\omega_nt).
 \end{equation}
-Notice that the forms~\ref{eq:soundwave-cosines}
-and~\ref{eq:soundwave-phases} are equivalent through elementary trigonometry.
+Notice that the forms~(\ref{eq:soundwave-cosines})
+and~(\ref{eq:soundwave-phases}) are equivalent through elementary trigonometry.
 Auditory experiences by Ohm (1843) show that the phases~$\varphi_n$
 have no audible effect.  The reality is of course more subtle, and in some
 cases phase distortion is indeed audible (see
@@ -63,42 +74,79 @@ true.  Thus, the phases~$\varphi_n$ on formula~\ref{eq:soundwave-phases} can
 take arbitrary values, and for all we care we set them to~$\varphi_n=0$,
 recovering formula~\ref{eq:soundwave}.
 
-% harmonic vs inharmonic waveforms
 Using a digital synthesizer one can easily produce sounds of the general
-form~\ref{eq:soundwave} above.  Any particular choice of amplitudes and
-partials will give a particular timbre; and that's all there is to timbre.
+form~\ref{eq:soundwave} above.  Any particular choice of overtones and their
+amplitudes will give a particular timbre; and that's all there is to timbre.
 
+% harmonic vs inharmonic waveforms
+\subsection{Harmonic and inharmonic waveforms}
+
+In the very particular case that the overtones are integer multiples of the
+fundamental~(i.e. that ~$\omega_n=n\omega_1$, or equivalently that~$\mu_n=n$)
+the sound wave is called~\emph{harmonic}.  If there are some overtones that
+are not integer multiples of the fundamental, they are
+called~\emph{partials}, and the sound is called~\emph{inharmonic}.
+Here are some notes:~\lilypond{a b c} bla bla bla.
+
+%\begin{abc}
+%X: 1
+%K: C
+%Ccge'
+%\end{abc}
 
 % typical waveforms
+\subsection{Typical waveforms}
 
 % decay
+\subsection{Decay}
 
 % attack
+\subsection{Attack}
 
 % phases revisited
+\subsection{Phases}
+
+% convolution theorem!
+\subsection{Localization and formants}
 
 % physical modelling of timbre
+\subsection{Physical modelling of timbre}
 
 % detailed study of the bell
+\subsection{Detailed study of the bell}
 
 
 \section{Harmony}
 
 % dissonance
+\subsection{Dissonance}
 
 % harmonic consonance
+\subsection{Harmonic consonance}
 
 % chords
+\subsection{Chords}
 
 % chord sequences
+\subsection{Chord sequences}
 
 % scales, tuning, and the circle of fifths
+\subsection{Scales and tuning}
 
 % 
+\subsection{The circle of fifths}
+
+\subsection{Exotic octave-based scales}
+
+\subsection{Exotic non-octave-based scales}
 
 \section{Rhythm}
 
 Rhythm is low-frequency timbre.
+It is so low frequency that we can perceive the individual oscillations of
+the terms.  As opposed to the case of timbre, the phases of each repeating
+pattern are very important.  The period is also a fundamental characteristic,
+called the~\emph{measures}.
 
 % see sethares rhythm book...
 
@@ -106,8 +154,30 @@ Rhythm is low-frequency timbre.
 
 Melody is the most difficult part of music theory to formalize in our
 framework.
-
+A melody can be formalized naively as a path in note space or,
+if it has more structure, as a ``low-frequency harmony``.  Let us develop
+this definition.
 % melody as a path in note space
+
+\section*{References}
+
+* Music: a Mathematical Offering, Dave Benson. Explains the mathematical
+theory of how to compute the timbre of an instrument given its shape. Also
+how the timbre of the instruments determines harmony.
+
+* Tuning, timbre, spectrum, scale, William Sethares. A deep exploration of
+the relationship between timbre and harmony. It starts by exhibiting a
+(synthetic) instrument whose octaves are dissonant, and the music that you
+can do with it. Then it doubles down on this idea to obtain a lot of fun.
+
+* Rhythm and Transforms, William Sethares. A mathematical theory of rhythm.
+
+* The Topos of Music, Guerino Mazzola. Really hardcore mathematical music
+theory, too scary for simple people like me.
+
+* \url{https://raw.githack.com/CindyJS/ScaleLab/master/index.html} and more
+generally
+\url{https://www.imaginary.org/exhibition/la-la-lab-the-mathematics-of-music}.
 
 
 % vim:set tw=77 filetype=tex spell spelllang=en:

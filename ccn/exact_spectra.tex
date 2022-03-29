@@ -1,0 +1,296 @@
+\title{Shapes with closed-form eigenmodes}
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\U}{\mathbf{U}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\x}{\mathbf{x}}
+
+
+This is a list of compact shapes whose Laplace-Beltrami
+eigenfunctions can be expressed in terms of special functions.  It is
+based mostly on the review articles by Grebenkov.
+
+There are a just a few shapes where Helmholtz equation admits
+closed-form solutions:
+
+\begin{enumerate}
+	\item The one-dimensional interval, using trigonometric functions.
+	\item The disk, using Bessel functions
+	\item The ellipse, using Mathieu functions
+%	\item The surface of the sphere, using spherical harmonics (which
+%		are polinomials of trigonometric functions)
+	\item The equilateral triangle, using Lamé functions
+\end{enumerate}
+
+Other shapes can be also treated from these five ``basic'' types:
+
+\begin{enumerate}
+		\setcounter{enumi}{4}
+	\item The rectangle in~$\R^d$, which is a separable product of
+		intervals
+	\item The cylinder, which is the product of a disk and an interval
+	\item The right isosceles triangle, which is half a square and its
+		eigenfunctions are obtained as those that vanish on the
+		diagonal of the square
+	\item The $90-60-30$ triangle, which is half an equilateral
+		triangle
+	\item Other separable products or symmetric subsets of treatable
+		shapes
+\end{enumerate}
+
+Here we treat only the ``hard'' case of shapes with boundary.  The
+case of compact manifolds without boundary
+(circle, torus, sphere, ...) is somewhat easier.
+
+\clearpage
+\section{General considerations}
+
+The basic result is the following.
+
+\begin{proposition}
+	Let~$\Omega$ be a compact manifold with boundary~$\partial\Omega$
+	with Laplace-Beltrami operator~$\Delta_\Omega$.  Helmholtz
+	equation with Dirichlet boundary conditions
+	\begin{equation}\label{eq:helmholtz}
+		\begin{cases}
+			\Delta_\Omega u = -\lambda u & \Omega \\
+			u = 0 & \partial\Omega
+		\end{cases}
+	\end{equation}
+	has a numerable sequence of
+	solutions~$\Delta_\Omega\varphi_n=-\lambda_n\varphi_n$,
+	for~$n=1,2,3,\ldots$.  The numbers~$\{\lambda_n\}$, called
+	the~\emph{spectrum} of~$\/\Omega$, are strictly positive and go to
+	infinity.  The functions~$\varphi_n$, called the~\emph{normal
+	modes}, are~$\mathcal{C}^{\infty}(\Omega)$ and form a Hilbert
+	basis of~$L^2(\Omega)$.
+\end{proposition}
+
+This standard result (see for example Warner--Foundations of Differentiable
+Manifolds an Lie Groups) settles the whole question of Helmholtz
+equation, at least from the theoretical point of view.  In practice,
+we may want to compute the spectrum or the normal modes numerically.
+This can be done in general, by representing the shape~$\Omega$ by a
+fine simplicial mesh, so that the equation in a continuous domain is
+transformed as a linear algebra eigenvalue problem in finite
+dimension.  Since the corresponding matrix is symmetric and positive
+definite, the problem is particularly well posed.  But solving the
+discretized problem exactly does not mean that we are close to the
+real solution.  How fine must be the mesh so that the high-frequency
+modes are correctly represented?  For that, it is very useful to have
+a few simple domains where the solutions can be expressed explicitly
+in terms of known functions.
+
+The technique for solving equation~(\ref{eq:helmholtz}) is often
+similar.  First a family of solutions of~$\Delta u = -\lambda u$ is
+determined.  This family depends on a few continuous parameters.  It
+is then found that for some particular, discrete, values of these
+parameters, the boundary condition is magically satisfied.  These
+parameters are called the ``characteristic values''.
+
+The ideal case happens in the unit interval~$\Omega=[0,1]$.  The
+equation without boundary conditions is~$u''=-\lambda u$, whose
+solutions are of the general form~$\alpha\sin(\sqrt{\lambda}x)+
+\beta\cos(\sqrt{\lambda}x)$.  By imposing the boundary conditions we
+find that~$\beta=0$ and that~$\sqrt{\lambda}$ must be an integer
+multiple of~$\pi$.
+
+
+\clearpage
+\section{The interval}
+
+Let~$\Omega=[0,1]$.  The equation without boundary conditions is
+\begin{equation}\label{eq:sincos}
+	u''=-\lambda u
+\end{equation}
+solutions of this equation for an arbitrary~$\lambda\in\C$ are of the form
+\[
+	u(x)=
+	\alpha_1 e^{\mu x}
+	+
+	\alpha_2 e^{-\mu x}
+	+
+	\alpha_3 e^{i\mu x}
+	+
+	\alpha_4 e^{-i\mu x}
+\]
+where~$\mu^2=-\lambda$.  For~$\lambda>0$ and real-valued~$u$, this
+gives~$\alpha_1=\alpha_2=0$.  Thus  we are interested in solutions
+of~(\ref{eq:sincos}) of the form
+\[
+	u(x)=\alpha\sin\left(\sqrt{\lambda}
+	x\right)+\beta\cos\left(\sqrt{\lambda}x\right).
+\]
+Now, the boundary conditions are~$u(0)=0$ and~$u(1)=0$.  The first
+boundary condition implies that~$\beta=0$.  The second boundary
+condition now says
+\begin{equation}\label{eq:sinroots}
+	\sin\left(\sqrt{\lambda}\right) = 0
+\end{equation}
+Since the sine function has roots at integer multiples of~$\pi$, the
+solutions of this equation are the numbers~$\lambda_n=n^2\pi^2$.
+
+The computation above proves that, for~$\Omega=[0,1]$, the
+spectrum and its corresponding normal modes are
+\[
+	\lambda_n = \pi^2n^2
+	\qquad n=1,2,3,\ldots
+\]
+\[
+	\varphi_n(x) = \sin\left(\pi n x\right)
+	\qquad n=1,2,3,\ldots
+\]
+On an interval of arbitrary length~$\Omega=[0,L]$ the result is
+obtained by a linear change of variable
+\[
+	\varphi_n(x) = \sin\frac{\pi n x}L
+	\qquad n=1,2,3,\ldots
+\]
+\[
+	\lambda_n = \frac{\pi^2n^2}{L^2}
+	\qquad n=1,2,3,\ldots
+\]
+
+
+\clearpage
+\section{The rectangle}
+
+Consider now~$\Omega=[0,A]\times[0,B]\subseteq\R^2$.
+The Laplacian in two variables is separable: if~$u(x,y)=p(x)q(y)$
+then~$\Delta u = p''q + q''p$.  Thus we can obtain solutions of
+the two-dimensional Helmholtz equation by solving separately
+the two equations
+\[
+	p''=-\lambda p
+	\qquad\qquad
+	q''=-\lambda q
+\]
+and then building~$u=pq$.  Notice that this will produce~\emph{some}
+solutions of Helmholtz equation, but of course not all of them (in
+particular, the property of being separable is not even closed by
+linear combinations!).  Some kind of completeness of these solutions
+will be needed to to proven later, after imposing the boundary
+conditions.
+
+In the case of the rectangle, the boundary conditions can be imposed
+separately for~$p$ and~$q$.  Notice that the functions
+\[
+	\varphi_{m,n}(x,y)=\sin\frac{\pi m x}A\cos\frac{\pi n y}B
+\]
+satisfy the boundary conditions and satisfy Helmoltz equation with
+eigenvalues
+\[
+	\lambda_{m,n} =
+	\frac{\pi^2m^2}{A^2}
+	+
+	\frac{\pi^2n^2}{B^2}.
+\]
+The case of the rectangle is particularly simple, but it has a
+similar
+structure than the cases for the disk and the ellipse.
+The difference is that the condition of separability is different.
+
+
+
+
+\clearpage
+\section{The disk}
+
+Consider the unit disk~$\Omega=\left\{\x\in\R^2\ :\
+\|\x\|\le1\right\}$.  This set is not separable in Cartesian
+coordinates~$\x=(x,y)$, but it is separable in polar
+coordinates~$(r,\theta)$, defined by
+\[
+	\begin{cases}
+		x = r\cos\theta \\
+		y = r\sin\theta
+	\end{cases}
+	\qquad\qquad
+	\qquad
+	\begin{cases}
+		r = \sqrt{x^2+y^2} \\
+		\theta = \mathrm{atan2}(y,x)
+	\end{cases}
+\]
+to write Helmholtz equation in polar coordinates, we need to
+express the Laplacian in terms of derivatives of~$r$ and~$\theta$:
+\[
+	\Delta
+	\ = \ %
+	\frac{\partial^2}{\partial x^2}
+	+
+	\frac{\partial^2}{\partial y^2}
+	\ = \ %
+	\frac{\partial^2}{\partial r^2}
+	+
+	\frac 1r
+	\frac{\partial}{\partial r}
+	+
+	\frac 1{r^2}
+	\frac{\partial^2}{\partial \theta^2}.
+\]
+Now we can apply separation of variables:
+if~$u(r,\theta)=f(r)g(\theta)$ then Helmholtz equation becomes
+\[%\Delta u =
+f''(r)g(\theta)+\frac{f'(r)}rg(\theta)+\frac{f(r)}{r^2}g''(\theta)
+=-\lambda f(r)g(\theta)
+\]
+or, rearranging the terms,
+\[
+	\left(
+f''(r)
++
+\frac{f'(r)}r
++\lambda f(r)
+\right)g(\theta)
+=
+-
+\frac{f(r)}{r^2}g''(\theta)
+\]
+This equation will hold whenever the following two do, for the same
+``characteristic constant''~$\mu$:
+\[
+	\begin{cases}
+		g''=-\mu g \\
+		f''+{f'}/{r}+\lambda f = -\mu{f}/{r^2}
+	\end{cases}
+\]
+These are now two separate ordinary equations on the
+variables~$\theta$ and~$r$, respectively.  Let us consider them
+separately.
+
+The first equation~$g''=-\mu g$ is an old friend.  Its solutions are
+sines and cosines of~$\sqrt{\mu}\theta$.  Now, if we want that this
+represents something in polar coordinates, then~$g$ must be~$2\pi$
+periodic, so~$\sqrt{\mu}$ must be an integer multiple of~$2\pi$,
+thus~$\mu_k=4\pi^2 k^2$ and we have two families of solutions
+for~$g$:
+\[
+	g^0_k(\theta) = \cos(2\pi k \theta)
+	\quad k=0,1,2,\ldots
+\]
+\[
+	g^1_k(\theta) = \sin(2\pi k \theta)
+	\quad k=1,2,3,\ldots
+\]
+
+Now consider the second equation
+\[
+	r^2f''(r) + rf'(r)
+	+\left(\lambda r^2+
+	%\left(\frac{2\pi k}{r}\right)^2
+	4\pi^2 k^2
+	\right)f(r) = 0
+\]
+This is called Bessel equation, and its solution are the Bessel
+functions
+
+\section{The ellipse}
+
+\section{The equilateral triangle}
+
+% vim:set ts=3 sw=3 tw=69 filetype=tex spell spelllang=en:

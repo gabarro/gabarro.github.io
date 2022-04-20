@@ -164,7 +164,7 @@ GNU Scientific Library, to get the~$k$-th zero of~$J_a$.  In Python,
 you can use the GSL Python bindings, or~\verb+scipy.special.jn_zeros+
 and related functions.
 
-The condition~$y(0)=0$ implies that~$c_2=0$.  Now, the
+The condition that~$y(0)$ is finite implies that~$c_2=0$.  Now, the
 condition~$y(L)=0$ says~$J_\alpha(L)=0$.  The positive roots of~$J_\alpha$ are
 tabulated, so that for each~$\alpha\ge 0$ there is an increasing
 sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
@@ -396,11 +396,7 @@ r$,~$y(x)=f\left(x/\sqrt\lambda\right)$ to rewrite it as
 	k^2\right)y=0
 \]
 This is Bessel equation, and its solutions bounded around $x=0$ are
-the Bessel functions of the first kind~$J_k(x)$.
-
-~$Y_n$ of the first and second kind.  The Bessel functions are just like the sine and cosine
-functions: well known, with nice properties, and defined by a
-differential equation.
+the Bessel functions of the first kind with integer order~$J_k(x)$.
 
 \section{The ellipse}
 

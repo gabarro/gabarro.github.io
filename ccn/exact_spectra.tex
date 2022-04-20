@@ -85,12 +85,13 @@ modes are correctly represented?  For that, it is very useful to have
 a few simple domains where the solutions can be expressed explicitly
 in terms of known functions.
 
-The technique for solving equation~(\ref{eq:helmholtz}) is often
-similar.  First a family of solutions of~$\Delta u = -\lambda u$ is
-determined.  This family depends on a few continuous parameters.  It
-is then found that for some particular, discrete, values of these
-parameters, the boundary condition is magically satisfied.  These
-parameters are called the ``characteristic values''.
+The technique for solving equation~(\ref{eq:helmholtz}) in different
+domains is always the same.  First, a family of solutions of~$\Delta u
+= -\lambda u$ is determined.  This family depends on a few continuous
+parameters.  It is then found that for some particular, discrete,
+values of these parameters, the boundary condition is magically
+satisfied.  These parameters are called the ``characteristic
+values''.
 
 The ideal case happens in the unit interval~$\Omega=[0,1]$.  The
 equation without boundary conditions is~$u''=-\lambda u$, whose
@@ -98,6 +99,80 @@ solutions are of the general form~$\alpha\sin(\sqrt{\lambda}x)+
 \beta\cos(\sqrt{\lambda}x)$.  By imposing the boundary conditions we
 find that~$\beta=0$ and that~$\sqrt{\lambda}$ must be an integer
 multiple of~$\pi$.
+
+\clearpage
+\section{Some ordinary differential equations}
+We will solve Helmholtz equation on different domains by the method
+of separation of variables, that turns a PDE into a collection of
+independent ODE.  In this section we recall such ODE and their
+solutions.
+
+Recall that, in general, a linear second order ODE
+\[
+y'' = p(x)y'+q(x)y+r(x)
+\]
+will have two
+families of independent solutions~$y(x) =
+c_1y_{1}(x)+c_2y_{2}(x)$.
+A first boundary condition like~$y(0)=0$  imposes a linear
+relationship between~$c_1$ and~$c_2$.  A second boundary condition
+like~$y(L)=0$ forces that~$L$ be a root of the solution, which may
+exist only for specific values of parameters within $(p,q,r)$, and these
+roots can be tabulated.
+
+Let us see some examples.
+
+\subsection{Trigonometric functions}
+
+The ``trigonometric ODE''
+\begin{equation}\label{eq:trigo}
+	y'' = -\lambda y
+\end{equation}
+for~$\lambda>0$
+has general solutions~$y(x)=c_1\sin\left(\sqrt\lambda x\right)
++ c_2\cos\left(\sqrt\lambda x\right)$.  The functions~$\sin$
+and~$\cos$ are well known and can be evaluated on a computer by
+standard math libraries like \verb+math.h+, etc.
+Moreover, the zeros of the functions~$\sin$ and~$\cos$ are tabulated: they are
+integer multiples of an universal constant~$\pi$, which is also well
+known and available everywhere.
+
+The condition~$y(0)=0$ implies that~$c_2=0$ and does not impose any
+constraint on~$\lambda$.  Now, the
+condition~$y(L)=0$ says~$\sin\left(\sqrt\lambda L\right)=0$
+thus~$\sqrt\lambda L$ must be an integer multiple of~$\pi$.  This
+implies that the ODE will only have a solution satisfying this
+boundary condition for a discrete set of
+values~$\lambda_k=\frac{\pi^2 k^2}{L^2}$, $k=1,2,3,\ldots$.
+
+\subsection{Bessel functions}
+
+The Bessel equation
+\begin{equation}\label{eq:bessel}
+	x^2y''+xy'+(x^2-\alpha^2)y = 0
+\end{equation}
+has general solutions~$y(x)=c_1 J_{\alpha}(x)+c_2 Y_{\alpha}(x)$.
+The functions~$J_\alpha$ and ~$Y_\alpha$ are well known and can be
+evaluated on a computer by standard math libraries
+like~\verb+math.h+, etc.
+They are called the Bessel functions of the first and second kind
+respectively.  The zeros of these functions are also well-known, and
+while they are not tabulated inside the most basic libraries
+like~\verb+math.h+, they are easily available.  For example,
+in~C, you can use the function~\verb+gsl_sf_bessel_zero_Jnu(a,k)+ from the
+GNU Scientific Library, to get the~$k$-th zero of~$J_a$.  In Python,
+you can use the GSL Python bindings, or~\verb+scipy.special.jn_zeros+
+and related functions.
+
+The condition~$y(0)=0$ implies that~$c_2=0$.  Now, the
+condition~$y(L)=0$ says~$J_\alpha(L)=0$.  The positive roots of~$J_\alpha$ are
+tabulated, so that for each~$\alpha\ge 0$ there is an increasing
+sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
+
+
+\subsection{Mathieu functions}
+
+
 
 
 \clearpage
@@ -161,25 +236,50 @@ obtained by a linear change of variable
 
 Consider now~$\Omega=[0,A]\times[0,B]\subseteq\R^2$.
 The Laplacian in two variables is separable: if~$u(x,y)=p(x)q(y)$
-then~$\Delta u = p''q + q''p$.  Thus we can obtain solutions of
-the two-dimensional Helmholtz equation by solving separately
-the two equations
+then~$\Delta u = p''q + q''p$.
+Helmholtz equation now says
 \[
-	p''=-\lambda p
-	\qquad\qquad
-	q''=-\lambda q
+	p''(x)q(y)+p(x)q''(y)=-\lambda p(x)q(y)
 \]
-and then building~$u=pq$.  Notice that this will produce~\emph{some}
-solutions of Helmholtz equation, but of course not all of them (in
-particular, the property of being separable is not even closed by
-linear combinations!).  Some kind of completeness of these solutions
-will be needed to to proven later, after imposing the boundary
-conditions.
-
-In the case of the rectangle, the boundary conditions can be imposed
-separately for~$p$ and~$q$.  Notice that the functions
+or, equivalently,
 \[
-	\varphi_{m,n}(x,y)=\sin\frac{\pi m x}A\cos\frac{\pi n y}B
+	\left(p''(x)+\lambda p(x)\right)q(y) = -p(x)q''(y)
+\]
+This equation will hold whenever the following two do, for the same
+``characteristic constant''~$\mu$:
+\[
+	\begin{cases}
+		q'' = -\mu q & \\
+		p'' = (\mu-\lambda) p
+	\end{cases}
+\]
+which, together with their respective boundary conditions, have the solutions
+\[
+	p_m(x) = \sin\frac{\pi n x}{A} \qquad m=1,2,3,\ldots
+\]
+\[
+	q_n(y) = \sin\frac{\pi n y}{B} \qquad n=1,2,3,\ldots
+\]
+%Thus we can obtain solutions of
+%the two-dimensional Helmholtz equation by solving separately
+%the two equations
+%\[
+%	p''=-\lambda p
+%	\qquad\qquad
+%	q''=-\lambda q
+%\]
+%and then building~$u=pq$.  Notice that this will produce~\emph{some}
+%solutions of Helmholtz equation, but of course not all of them (in
+%particular, the property of being separable is not even closed by
+%linear combinations!).  Some kind of completeness of these solutions
+%will be needed to to proven later, after imposing the boundary
+%conditions.
+
+%In the case of the rectangle, the boundary conditions can be imposed
+%separately for~$p$ and~$q$.
+Thus the family of functions
+\[
+	\varphi_{m,n}(x,y)=\sin\frac{\pi m x}A\sin\frac{\pi n y}B
 \]
 satisfy the boundary conditions and satisfy Helmoltz equation with
 eigenvalues
@@ -189,11 +289,12 @@ eigenvalues
 	+
 	\frac{\pi^2n^2}{B^2}.
 \]
+for~$m,n=1,2,3,\ldots$.
 The case of the rectangle is particularly simple, but it has a
 similar
 structure than the cases for the disk and the ellipse.
-The difference is that the condition of separability is different.
-
+The difference will be that the condition of separability is
+different, but the structure of the reasoning is the same.
 
 
 
@@ -256,7 +357,7 @@ This equation will hold whenever the following two do, for the same
 \[
 	\begin{cases}
 		g''=-\mu g \\
-		f''+{f'}/{r}+\lambda f = -\mu{f}/{r^2}
+		f''+{f'}/{r}+\lambda f = \mu{f}/{r^2}
 	\end{cases}
 \]
 These are now two separate ordinary equations on the
@@ -267,27 +368,39 @@ The first equation~$g''=-\mu g$ is an old friend.  Its solutions are
 sines and cosines of~$\sqrt{\mu}\theta$.  Now, if we want that this
 represents something in polar coordinates, then~$g$ must be~$2\pi$
 periodic, so~$\sqrt{\mu}$ must be an integer multiple of~$2\pi$,
-thus~$\mu_k=4\pi^2 k^2$ and we have two families of solutions
+thus~$\mu_k=k^2$ and we have two families of solutions
 for~$g$:
 \[
-	g^0_k(\theta) = \cos(2\pi k \theta)
+	g^0_k(\theta) = \cos(k \theta)
 	\quad k=0,1,2,\ldots
 \]
 \[
-	g^1_k(\theta) = \sin(2\pi k \theta)
+	g^1_k(\theta) = \sin(k \theta)
 	\quad k=1,2,3,\ldots
 \]
 
 Now consider the second equation
 \[
 	r^2f''(r) + rf'(r)
-	+\left(\lambda r^2+
-	%\left(\frac{2\pi k}{r}\right)^2
-	4\pi^2 k^2
+	+\left(\lambda r^2
+		-
+	%4\pi^2
+	k^2
 	\right)f(r) = 0
 \]
-This is called Bessel equation, and its solution are the Bessel
-functions
+and apply the change of variable~$x=\sqrt\lambda
+r$,~$y(x)=f\left(x/\sqrt\lambda\right)$ to rewrite it as
+\[
+		x^2y''+xy'+\left(x^2-
+		%4\pi^2
+	k^2\right)y=0
+\]
+This is Bessel equation, and its solutions bounded around $x=0$ are
+the Bessel functions of the first kind~$J_k(x)$.
+
+~$Y_n$ of the first and second kind.  The Bessel functions are just like the sine and cosine
+functions: well known, with nice properties, and defined by a
+differential equation.
 
 \section{The ellipse}
 

@@ -204,6 +204,138 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT  "tmp/bess13.txt" w lines title "J_{13}(x)"
 %SCRIPT END
 
+\includegraphics{besselnorm0.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 1 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn01.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 2 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn02.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 3 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn03.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 4 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn04.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 5 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn05.txt
+%SCRIPT gnuplot <<END >besselnorm0.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bn01.txt" w lines title "J_0( j_{0,1}x/7 )",\
+%SCRIPT  "tmp/bn02.txt" w lines title "J_0( j_{0,2}x/7 )",\
+%SCRIPT  "tmp/bn03.txt" w lines title "J_0( j_{0,2}x/7 )",\
+%SCRIPT  "tmp/bn04.txt" w lines title "J_0( j_{0,2}x/7 )",\
+%SCRIPT  "tmp/bn05.txt" w lines title "J_0( j_{0,5}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnorm1.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 1 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn11.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 2 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn12.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 3 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn13.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 4 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn14.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 5 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn15.txt
+%SCRIPT gnuplot <<END >besselnorm1.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bn11.txt" w lines title "J_1( j_{1,1}x/7 )",\
+%SCRIPT  "tmp/bn12.txt" w lines title "J_1( j_{1,2}x/7 )",\
+%SCRIPT  "tmp/bn13.txt" w lines title "J_1( j_{1,2}x/7 )",\
+%SCRIPT  "tmp/bn14.txt" w lines title "J_1( j_{1,2}x/7 )",\
+%SCRIPT  "tmp/bn15.txt" w lines title "J_1( j_{1,5}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnorm2.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 1 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn21.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 2 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn22.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 3 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn23.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 4 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn24.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 5 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn25.txt
+%SCRIPT gnuplot <<END >besselnorm2.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bn21.txt" w lines title "J_2( j_{2,1}x/7 )",\
+%SCRIPT  "tmp/bn22.txt" w lines title "J_2( j_{2,2}x/7 )",\
+%SCRIPT  "tmp/bn23.txt" w lines title "J_2( j_{2,2}x/7 )",\
+%SCRIPT  "tmp/bn24.txt" w lines title "J_2( j_{2,2}x/7 )",\
+%SCRIPT  "tmp/bn25.txt" w lines title "J_2( j_{2,5}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnorm13.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 1 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn131.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 2 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn132.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 3 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn133.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 4 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn134.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 5 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn135.txt
+%SCRIPT gnuplot <<END >besselnorm13.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bn131.txt" w lines title "J_{13}( j_{13,1}x/7 )",\
+%SCRIPT  "tmp/bn132.txt" w lines title "J_{13}( j_{13,2}x/7 )",\
+%SCRIPT  "tmp/bn133.txt" w lines title "J_{13}( j_{13,2}x/7 )",\
+%SCRIPT  "tmp/bn134.txt" w lines title "J_{13}( j_{13,2}x/7 )",\
+%SCRIPT  "tmp/bn135.txt" w lines title "J_{13}( j_{13,5}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnormr1.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 1 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bnr01.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 1 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bnr11.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 1 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bnr21.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 3 1 bessel-zJn * 3 rot bessel-Jn join" -o tmp/bnr31.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 4 1 bessel-zJn * 4 rot bessel-Jn join" -o tmp/bnr41.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 1 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr131.txt
+%SCRIPT gnuplot <<END >besselnormr1.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bnr01.txt" w lines title "J_0( j_{0,1}x/7 )",\
+%SCRIPT  "tmp/bnr11.txt" w lines title "J_1( j_{1,1}x/7 )",\
+%SCRIPT  "tmp/bnr21.txt" w lines title "J_2( j_{2,1}x/7 )",\
+%SCRIPT  "tmp/bnr31.txt" w lines title "J_3( j_{3,1}x/7 )",\
+%SCRIPT  "tmp/bnr41.txt" w lines title "J_4( j_{4,1}x/7 )",\
+%SCRIPT  "tmp/bnr131.txt" w lines title "J_13( j_{13,1}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnormr2.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 2 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bnr02.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 2 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bnr12.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 2 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bnr22.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 3 2 bessel-zJn * 3 rot bessel-Jn join" -o tmp/bnr32.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 4 2 bessel-zJn * 4 rot bessel-Jn join" -o tmp/bnr42.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 2 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr132.txt
+%SCRIPT gnuplot <<END >besselnormr2.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bnr02.txt" w lines title "J_0( j_{0,2}x/7 )",\
+%SCRIPT  "tmp/bnr12.txt" w lines title "J_1( j_{1,2}x/7 )",\
+%SCRIPT  "tmp/bnr22.txt" w lines title "J_2( j_{2,2}x/7 )",\
+%SCRIPT  "tmp/bnr32.txt" w lines title "J_3( j_{3,2}x/7 )",\
+%SCRIPT  "tmp/bnr42.txt" w lines title "J_4( j_{4,2}x/7 )",\
+%SCRIPT  "tmp/bnr132.txt" w lines title "J_{13}( j_{13,2}x/7 )"
+%SCRIPT END
+
+\includegraphics{besselnormr13.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 13 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bnr013.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 13 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bnr113.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 13 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bnr213.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 3 13 bessel-zJn * 3 rot bessel-Jn join" -o tmp/bnr313.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 4 13 bessel-zJn * 4 rot bessel-Jn join" -o tmp/bnr413.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 13 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr1313.txt
+%SCRIPT gnuplot <<END >besselnormr13.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:8] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bnr013.txt" w lines title "J_0( j_{0,13}x/7 )",\
+%SCRIPT  "tmp/bnr113.txt" w lines title "J_1( j_{1,13}x/7 )",\
+%SCRIPT  "tmp/bnr213.txt" w lines title "J_2( j_{2,13}x/7 )",\
+%SCRIPT  "tmp/bnr313.txt" w lines title "J_3( j_{3,13}x/7 )",\
+%SCRIPT  "tmp/bnr413.txt" w lines title "J_4( j_{4,13}x/7 )",\
+%SCRIPT  "tmp/bnr1313.txt" w lines title "J_{13}( j_{13,13}x/7 )"
+%SCRIPT END
+
 
 \subsection{Mathieu functions}
 

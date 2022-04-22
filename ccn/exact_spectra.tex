@@ -339,6 +339,51 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 
 \subsection{Mathieu functions}
 
+Let~$a$ and~$q$ be real-valued parameters.
+The Mathieu equation
+\begin{equation}\label{eq:mathieu}
+	y'' + (a-2q\cos(2x))y = 0
+\end{equation}
+and the modified Mathieu equation
+\begin{equation}\label{eq:mathieumod}
+	y'' - (a-2q\cosh(2x))y = 0
+\end{equation}
+are second order linear equations (with non-constant coefficients)
+whose solutions exist by the standard theory and are called Mathieu
+functions (and modified Mathieu functions).
+
+Let us start with the solutions of equation~(\ref{eq:matieu}).  For
+general values of~$a$ and $q$, the solutions are not periodic.  But,
+since the coefficients are periodic, it turns out that there are
+periodic solutions, for discrete values of~$a$ and~$q$.  Typically,
+the parameter~$q$ is left free, and then there are choices
+of~$a$ called the ``characteristic values'' for that~$q$, so that the
+solutions are~$2\pi$-periodic.  The characteristic values are
+denoted~$a_n(q)$ and~$b_n(q)$ for~$n=1,2,3$, and the corresponding
+solutions are the Mathieu functions~$ce_n(q,x)$ and~$se_n(q,x)$.
+
+\includegraphics{odemath0.png}
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 0 rot bessel-Jn join" -o tmp/bess0.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 1 rot bessel-Jn join" -o tmp/bess1.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 2 rot bessel-Jn join" -o tmp/bess2.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 3 rot bessel-Jn join" -o tmp/bess3.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 4 rot bessel-Jn join" -o tmp/bess4.txt
+%SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 13 rot bessel-Jn join" -o tmp/bess13.txt
+%SCRIPT gnuplot <<END >odebessel.png
+%SCRIPT set term pngcairo lw 1.5
+%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set key left bottom
+%SCRIPT plot [-1:21] [-1.5:1.5] 0,\
+%SCRIPT  "tmp/bess0.txt" w lines title "J_0(x)",\
+%SCRIPT  "tmp/bess1.txt" w lines title "J_1(x)",\
+%SCRIPT  "tmp/bess2.txt" w lines title "J_2(x)",\
+%SCRIPT  "tmp/bess3.txt" w lines title "J_3(x)",\
+%SCRIPT  "tmp/bess4.txt" w lines title "J_4(x)",\
+%SCRIPT  "tmp/bess13.txt" w lines title "J_{13}(x)"
+%SCRIPT END
+
+
+
 
 
 
@@ -566,6 +611,118 @@ This is Bessel equation, and its solutions bounded around $x=0$ are
 the Bessel functions of the first kind with integer order~$J_k(x)$.
 
 \section{The ellipse}
+
+
+\subsection{Digression on elliptic coordinates}
+
+Fix~$c>0$.  Elliptic coordinates in~$\R^2$ with foci at~$\pm c$ are
+defined by
+\begin{equation}\label{eq:elliptic}
+	\begin{cases}
+		x = c\ \cosh\rho\cos\theta \\
+		y = c\ \sinh\rho\sin\theta
+	\end{cases}
+\end{equation}
+where~$\rho\in[0,+\infty)$ and~$\theta\in[0,2\pi)$.
+They could be called hyperbolic coordinates as well.
+Curves of constant~$\rho$ are ellipses, and curves of
+constant~$\theta$ are hyperbolas, always with the same foci at~$\pm c$.
+
+I find this parametrization difficult to understand,
+because when~$c$ goes to~$0$ it should approach classical polar
+coordinates, but everything seems to go to zero.
+The problem is that the parameter~$\rho$ is not the radius, but the
+logarithm of the radius!  More precisely, by the change of
+variable~$r=\frac12ce^\rho$ equation~(\ref{eq:elliptic}) becomes
+\begin{equation}\label{eq:ellipticr}
+	\begin{cases}
+		x = \left(r + \frac{c^2}{4r}\right)\cos\theta \\
+		y = \left(r - \frac{c^2}{4r}\right)\sin\theta
+	\end{cases}
+\end{equation}
+This is equivalent, but now it is clear that when~$c=0$ we recover
+polar coordinates, and that for~$c>0$ the vertical axis is shorter
+than the horizontal one.  The major and minor axis of the ellipse are
+visibly~$2r\pm c^2/2r$.
+Notice however that the
+parametrization~(\ref{eq:ellipticr}) needs to consider
+only~$r\in[c/2,+\infty)$.  Values of~$r\in(0,c/2)$ correspond
+to~$\rho<0$, and traverse the other side of the half-plane.
+
+
+In practice, we will need the inverse transformation
+of~(\ref{eq:elliptic}).  That is, given a point~$(x,y)$, how to
+find its elliptic coordinates?  This entails solving a second-degree
+equation.  More precisely, we use the following algorithm:
+\begin{align*}
+	b   & \leftarrow x^2+y^2-c^2 \\
+	p,q & \leftarrow \left(-b\pm\sqrt{b^2+4c^2y^2}\right)/{2c^2} \\
+	\theta & \leftarrow \arcsin\sqrt{p} \\
+	\rho & \leftarrow  \frac12\log\left(1-2q+2\sqrt{q^2-q}\right)
+\end{align*}
+Notice that, by construction, we have~$p\in[0,1]$ and~$q\in[-1,0]$.
+Since the arcsine
+always gives a~$\theta$ in the first quadrant, to finish the
+algorithm we must move~$\theta$ to the appropriate quadrant by
+looking at the signs of~$x$ and~$y$.
+
+TODO: find a ``reparametrized algorithm'' using atan2 instead of
+arcsin that directly finds~$\theta$ in the good quadrant.  Maybe this
+will help to interpret the inverse transform when~$c\to0$, which is
+ugly right now.  Notice that~$\arcsin\sqrt
+p=\arctan\sqrt{\frac{p}{1-p}}$, but this cannot lead to the correct
+solution, since the signs of~$x$ and~$y$ are lost once we square
+them to form~$b,p,q$.  It must be an expression directly in terms
+of~$x,y$.
+
+\subsection{Elliptic separation of variables}
+
+The Laplacian in elliptic coordinates
+is~$\displaystyle\Delta=
+\frac1{c^2\left(\sinh^2\rho+\sin^2\theta\right)}
+\left(
+	\frac{\partial^2}{\partial\rho^2}
+	+
+	\frac{\partial^2}{\partial\theta^2}
+\right)
+$.
+To study Helmholtz equation on an elliptic domain it is natural to
+consider functions that are separable in elliptic
+coordinates~$u(\rho,\theta)=f(\rho)g(\theta)$.  The condition~$\Delta
+u=-\lambda u$ thus reads
+\[
+\frac1{c^2\left(\sinh^2\rho+\sin^2\theta\right)}
+\left(f''g+fg''\right)
+=\lambda fg
+\]
+which, using the
+identity~$\sinh^2\rho+\sin^2\theta=\frac{\cosh{2\rho}-\cos{2\theta}}2$
+and
+rearranging, becomes
+\[
+	\frac{\lambda c^2}2\cosh(2\rho)
+	+
+	\frac{f''(\rho)}{f(\rho)}
+	\quad = \quad
+	\frac{\lambda c^2}2\cos(2\theta)
+	-\frac{g''(\theta)}{g(\theta)}.
+\]
+Now,
+since each side of this equality is a function of a different
+variables, they both be equal to a constant, that we will denote~$a$.
+This leads to the following ODE for~$f$ and~$g$:
+\begin{equation}\label{eq:mathieuell}
+	g''(\theta)+\left(a-2q\cos2\theta\right)g(\theta)=0
+	\qquad
+	f''(\rho)-\left(a-2q\cosh2\rho\right)f(\rho)=0
+\end{equation}
+where~$q=\lambda c^2/4$.  Here we recognize the Mathieu
+equations, whose solutions are the Mathieu functions.  Here we will
+be interested in the Mathieu functions of the first kind, which are
+the periodic solutions of~$g$; and modified Mathieu functions of the
+first kind, which are the two families of solutions of~$f$.
+
+
 
 \section{The equilateral triangle}
 

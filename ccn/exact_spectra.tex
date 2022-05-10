@@ -179,10 +179,13 @@ GNU Scientific Library, to get the~$k$-th zero of~$J_a$.  In Python,
 you can use the GSL Python bindings, or~\verb+scipy.special.jn_zeros+
 and related functions.
 
-The condition that~$y(0)$ is finite implies that~$c_2=0$.  Now, the
+Since the functions~$Y_\alpha$ have a vertical asymptote at~$x=0$,
+the condition that~$y(0)$ is finite implies that~$c_2=0$.  Now, the
 condition~$y(L)=0$ says~$J_\alpha(L)=0$.  The positive roots of~$J_\alpha$ are
 tabulated, so that for each~$\alpha\ge 0$ there is an increasing
 sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
+By scaling each~$J_\alpha$ by its successive roots, we obtain a
+family of functions with~$1,2,3,\ldots$ oscillations inside~$[0,L]$.
 
 \includegraphics{odebessel.png}
 %SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 0 rot bessel-Jn join" -o tmp/bess0.txt
@@ -193,7 +196,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 13 rot bessel-Jn join" -o tmp/bess13.txt
 %SCRIPT gnuplot <<END >odebessel.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(raw, not scaled)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:21] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bess0.txt" w lines title "J_0(x)",\
@@ -212,7 +215,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 0 5 bessel-zJn * 0 rot bessel-Jn join" -o tmp/bn05.txt
 %SCRIPT gnuplot <<END >besselnorm0.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(successive scalings of J_0)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bn01.txt" w lines title "J_0( j_{0,1}x/7 )",\
@@ -230,7 +233,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 1 5 bessel-zJn * 1 rot bessel-Jn join" -o tmp/bn15.txt
 %SCRIPT gnuplot <<END >besselnorm1.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(successive scalings of J_1)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bn11.txt" w lines title "J_1( j_{1,1}x/7 )",\
@@ -248,7 +251,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 2 5 bessel-zJn * 2 rot bessel-Jn join" -o tmp/bn25.txt
 %SCRIPT gnuplot <<END >besselnorm2.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(successive scalings of J_2)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bn21.txt" w lines title "J_2( j_{2,1}x/7 )",\
@@ -266,7 +269,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 5 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bn135.txt
 %SCRIPT gnuplot <<END >besselnorm13.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(successive scalings of J_{13})"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bn131.txt" w lines title "J_{13}( j_{13,1}x/7 )",\
@@ -285,7 +288,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 1 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr131.txt
 %SCRIPT gnuplot <<END >besselnormr1.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(scalings of a few J_n at their first root)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bnr01.txt" w lines title "J_0( j_{0,1}x/7 )",\
@@ -293,7 +296,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT  "tmp/bnr21.txt" w lines title "J_2( j_{2,1}x/7 )",\
 %SCRIPT  "tmp/bnr31.txt" w lines title "J_3( j_{3,1}x/7 )",\
 %SCRIPT  "tmp/bnr41.txt" w lines title "J_4( j_{4,1}x/7 )",\
-%SCRIPT  "tmp/bnr131.txt" w lines title "J_13( j_{13,1}x/7 )"
+%SCRIPT  "tmp/bnr131.txt" w lines title "J_{13}( j_{13,1}x/7 )"
 %SCRIPT END
 
 \includegraphics{besselnormr2.png}
@@ -305,7 +308,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 2 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr132.txt
 %SCRIPT gnuplot <<END >besselnormr2.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(scalings of a few J_n at their second root)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bnr02.txt" w lines title "J_0( j_{0,2}x/7 )",\
@@ -325,7 +328,7 @@ sequence~$j_{\alpha,k}$ giving all the roots of~$J_\alpha$.
 %SCRIPT plambda zero:1x1000 ":j :h / 7 * dup 7 / 13 13 bessel-zJn * 13 rot bessel-Jn join" -o tmp/bnr1313.txt
 %SCRIPT gnuplot <<END >besselnormr13.png
 %SCRIPT set term pngcairo lw 1.5
-%SCRIPT set title "Bessel functions of the first kind"
+%SCRIPT set title "Bessel functions of the first kind\n(scalings of a few J_n at their thirteenth root)"
 %SCRIPT set key left bottom
 %SCRIPT plot [-1:8] [-1.5:1.5] 0,\
 %SCRIPT  "tmp/bnr013.txt" w lines title "J_0( j_{0,13}x/7 )",\
@@ -369,7 +372,7 @@ solutions are the Mathieu functions~$ce_n(q,x)$ and~$se_n(q,x)$.
 %SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 3 rot bessel-Jn join" -o tmp/bess3.txt
 %SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 4 rot bessel-Jn join" -o tmp/bess4.txt
 %SCRIPT plambda zero:1x1000 ":j :h / 20 * dup 13 rot bessel-Jn join" -o tmp/bess13.txt
-%SCRIPT gnuplot <<END >odebessel.png
+%SCRIPT gnuplot <<END >odemath0.png
 %SCRIPT set term pngcairo lw 1.5
 %SCRIPT set title "Bessel functions of the first kind"
 %SCRIPT set key left bottom

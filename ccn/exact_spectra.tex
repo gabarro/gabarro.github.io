@@ -629,7 +629,9 @@ defined by
 where~$\rho\in[0,+\infty)$ and~$\theta\in[0,2\pi)$.
 They could be called hyperbolic coordinates as well.
 Curves of constant~$\rho$ are ellipses, and curves of
-constant~$\theta$ are hyperbolas, always with the same foci at~$\pm c$.
+constant~$\theta$ are hyperbolas, always with the same foci at~$\pm
+c$.  We can rewrite equation~(\ref{eq:elliptic}) using complex
+numbers as~$z=c\ \cosh\zeta$,  where~$z=x+iy$ and~$\zeta=\rho+i\theta$.
 
 I find this parametrization difficult to understand,
 because when~$c$ goes to~$0$ it should approach classical polar
@@ -676,7 +678,8 @@ ugly right now.  Notice that~$\arcsin\sqrt
 p=\arctan\sqrt{\frac{p}{1-p}}$, but this cannot lead to the correct
 solution, since the signs of~$x$ and~$y$ are lost once we square
 them to form~$b,p,q$.  It must be an expression directly in terms
-of~$x,y$.
+of~$x,y$.  SOLUTION: first compute~$\rho$ and then
+set~$\theta=\mathrm{atan2}\left(y,\tanh(\rho) x\right)$.
 
 \subsection{Elliptic separation of variables}
 

@@ -68,7 +68,7 @@ the main main results; no proofs nor lengthy interpretations.
 \subsection{manifolds, charts, atlases}
 
 The easiest way to think of a manifold is as~$\R^n$, but where most operations
-are severely restricted: you cannot sum points, multiply points by scalars,
+are forbidden: you cannot sum points, multiply points by scalars,
 nor compute inner products.  There is no notion of translation, nor
 symmetry.  What~\emph{can} you do, then?  You can only have smooth
 curves~$\R\to M$ and functions~$M\to\R$, and relations between
@@ -82,7 +82,7 @@ functions~$\varphi:U\to\R^n$, where~$U$ are open sets of~$M$, such that for
 any pair of charts~$\varphi,\varphi'$ the
 function~$\varphi'\circ\varphi^{-1}$ is a smooth diffeomorphism of~$\R^n$
 (nonempty if~$U\cap U'\neq\emptyset$).  A trivial example is~$\R^n$ itself,
-with the identity function as a single chart.
+with the identity function as its only chart.
 
 An equivalent definition (but the equivalence is non-trivial) is that an
 $n$-dimensional manifold is set of the form~$F^{-1}(\{0\})$
@@ -95,7 +95,7 @@ mapping~$\psi\circ\varphi^{-1}:\R^m\to\R^n$ is smooth.
 As particular cases  of this definition you have smooth curves and smooth
 signals.
 
-The vector space of smooth signals on~$M$ is denoted by~$C^\infty(M)$.
+The ring of smooth signals on~$M$ is denoted by~$C^\infty(M)$.
 
 \subsection{tangent vectors, vector fields, tangent bundle}
 
@@ -176,6 +176,54 @@ The set of all vector fields is denoted~$\mathcal{X}(M)$.
 It is an~$\R$-vector space and a~$C^\infty(M)$-module.
 
 \subsection{tensors, tensor product, contraction}
+
+%SCRIPT gnuplot >gs_p.png <<EOF
+%SCRIPT set term pngcairo size 320,200 enhanced font "BaskervaldADFStd,22"
+%SCRIPT set nokey ; set notics ; set noborder
+%SCRIPT set label "{/:Italic p}" at 0.5,-0.5
+%SCRIPT plot [-2:3] [-2:3] '-' using 1:2 w points pt 7 ps 2 lc rgb 'black'
+%SCRIPT      0 0
+%SCRIPT      e
+%SCRIPT EOF
+
+%SCRIPT gnuplot >gs_Xp.png <<EOF
+%SCRIPT set term pngcairo size 320,200 enhanced font "BaskervaldADFStd,22"
+%SCRIPT set nokey ; set notics ; set noborder
+%SCRIPT set arrow 1 from 0,0 to 3,2 filled
+%SCRIPT set label "X_{/:Italic p}" at 3.5,1.5
+%SCRIPT set label "{/:Italic p}" at 0.5,-0.5
+%SCRIPT plot [-1:4] [-1:4] '-' using 1:2 w points pt 7 ps 2 lc rgb 'black'
+%SCRIPT      0 0
+%SCRIPT      e
+%SCRIPT EOF
+
+%SCRIPT gnuplot >gs_wp.png <<EOF
+%SCRIPT set term pngcairo size 320,200 enhanced font "BaskervaldADFStd,22"
+%SCRIPT set nokey ; set notics ; set noborder
+%SCRIPT set lmargin 0
+%SCRIPT set tmargin 0
+%SCRIPT set bmargin 0
+%SCRIPT set tmargin 0
+%SCRIPT set label '' at 0,0 left offset char 2,0 point pt 7 ps 2 lc 0
+%SCRIPT set label "ω_{/:Italic p}" at 1.9,1.2
+%SCRIPT set label "{/:Italic p}" at -0.05,-0.5
+%SCRIPT unset surface
+%SCRIPT set view map
+%SCRIPT unset table
+%SCRIPT set contour base
+%SCRIPT set cntrparam levels 13
+%SCRIPT set for [i=1:8] linetype i linecolor 0
+%SCRIPT splot [-2:2] [-2:2] 15*x-2*y
+%SCRIPT EOF
+
+\begin{tabular}{ccc}
+	\includegraphics[width=0.3\linewidth]{gs_p.png} &
+	\includegraphics[width=0.3\linewidth]{gs_Xp.png} &
+	\includegraphics[width=0.3\linewidth]{gs_wp.png} \\
+	A point~$p$ &
+	A tangent vector~$X_p$ &
+	A tangent covector~$\omega_p$
+\end{tabular}
 
 \subsection{differential forms, wedge product}
 

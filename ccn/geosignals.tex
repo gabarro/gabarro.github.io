@@ -225,7 +225,69 @@ It is an~$\R$-vector space and a~$C^\infty(M)$-module.
 	A tangent covector~$\omega_p$
 \end{tabular}
 
+Let~$V$ be a vector space.  Elements of~$V$ are called~\emph{vectors} and
+elements of its dual~$V^*$ are called~\emph{covectors}.
+Thus if~$X\in V$ and~$\omega\in V^*$ then~$\omega(X)$ is a scalar.
+You can think of~$V$ as ``column vectors'' and~$V^*$ as ``row vectors'', but
+this is a somewhat limited view.
+
+A~\emph{tensor of type~$(r,s)$} is a by definition multilinear map
+\[
+	\left(V^*\right)^r\times V^s\to\R.
+\]
+Thus a scalar is a tensor of type~$(0,0)$, a vector is a tensor of
+type~$(1,0)$, a covector is a tensor of type~$(0,1)$, a linear map is a
+tensor of type~$(1,1)$ and a bilinear form is a tensor of type~$(0,2)$.
+If~$V$ is~$d$-dimensional, the set of tensors of type~$(r,s)$ has
+dimension~$d^{r+s}$.
+
+The~\emph{tensor product} of two tensors~$T\otimes T'$ is defined in a natural
+way and is a tensor of type~$(r+r',s+s')$.
+
+By setting~$V=T_pM$ we obtain a family of tangent tensor spaces.  Those can
+be lifted to~\emph{tensor fields}: we denote by~$\mathcal{T}^{r,s}(M)$ is the
+set of all tensor fields of type~$(r,s)$ on~$M$.
+Thus~$\mathcal{T}^{0,0}(M)=C^\infty(M)$
+and~$\mathcal{T}^{1,0}=\mathcal{X}(M)$.
+
+Recall Penrose graphical notation and abstract index notation using Einstein
+summation.
+
+Tangent vectors at~$p$: the velocity of a curve~$R\to M$
+through~$p$.  Tangent covectors: the gradient of a function~$M\to\R$ at~$p$.
+
+If~$X$ is a vector field and~$T$ is a tensor field of type~$(r,s)$
+with~$s>0$, then the~\emph{contraction} of~$T$ by~$X$ is the tensor
+field~$i_XT$ of
+type~$(r,s-1)$ obtained by plugging~$X$ into the first slot of~$T$.
+
 \subsection{differential forms, wedge product}
+
+Tensor fields of type~$(0,p)$ that are antisymmetric are
+called~\emph{differential forms} of degree~$p$, or simply~$p$-forms.
+The set of~$p$-forms on~$M$ is denoted by~$\Omega^p(M)$.
+Any tensor field of type~$(0,p)$ can be anti-symmetrized by summing over all
+permutations of its inputs, weighted by the sign of each permutation.  Thus,
+for~$p=2$, the tensor field~$(x,y)\mapsto\frac{T(x,y)-T(y,x)}2$ is
+a~$2$-form.
+
+If~$V$ is~$d$-dimensional, the set of anti-symmetric tensors of type~$(0,s)$ has
+dimension~$\begin{pmatrix}d\\s\end{pmatrix}$.  Thus, if~$M$ is
+a~$d$-dimensional manifold, the set of~$d$-forms~$\Omega^d(M)$ is pointwise
+unidimensional.  Its elements are called~\emph{densities} on~$M$.
+Similarly~$0$-forms are also uni-dimensional, and its elements are
+called~\emph{potentials}.  The~$1$-forms are locally~$d$-dimensional and they
+are called~\emph{gradients}.  Thus in dimension~$d>1$ we will always have two
+types of ``scalar fields'' and two types of ``vector fields'':
+
+\begin{tabular}{l|l|l|l}
+	set & local dimension & meaning & units \\
+	\hline
+	$\Omega^0(M)=C^\infty(M)$ & 1 & scalar fields, potentials & $[]$ \\
+	$\Omega^d(M)$ & 1 & densities & $[L^{-d}]$ \\
+	$\Omega^1(M)$ & d & gradients & $[L^{-1}]$ \\
+	$\mathcal{X}(M)$ & d& flows & $[L]$ \\
+\end{tabular}
 
 \subsection{exterior derivative, closed forms, betti numbers}
 

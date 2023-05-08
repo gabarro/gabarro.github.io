@@ -6,6 +6,8 @@
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\T}{\mathbf{T}}
 \newcommand{\Z}{\mathbf{Z}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\ds}{\displaystyle}
 
 To study a geometric object~$M$, people often use regular functions
 between~$M$ and spaces with well-known properties, such as~$\R^n$,~$\T^n$
@@ -175,6 +177,18 @@ coordinate system.  Changes of coordinates follow the same law as in (T3).
 The set of all vector fields is denoted~$\mathcal{X}(M)$.
 It is an~$\R$-vector space and a~$C^\infty(M)$-module.
 
+The canonical basis of~$T_p\R^d$
+is~$\displaystyle\left\{\left.\frac{\partial}{\partial
+	x^i}\right|_p\right\}_{i=1,\ldots,d}$.  Any vector
+	field~$X\in\mathcal{X}(\R^d)$ can thus be written uniquely as
+\[
+	X =
+	a^1\frac{\partial}{\partial x^1}
+	+\cdots+
+	a^d\frac{\partial}{\partial x^d}
+\]
+where~$a^1,\ldots,a^d\in C^\infty(M)$.
+
 \subsection{tensors, tensor product, contraction}
 
 %SCRIPT gnuplot >gs_p.png <<EOF
@@ -263,7 +277,7 @@ type~$(r,s-1)$ obtained by plugging~$X$ into the first slot of~$T$.
 
 \subsection{differential forms, wedge product}
 
-Tensor fields of type~$(0,p)$ that are antisymmetric are
+Tensor fields of type~$(0,p)$ that are alternating are
 called~\emph{differential forms} of degree~$p$, or simply~$p$-forms.
 The set of~$p$-forms on~$M$ is denoted by~$\Omega^p(M)$.
 Any tensor field of type~$(0,p)$ can be anti-symmetrized by summing over all
@@ -288,6 +302,54 @@ types of ``scalar fields'' and two types of ``vector fields'':
 	$\Omega^1(M)$ & d & gradients & $[L^{-1}]$ \\
 	$\mathcal{X}(M)$ & d& flows & $[L]$ \\
 \end{tabular}
+
+The~\emph{wedge product} is a map
+\[
+	\bigwedge:\Omega^p(M)\times\Omega^q(M)\to\Omega^{p+q}(M)
+\]
+defined by anti-symmetrizing the tensor product
+\[
+	\omega\wedge\eta=\frac{p+q}{p!q!}\mathrm{Alt}(\omega\otimes\eta).
+\]
+
+Since this definition is too abstract, let us see how it works out in~$\R^2$
+and~$\R^3$.  Let us start with the canonical coordinate
+functions~$x,y,z:\R^3\to\R$, etc.  They give rise to the canonical basis for
+vector fields~$\ds\left\{
+	\frac\partial{\partial x},
+	\frac\partial{\partial y},
+	\frac\partial{\partial z}
+\right\}
+$, which in turn can be used to define the canonical basis of~$1$-forms as
+its dual base~$\left\{\ud x, \ud y, \ud z\right\}$.  By now this is just a
+funky notation for the dual basis, but on the next section we will see
+that~$\ud x$ is the~``$\ud$'' operator applied to the function~$x$.
+Canonical bases of higher-order forms are obtained by taking wedge products
+of~$1$-forms:
+
+\begin{tabular}{l|l|l|l}
+	set & dimension & basis & meaning \\
+	\hline
+	$\mathcal{X}(\R^2)$ & 2 &
+	$\frac\partial{\partial x}, \frac\partial{\partial y}$ &
+	flows, speeds \\
+	$C^\infty(\R^2)=\Omega^0(\R^2)$ & 1 & $1$ & scalars, potentials\\
+	$\Omega^1(\R^2)$ & 2 & $\ud x, \ud y$ & gradients, line elements\\
+	$\Omega^2(\R^2)$ & 1 & $\ud x\wedge \ud y$ & densities, area elements\\
+	\hline
+	$\mathcal{X}(\R^3)$ & 3 &
+	$\frac\partial{\partial x}, \frac\partial{\partial y},
+	\frac\partial{\partial z}$ & flows, speeds\\
+	$C^\infty(\R^3)=\Omega^0(\R^3)$ & 1 & $1$ & scalars, potentials\\
+	$\Omega^1(\R^3)$ & 3 & $\ud x, \ud y, \ud z$ & gradients, line elements\\
+	$\Omega^2(\R^3)$ & 3 &
+	$\ud y\!\wedge\!\ud z, \ud z\!\wedge\!\ud x, \ud x\!\wedge\!\ud
+	y$ & surface elements\\
+	$\Omega^3(\R^3)$ & 1 & $\ud x\wedge\ud y\wedge\ud z$ & densities, volume
+	elements\\
+\end{tabular}
+
+
 
 \subsection{exterior derivative, closed forms, betti numbers}
 

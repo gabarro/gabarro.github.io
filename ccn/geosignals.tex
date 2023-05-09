@@ -114,11 +114,11 @@ modulo the equivalence relation
 \]
 for all charts~$\varphi:U\to\R^n$ such that~$p\in U$.  Notice that this
 definition makes sense because the maps~$\varphi\circ\gamma_i$ are smooth
-functions~$\R^n\to\R^n$.
+functions~$\R\to\R^n$.
 
 (T2) A tangent vector~$X_p$ at the point~$p$ is a linear derivation on the
-ring~$C^\infty(M)$.  That is, an~$\R$-linear function~$X_p:C^\infty(M)\to\R$
-such that
+ring~$C^\infty(M)$.  That is, an~$\R$-linear and~$C^\infty(M)$-additive
+function~$X_p:C^\infty(M)\to\R$ such that
 \[
 	X_p(fg)=f(p)X_p(g) + g(p)X_p(f)
 \]
@@ -134,9 +134,9 @@ the vector in the chart~$\varphi$''.
 For the last definition to make sense, we need a way to say whether vectors
 given by coordinates in different charts are equal.  This happens when their
 coordinates are linearly related by the jacobian matrix of the
-map~$\varphi'\circ\varphi^{-1}:\R^n\to\R^n$.  To see in what order the
-matrix product happens, look at the simplest example:~$M=\R^n$, one chart is
-the identity map and the other one is an arbitrary diffeomorphism.
+map~$\varphi'\circ\varphi^{-1}:\R^n\to\R^n$.  To see in what order the matrix
+product happens, look at the simplest example:~$M=\R^n$, one chart being the
+identity map and the other one an arbitrary diffeomorphism.
 
 The~\emph{tangent space} of~$M$ at~$p$ is the set~$T_pM$ of all tangent
 vectors at~$p$.  It happens to be a vector space of dimension~$n$.
@@ -267,7 +267,7 @@ and~$\mathcal{T}^{1,0}=\mathcal{X}(M)$.
 Recall Penrose graphical notation and abstract index notation using Einstein
 summation.
 
-Tangent vectors at~$p$: the velocity of a curve~$R\to M$
+Tangent vectors at~$p$: the velocity of a curve~$\R\to M$
 through~$p$.  Tangent covectors: the gradient of a function~$M\to\R$ at~$p$.
 
 If~$X$ is a vector field and~$T$ is a tensor field of type~$(r,s)$
@@ -303,7 +303,7 @@ types of ``scalar fields'' and two types of ``vector fields'':
 	$\mathcal{X}(M)$ & d& flows & $[L]$ \\
 \end{tabular}
 
-The~\emph{wedge product} is a map
+The~\emph{wedge product} is the map
 \[
 	\bigwedge:\Omega^p(M)\times\Omega^q(M)\to\Omega^{p+q}(M)
 \]
@@ -349,13 +349,277 @@ of~$1$-forms:
 	elements\\
 \end{tabular}
 
+Notice that, in dimension~$2$ we have two types of ``vector fields'': flows
+and gradients.  In dimension~$3$ we have three types: flows, gradients, and
+surface elements.  Notice that you typically do different things with them:
+actual vector fields (elements of~$\mathcal{X}(\R^3)$ are used to compute
+directional derivatives of functions, or to compute the integral lines of the
+flow they represent.  Elements of~$\Omega^0$ are evaluated at single points.
+Elements of~$\Omega^1$ are integrated along lines.  Elements of~$\Omega^2$
+are integrated along surfaces (e.g., to compute a flux).  Elements
+of~$\Omega^p$ are integrated along volumes.  In general, we'll say
+that~$p$-forms are integrated along~$p$-chains.
 
+In higher dimensions, elements of~$\Omega^p(\R^d)$ can be expressed uniquely
+as
+\[
+	\omega  =
+	\sum_{1\le i_1\le\cdots\le i_p\le d}
+	\omega_{i_1,\ldots,i_p} \ud x^{i_1}\wedge\cdots\wedge\ud x^{i_p}
+\]
+or simply~$\ds\omega=\sum_I\omega_I\ud x^I$
+where~$I$ is an ``alternating multi-index'' and each of the~${d\choose p}$
+functions~$w_I$ belongs to~$C^\infty(M)$.
 
 \subsection{exterior derivative, closed forms, betti numbers}
 
+The~\emph{exterior derivative} is the~$\R$-linear map (or rather sequence of maps):
+\[
+	\ud :\Omega^p(M) \to \Omega^{p+1}(M)
+\]
+defined by
+\[
+	\ud\left( \sum_I\omega_I\ud x^I \right)
+=\sum_I \sum_{i=1}^d\frac{\partial\omega_I}{\partial x^i}\ud x^i
+	\wedge\ud x^I
+\]
+It has the following three properties, which together are equivalent to the
+definition
+\[
+	\omega\in\Omega^p
+	\quad\implies\quad
+	\ud\left(\ud\omega\right)=0
+\]
+\[
+	f\in\Omega^0(M)
+	\quad\implies\quad
+	\ud f =
+	\frac{\partial f}{\partial x^1}\ud x^1
+	+\cdots+
+	\frac{\partial f}{\partial x^d}\ud x^d
+\]
+\[
+	f\in\Omega^p,g\in\Omega^q
+	\quad\implies\quad
+	\ud\left(\omega\wedge\eta\right)
+	=
+	\left(\ud\omega\right)\wedge\eta
+	+
+	(-1)^p
+	\left(
+		\omega\wedge\ud\eta
+	\right)
+\]
+If~$f$ is a function, then~$\ud f$ is the unique~$1$-form such
+that~$\left(\ud f\right)(X)=X\left(f\right)$ for all vector fields~$X$.
+
+The exterior derivative generalizes the common first-order differential
+operators of vector calculus: gradient, divergence, curl.  However,
+since~$\ud^2=0$ it cannot be used to define any second-order operator, like
+the Laplacian or the Hessian.  For that, we will need further structure in
+the base manifold (a Riemannian metric).
+
+The following table shows the exterior derivative on the canonical basis
+of~$\R^d$ for~$d=1,2,3$.  Partial derivatives are denoted by sub-indices.
+
+\begin{tabular}{l|l|l}
+	map & coordinate expression & meaning \\
+	\hline
+	$\ud:\Omega^0(\R^1)\to\Omega^1(\R^1)$ &
+	$\ud\left(f\right) = f'\ud x$ &
+	derivative\\
+	\hline
+	$\ud:\Omega^0(\R^2)\to\Omega^1(\R^2)$ &
+	$\ud\left(f\right) = f_x\ud x + f_y\ud y$ &
+	gradient \\
+	$\ud:\Omega^1(\R^2)\to\Omega^2(\R^2)$ &
+	$\ud\left(P\ud x+Q\ud y\right) = \left(Q_x-P_y\right)\ud x\wedge\ud y$ &
+	2D curl, $\mathrm{div}(P,Q)^\perp$ \\
+	\hline
+	$\ud:\Omega^0(\R^3)\to\Omega^1(\R^3)$ &
+	$\ud\left(f\right) = f_x\ud x + f_y\ud y + f_z\ud z$ &
+	gradient \\
+	$\ud:\Omega^1(\R^3)\to\Omega^2(\R^3)$ &
+	\footnotesize
+	$\ud\!\left(P\ud x\!+\!Q\ud y\!+\!R\ud z\right) =
+	\left(R_y\!-\!Q_z\right)\!\ud y\ud z
+	+
+	\left(P_z\!-\!R_x\right)\!\ud z\ud x
+	+
+	\left(Q_x\!-\!P_y\right)\!\ud x\ud y$
+	&
+	curl \\
+	$\ud:\Omega^2(\R^3)\to\Omega^3(\R^3)$ &
+	$\ud\left(P\ud y\ud z+Q\ud z\ud x+R\ud x\ud y\right)
+	=\left(P_x+Q_y+R_z\right)\ud x\ud y\ud z$
+	&
+	divergence
+\end{tabular}
+
+All these expressions follow directly from the definition.  For
+example~$\ud\left(P\ud x+Q\ud y\right)=
+\left(P_x\ud x+P_y\ud y\right)\ud x+\left(Q_x\ud x+Q_y\ud y\right)\ud y
+=\left(Q_x-P_y\right)\ud x\ud y$, where we have used the alternating
+property
+$\ud x\ud x=0$,~$\ud y\wedge\ud x=-\ud x\wedge\ud y$ to simplify the last
+expression.
+
+If~$M$ is a~$d$-dimensional manifold, we have a sequence of linear maps
+called the~\emph{de Rham complex}:
+\[
+	0
+	\to
+	\Omega^0(M)
+	\to
+	\Omega^1(M)
+	\to\cdots\to
+	\Omega^{d-1}(M)
+	\to
+	\Omega^d(M)
+	\to
+	0
+\]
+The dimensions of the resulting quotient spaces are the~\emph{Betti numbers}
+of the manifold~$M$.  The first Betti number is the number of connected
+components of~$M$, the second is the number of~$1$-dimensional holes, and so
+on.
+
+In more detail, we say that a~$p$-form~$\omega$ is~\emph{closed}
+if~$\ud\omega=0$.  We say that a~$p$-form~$\omega$ is~\emph{exact} if there
+exists some~$(p-1)$-form~$\eta$ such that~$\ud\eta=\omega$.  The
+relation~$\ud^2=0$ says that all exact forms are closed (e.g., in~$\R^3$ the
+gradient of a constant is zero, the curl of a gradient is zero, the
+divergence of a curl is zero).  In general, there may be closed forms that
+are not exact; this will depend on the topology of the manifold~$M$.  The quotient of vector
+subspaces~$\textrm{closed $p$-forms}/\textrm{exact $p$-forms}$ measures how
+many non-exact closed~$p$-forms are there.  Its dimension is the~$p$-th Betti
+number.
+
+For~$p=0$,
+the condition of being closed~($\ud f=0$) means that~$f$ is constant on each
+connected component of~$M$, and the condition of being exact means
+that~$f$ is globally constant.  The~$0$-th Betti  number is thus the number
+of connected components.
+In~$\R^d$, all closed~$p$-forms for~$p\ge1$ are exact, so its sequence of
+Betti numbers is~$(1,0,0,\ldots,0)$.
+
 \subsection{chains, integrals and stokes theorem}
 
+A~\emph{$p$-chain} is a domain were~$p$-forms can be integrated (optionally,
+with some multiplicity).  For example,~$0$-chains are formal linear
+combinations of points of~$M$, $1$-chains are formal linear combinations of
+curve segments on~$M$ and so on.  In general, a~$p$-chain is a formal linear
+combination of embedded hypercubes (or simplexes).
+
+The~\emph{integral} of a~$d$-form~$\omega\ud x^1\wedge\cdots\wedge\ud x^d$
+over a~$d$-dimensional embedded hypercube~$c:[0,1]^d\to M$ can be defined
+using a local chart~$\varphi:M\to\R^d$, using the Riemann integral of the
+function~$\varphi\circ c$.  This is extended to arbitrary chains by
+linearity, and to~$p$-chains by a similar construction.  Notice that for the
+composition~$\varphi\circ c$ to make sense we need that the image of~$c$ be
+small enough to fit on the domain of the chart, if this is not the case, we
+can always cut the hypercube into small enough parts.
+
+The Boundary operator~$\partial$ is defined so that it transforms~$p$-chains
+into~$(p-1)$-chains.  For example the image of a curve
+segment~$\gamma:[a,b]\to M$ is a~$1$-chain, and its boundary is
+the~$0$-chain~$\gamma(b)-\gamma(a)$.
+
+Once integrals over~$p$-forms and~$p$-chains have been defined,~\emph{Stokes
+theorem} is the observation that the boundary operator is the adjoint of the
+exterior derivative:
+\[
+	\int_\Omega\ud\omega=\int_{\partial\Omega}\omega
+\]
+where~$\omega$ is a~$p$-form and~$\Omega$ is a~$(p+1)$-chain.
+
+For~$M=\R$ and~$p=1$, this is simply the fundamental theorem of calculus:
+set~$\Omega=[a,b]$ so
+that~$\partial\Omega=\left\{-a,b\right\}$,~$\omega:\R\to\R$,
+then~$\ud\omega=\omega'(x)\ud x$ so that
+\[
+	\int_{[a,b]}\omega'(x)\ud x = \omega(b)-\omega(a)
+\]
+A similar correspondence recovers the classical Green, Gauss and Stokes
+theorems as particular cases.
+
 \subsection{currents and forms}
+
+Stokes theorem is so beautiful and symmetric... but the
+notation could be improved a bit, couldn't it?  We would like to write
+something like
+\[
+	\left\langle
+	\Omega,\ \ud\omega
+	\right\rangle
+	=
+	\left\langle
+	\ud^*\Omega,\ \omega
+	\right\rangle
+\]
+so that the boundary operator is~\emph{defined} as the adjoint of the
+exterior derivative with respect to the pairing, and Stokes theorem itself is
+a notational triviality.  But what is the
+pairing~$\left\langle\cdot,\cdot\right\rangle$ here?  Over what objects does
+it act upon?
+
+The answer, beautifully laid out by Goerges de Rham (at the suggestion of
+Laurent Schwartz) on his book~\emph{Variétés différentiables : formes,
+courants, formes harmoniques}, is to use distribution theory.  The boundary
+operator is defined as the distributional derivative of (oriented) indicator
+functions.
+
+For example, in dimension~$1$ we can write the integral~$\int_{[a,b]}f(x)\ud x$
+as~$\int_\R\1_{[a,b]}(x)f(x)\ud x$.  Now, note that the derivative of the
+indicator function~$\1_{[a,b]}$ is a sum of two Diracs at the boundary points:
+\[
+	{\1_{[a,b]}}'(x)=\delta(x-a)-\delta(x-b)
+\]
+Thus the fundamental theorem of calculus is just the integral of the product
+rule for derivatives:
+\[
+	\left(\1_{[a,b]}(x)f(x)\right)'={\1_{[a,b]}}'(x)f(x)+\1_{[a,b]}(x)f'(x)
+\]
+which, after integration over all of~$\R$ becomes
+\[
+	0 = f(a)-f(b)+\int_{[a,b]}f'(x)\ud x
+\]
+
+In higher dimensions everything is laid up very beautifully.  For example,
+the divergence theorem
+\[
+	\int_{\partial\Omega} \vec F\cdot\vec{\ud n} =
+	\int_\Omega\mathrm{div}\left(\vec F\right)
+\]
+can be written as
+\[
+	-\int_{\R^3}
+	\vec F\cdot \nabla\1_\Omega
+	=
+	\int_{\R^3}
+	\1_\Omega\ \mathrm{div}\left(\vec F\right)
+\]
+which comes formally from the product rule of the divergence
+\[
+	\mathrm{div}\left(fG\right)=f\mathrm{div}G+G\cdot\nabla f
+\]
+Intuitively, the gradient of the indicator function~$\1_\Omega$ is a vector field of
+diracs supported at the boundary, pointing towards the inside of~$\Omega$.
+Hence, the minus sign, because in the divergence theorem the normal
+field~$\vec n$ must point towards the outside.
+
+In general, distributions that use~$p$-forms as test functions are
+called~\emph{currents}.
+
+This construction is very important and extremely natural for the discrete case.
+In some sense the discrete case is much easier: a Dirac is just a function
+that takes the value~$1$ at a single point, and~$0$ elsewhere.  There is no
+distinction between functions and distribtions in the discrete case.
+Everything is continuous and smooth in the discrete case (!).  Integrals are
+just scalar products.   Once we have
+defined all the objects carefully, the discrete Stokes theorem will amount to
+the associativity of matrix products.
+
 
 \subsection{lie derivatives (of functions, forms, tensors)}
 

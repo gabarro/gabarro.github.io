@@ -628,6 +628,57 @@ the associativity of matrix products.
 
 \subsection{lie bracket}
 
+Vector fields can be used to convert functions into functions:~$X(f)$ is the
+directional derivative of the function~$f$ in the direction of~$X$.
+Thus, we can apply them in series, to compute second derivatives $X(Y(f))$.
+
+It may come as a surprise that the commutator of two vector fields,
+named the~\emph{Lie bracket}
+\[
+	[X,Y]f := X(Y(f)) - Y(X(f))
+\]
+is not a second derivative, but a first derivative (!).
+%This is one of the most amazing facts in mathematics.
+
+We can check that~$[X,Y]$ is a vector field according to each of the
+definitions (F1), (F2), (F3) above.  Each one provides a different insight.
+In all cases, we have to verify that
+\begin{equation}\label{eq:liederivation}
+	[X,Y](fg) = f[X,Y]g + g[X,Y]f
+\end{equation}
+These verifications are very important here because we will try to re-do them
+on the discrete case, where each one fails for different reasons.  None of the
+possible ``immediate'' definitions of a discrete Lie bracket are
+satisfactory.
+
+To check definition (F1), the verification is straightforward. If we develop the
+expression~$[X,Y](fg)$ we find that many terms cancel out, and what remains
+is formula~(\ref{eq:liederivation}) above:
+\begin{align*}
+	[X,Y]\left(fg\right) &= X\left(fYg+gYf\right)-Y\left(fXg+gXf\right) \\
+	&= X\left(fYg\right)+X\left(gYf\right)-Y\left(fXg\right)-Y\left(gXf\right) \\
+	&= fXYg + XfYg + gXYf + XgYf - fYXg - YfXg - gYXf - YgXf\\
+	&= f(XYg-YXg) + g(XYf-YXf) \\
+	&= f[X,Y]g + g[X,Y]f
+\end{align*}
+Notice that this proof is general: the commutator of two
+derivations is always a derivation.
+
+A diferent insight is obtained by considering the flows associated to the
+vector fields.  Recall that to each vector field~$X$ corresponds a flow
+field~$\phi^X_t:M\to M$ such that~$\phi^X_0(p)=p$,
+$\left.\frac{\ud}{\ud t}\right|_{t=0}\phi^X_t(p)=X_p$.  The last equality
+meaning that for all functions~$f\in C^\infty(M)$ we have
+$\left.\frac{\ud}{\ud t}\right|_{t=0}f(\phi^X_t(p))=X_p(f)=(Xf)(p)$.
+	Or,  writing the derivatives in terms of limits,
+\[
+	(Xf)(p) = \lim_{t\to0}\frac{f(\phi^X_t(p))-f(p)}t
+\]
+
+
+
+
+
 
 
 \subsection{lie derivatives (of functions, forms, tensors)}

@@ -563,8 +563,9 @@ a notational triviality.  But what is the
 pairing~$\left\langle\cdot,\cdot\right\rangle$ here?  Over what objects does
 it act upon?
 
-The answer, beautifully laid out by Goerges de Rham (at the suggestion of
-Laurent Schwartz) on his book~\emph{Variétés différentiables : formes,
+The answer, beautifully laid out by Goerges de Rham
+%(at the suggestion of Laurent Schwartz)
+on his book~\emph{Variétés différentiables : formes,
 courants, formes harmoniques}, is to use distribution theory.  The boundary
 operator is defined as the distributional derivative of (oriented) indicator
 functions.
@@ -609,21 +610,133 @@ Hence, the minus sign, because in the divergence theorem the normal
 field~$\vec n$ must point towards the outside.
 
 In general, distributions that use~$p$-forms as test functions are
-called~\emph{currents}.
+called~\emph{currents}.  Equivalently, currents are differential forms where
+the coefficients are distributions instead of functions.
+Chains and forms are particular cases of currents.
 
 This construction is very important and extremely natural for the discrete case.
 In some sense the discrete case is much easier: a Dirac is just a function
 that takes the value~$1$ at a single point, and~$0$ elsewhere.  There is no
 distinction between functions and distribtions in the discrete case.
-Everything is continuous and smooth in the discrete case (!).  Integrals are
-just scalar products.   Once we have
+Everything is continuous and smooth in the discrete case (!).
+The objects to integrate, and the domains where they are integrated, are just
+vectors.
+Integrals are
+scalar products of these vectors.   Once we have
 defined all the objects carefully, the discrete Stokes theorem will amount to
 the associativity of matrix products.
+
+\subsection{lie bracket}
+
 
 
 \subsection{lie derivatives (of functions, forms, tensors)}
 
-\subsection{lie bracket}
+\clearpage
+\subsection{summary of differential geometry}
+
+Spaces:
+
+\begin{tabular}{l|l}
+	\hline
+	$M$ & manifold \\
+	$C^\infty(M)$ & functions on $M$ \\
+	$TM$ & tangent bundle \\
+	$\mathcal{X}(M)$ & vector fields \\
+	$\mathcal{T}^{r,s}(M)$ & tensor fields of type $(r,s)$ \\
+	$\Omega^p(M)$ & differential forms of degree $p$\\
+	$\mathcal{S}^k(M)$ & $k$-chains on~$M$
+\end{tabular}
+
+Note that~$\mathcal{T}^{0,0}=C^\infty$,
+$\mathcal{T}^{1,0}=\mathcal{X}$ and~$\Omega^p$ is the subset
+of~$\mathcal{T}^{0,p}$ made of alternating tensors.
+
+
+\bigskip
+
+Objects:
+
+\begin{tabular}{l|l}
+	\hline
+	$p\in M$ & a point in the manifold \\
+	$f\in C^\infty(M)$ &a function \\
+	$f(p)\in\R$ & function evaluated at a point \\
+	$X\in \mathcal{X}(M)$ & a vector field \\
+	$X(f)\in C^\infty(M)$ & derivative of~$f$ in the direction of~$X$ \\
+	$\omega\in \Omega^1(M)$ & a 1-form \\
+	$\omega(X)\in C^\infty(M)$ & $\omega$ applied to~$X$ \\
+\end{tabular}
+
+
+\bigskip
+
+Maps:
+
+\begin{tabular}{l|l}
+	\hline
+	$\partial:\mathcal{S}^k\to\mathcal{S}^{k-1}$ & boundary of chains \\
+	$\int:\mathcal{S}^k\times\Omega^k\to\R$ & integral of a~$k$-form on
+	a~$k$-chain \\
+	$\mathcal{i}_X:\mathcal{T}^{r,s}\to\mathcal{T}^{r,s-1}$ & contraction of
+	tensors by the vector field~$X$\\
+	$\bigotimes:\mathcal{T}^{r,s}\times\mathcal{T}^{r'\!,\,s'}\to
+	\mathcal{T}^{r+r'\/,\,s+s'}$ & tensor product \\
+	$\bigwedge:\Omega^p\times\Omega^q\to\Omega^{p+q}$ & wedge product \\
+	$\ud:\Omega^p\to\Omega^{p+1}$ & exterior derivative \\
+	$\mathcal{i}_X:\Omega^p\to\Omega^{p-1}$ & interior product of forms by the
+	vector field~$X$ \\
+	$[\cdot,\cdot]:\mathcal{X}\times\mathcal{X}\to\mathcal{X}$ & Lie bracket of
+	two vector fields \\
+	$L_X:\mathcal{T}^{r,s}\to\mathcal{T}^{r,s}$ & Lie derivative of tensors by
+	the vector field~$X$ \\
+\end{tabular}
+
+
+%\bigskip
+\clearpage
+
+Properties:
+
+\begin{tabular}{l|l}
+	\hline
+	$X(fg)=fX(g)+gX(f)$ & $X$ is a derivation \\
+	$(\ud f)(X)=X(f)$ & $\nabla_Xf=X\cdot \nabla f$\\
+	$d^2=0$ & exact forms are closed \\
+	$\partial^2=0$ & boundaries have no boundary \\
+	$\int_{\partial\Omega}\omega=\int_\Omega\ud\omega$ & Stokes formula \\
+	$\ud\left(\omega\wedge\eta\right)=
+	\ud\omega\wedge\eta+(-1)^p\omega\wedge\ud\eta$ &
+	$\ud$ is an anti-derivation (of degree~$1$)\\
+	$\mathcal{i}_X\left(\omega\wedge\eta\right)=
+	\mathcal{i}_X\omega\wedge\eta+(-1)^p\omega\wedge\mathcal{i}_X\eta$
+	& $\mathcal{i}_X$ is an anti-derivation (of degree~$-1$)\\
+	$L_X\left(S\otimes T\right)=
+	\left(L_XS\right)\otimes T
+	+
+	S\otimes\left(L_XT\right)
+	$ & $L_X$ is a derivation on~$\mathcal{T}^{r,s}$\\
+	$L_X\left(\omega\wedge\eta\right)=
+	\left(L_X\omega\right)\wedge\eta
+	+
+	\omega\wedge\left(L_X\eta\right)
+	$ & $L_X$ is a derivation on~$\Omega^k$\\
+	$L_Xf=X(f)$ & Lie derivative of functions is the directional derivative\\
+	$L_XY=[X,Y]$ & Lie derivative of vectors is the Lie bracket\\
+	$L_X\omega=\mathcal{i}_X\ud\omega+\ud\left(\mathcal{i}_X\omega\right)$ &
+	Cartan's magic formula \\
+	$\ud L_X\omega=L_x\left(\ud\omega\right)$ &
+	Lie derivative commutes with exterior derivative\\
+	$L_{fX}\omega=fL_X\omega+\ud f\wedge i_X\omega$ &
+	non~$C^\infty(M)$-linearity of~$L_X$ wrt~$X$\\
+	$[X,[Y,Z]]+[Y,[Z,X]]+[Z,[X,Y]]=0$ & Jacobi identity\\
+	$L_X[Y,Z]=[L_XY,Z]+[Y,L_XZ]$ &
+	Jacobi says~$L_X$ is derivation wrt Lie bracket\\
+	$[L_x,\mathcal{i}_Y]\omega=
+	[\mathcal{i}_X,L_Y]\omega=
+	\mathcal{i}_{[X,Y]}\omega$ & whatever, there are many identities like this\\
+\end{tabular}
+
 
 
 \clearpage

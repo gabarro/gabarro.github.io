@@ -24,15 +24,26 @@ forme d'une Gaussienne:
 
 \begin{tabular}{rl}
 	\it (degré) & La fonction $b_{N,n}(X)$ est un polynôme de degré~$N$.\\
-	\it (signe) & Si $x\in[0,1]$ alors $\ds b_{N,n}(x)\ge 0$.\\
+	\it (signe) & Si $x\in[0,1]$ alors $\displaystyle b_{N,n}(x)\ge 0$.\\
 	\it (racines) & $0$ avec multiplicité~$n$ et~$1$ avec multiplicité~$N-n$.\\
-	\it (uns)& $\ds b_{N,0}(0)=1$ et ~$b_{N,N}(1)=1$.\\
-	\it (dérivée)& $\ds {b_{N,n}}'=N\left(b_{N-1,n-1}-b_{N-1,n}\right)$.\\
+	\it (uns)& $\displaystyle b_{N,0}(0)=1$ et ~$b_{N,N}(1)=1$.\\
+	\it (dérivée)& $\displaystyle {b_{N,n}}'=N\left(b_{N-1,n-1}-b_{N-1,n}\right)$.\\
 	\it (extremum)& Pour~$0<x<1$ et~$0<n<N$, on a
-	$\ds\ b_{N,n}(x)'=0\ \iff\ x=\frac{n}{N}$.\\
-	\it (partition)& $\ds\sum_{n=0}^Nb_n(x)=1$.\\
-	\it (aire)& $\ds\int_0^1b_n=\frac{1}{N}$.\\
+	$\displaystyle\ b_{N,n}(x)'=0\ \iff\ x=\frac{n}{N}$.\\
+	\it (partition)& $\displaystyle\sum_{n=0}^Nb_n(x)=1$.\\
+	\it (aire)& $\displaystyle\int_0^1b_n=\frac{1}{N}$.\\
 \end{tabular}
+
+Étant donnée une fonction continue~$f\in\mathcal{C}\left([0,1]\right)$, on
+définit le spline de Bernstein~$N$-ième de~$f$ par
+\[
+	B_N(f) = \sum_{n=0}^Nf\left(\frac nN\right)b_{N,n}
+\]
+On verra dans les exercices
+que~$\lim_{N\to\infty}\left\|B_N(f)-f\right\|_\infty\to0$, ce qui implique la
+densité des polynômes dans l'espace des fonctions continues.  À noter
+que~$B_N(f)$ n'est pas un polynôme intérpolateur de~$f$ aux points~$n/N$, même
+s'il a une forme analogue à l'intérpolateur de Lagrange.
 
 
 

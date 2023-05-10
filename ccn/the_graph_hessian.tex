@@ -9,6 +9,8 @@ Consider a directed graph~$G=(V,E)$ with~$n$ vertices and~$m$ edges.
 
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\Z}{\mathbf{Z}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\ud}{\mathrm{d}}
 \newcommand{\diag}[1]{\,\mathrm{d}\!\left(#1\right)}
 
 Functions~$f:V\to\R$ are called~\emph{scalar fields}
@@ -585,7 +587,12 @@ and for a graph this reads
 \]
 
 \clearpage
-\section{$\mathfrak{der\ Rosettastein}$}
+
+\newgeometry{left=2cm,bottom=2cm,right=2cm,top=2cm}
+\section*{$\mathfrak{der\ Rosettastein}$}
+
+\renewcommand\arraystretch{1.4} %\setlength\minrowclearance{2.4pt}
+\thispagestyle{empty}
 
 Objects:\newline
 \begin{tabular}{|l|l|}
@@ -616,8 +623,8 @@ Objects:\newline
 
 \bigskip
 
-
-
+%\setstcolor{red}
+\renewcommand{\ULthickness}{2.0pt}
 
 Differential calculus:\newline
 \begin{tabular}{|l|l|l}
@@ -642,34 +649,34 @@ Differential calculus:\newline
 	$fg$ & $f\odot g\quad$
 	%{\small\color{gray}(component-wise product in~$\R^n$)}
 	& {\small $(D1)$}\\
-	& $\color{gray}\diag{f}g$ & \\
-	& $\color{gray}\diag{g}f$ & \\
+	%& $\color{gray}\diag{f}g$ & \\
+	%& $\color{gray}\diag{g}f$ & \\
 	\cline{1-2}
 	$fX$ & $X\odot Cf\quad$
 	%{\small\color{gray}(component-wise product in~$\R^m$)}
 	&{\small $(D2)$} \\
-	& $\color{gray}\diag{X}Cf$ & \\
-	& $\color{gray}\diag{Cf}X$ & \\
+	%& $\color{gray}\diag{X}Cf$ & \\
+	%& $\color{gray}\diag{Cf}X$ & \\
 	\cline{1-2}
 	$X \boldsymbol{\cdot} Y$ & $C^\top(X\odot Y)$
 	&{\small $(D3)$}\\
-	& $\color{gray}C^\top\diag{X}Y$ & \\
+	%& $\color{gray}C^\top\diag{X}Y$ & \\
 	\cline{1-2}
 	$\partial_X f$ & $C^\top\left(X\odot Bf\right)$
 	&{\small $(D4)$}\\
-	& $\color{gray}C^\top\diag{X}Bf$ & \\
-	& $\color{gray}C^\top\diag{Bf}X$ & \\
+	%& $\color{gray}C^\top\diag{X}Bf$ & \\
+	%& $\color{gray}C^\top\diag{Bf}X$ & \\
 	\cline{1-2}
-	$[X,Y]$ &
-	$\diag{X}BC^\top Y- \diag{Y}BC^\top X$
+$[X,Y]=\partial_X\partial_Y-\partial_Y\partial_X$ &
+\sout{${\diag{X}BC^\top Y- \diag{Y}BC^\top X}$}
 	&{\small $(D5)$} \\
 	\cline{1-3}
 	$\nabla\left(fg\right)=f\nabla g+g\nabla f$ &
 	$B\left(f\odot g\right)=Cf\odot B g+Cg\odot Bf$
 	&{\small $(P1)$}\\
-	&
-	$\color{gray}B\diag{f}=\diag{Cf}B+\diag{Bf}C$
-	&{\small $(P2)$}\\
+	%&
+	%$\color{gray}B\diag{f}=\diag{Cf}B+\diag{Bf}C$
+	%&{\small $(P2)$}\\
 	\cline{1-3}
 	$\mathrm{div}\left(fX\right)
 	=f\mathrm{div}\left(g\right)+X\boldsymbol{\cdot}\nabla f$
@@ -678,16 +685,16 @@ Differential calculus:\newline
 	=f\odot\left(-B^\top X\right)
 	+C^\top\left(X\odot Bf\right)$
 	&{\small $(P3)$}\\
-	&
-	$\color{gray}
-	-B^\top\diag{Cf} = -\diag{f}B^\top+C^\top\diag{Bf}
-	$
-	&{\small $(P4)$}\\
-	&
-	$\color{gray}
-	-B^\top\diag{X}C = -\diag{B^\top X} + C^\top\diag{X}B
-	$
-	&{\small $(P5)$}\\
+	%&
+	%$\color{gray}
+	%-B^\top\diag{Cf} = -\diag{f}B^\top+C^\top\diag{Bf}
+	%$
+	%&{\small $(P4)$}\\
+	%&
+	%$\color{gray}
+	%-B^\top\diag{X}C = -\diag{B^\top X} + C^\top\diag{X}B
+	%$
+	%&{\small $(P5)$}\\
 	\cline{1-3}
 	$\partial_X\left(fg\right)=\partial_{fX}g+\partial_{gX}f$
 	&
@@ -700,10 +707,43 @@ Differential calculus:\newline
 	\cline{1-2}
 \end{tabular}
 
+\bigskip
+
+Integral calculus:\newline
+\begin{tabular}{|l|l|l}
+	\cline{1-2}
+	{\bf Continuous} & {\bf Discrete} &\\
+	\cline{1-2}
+	$\Omega\subseteq M$ & $\Omega\subseteq V$ & domain \\
+	\cline{1-2}
+	$S\subseteq M$ & $S\subseteq E$ & surface\\
+	\cline{1-2}
+ %\rule{0pt}{25pt}
+	$\int_\Omega f$ & $\1_\Omega\boldsymbol\cdot f$ & volume integral\\
+	\cline{1-2}
+	$\int_S X\cdot\ud\vec n$ & $\1_S\boldsymbol\cdot X$ & flux\\
+	\cline{1-2}
+	$\partial\Omega$ & $-B\1_\Omega$ & boundary\\
+	\cline{1-2}
+	$\int_\Omega\mathrm{div} X=\int_{\partial\Omega} X$
+	& $-\1_\Omega\boldsymbol\cdot\left(B^\top X\right)
+	= -(B\1_\Omega)\boldsymbol\cdot X$ & stokes \\
+	\cline{1-2}
+\end{tabular}
+
+\bigskip
+
 Throughout this table, the notation~$\diag{x}$ for~$x\in\R^k$, means the
-square matrix of size~$k\times k$ having~$x$ as the diagonal.  The
-component-wise product in~$\R^k$ can be thus written as~$x\odot
-y=\diag{x}y=\diag{y}x$.
+square matrix of size~$k\times k$ having~$x$ as the diagonal.\\
+The component-wise product in~$\R^k$ can be thus written as~$x\odot
+y=\diag{x}y=\diag{y}x$.\\
+The dot product of vectors in~$\R^n$ and~$\R^m$ is written
+as~$f\boldsymbol\cdot g$ and~$X\boldsymbol\cdot Y$.
+%The dot product of vectors in~$\R^k$ is written
+%as~$x\boldsymbol\cdot y$ (and is equal to~$x^\top y$).
+
+\restoregeometry
+\clearpage
 
 Definitions~$(D1)$--$(D4)$ seem natural, but you must be careful.
 For example,~$(D2)$ is very delicate, for the scalar-vector product is not

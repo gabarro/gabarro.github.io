@@ -543,6 +543,7 @@ then~$\ud\omega=\omega'(x)\ud x$ so that
 A similar correspondence recovers the classical Green, Gauss and Stokes
 theorems as particular cases.
 
+\clearpage
 \subsection{currents and forms}
 
 Stokes theorem is so beautiful and symmetric... but the
@@ -626,9 +627,10 @@ scalar products of these vectors.   Once we have
 defined all the objects carefully, the discrete Stokes theorem will amount to
 the associativity of matrix products.
 
+\clearpage
 \subsection{lie bracket}
 
-Vector fields can be used to convert functions into functions:~$X(f)$ is the
+Vector fields convert functions into functions:~$X(f)$ is the
 directional derivative of the function~$f$ in the direction of~$X$.
 Thus, we can apply them in series, to compute second derivatives $X(Y(f))$.
 
@@ -664,24 +666,146 @@ is formula~(\ref{eq:liederivation}) above:
 Notice that this proof is general: the commutator of two
 derivations is always a derivation.
 
-A diferent insight is obtained by considering the flows associated to the
-vector fields.  Recall that to each vector field~$X$ corresponds a flow
-field~$\phi^X_t:M\to M$ such that~$\phi^X_0(p)=p$,
+Using the coordinates of vector fields, as in definition~(F3), gives
+essentially the same proof.  But here it is easier to see how all the second
+derivatives get cancelled.  Recall that the action of a vector
+field~$X=\left(a^i\frac\partial{\partial x^2}\right)_{i=1,\ldots,d}$ over a
+function~$f$ is the directional derivative~$\nabla_Xf=X\cdot\nabla f$:
+\[
+	Xf = \sum_ia^i\frac{\partial f}{\partial x^i}
+\]
+So that
+\begin{align*}
+	XYf &= \sum_ia^i\frac{\partial }{\partial x^i}
+	\left(
+		\sum_j b^j\frac{\partial f}{\partial x^j}
+	\right)
+	\\
+	&= \sum_ia^i\sum_j\left(
+		\frac{\partial b^j}{\partial x^i}
+		\frac{\partial f}{\partial x^j}
+		+b^j\frac{\partial^2f}{\partial x^ix^j}
+	\right)
+\end{align*}
+Notice that the term that contains second
+derivatives~$a^ib^j\frac{\partial^2f}{\partial x^ix^j}$ is symmetric with
+respect to both vector fields.  Thus when computing~$XY-YX$ it disappears,
+and only the first derivatives remain:
+$$
+[X,Y]f = \sum_j
+\left(
+	\sum_i
+	a^i\frac{\partial b^j}{\partial x^i}
+	-
+	b^i\frac{\partial a^j}{\partial x^i}
+\right)
+\frac{\partial f}{\partial x^j}
+$$
+This means that~$[X,Y]$ is indeed a vector field, and its coordinates are
+$
+\left(
+	a^i\frac{\partial b^j}{\partial x^i}
+	-
+	b^i\frac{\partial a^j}{\partial x^i}
+\right)
+$.
+
+A different insight is obtained by considering the flows associated to the
+vector fields, as in definition (F2).  Recall that to each vector field~$X$
+corresponds a flow field~$\phi^X_t:M\to M$ such that~$\phi^X_0(p)=p$,
 $\left.\frac{\ud}{\ud t}\right|_{t=0}\phi^X_t(p)=X_p$.  The last equality
 meaning that for all functions~$f\in C^\infty(M)$ we have
-$\left.\frac{\ud}{\ud t}\right|_{t=0}f(\phi^X_t(p))=X_p(f)=(Xf)(p)$.
-	Or,  writing the derivatives in terms of limits,
+$\left.\frac{\ud}{\ud t}\right|_{t=0}f(\phi^X_t(p))=X_p(f)=(Xf)(p)$.  Or,
+writing the derivatives in terms of limits,
 \[
-	(Xf)(p) = \lim_{t\to0}\frac{f(\phi^X_t(p))-f(p)}t
+	(Xf)(p) = \lim_{t\to0}\frac{f\circ\phi^X_t(p)-f(p)}t
 \]
+Thus we can write~$XYf$ as
+\begin{align*}
+	\left(XYf\right)(p)
+	&= \lim_{t\to0}\frac{(Yf)\circ\phi^X_t(p)-(Yf)(p)}{t}\\
+	&= \lim_{t\to0}\frac{\ds
+		\lim_{h\to 0}\frac{f\circ\phi^Y_h\circ\phi^X_t(p)-f\circ\phi^X_t(p)}h
+		-\lim_{h\to 0}\frac{f\circ\phi^Y_h(p)-f(p)}h
+	}t\\
+	&= \lim_{t\to0}\frac{
+		f\circ\phi^Y_t\circ\phi^X_t(p)-f\circ\phi^X_t(p)-f\circ\phi^Y_t(p)-f(p)
+	}{t^2}
+\end{align*}
+where we have set~$t=h$ to obtain the last expression.
 
-
-
-
+Now, by computing the commutator~$XY-YX$ the terms with just one flow disappear:
+\[
+	([X,Y]f)(p) =
+	\lim_{t\to0}\frac{
+		f\circ\phi^Y_t\circ\phi^X_t(p)
+		-
+		f\circ\phi^X_t\circ\phi^Y_t(p)
+	}{t^2}
+\]
+This is apparently~\emph{not} a tangent vector at~$p$ (the first derivative of a
+smooth curve through~$p$).  There are two ``immediate'' things that we can do
+with this limit.  First, a change of variable~$t^2=h$.  Second, we
+replace~$p$ by~$\phi^Y_{-t}\phi^X_{-t}(q)$ for a point~$q$ that ``tends
+to~$p$''.  Both manipulations are subtle and require detailed justification.
+But in the end we have
+\[
+	[X,Y]f(p)=\lim_{h\to0}\frac{
+		f\circ\phi^Y_{\sqrt h}\circ\phi^X_{\sqrt h}
+		\circ\phi^Y_{-\sqrt h}\circ\phi^X_{-\sqrt h}(p)
+		-f(p)
+	}h
+\]
+which can be seen to be a tangent vector.
 
 
 
 \subsection{lie derivatives (of functions, forms, tensors)}
+
+Given a vector field~$X$ The~\emph{Lie derivative~$L_X$} transforms tensor
+fields into tensor fields of the same type.  In particular, it transforms
+functions into functions, vector fields into vector fields, and~$k$-forms
+into~$k$-forms.
+
+The definition in terms of flows is this:
+\[
+	L_X T(p)=\lim_{t\to0}\frac{\left(\phi^X_t\right)^*_pT\left(\phi^X_t(p)\right)-T(p)}t
+\]
+where~$\left(\phi^X_t\right)^*_p$ is the pullback map between the
+tangent spaces~$T_pM$ and~$T_{\phi^X_t(p)}$ (extended to all tensor
+layers).  The pullback is necessary because~$T(p)$ and~$T(\phi(p))$ live in
+different vector spaces and cannot be subtracted directly.  Notice that by
+construction~$L_XT$ is of the same type as~$T$.
+
+The Lie derivative has the following properties, which together are
+equivalent to the definition:
+
+(L1) $L_Xf=Y(f)$
+
+(L2) $L_X(S\otimes T)=(L_XS)\otimes T+S\otimes(L_XT)$
+
+(L3) $L_X(T(Y_1,\ldots,Y_n))
+=
+(L_XT)(Y_1,\ldots,Y_n)
++T((L_XY_1),\ldots,Y_n)
++\cdots
++T(Y_1,\ldots,(L_XY_n))
+$
+
+(L4) $[L_x,\ud]=0$
+
+
+Some interesting particular cases. The Lie derivative of a vector field is
+the Lie bracket:~$L_XY=[X,Y]$ (!)
+
+The Lie derivative of a function is the contraction with its differential
+\(L_Xf=\mathcal{i}_X\ud f\).
+
+More generally, the Lie derivative of a~$k$-form can be written in terms of
+contractions and differentials, according to Cartan's magic formula:
+\[
+	L_X\omega=\mathcal{i}_X\ud\omega+\ud\left(\mathcal{i}_X\omega\right)
+\]
 
 \clearpage
 \subsection{summary of differential geometry}
@@ -776,7 +900,7 @@ Properties:
 	$L_XY=[X,Y]$ & Lie derivative of vectors is the Lie bracket\\
 	$L_X\omega=\mathcal{i}_X\ud\omega+\ud\left(\mathcal{i}_X\omega\right)$ &
 	Cartan's magic formula \\
-	$\ud L_X\omega=L_x\left(\ud\omega\right)$ &
+	$\ud L_X\omega=L_X\left(\ud\omega\right)$ &
 	Lie derivative commutes with exterior derivative\\
 	$L_{fX}\omega=fL_X\omega+\ud f\wedge i_X\omega$ &
 	non~$C^\infty(M)$-linearity of~$L_X$ wrt~$X$\\

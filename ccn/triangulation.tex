@@ -40,10 +40,24 @@ localization~$L:(i,j,h)\mapsto(\lambda,\mu,h)$ functions.  The triangulation
 problem consists in finding the 3D coordinates~$(\lambda,\mu,h)$ of a point
 given the observations~$p$,~$q$ of that point on each image.
 
+The mapping~$h\mapsto L_A(p,h)$ defines a parametrized curve in~3D space
+called the~\emph{light ray} of points that are projected to pixel~$p$ in
+image~$A$.
+It is a straight line if the coordinates in 3D space are rectilinear.
+The mapping~$h\mapsto P_B(L_A(p,h),h)$ defines a parametrized curve in the
+domain of image~$B$ called the~\emph{epipolar curve of point~$p$}.
 
-\clearpage
+If~$p$ and~$q$ are the projections of the same 3D point,
+then~$L_A(p,h)=L_B(q,h)$, together with a bunch of equivalent conditions.
+In practice there are errors in the position of the points and also in the
+calibration functions, so that these conditions can be satisfied only
+approximatively.
 
-{\bf Equivalent criteria:}\\
+
+%\clearpage
+
+{\bf Equivalent criteria:}
+
 \begin{tabular}{l|l}
 condition & dimensions \\
 \hline
@@ -54,7 +68,8 @@ $L_A(p,h)=(x_1,x_2)=L_B(p,h)$ & 4 equations, 3 unknowns\\
 $p=P_A(x),\ q=P_B(x)$ & 4 equations, 3 unknowns\\
 \end{tabular}
 
-{\bf Numeric criteria (not equivalent!):}\\
+{\bf Numeric criteria (not equivalent!):}
+
 \begin{tabular}{l|l|l}
 	criterion & name & output\\
 	\hline
@@ -86,6 +101,56 @@ $p=P_A(x),\ q=P_B(x)$ & 4 equations, 3 unknowns\\
 	\min_{h'}\left\|L_B(q,h')-x\right\|^2_{\R^3}
 	\right)$ & minimal geometric error & $x$
 \end{tabular}
+
+The two last criteria on the list are the easiest to interpret geometrically:
+
+The~\emph{minimal geometric error} considers the two light rays projected
+into~$p$ and~$q$.  If these two rays intersect at a point, then this point is
+the solution.  Otherwise, there is a segment of minimal length joining
+the two rays, and~$x$ is the midpoint of this segment.  This is a very
+natural criterion if you believe that the points~$p$ and~$q$ are correctly
+located inside the images, but the calibrations are a bit off.
+The main advantage of this criterion is that, in spatial rectilinear
+coordinates, the point~$x$ can be found with an explicit formula from~$p$
+and~$q$, without needing any optimization.
+
+The~\emph{minimal reprojection error} considers the projections of one point~$x$
+into both images.  Then it optimizes the position of~$x$ so that these
+projections are as close as possible to~$p$ and~$q$ at the same time.  This
+is a very natural criterion if you believe that the cameras are perfectly
+calibrated, but that there may be an error in the coordinates of~$p$
+and~$q$.  While this is arguably the most natural criterion, and it can be
+readily generalized to more than to views, to find the point~$x$ requires
+solving a 3D optimization problem.
+
+The other criteria can be seen as lesser versions of these two, with the
+advantage that only a 1D line search is needed.
+
+
+
+\clearpage
+\section{Epipolar projection algorithm}
+
+The triangulation algorithm currently used in s2p is an ad-hoc method to
+optimize the epipolar error on the reference image.
+
+\begin{algorithm}[H]
+	\caption{\tt right-epipolar-projection}\label{alg:epiright}
+	\SetKwInOut{Input}{input}
+	\SetKwInOut{Output}{output}
+	\SetKwInOut{Assert}{assertion}
+	\Input{$L_A$, $P_A$, $L_B$, $P_B$}
+	\Input{$\mathbf p$}
+	\Input{$\mathbf q$}
+	\Output{$(x,y,h)\in\R^3$}
+	\Assert{$\ds P_A(x,y,h)=\mathbf p$}
+	\Assert{$\ds h=\argmin_h\ds\left\|P_B(L_A(\mathbf{p},h),h)-\mathbf{q}\right\|_B^2$}
+
+	%\For{$k=-\frac{N}{2},\ldots,\frac{N}{2}-1$}
+	%{$\tilde{v}_{k,\cdot} \gets \mathrm{DFT}(u_{k,\cdot})$}
+	%\For{$k=-\frac{N}{2},\ldots,\frac{N}{2}-1$}
+	%{$\tilde{u}_{\cdot,k} \gets \mathrm{DFT}(\tilde{v}_{\cdot,k})$}
+\end{algorithm}
 
 
 

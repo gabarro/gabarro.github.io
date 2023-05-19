@@ -44,7 +44,9 @@ given the observations~$p$,~$q$ of that point on each image.
 \clearpage
 
 {\bf Equivalent criteria:}\\
-\begin{tabular}{ll}
+\begin{tabular}{l|l}
+condition & dimensions \\
+\hline
 $L_A(p,h)=L_B(q,h)$  & 2 equations, 1 unknown\\
 $P_B(L_A(p,h),h)=q$  & 2 equations, 1 unknown\\
 $P_A(L_B(q,h),h)=p$  & 2 equations, 1 unknown\\
@@ -53,25 +55,36 @@ $p=P_A(x),\ q=P_B(x)$ & 4 equations, 3 unknowns\\
 \end{tabular}
 
 {\bf Numeric criteria (not equivalent!):}\\
-\begin{tabular}{ll}
-	$\ds\argmin_h\|P_B(L_A(p,h),h)-q\|_B^2$ & epipolar error on B \\
-	$\ds\argmin_h\|P_A(L_B(q,h),h)-p\|_A^2$ & epipolar error on A \\
-	$\ds\argmin_h\left(\min_{h'}\|L_A(p,h)-L_B(q,h')\|^2_{\R^3}\right)$
-	& geometric error from $p$ \\
-	$\ds\argmin_h\left(\min_{h'}\|L_A(p,h')-L_B(q,h)\|^2_{\R^3}\right)$
-	& geometric error from $q$ \\
+\begin{tabular}{l|l|l}
+	criterion & name & output\\
+	\hline
+	$\ds\argmin_h\ds\left\|P_B(L_A(p,h),h)-q\right\|_B^2$ &
+	epipolar error on B & $L_A(p,h)$\\
+	$\ds\argmin_h\left\|P_A(L_B(q,h),h)-p\right\|_A^2$ &
+	epipolar error on A &$L_B(q,h)$\\
+	$\ds\argmin_h
+	\left\|P_B(L_A(p,h),h)-q\right\|_B^2
+	+
+	\left\|P_A(L_B(q,h),h)-p\right\|_A^2 $ &
+	symmetric epipolar error & $(?\,,\ ?\,,\ h)$ \\
+	$\ds\argmin_h\left(\min_{h'}\left\|L_A(p,h)-L_B(q,h')\right\|^2_{\R^3}\right)$ &
+	geometric error from $p$ & $L_A(p,h)$ \\
+	$\ds\argmin_h\left(\min_{h'}\left\|L_A(p,h')-L_B(q,h)\right\|^2_{\R^3}\right)$ &
+	geometric error from $q$ & $L_B(q,h)$ \\
+	$\ds\argmin_h\left\|L_A(p,h)-L_B(p,h)\right\|_{\R^3}^2$ &
+	horizontal geometric error & $(?\,,\ ?\,,\ h)$ \\
 	$\ds\argmin_x\left(
-		\|P_A(x)-p\|^2_A
+		\left\|P_A(x)-p\right\|^2_A
 		+
-		\|P_B(x)-q\|^2_B
-	\right)$
-	& minimal reprojection error \\
+		\left\|P_B(x)-q\right\|^2_B
+	\right)$ &
+	minimal reprojection error & $x$\\
 	%\tiny
 	$\ds\argmin_x\left(
-	\min_{h'}\|L_A(p,h')-x\|^2_{\R^3}
+	\min_{h'}\left\|L_A(p,h')-x\right\|^2_{\R^3}
 	+
-	\min_{h'}\|L_B(q,h')-x\|^2_{\R^3}
-	\right)$ & minimal geometrical error
+	\min_{h'}\left\|L_B(q,h')-x\right\|^2_{\R^3}
+	\right)$ & minimal geometric error & $x$
 \end{tabular}
 
 

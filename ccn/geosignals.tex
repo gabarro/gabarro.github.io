@@ -976,6 +976,127 @@ poisson bracket, volume form, cotangent bundle
 \clearpage
 \section{Discrete case}
 
+The base space for discrete analysis is a graph.
+
+A \emph{graph} is a pair~$G=(V,E)$ where~$V$ is a finite set
+and~$E\subseteq V\times V$.  The elements of~$V$ are called~\emph{vertices}
+and the elements of~$E$ are called~\emph{edges} of the graph.
+%From now on we assume that~$|V|=n$ and~$|E|=m$.
+
+
+Functions~$f:V\to\R$ are called~\emph{scalar fields}.
+The set of all scalar fields is thus~$\R^V$.
+
+Functions~$F:E\to\R$ are called~\emph{vector fields}.
+The set of all vector fields is thus~$\R^E$.
+
+\subsection{Discrete differential calculus}
+
+The~\emph{discrete gradient} is the linear operator~$B:\R^V\to\R^E$ defined
+by
+\[
+	Bf(p,q)=f(q)-f(p)
+	\qquad\qquad\forall (p,q)\in E
+\]
+The corresponding rectangular matrix is the~\emph{signed incidence matrix}.
+
+The~\emph{discrete divergence} is the linear
+operator~$\mathrm{div}=-B^\top:\R^E\to\R^V$.
+
+The~\emph{laplacian} is the divergence of the gradient~$\Delta=-B^\top B$.
+
+The~\emph{centering operator} is~$C=\frac12\left|B\right|:\R^V\to\R^E$.  Its
+transpose is the re-centering operator~$C^\top:\R^E\to\R^V$.
+
+The set of scalar fields is an algebra with the component-wise
+product~$f\odot g$.
+
+The component-wise product of vector fields~$F\odot G$ is never used in
+itself, only as part of the following two constructions.
+
+The scalar product of a scalar and a vector field~$fG=\left(C^\top f\right)\odot G$.
+
+The inner product of two vector fields is~$F\boldsymbol{\cdot} G=C^\top\left(F\odot
+G\right)$.
+
+The product rule for the gradient is thus analogous to the
+continuous case~$\nabla\left(fg\right)=f\nabla g+g\nabla f$:
+\[
+	B\left(f\odot g\right) = Cf\odot Bg+Bf\odot Cg
+\]
+
+The product rule for the divergence corresponds exactly
+to~$\mathrm{div}\left(fG\right)=f\mathrm{div}G+G\boldsymbol{\cdot}\nabla f$:
+\[
+	-B^\top\left(C^\top f\odot G\right)
+	=
+	C^\top f\odot\left(-B^\top G\right)+C^\top\left(G\odot Bf\right)
+\]
+
+The derivative of a function~$f$ along a vector field~$X$ is defined as in
+the continuous case~$\delta_X f = X\boldsymbol{\cdot}\nabla f$:
+\[
+	\delta_X f = C^\top \left(X\cdot Bf\right)
+\]
+
+Notice that~$\delta_X$ is~\emph{not} a derivation on the algebra of scalar
+fields (in fact, there are no non-trivial derivations in this algebra).
+Thus, we cannot define a discrete Lie bracket.
+
+The~Lie derivative satisfies the product
+rule~$\delta_X\left(fg\right)=\delta_{fX}\left(g\right)+\delta_{gX}\left(f\right)$.
+Notice that~$\delta_{fX}\neq f\delta_{X}$.
+
+\subsection{Discrete integral calculus}
+
+A~\emph{domain} is a subset of vertices~$\Omega\subseteq V$, identified by
+its indicator function~$\1_\Omega\in\R^V$.
+
+The~\emph{integral} of a scalar field~$f\in\R^V$ over a
+domain~$\Omega\subseteq V$ is defined as
+\[
+	\int_\Omega f = \left\langle\1_\Omega,\ f\right\rangle_{\R^V}
+\]
+
+An~\emph{interface} is a signed subset of edges~$\Gamma\subseteq E$,
+identified by its indicator function~$\1_\Omega:E\to\{0,\pm 1\}$.
+
+The~\emph{flux} of a vector field~$F$ over an interface~$\Gamma$ is defined
+as
+\[
+	\int_\Gamma F = \left\langle\1_\Gamma,\ F\right\rangle_{\R^E}
+\]
+
+The~\emph{boundary} of a domain~$\Omega$ is the
+interface~$\partial\Omega=-B\Omega$.
+
+\emph{Stokes theorem} says
+that~$\int_{\partial\Omega}F=\int_\Omega\mathrm{div}\left(F\right)$.
+In matrix notation it becomes an algebraic triviality:
+\[
+	 \left\langle-B\1_\Omega,\ F\right\rangle_{\R^E}
+	 \ =\ %
+	 \left\langle\1_\Omega,\ -B^\top F\right\rangle_{\R^V}
+\]
+
+The integral of the scalar product of two vector fields over the entire
+domain is
+\[
+	\int_V F\boldsymbol{\cdot}G
+	=
+	\left\langle\1,\ C^\top\left(F\odot G\right)\right\rangle_{\R^V}
+	=
+	\left\langle F,\ G\right\rangle_{\R^E}
+\]
+this happens because~$C\1_V=\1_E$, as the matrix~$C$ has exactly two entries
+equal to~$\frac12$ on each row.
+
+\subsection{Discrete variational calculus}
+
+\subsection{Discrete PDE}
+
+\subsection{Discrete harmonic analysis}
+
 
 
 % vim:set tw=77 filetype=tex spell spelllang=en sw=2 ts=2:

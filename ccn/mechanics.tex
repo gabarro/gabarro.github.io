@@ -1,0 +1,102 @@
+
+
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\ds}{\displaystyle}
+
+% \abs{x}         ->    |x|
+% \Abs{x}         ->   ||x||
+% \ABS{x}         ->  |||x|||
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\Abs}[1]{\left\|#1\right\|}
+\newcommand{\ABS}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+% \parens{x}      ->  (x)
+% \pairing{x}{y}  ->  <x,y>
+\newcommand{\parens}[1]{\left(#1\right)} % (x)
+\newcommand{\pairing}[2]{\left\langle #1,\,#2\right\rangle} % <x,y>
+
+
+
+
+\title{summary of mechanics}
+
+(just some notes while I read Arnold)
+
+\section{Introduction}
+
+There are three formalizations of classical mechanics.
+
+In~{\bf Newtonian mechanics}, a physical system is described by a set of~$N$
+particles moving in~$\R^3$.  The state of the system is given by the
+positions and the speeds of all the
+particles:~$(x,\dot x)\in\R^{3N}\times\R^{3N}$.  The evolution of the system
+is governed by Newton's equation
+\[
+	\ddot x=F(\dot x, x,t)
+\]
+Where~$F:\R^{3N}\times\R^{3N}\times\R$ is a function determining the system
+called the~\emph{force field}.
+
+In~{\bf Lagrangian mechanics}, a physical system is described by a point in
+a differential manifold~$M$ called the~\emph{configuration space}.  The tangent
+space~$TM$ is called the~\emph{state space}.  The physics is governed by a
+function~$L:TM\to\R$ called the~\emph{lagrangian}.  The trajectories of the system
+are curves~$q:I\to M$ that minimize the functional
+\[
+	E(q)=\int_I L(q(t),\dot q(t),t)\mathrm{d}t.
+\]
+By the direct method in the calculus of variations, these trajectories
+satisfy the Euler-Lagrange equations
+\[
+	\frac{\partial L}{\partial q}
+	-\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot q} = 0.
+\]
+Newtonian mechanics whith a conservative force field~$(F=\nabla V)$
+is a particular case of Lagrangian mechanics
+mechanics when~$M=\R^{3N}$ and~$L=\frac12\left\|\dot q\right\|^2-V$.
+
+
+In~{\bf Hamiltonian mechanics}, a physical system is described by a point in
+a symplectic manifold~$\Omega$ called~\emph{phase space}.  The physics is
+governed by a function~$H:\Omega\to\R$ called the~\emph{hamiltonian}.
+Trajectories of the system are curves in~$\Omega$ satisfying Hamilton's
+equations
+\[
+	\frac{\mathrm{d}q}{\mathrm{d}t}=\frac{\partial H}{\partial p},
+	\qquad
+	\frac{\mathrm{d}p}{\mathrm{d}t}=-\frac{\partial H}{\partial q}
+\]
+where~$(p,q)$ is any set of symplectic coordinates on~$\Omega$ (i.e., such
+that the symplectic form is~$\omega=\mathrm{d}p_i\wedge\mathrm{d}q_i$).
+Lagrangian mechanics is a particular case of Hamiltonian mechanics
+when~$\Omega=T^*M$ and~$H$ is the legendre transform of~$L$.
+
+
+
+{\bf why tho}\\
+Each of the three formalisms above can be used for a complete description of
+the physical world, so they are equivalent.  However, each flavor of
+mechanics makes some things easier than others.
+
+\section{Newtonian}
+
+\subsection{Things that Newtonian mechanics does well}
+
+\subsection{Things that Newtonian mechanics has trouble with}
+
+\section{Lagrangian}
+
+\subsection{Things that Lagrangian mechanics does well}
+
+\subsection{Things that Lagrangian mechanics has trouble with}
+
+
+\section{Hamiltonian}
+
+\subsection{Things that Hamiltonian mechanics does well}
+
+% vim:set tw=77 filetype=tex spell spelllang=en sw=2 ts=2:

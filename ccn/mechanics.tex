@@ -55,7 +55,7 @@ satisfy the Euler-Lagrange equations
 	\frac{\partial L}{\partial q}
 	-\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot q} = 0.
 \]
-Newtonian mechanics whith a conservative force field~$(F=\nabla V)$
+Newtonian mechanics with a conservative force field~$(F=\nabla V)$
 is a particular case of Lagrangian mechanics
 mechanics when~$M=\R^{3N}$ and~$L=\frac12\left\|\dot q\right\|^2-V$.
 
@@ -74,6 +74,18 @@ where~$(p,q)$ is any set of symplectic coordinates on~$\Omega$ (i.e., such
 that the symplectic form is~$\omega=\mathrm{d}p_i\wedge\mathrm{d}q_i$).
 Lagrangian mechanics is a particular case of Hamiltonian mechanics
 when~$\Omega=T^*M$ and~$H$ is the legendre transform of~$L$.
+
+On any hamiltonian system, the Hamilton-Jacobi equation
+\[
+	\frac{\partial S}{\partial t}
+	=
+	-H\left(q, \frac{\partial S}{\partial q}\right)
+\]
+is a single, first-order PDE that determines a scalar
+function~$S:\Omega\to\R$ called the~\emph{action functional}.  The
+function~$S$ gives a wave-like interpretation of whole set of possible
+trajectories in the system: they are the integral lines of the field~$\nabla
+S$.
 
 
 

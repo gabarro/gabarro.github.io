@@ -95,7 +95,7 @@ The~\emph{fundamental theorem of calculus}
 	\int_a^bf'=f(b)-f(a)
 \]
 
-This is all wee need by now.
+This is all we need by now.
 
 
 \subsection{vector calculus in the plane}
@@ -1237,7 +1237,17 @@ approximation of~$f$ is the constant~$\mathrm{avg}\parens{f}$.)
 
 A formally similar problem, but with a different interpretation,
 is~\emph{Poisson editing}.  Given a vector field~$F$, we want to find
-a scalar field~$u$ such thaT
+a scalar field~$u$ such that~$\nabla u=F$, as closely as possible.  Thus, we
+want to minimize the following energy
+\[
+	E(u)=\frac12\int_V\Abs{\nabla u - F}^2
+\]
+which, in matrix form is
+\[
+	E(u)=\frac12 u^\top B^\top B u - F^\top B u
+\]
+whose solution is
+
 
 \clearpage
 \subsection{Discrete PDE}

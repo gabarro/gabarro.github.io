@@ -94,6 +94,64 @@ Each of the three formalisms above can be used for a complete description of
 the physical world, so they are equivalent.  However, each flavor of
 mechanics makes some things easier than others.
 
+\section{Example: the harmonic oscillator}
+
+Consider a mass attached to a Hooke spring of constant~$k>0$.
+We will model and study this physical system using all the formalisms
+described above.
+
+The {\bf Newtonian} formulation of this system is given by the differential
+equation
+\[
+	\ddot x = -kx
+\]
+where~$x$ is the distance of the mass to the position of equilibrium~$x=0$.
+
+By the standard theory of ODE, given an initial position~$x=a$ and
+speed~$\dot x = b$, the solution of this equation is determined uniquely to
+be
+\[
+	x(t) =
+	a\cos\left(\sqrt kt\right)
+	+\frac{b}{\sqrt k}\sin\left(\sqrt{k} t\right)
+\]
+Newton's method shines here: we state an equation and we solve it completely.
+The other formalisms will seem like overkill for this simple case.
+
+In the {\bf Lagrangian} formulation of this problem we define a coordinate
+system~$q$, with the same meaning as~$x$ above, and a Lagrangian function
+\[
+	L(q,\dot q) = \frac12\dot q^2-\frac k2q^2
+\]
+trajectories of the system are thus minimizers of the energy functional
+\[
+	E(q) = \int L(q(t), \dot q(t))\ud t
+\]
+or equivalently, solutions of the corresponding Euler-Lagrange equations:
+\[
+	-kq -\ddot q = 0
+\]
+whereby we recover the harmonic oscillator.
+Notice that the lagrangian is~$L=T-V$ where~$T=\frac12\dot q^2$ is the
+kinetic energy and~$V=\frac12 q^2$ is the potential energy (such that the
+force in the newtonian formulation is~$F=-\nabla V$).
+
+The {\bf Hamiltonian} formulation takes place in~\emph{phase space}
+with coordinates~$(q,p)\in\R^2$ where~$q$ is the position and~$p$ is the
+momentum.  For the Hooke oscillator, the Hamiltonian function is
+\[
+	H = \frac{p^2 + kq^2}2
+\]
+and the Hamilton equations are thus
+\[
+	\dot q = p
+	\qquad
+	\dot p = kq
+\]
+
+
+
+
 \section{Newtonian}
 
 \subsection{Things that Newtonian mechanics does well}

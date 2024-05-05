@@ -144,11 +144,39 @@ momentum.  For the Hooke oscillator, the Hamiltonian function is
 \]
 and the Hamilton equations are thus
 \[
-	\dot q = p
-	\qquad
+	\begin{cases}
+	\dot q = p & \\
+	%\qquad
 	\dot p = kq
+	\end{cases}
+\]
+Notice that this has a neat geometrical interpretation: the equations define
+a vector field in phase space whose integral lines $\mapsto(q(t),p(t))$ are
+closes ellipses around the origin.  More explicitly, for an initial
+condition~$q,p=a,b$, the solution is the following curve in phase space:
+\[
+	\begin{pmatrix}
+		q(t) \\
+		p(t)
+	\end{pmatrix}
+	\begin{pmatrix}
+		q(t) \\
+		p(t)
+	\end{pmatrix}
 \]
 
+Finally, Hamilton-Jacobi equation
+\[
+	\frac{\partial S}{\partial t}
+	=
+	-H\left(q, \frac{\partial S}{\partial q}\right)
+	=
+	\frac{kq^2}2
+	-\frac 12\left(\frac{\partial S}{\partial q}\right)^2
+\]
+is a nonlinear first-order PDE in phase space.  The solution~$S$ is obviously
+non-unique (we can, for example, add a constant to a solution to obtain a
+different solution).
 
 
 

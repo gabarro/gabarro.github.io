@@ -1,0 +1,99 @@
+\title{from linux to macos}
+
+I have been using linux and bsd since quitting win95 in 1997.  In 2024 I
+acquired a mac mini that came with macos (darwin~23.5.0 according to
+uname) and started using it sporadically.  These are my personal notes of the
+experience, written as a reminder of the operations required to turn macos
+into a system usable by plain graybeards.
+
+Notice that this is just a test machine for verifying that my programs
+compile and run correctly in a standard mac install.  I have no intention for
+it to become my main system.  If there was a practical way to run macos
+virtual machines on linux I'd not have bothered with a physical mac at all.
+
+\section*{Zeroth day: the computer}
+
+The computer is an ARM mac mini M2 with minimal features (8Go RAM, 256Go
+SSD), which is sold in 2024 for about 600 EUR.
+
+The packaging is no-nonsense and easy to open.  Inside you find a cute
+computer in a rounded aluminium box and a power chord.  The box has all the
+typical ports: rj45, hdmi, headphone jack and four USBs.  There is one
+power button in the back and a tiny white in the front to signal that
+the computer is on.
+
+I plug a keyboard, a mouse and a screen and switch it on.  I am greeted
+immediately by a beautiful welcome screen and a discrete chime sound.
+Everything looks alright, so I switch it off to continue next day.
+
+\section*{First day: onboarding}
+
+You don't need to install anything since the computer already comes with an
+OS inside.  Still, before using it, you need to select your keyboard,
+language, time zone and create a user.  The process is very straightforward
+and essentially identical to installing a linux distribution from a usb key.
+
+Compared to a regular linux install (I have recent experience with ubuntu and
+mint), there are a few improvements:
+
+\begin{enumerate}
+	\item The language is much more reassuring: you are never afraid to
+		break anything or not being able to go back and fix stuff.
+	\item The user interface is really well-polished.  For example, the
+		keyboard configuration that you selected is always visible,
+		and you can change it easily.  Especially during password
+		entry.  I recall that on my last ubuntu install I had some
+		trouble when entering my password because there was no
+		indication of the keyboard map selected (I had chosen qwerty
+		and azerty to be able to switch easily between them).
+		You get the feeling that the whole procedure has been
+		battle-tested against a bunch of people that tried hard to
+		make it fail, and that most of the ``holes'' are covered.
+\end{enumerate}
+
+%Some other things are equally bad:
+
+There are also some things that are worse:
+
+\begin{enumerate}
+	\item Dark patterns to force you to sign-in to user-engagement
+		programs: please enter your apple id! you don't have one? oh,
+		please, open an apple account!  Please, please, please!  You
+		are asked that shit at least ten times before you can run a
+		terminal.
+	\item If you are not connected to internet you are constantly
+		pestered to setup your wifi, plug your ethernet, etc.
+\end{enumerate}
+
+Other things are equally bad in both systems.  For example, I was happy to
+see that catalan was proposed as a localization language.  I selected it, but
+the translation was incomplete and comically bad.  Some words were in
+english, some words were, strangely in other languages.  Worse, the use of
+the language does not correspond to the traditional standard catalan used
+elsewhere.  These are subtle differences like using infinitives vs.
+imperatives for actions, using ``archive'' when it should use ``file'', and
+so on.  Overall it feels like an unprofessional localization work, most
+probably automated and not checked by anybody.  While this can be expected
+from amateur-driven localizations like in linux, I was surprised to see this
+lack of seriousness on a system that you are supposed to pay for.
+
+After a few minutes of use, the errors in the catalan localization became so
+unbearable that I switched to english.  Strangely, some words in the
+interface are still in catalan (names of colors, and such).
+
+At least, in linux I do not have to endure the most glaring localization
+errors: it's easy to download the source code and fix them for you computer.
+Also, you can report them to the developers and they will get fixed for
+everybody in a next version of the software.  Under macos, this kind of
+collaboration between users  is simply not possible.
+
+
+\section*{Second day: unix}
+
+\section*{Third day: sshd}
+
+\section*{Fourth day: homebrew}
+
+
+
+% vim:set tw=77 filetype=tex spell spelllang=en:

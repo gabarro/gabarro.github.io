@@ -96,24 +96,24 @@ mechanics makes some things easier than others.
 
 \section{Example: the harmonic oscillator}
 
-Consider a mass attached to a Hooke spring of constant~$k>0$.
+Consider an object of mass~$m$ attached to a Hooke spring of constant~$k>0$.
 We will model and study this physical system using all the formalisms
 described above.
 
 The {\bf Newtonian} formulation of this system is given by the differential
 equation
 \[
-	\ddot x = -kx
+	m\ddot x = -kx
 \]
 where~$x$ is the distance of the mass to the position of equilibrium~$x=0$.
 
 By the standard theory of ODE, given an initial position~$x=a$ and
 speed~$\dot x = b$, the solution of this equation is determined uniquely to
-be
+be an harmonic oscillator of frequency~$\sqrt{\tfrac km}$:
 \[
 	x(t) =
-	a\cos\left(\sqrt kt\right)
-	+\frac{b}{\sqrt k}\sin\left(\sqrt{k} t\right)
+	a\cos\left(\sqrt{\tfrac{k}{m}}\ t\right)
+	+\frac{b}{\sqrt{\tfrac{k}{m}}}\sin\left(\sqrt{\tfrac{k}{m}} t\right)
 \]
 Newton's method shines here: we state an equation and we solve it completely.
 The other formalisms will seem like overkill for this simple case.
@@ -121,7 +121,7 @@ The other formalisms will seem like overkill for this simple case.
 In the {\bf Lagrangian} formulation of this problem we define a coordinate
 system~$q$, with the same meaning as~$x$ above, and a Lagrangian function
 \[
-	L(q,\dot q) = \frac12\dot q^2-\frac k2q^2
+	L(q,\dot q) = \frac m2\dot q^2-\frac k2q^2
 \]
 trajectories of the system are thus minimizers of the energy functional
 \[
@@ -129,30 +129,30 @@ trajectories of the system are thus minimizers of the energy functional
 \]
 or equivalently, solutions of the corresponding Euler-Lagrange equations:
 \[
-	-kq -\ddot q = 0
+	-kq - m\ddot q = 0
 \]
 whereby we recover the harmonic oscillator.
-Notice that the lagrangian is~$L=T-V$ where~$T=\frac12\dot q^2$ is the
-kinetic energy and~$V=\frac12 q^2$ is the potential energy (such that the
+Notice that the lagrangian is~$L=T-V$ where~$T=\frac12m\dot q^2$ is the
+kinetic energy and~$V=\frac12kq^2$ is the potential energy (such that the
 force in the newtonian formulation is~$F=-\nabla V$).
 
-The {\bf Hamiltonian} formulation takes place in~\emph{phase space}
-with coordinates~$(q,p)\in\R^2$ where~$q$ is the position and~$p$ is the
+The {\bf Hamiltonian} formulation takes place in~\emph{phase space} with
+coordinates~$(q,p)\in\R^2$ where~$q=x$ is the position and~$p=m\dot x$ is the
 momentum.  For the Hooke oscillator, the Hamiltonian function is
 \[
-	H = \frac{p^2 + kq^2}2
+	H = \frac{\tfrac1mp^2 + kq^2}2
 \]
 and the Hamilton equations are thus
 \[
 	\begin{cases}
-	\dot q = p & \\
+	\dot q = \tfrac1mp & \\
 	%\qquad
-	\dot p = kq
+	\dot p = -kq
 	\end{cases}
 \]
 Notice that this has a neat geometrical interpretation: the equations define
-a vector field in phase space whose integral lines $\mapsto(q(t),p(t))$ are
-closes ellipses around the origin.  More explicitly, for an initial
+a vector field in phase space whose integral lines $t\mapsto(q(t),p(t))$ are
+closed ellipses around the origin.  More explicitly, for an initial
 condition~$q,p=a,b$, the solution is the following curve in phase space:
 \[
 	\begin{pmatrix}
@@ -171,8 +171,8 @@ Finally, Hamilton-Jacobi equation
 	=
 	-H\left(q, \frac{\partial S}{\partial q}\right)
 	=
-	\frac{kq^2}2
-	-\frac 12\left(\frac{\partial S}{\partial q}\right)^2
+	-\frac{kq^2}2
+	-\frac 1{2m}\left(\frac{\partial S}{\partial q}\right)^2
 \]
 is a nonlinear first-order PDE in phase space.  The solution~$S$ is obviously
 non-unique (we can, for example, add a constant to a solution to obtain a

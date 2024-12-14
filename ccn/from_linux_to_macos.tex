@@ -18,7 +18,7 @@ SSD).  It is sold in 2024 for about 600 EUR.
 
 The packaging is no-nonsense and easy to open.  Inside you find a cute
 computer in a rounded aluminium box and a power chord.  The box has all the
-typical ports: rj45, hdmi, headphone jack and four USBs.  There is one
+typical ports: rj45, hdmi, headphone jack and four USB-A.  There is a
 power button in the back and a tiny white led in the front to signal that
 the computer is on.
 
@@ -29,8 +29,8 @@ Everything looks alright, so I switch it off to continue next day.
 \section*{First day: onboarding}
 
 You don't need to install anything since the computer already comes with an
-OS inside.  Still, before using it, you need to select your keyboard,
-language, time zone and create a user.  The process is very straightforward
+OS inside.  Still, before using it, you are asked to select your keyboard,
+language, time zone and to create a user.  The process is very straightforward
 and essentially identical to installing a linux distribution from a usb key.
 
 Compared to a regular linux install (I have recent experience with ubuntu and
@@ -44,7 +44,7 @@ mint), there are a few improvements:
 		and you can change it easily.  Especially during password
 		entry.  I recall that on my last ubuntu install I had some
 		trouble when entering my password because there was no
-		indication of the keyboard map selected (I had chosen both
+		indication of which keyboard map selected (I had chosen both
 		qwerty and azerty to be able to switch easily between them).
 		You get the feeling that the whole procedure has been
 		battle-tested against a bunch of people that tried hard to
@@ -66,29 +66,34 @@ There are also some things that are worse:
 		pestered to setup your wifi, plug your ethernet, etc.
 \end{enumerate}
 
-At the end, if you are willing to fight, you can 
+At the end, if you are willing to fight, you can close all the spam windows
+and get a working system where you can run terminal commands.  There are
+some unix utilities but no C compiler.  More about this later.
 
 Other things are equally bad in both systems.  For example, I was happy to
 see that catalan was proposed as a localization language.  I selected it, but
 the translation was incomplete and comically bad.  Some words were in
 english, some words were, strangely in other languages.  Worse, the use of
-the language does not correspond to the traditional standard catalan used
-elsewhere.  These are subtle differences like using infinitives vs.
+the language does not correspond to the standard catalan usage
+found elsewhere in computers.  These are subtle differences like using
+infinitives instead of
 imperatives for actions, using ``archive'' when it should use ``file'', and
 so on.  Overall it feels like an unprofessional localization work, most
 probably automated and not checked by anybody.  While this can be expected
-from amateur-driven localizations like in linux, I was surprised to see this
-lack of seriousness on a system that you are supposed to pay for.
+from amateur-driven localizations as in linux, I was surprised to see this
+lack of seriousness on a system that you pay for.
 
 After a few minutes of use, the errors in the catalan localization became so
 unbearable that I switched to english.  Strangely, some words in the
-interface are still in catalan (names of colors, and such).
+interface are still in catalan (names of colors, and such).  Even after a
+reboot.
 
 At least, in linux I do not have to endure the most glaring localization
-errors: it's easy to download the source code and fix them for you computer.
-Also, you can report them to the developers and they will get fixed for
-everybody in a next version of the software.  Under macos, this kind of
-collaboration between users  is simply not possible.
+errors: it's easy to download the source code and fix the .po files in you
+computer.  Also, you can report the fixes to the developers and they will get
+fixed for everybody in a next version of the software.  Under macos, this
+kind of collaboration between users is simply not possible.
+It would seem that it is actively discouraged, even.
 
 Once I have created my user, logged in and out, and opened a web browser to
 check that everything works, I switch it off for the next day.
@@ -98,7 +103,8 @@ check that everything works, I switch it off for the next day.
 
 A friend of mine promised me that macos provides a clean unix experience.  I
 am thus surprised that there is no visible terminal icon in the desktop
-interface.
+interface.  There are more than twenty cute icons, but none of them happens
+to open a terminal.
 
 Most of that day was spent in adding this icon to the launcher,
 removing all the other icons, and generally turning the user interface to a
@@ -108,18 +114,86 @@ The graphical settings menu is very well-organized.  The gnome-control-center
 is a sad joke next to it.   I assume that all settings can be configured from
 the command line (editing configuration files or launching specific
 programs), but the settings program is so beautiful and complete that I
-cannot resist spending a few hours 
+cannot resist spending a few hours  bla bla bla . . . most of the work
+consist in unclicking the "siri support" from all options
+
+- more seriously, inside the terminal...
+
+- file|cut|sort|uniq|sort ... "...find it funny that in 2024 macos is still a
+perl shop", comment about bin PATH unification
+
+- severely outdated unix tooling
+
+- top ?
+
+- ugly homedir, uppercase dirs
+
+- some rant about uppercase/lowercase confusion in filenames
+
+- xcode-install
+
+- macos-specific stuff: sw_vers, software_update, etc
+
+- 
+
 
 
 \section*{Third day: sshd}
 
-\section*{Fourth day: ipad}
+- activate it in the interface
 
-\section*{Fifth day: notarization}
+- fake manpages, undocumented features
 
-\section*{Sixth day: homebrew}
+- unexplained caching delays, blocks
 
-\section*{Seventh day: opengl}
+%\section*{Fourth day: ipad}
+
+
+
+
+
+\section*{Fourth day: notarization}
+
+- stallmanic explanation of the problem
+
+- the "give permission to the terminal app to access your files" bullshit
+
+- ancillary verification of the notarization by comparing running times of
+scripts that compile stuff
+
+- verification by looking at the network traffic
+
+
+
+
+\section*{Fifth day: homebrew}
+
+- discussion about macports/brew, etc.  we chose brew because it is more
+popular, although ports seems better (and in spite of brew non-support for
+older systems, cute naming, and general enshitiffication)
+
+- set up user "brewer", the only one who can install brew stuff.
+
+- explanation of cellar shit
+
+- example setup that allows for universal makefiles that compile in linux
+and mac using libpng
+
+- some rant about gcc calling clang, and apple treating its users as adults
+(but hey, we force you to use 20-year old unix tools because fuck you)
+
+
+
+\section*{Sixth day: opengl, cocoa}
+
+- glut still there, but with stupid deprecation warnings
+
+- RGFW-like portability
+
+- prepare for an even uglier future if wayland becomes more popular
+
+
+\section*
 
 
 

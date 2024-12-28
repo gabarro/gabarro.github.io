@@ -62,7 +62,7 @@ global_substitutions = {
 	-- change \sections to <headers>
 	{"\\title{(.-)}", "<h1>%1</h1>\n"},
 	{"\\section{([^\n]*)}", "<h2>%1</h2>\n"},
-	{"\\subsection{(.-)}", "<h3>%1</h3>\n"},
+	{"\\subsection{(.-)}\n", "<h3>%1</h3>\n"},
 	{"\\paragraph{(.-)}", "<p>\n<b>%1</b>"},
 	{"\\section%*{([^\n]*)}", "<h2 >%1</h2>\n"},
 	{"\\subsection%*{(.-)}", "<h3 >%1</h3>\n"},
@@ -75,7 +75,7 @@ global_substitutions = {
 	{"\\end{itemize}", "</ul>"},
 	{"\\begin{verbatim}", "<pre>"},
 	{"\\end{verbatim}", "</pre>"},
-	{"\\item%[(.-)%] ", "<li style='list-style-type:none'>%1 "},
+	{"\\item%[(.-)%]", "<li style='list-style-type:none'><b>%1</b>"},
 
 	-- change \verb+...+ to <code>...</code>
 	{"\\verb%+([^+]*)%+", "<code>%1</code>"},

@@ -1,0 +1,127 @@
+\title{Central Limit Theorem, without Randomness}
+
+\begin{abstract}
+	We state and prove a proposition equivalent to the central
+	limit theorem without using any probability theory, just
+	elementary calculus.  The correspondence between both
+	statements is discussed in some detail.
+\end{abstract}
+
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+
+\bigskip
+
+\section{The CLT}
+
+This is a common form of the central limit theorem:
+
+\begin{theorem}
+	Let~$X_1, X_2, X_3,\ldots$ be a sequence of independent,
+	identically distributed random variables of mean~$\mu$ and
+	variance~$\sigma^2$.  Then the sequence of random variables
+	\[
+		S_n = \frac{X_1+\cdots+X_n-n\mu}{\sqrt{n}}
+	\]
+	converges in law to a random variable~$Y$ which has the
+	normal distribution~$\mathcal{N}\left(0,\sigma^2\right)$.
+\end{theorem}
+
+Now, for someone averse to probability theory like me, this is an
+extremely terrifying statement.  First, everything is about random
+variables, whose definition I don't really understand.  A function from
+some measurable~$\Omega$ space into~$\R$?  Alright, but here we have
+many random variables.  Does each~$X_n$ have a separate~$\Omega_n$,
+or they can all be the same?  It's not indicated, so maybe it doesn't
+matter.  Or maybe it's obvious from the context whether they are the
+same or not.  And then, what about the~$\Omega$ corresponding to the limit
+variable~$Y$?  Is it constructed from the previous~$\Omega_n$ inside
+the proof?  Not to speak of the scary notion of ``convergence in
+law''.  I seem to recall there are many ways a sequence of random
+variables can converge: in law, in probability, in distribution,
+almost surely, etc.  I'm missing some of them, and some of
+those are likely equivalent.  How do people even remember all of
+that?
+
+Special mention to the hypotheses: independence, identical
+distribution... are they really necessary?  As it turns out: not
+really.  The only crucial requirement is the finite
+variance~$\sigma^2<+\infty$ which is implicitly stated.
+
+And finally, the elephant of the room:  the mysterious
+factor~$\sqrt{n}$.  The term~$n\mu$ is easy to understand: it's just
+a centering, we are subtracting~$\mu$ from each~$X_i$ so that all the
+variables have zero mean, which goes well with the word ``central''
+in the name of the theorem.  But what about~$\sqrt{n}$?  What the
+hell is~$\frac{X_1+\cdots+X_n}{\sqrt{n}}$?  I have never seen
+anything like that elsewhere.  As it happens, this square root is
+also crucial to obtain convergence to a Gaussian: the sequence of
+averages~$\frac{X_1+\cdots+X_n}n$ converges to a Dirac, and the
+sequence of sums~$X_1+\cdots+X_n$ does not converge at all (or you
+could say that it will sort of converge to a uniform distribution on
+the real line).
+
+%\section{Experimental verification}
+%
+%%SCRIPT plambda zero:400x400 randu -s 1|qeasy 0 1|palette 0 255 gray - -l OVERLAY random_uniform_1.png
+%%SCRIPT plambda zero:400x400 randu -s 2|qeasy 0 1|palette 0 255 gray - -l OVERLAY random_uniform_2.png
+%%SCRIPT plambda zero:400x400 randu -s 3|qeasy 0 1|palette 0 255 gray - -l OVERLAY random_uniform_3.png
+%%SCRIPT plambda zero:400x400 randu -s 4|qeasy 0 1|palette 0 255 gray - -l OVERLAY random_uniform_4.png
+
+\section{Correspondence between variables and densities}
+
+We will rewrite the central limit theorem using densities instead of
+random variables.  For that we must first understand the
+correspondence between operations of a random variable and the
+corresponding transformation of its density.
+
+Assume that a real-valued random variable~$X$ has density~$x\mapsto
+f(x)$.  This means that for~$A\subseteq\R$
+\[
+	\mathbf{P}(X\in A)=\int_Af.
+\]
+what happens to the density if we change~$X$?  For example, if we add
+a constant to~$X$, or multiply~$X$ by a constant?  All these results
+will follow from the definition of density and the change of
+variables formula:
+
+$X$ has density~$f(x)$
+
+$X+\beta$ has density~$f\left(x-\beta\right)$
+
+$\alpha X$ has density~$\frac1{\alpha}f\left(\frac{x}{\alpha}\right)$
+
+$X+Y$ has density~$f*g$
+
+If it exists, the~\emph{mean} of~$X$ is the number~$\mu=\int_{\R}f(x)x\mathrm{d}x$.
+
+If it exists, the~\emph{variance} of~$X$ is the
+number~$\sigma^2=\int_{\R}(f(x)-\mu)x^2x\mathrm{d}x$.
+
+If we rewrite the statement of the central limit theorem in these
+terms, it becomes the following (we start with the case~$\mu=0$ to
+simplify the notation):
+
+Let~$f$ be a function of integral 1, mean~$0$ and
+variance~$\sigma^2\le+\infty$.  Let us denote by~$f^{*n}$ the
+convolution of~$f$ with itself~$n$ times.  Then
+\[
+	\lim_{n\to\infty}
+	\sqrt{n}f^{*n}\left(\sqrt{n}x\right)
+	=
+	\frac1{\sigma\sqrt{2\pi}}\exp\frac{-x^2}{2\sigma^2}
+\]
+This limit looks formidable, but at least all the terms make sense.
+Applying the Fourier transform to both sides, and using the
+convolution theorem, we can rewrite it as
+\[
+	\ldots
+\]
+
+
+
+
+
+\section{Non-random CLT}
+
+% vim:set tw=69 filetype=tex spell spelllang=en:

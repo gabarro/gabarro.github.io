@@ -1,0 +1,111 @@
+
+
+
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\ds}{\displaystyle}
+
+% \abs{x}         ->    |x|
+% \Abs{x}         ->   ||x||
+% \ABS{x}         ->  |||x|||
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\Abs}[1]{\left\|#1\right\|}
+\newcommand{\ABS}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+% \parens{x}      ->  (x)
+% \pairing{x}{y}  ->  <x,y>
+\newcommand{\parens}[1]{\left(#1\right)} % (x)
+\newcommand{\pairing}[2]{\left\langle #1,\,#2\right\rangle} % <x,y>
+
+
+
+
+\title{géométrie différentielle}
+
+\begin{center}
+proposition de cours pour le M1 Hadamard
+\end{center}
+
+\paragraph{Motivation.}
+Une partie importante des normaliens du département de mathématiques
+finissent leur parcours sans avoir jamais vu les équations d'Euler-Lagrange
+ni les notions de courbure d'une courbe ou d'une surface.  Même parmi ceux
+qui passent l'agrégation.  Il y avait~\emph{une seule} leçon de courbes et
+surfaces dans le programme d'agrégation, mais en 2024 elle a été éliminée.
+Ceci est particulièrement agaçant lorsqu'il se passe dans le pays qui a vu
+fleurir les travaux de Lagrange, Darboux, Bonnet, Cartan, de Rham, Berger,
+Colin de Verdière, \ldots.  L'objectif de ce cours est de corriger localement
+cette triste tendance géométricide.
+
+\paragraph{Philosophie.}
+C'est d'abord un cours ``classique'' où l'on traite en détail les définitions
+et les preuves théorèmes principaux.  Cependant, l'approche est plutôt à là
+russe qu'à la française: on annonce les résultats dans~\emph{la moindre}
+généralité possible qui les rend encore intéressants.  L'objectif n'est
+surtout pas d'introduire un langage général, mais résoudre des problèmes
+géométriques concrets, qui nécessitent souvent une partie de ce langage.
+Ainsi, on voit d'abord le trièdre de Serret-Frenet, et plus tard, quand on en
+a besoin, les fibrés sur les variétés.
+
+\paragraph{Thèmes.}
+Il y a des thèmes récurrents qui guident le défilé du cours.
+
+D'abord, les \emph{méthodes variationnelles} sont au coeur du sujet: on
+caractérise les droites comme les courbes de longueur minimale dans l'espace
+euclidien, puis les géodésiques comme des courbes de longueur minimale sur
+une variété, ensuite les surfaces minimales, etc.  Le fleuron final du cours
+est la caractérisation de l'équation de champ d'Einstein comme l'équation
+d'Euler-Lagrange de l'action de Hilbert, définie à partir de la courbure de
+Ricci.  Évidemment la physique, spécialement la mécanique Lagrangienne, est
+un sujet toujours présent dans les exemples et dans les exercices.
+
+Le deuxième thème est~\emph{le lien continu-discret}.  Surtout dans les
+exercices, on développe beaucoup d'analogies entre la géométrie
+différentielle et les modèles discrets comme les graphes et les complexes
+cellulaires.  Grâce au formalisme des courants de de Rham, on verra que
+cette analogie permet de voir souvent les modèle discrets comme un cas
+particuliers de modèles continus.
+
+Le troisième thème, un peu caché mais toujours en arrière-plan, est l'algèbre
+homologique.  Pour étudier un objet géométrique~$X$, on le fait souvent de
+manière indirecte, en étudiant des ensembles de fonctions~$\R^n\to X$, qui
+forment des groupes (homologie, groupes fondamentaux, etc) ou des ensembles
+de fonctions~$X\to\R^n$, qui forment des espaces vectoriels (cohomologie,
+etc).  Les suites de Mayer-Vietoris ne sont jamais mentionnées par ce nom,
+mais elles font leur apparition par exemple quand on formalise le calcul
+vectoriel en~$\R^3$ avec un langage géométrique.
+
+\paragraph{Organisation.}
+Le cours est prévu pour avoir lieu entre 8 et 12 semaines, à teneur de 1.5
+heures de cours par semaine, plus 2.5 heures d'exercices.  Le cours a deux
+moitiés: la première moitié porte sur les courbes et surfaces, et la deuxième
+sur la géométrie riemannienne générale.  Les leçons sont aussi indépendantes
+que possible, et dans chaque leçon on annonce et on démontre un résultat
+célèbre.
+
+\paragraph{Contexte.}
+Ce cours n'a presque pas intersection avec celui de Paulin.  Par contre, il
+est très similaire à l'ancien cours de Pansu (avec un peu moins de physique).
+
+\paragraph{L'enseignant.}
+Je ne suis pas du tout spécialiste en géométrie différentielle (quoique, une
+partie de ma thèse portait sur les inégalités isopérimétriques en variétés
+Finslériennes, et j'ai publié plusieurs articles sur des modèles
+variationnelles sur variétés, avec des applications au traitement d'image).
+Je suis juste un utilisateur du langage, et je le maitrise bien.
+J'ai toujours voulu enseigner un cours de géométrie différentielle.
+
+\paragraph{Leçon 1.  Courbes planes: théorie locale}
+Cette leçon sert à ouvrir l'appétit avec des exemples minimaux des sujets qui
+seront abordés à plusieurs reprises dans la suite.  Ainsi, on caractérise les
+droites comme les courbes paramétrées ou le fonctionnel de longueur
+$$E\parens{\gamma}=\int \Abs{\dot\lambda(t)}\ud t$$
+atteint son minimum.  L'équation d'Euler-Lagrange~$\frac{\delta
+E}{\delta\gamma}$ amène à la notion de courbure
+
+
+
+% vim:set tw=77 filetype=tex spell spelllang=fr sw=2 ts=2:

@@ -8,8 +8,8 @@ cat /dev/stdin | sed "s_PDFLATEXFILTERD_${T}_g" > $T/a.tex
 
 #optionally, add a \maketitle if \title appears inside the document
 if true; then
-       #sed '/^\\title{/s/$/\\date{}\\maketitle/' -i $T/a.tex
-       sed 's/\\title{\(.*\)}/{\\huge\\begin{center}\1\\end{center}}/' -i $T/a.tex
+       sed '/^\\title{/s/$/\\date{}\\maketitle/' -i $T/a.tex
+       #sed 's/\\title{\(.*\)}/{\\huge\\begin{center}\1\\end{center}}/' -i $T/a.tex
 fi
 
 #pdflatex -shell-escape -interaction nonstopmode -output-directory=$T $T/a >$T/oo 2>$T/oe || cat $T/oo >&2
